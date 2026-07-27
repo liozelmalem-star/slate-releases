@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" fill="none">
+  <rect width="1024" height="1024" rx="232" fill="#1C2340"/>
+  <!-- main body -->
+  <polygon points="512,130 780,320 720,880 304,880 244,320" fill="#F4F1EC"/>
+  <!-- upper highlight facet -->
+  <polygon points="512,130 780,320 512,420 244,320" fill="#ffffff" opacity="0.28"/>
+  <!-- lower-right shadow facet -->
+  <polygon points="512,420 780,320 720,880 512,680" fill="#0a0f20" opacity="0.14"/>
+</svg>

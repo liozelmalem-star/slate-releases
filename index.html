@@ -1,0 +1,303 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slate — local AI memory that follows you across every tool</title>
+<meta name="description" content="A personal, local-first AI workspace. Nested pages, a block editor, and an in-app AI agent — all in one SQLite file on your Mac. Also an MCP server, so every AI tool shares the same memory.">
+<link rel="icon" href="assets/icon.svg">
+
+<meta property="og:title" content="Slate">
+<meta property="og:description" content="Local AI memory that follows you across every tool.">
+<meta property="og:type" content="website">
+
+<style>
+  /* Palette matches the product: the Shard mark's navy tile and cream face, and the
+     obsidian/cream the marketing site already uses. Dark-only on purpose — a light
+     variant would be a second look to keep in sync for no one's benefit. */
+  :root {
+    --obsidian:  #0A0A0B;
+    --panel:     #121214;
+    --navy:      #1C2340;
+    --cream:     #E8E4DC;
+    --ghost:     #A1A1AA;
+    --faint:     #6B6B72;
+    --line:      #26262A;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { color-scheme: dark; }
+
+  body {
+    margin: 0;
+    padding: 0 24px 96px;
+    background: var(--obsidian);
+    color: var(--cream);
+    font: 16px/1.65 system-ui, -apple-system, "Segoe UI", sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: 720px; margin: 0 auto; }
+
+  /* ── Hero ─────────────────────────────────────────────────────────── */
+  header { padding: 88px 0 8px; text-align: center; }
+
+  .icon {
+    width: 84px; height: 84px;
+    border-radius: 19px;
+    display: block; margin: 0 auto 30px;
+    box-shadow: 0 10px 34px rgba(0, 0, 0, .55);
+  }
+
+  h1 {
+    margin: 0 0 14px;
+    font-size: clamp(42px, 8vw, 58px);
+    font-weight: 700;
+    letter-spacing: -.04em;
+    line-height: 1.03;
+  }
+
+  .tagline {
+    margin: 0 auto;
+    max-width: 28ch;
+    font-size: clamp(17px, 3.4vw, 20px);
+    color: var(--ghost);
+    letter-spacing: -.01em;
+  }
+
+  /* ── Install ──────────────────────────────────────────────────────── */
+  .install { margin-top: 44px; }
+
+  .cmd {
+    display: flex;
+    align-items: stretch;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+    text-align: left;
+  }
+
+  .cmd code {
+    flex: 1;
+    min-width: 0;
+    padding: 15px 17px;
+    color: var(--cream);
+    font: 13.5px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
+    overflow-x: auto;
+    white-space: nowrap;
+    /* The command is the point of the page — let it scroll rather than wrap into
+       something nobody can copy correctly by eye. The Copy button is the real path. */
+  }
+  .cmd code::-webkit-scrollbar { height: 0; }
+
+  .copy {
+    flex: none;
+    padding: 0 18px;
+    border: 0;
+    border-left: 1px solid var(--line);
+    background: transparent;
+    color: var(--ghost);
+    font: 600 12.5px/1 system-ui, sans-serif;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background .15s, color .15s;
+  }
+  .copy:hover { background: rgba(232, 228, 220, .06); color: var(--cream); }
+  .copy.done  { color: #6EE7A8; }
+
+  .under {
+    margin: 15px 2px 0;
+    font-size: 13px;
+    color: var(--faint);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 13px;
+    justify-content: center;
+  }
+  .under a { color: var(--ghost); text-decoration-color: var(--line); }
+  .under a:hover { color: var(--cream); }
+
+  /* ── Sections ─────────────────────────────────────────────────────── */
+  section { padding-top: 60px; }
+
+  h2 {
+    margin: 0 0 22px;
+    font-size: 11.5px;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    color: var(--faint);
+  }
+
+  .features { display: grid; gap: 24px; }
+  @media (min-width: 620px) { .features { grid-template-columns: 1fr 1fr; gap: 28px 34px; } }
+
+  .feature h3 { margin: 0 0 5px; font-size: 15.5px; font-weight: 650; letter-spacing: -.01em; }
+  .feature p  { margin: 0; font-size: 14.5px; color: var(--ghost); }
+
+  .note {
+    padding: 17px 19px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    font-size: 14.5px;
+    color: var(--ghost);
+  }
+  .note strong { color: var(--cream); font-weight: 650; }
+  .note + .note { margin-top: 13px; }
+
+  ol.steps { margin: 0; padding-left: 20px; font-size: 14.5px; color: var(--ghost); }
+  ol.steps li { margin-bottom: 9px; }
+  ol.steps li::marker { color: var(--faint); font-variant-numeric: tabular-nums; }
+
+  code.inline {
+    padding: 2px 6px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    font: 12.5px ui-monospace, SFMono-Regular, Menlo, monospace;
+    color: var(--cream);
+    white-space: nowrap;
+  }
+
+  a { color: var(--cream); text-underline-offset: 2px; }
+
+  footer {
+    padding-top: 68px;
+    text-align: center;
+    font-size: 12.5px;
+    color: var(--faint);
+    line-height: 1.9;
+  }
+  footer a { color: var(--faint); }
+  footer a:hover { color: var(--ghost); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <img class="icon" src="assets/icon.svg" alt="">
+    <h1>Slate</h1>
+    <p class="tagline">Local AI memory that follows you across every tool.</p>
+
+    <div class="install">
+      <div class="cmd">
+        <code id="cmd">curl -fsSL https://liozelmalem-star.github.io/slate-releases/install.sh | bash</code>
+        <button class="copy" id="copy" type="button">Copy</button>
+      </div>
+      <p class="under">
+        <span>macOS · Apple Silicon</span>
+        <span>·</span>
+        <a href="https://github.com/liozelmalem-star/slate-releases/releases/latest">All downloads</a>
+        <span>·</span>
+        <a href="install.sh">Read the install script</a>
+      </p>
+    </div>
+  </header>
+
+  <section>
+    <h2>What it is</h2>
+    <div class="features">
+      <div class="feature">
+        <h3>One file, on your Mac</h3>
+        <p>Your whole workspace is a single SQLite file. No account, no sync, no telemetry. It works on a plane.</p>
+      </div>
+      <div class="feature">
+        <h3>Shared memory for every AI tool</h3>
+        <p>Slate is an MCP server. What Claude Code learns on Tuesday, Cursor knows on Wednesday.</p>
+      </div>
+      <div class="feature">
+        <h3>Pages and a block editor</h3>
+        <p>Nested, typed pages — projects, repos, branches, plans, designs — in a keyboard-first editor.</p>
+      </div>
+      <div class="feature">
+        <h3>An agent that runs on your CLI</h3>
+        <p>The in-app agent uses the Claude Code or Gemini CLI you already have. No API keys.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>After you install</h2>
+    <ol class="steps">
+      <li>Slate opens and creates your workspace.</li>
+      <li>It registers itself as an MCP server with the AI tools it finds — Claude Code, Cursor, Codex, Gemini. Nothing to configure.</li>
+      <li>Restart those tools. They can now <code class="inline">recall</code> and <code class="inline">remember</code> against your workspace.</li>
+      <li>Updates arrive in-app: <strong>Settings → About → Check for updates</strong>.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Before you paste that</h2>
+
+    <div class="note">
+      <strong>Read the script first.</strong> Piping anything to <code class="inline">bash</code> means trusting
+      whoever wrote it and wherever it is hosted. Slate's installer is short, commented,
+      and explains every step it takes — <a href="install.sh">read it</a>.
+    </div>
+
+    <div class="note">
+      <strong>Why a script and not a .dmg.</strong> Slate is not notarized by Apple yet.
+      macOS quarantines anything a browser downloads, and for an un-notarized app that
+      becomes a "could not verify this app" dialog you can only clear from System
+      Settings. Quarantine is applied by the downloading app, and
+      <code class="inline">curl</code> doesn't set it — so installing this way just works,
+      without asking you to turn off a security control. Updates are cryptographically
+      signed either way.
+    </div>
+
+    <div class="note">
+      <strong>Apple Silicon only, for now.</strong> The installer checks first and tells
+      you, rather than installing something that won't run.
+    </div>
+  </section>
+
+  <footer>
+    <p>
+      Slate is in alpha. Your data stays on your machine.<br>
+      <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a> ·
+      <a href="install.sh">install.sh</a>
+    </p>
+  </footer>
+
+</div>
+
+<script>
+  // Copy the command. Uses the async clipboard API where available and falls back to a
+  // hidden textarea — the page is served over HTTPS, but it is also opened from a
+  // file:// path while editing, where navigator.clipboard is undefined.
+  const btn = document.getElementById("copy");
+  const cmd = document.getElementById("cmd");
+
+  btn.addEventListener("click", async () => {
+    const text = cmd.textContent.trim();
+    try {
+      if (navigator.clipboard) {
+        await navigator.clipboard.writeText(text);
+      } else {
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        ta.style.position = "fixed";
+        ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        ta.remove();
+      }
+      btn.textContent = "Copied";
+      btn.classList.add("done");
+    } catch {
+      btn.textContent = "Press ⌘C";
+    }
+    setTimeout(() => {
+      btn.textContent = "Copy";
+      btn.classList.remove("done");
+    }, 2000);
+  });
+</script>
+</body>
+</html>
