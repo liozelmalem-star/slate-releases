@@ -150,14 +150,24 @@ NEW_APP="$(find "$TMP" -maxdepth 2 -name 'Slate.app' -type d | head -1)"
 # ── 6. Quit a running Slate ────────────────────────────────────────────────────
 # Replacing the bundle underneath a running app leaves it in a half-updated state where
 # the sidecars it spawns no longer match the binary that spawned them.
-if pgrep -xq Slate 2>/dev/null; then
+#
+# The executable is `slate`, lowercase — it takes its name from the Cargo package, not
+# from productName. `pgrep -x Slate` is case-sensitive, so it never matched and this
+# whole block was dead: the installer would overwrite a running app while claiming to
+# have checked. Both spellings are tested so a later `mainBinaryName` change cannot
+# quietly break it again.
+slate_running() { pgrep -xq slate 2>/dev/null || pgrep -xq Slate 2>/dev/null; }
+
+if slate_running; then
   info "Quitting the running Slate…"
+  # By app name, which AppleScript resolves through the bundle — unaffected by the
+  # executable's spelling.
   osascript -e 'tell application "Slate" to quit' 2>/dev/null || true
   for _ in 1 2 3 4 5 6 7 8 9 10; do
-    pgrep -xq Slate 2>/dev/null || break
+    slate_running || break
     sleep 0.5
   done
-  pgrep -xq Slate 2>/dev/null && warn "Slate is still running — close it and re-run if the install misbehaves."
+  slate_running && warn "Slate is still running — close it and re-run if the install misbehaves."
 fi
 
 # ── 7. Install ─────────────────────────────────────────────────────────────────
