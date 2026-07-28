@@ -162,7 +162,9 @@ fi
 
 # ── 7. Install ─────────────────────────────────────────────────────────────────
 DEST="$PREFIX/Slate.app"
-info "Installing to $DEST…"
+# Braces are load-bearing: bash reads the ellipsis as part of the identifier, and `set -u`
+# then aborts the install on a variable nobody wrote — after the download, before the copy.
+info "Installing to ${DEST}…"
 
 if [[ ! -w "$PREFIX" ]]; then
   die "$PREFIX is not writable by $(whoami).
