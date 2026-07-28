@@ -12,9 +12,9 @@
 <meta property="og:type" content="website">
 
 <style>
-  /* Palette matches the product: the Shard mark's navy tile and cream face, and the
-     obsidian/cream the marketing site already uses. Dark-only on purpose — a light
-     variant would be a second look to keep in sync for no one's benefit. */
+  /* Palette is the product's: the Shard mark's navy tile and cream face, on the
+     obsidian the app and the marketing site already share. Dark-only on purpose —
+     a light variant would be a second look to keep in step for nobody's benefit. */
   :root {
     --obsidian:  #0A0A0B;
     --panel:     #121214;
@@ -23,11 +23,11 @@
     --ghost:     #A1A1AA;
     --faint:     #6B6B72;
     --line:      #26262A;
+    --live:      #6EE7A8;
   }
 
   * { box-sizing: border-box; }
-
-  html { color-scheme: dark; }
+  html { color-scheme: dark; scroll-behavior: smooth; }
 
   body {
     margin: 0;
@@ -36,18 +36,80 @@
     color: var(--cream);
     font: 16px/1.65 system-ui, -apple-system, "Segoe UI", sans-serif;
     -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
   }
 
-  .wrap { max-width: 720px; margin: 0 auto; }
+  /* ── The memory graph behind everything ───────────────────────────────
+     Not decoration for its own sake: this is the shape Slate's own memory graph
+     draws — atoms spoked off a hub, faint similarity threads between hubs, and a
+     pulse travelling the path a recall takes across projects. */
+  #graph {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* The graph is atmosphere and must never win against a sentence. This dims it in the
+     centre band where the text column sits, while leaving it legible out at the edges —
+     cheaper and steadier than trying to tune per-line alpha against unknown content. */
+  #veil {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      ellipse 52% 58% at 50% 46%,
+      rgba(10, 10, 11, .92) 0%,
+      rgba(10, 10, 11, .74) 42%,
+      rgba(10, 10, 11, .30) 68%,
+      transparent 82%
+    );
+  }
+
+  .wrap {
+    position: relative;
+    z-index: 1;
+    max-width: 720px;
+    margin: 0 auto;
+  }
 
   /* ── Hero ─────────────────────────────────────────────────────────── */
-  header { padding: 88px 0 8px; text-align: center; }
+  header { padding: 92px 0 8px; text-align: center; }
 
-  .icon {
-    width: 84px; height: 84px;
+  .icon-wrap {
+    position: relative;
+    width: 84px;
+    height: 84px;
+    margin: 0 auto 30px;
     border-radius: 19px;
-    display: block; margin: 0 auto 30px;
-    box-shadow: 0 10px 34px rgba(0, 0, 0, .55);
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, .6), 0 0 0 1px rgba(232, 228, 220, .06);
+    animation: rise .9s cubic-bezier(.2, .7, .3, 1) both;
+  }
+  .icon-wrap img { width: 100%; height: 100%; display: block; }
+
+  /* A slow specular sweep across the shard's face — it reads as a facet catching
+     light, which is the whole idea of the mark. */
+  .icon-wrap::after {
+    content: "";
+    position: absolute;
+    inset: -60%;
+    background: linear-gradient(
+      100deg,
+      transparent 42%,
+      rgba(255, 255, 255, .34) 50%,
+      transparent 58%
+    );
+    transform: translateX(-120%);
+    animation: sweep 6.5s ease-in-out 1.4s infinite;
+  }
+  @keyframes sweep {
+    0%   { transform: translateX(-120%); }
+    38%  { transform: translateX(120%); }
+    100% { transform: translateX(120%); }
   }
 
   h1 {
@@ -56,6 +118,7 @@
     font-weight: 700;
     letter-spacing: -.04em;
     line-height: 1.03;
+    animation: rise .9s cubic-bezier(.2, .7, .3, 1) .06s both;
   }
 
   .tagline {
@@ -64,12 +127,22 @@
     font-size: clamp(17px, 3.4vw, 20px);
     color: var(--ghost);
     letter-spacing: -.01em;
+    animation: rise .9s cubic-bezier(.2, .7, .3, 1) .13s both;
+  }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: none; }
   }
 
   /* ── Install ──────────────────────────────────────────────────────── */
-  .install { margin-top: 44px; }
+  .install {
+    margin-top: 44px;
+    animation: rise .9s cubic-bezier(.2, .7, .3, 1) .2s both;
+  }
 
   .cmd {
+    position: relative;
     display: flex;
     align-items: stretch;
     background: var(--panel);
@@ -77,6 +150,24 @@
     border-radius: 10px;
     overflow: hidden;
     text-align: left;
+    transition: border-color .25s;
+  }
+  .cmd:hover { border-color: #35353c; }
+
+  /* A light travelling the top edge — the same "signal moving through" idea as the
+     graph, at the one place on the page that is asking to be used. */
+  .cmd::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    height: 1px;
+    width: 38%;
+    background: linear-gradient(90deg, transparent, rgba(232, 228, 220, .55), transparent);
+    animation: trace 5.5s linear infinite;
+  }
+  @keyframes trace {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(360%); }
   }
 
   .cmd code {
@@ -88,7 +179,7 @@
     overflow-x: auto;
     white-space: nowrap;
     /* The command is the point of the page — let it scroll rather than wrap into
-       something nobody can copy correctly by eye. The Copy button is the real path. */
+       something nobody can copy correctly by eye. The button is the real path. */
   }
   .cmd code::-webkit-scrollbar { height: 0; }
 
@@ -106,7 +197,7 @@
     transition: background .15s, color .15s;
   }
   .copy:hover { background: rgba(232, 228, 220, .06); color: var(--cream); }
-  .copy.done  { color: #6EE7A8; }
+  .copy.done  { color: var(--live); }
 
   .under {
     margin: 15px 2px 0;
@@ -121,7 +212,7 @@
   .under a:hover { color: var(--cream); }
 
   /* ── Sections ─────────────────────────────────────────────────────── */
-  section { padding-top: 60px; }
+  section { padding-top: 66px; }
 
   h2 {
     margin: 0 0 22px;
@@ -132,12 +223,53 @@
     color: var(--faint);
   }
 
+  /* Revealed on scroll by IntersectionObserver; the class is added, never removed,
+     so nothing re-animates when you scroll back up. */
+  .reveal {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity .7s cubic-bezier(.2, .7, .3, 1), transform .7s cubic-bezier(.2, .7, .3, 1);
+  }
+  .reveal.in { opacity: 1; transform: none; }
+
   .features { display: grid; gap: 24px; }
   @media (min-width: 620px) { .features { grid-template-columns: 1fr 1fr; gap: 28px 34px; } }
 
   .feature h3 { margin: 0 0 5px; font-size: 15.5px; font-weight: 650; letter-spacing: -.01em; }
   .feature p  { margin: 0; font-size: 14.5px; color: var(--ghost); }
 
+  /* ── Connected tools ──────────────────────────────────────────────── */
+  .tools {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .tool {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 15px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    font-size: 13.5px;
+    color: var(--ghost);
+    transition: color .4s, border-color .4s;
+  }
+  .tool .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--faint);
+    transition: background .4s, box-shadow .4s;
+  }
+  .tool.lit { color: var(--cream); border-color: #35353c; }
+  .tool.lit .dot { background: var(--live); box-shadow: 0 0 9px rgba(110, 231, 168, .8); }
+
+  .tools-note { margin: 0; font-size: 14.5px; color: var(--ghost); }
+
+  /* ── Notes / steps ────────────────────────────────────────────────── */
   .note {
     padding: 17px 19px;
     background: var(--panel);
@@ -166,6 +298,8 @@
   a { color: var(--cream); text-underline-offset: 2px; }
 
   footer {
+    position: relative;
+    z-index: 1;
     padding-top: 68px;
     text-align: center;
     font-size: 12.5px;
@@ -174,13 +308,25 @@
   }
   footer a { color: var(--faint); }
   footer a:hover { color: var(--ghost); }
+
+  /* Motion is decoration here — every one of these is safe to simply not happen. */
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .icon-wrap, h1, .tagline, .install { animation: none; }
+    .icon-wrap::after, .cmd::before { animation: none; opacity: 0; }
+    .reveal { opacity: 1; transform: none; transition: none; }
+  }
 </style>
 </head>
 <body>
+
+<canvas id="graph" aria-hidden="true"></canvas>
+<div id="veil" aria-hidden="true"></div>
+
 <div class="wrap">
 
   <header>
-    <img class="icon" src="assets/icon.svg" alt="">
+    <div class="icon-wrap"><img src="assets/icon.svg" alt=""></div>
     <h1>Slate</h1>
     <p class="tagline">Local AI memory that follows you across every tool.</p>
 
@@ -199,7 +345,7 @@
     </div>
   </header>
 
-  <section>
+  <section class="reveal">
     <h2>What it is</h2>
     <div class="features">
       <div class="feature">
@@ -221,17 +367,31 @@
     </div>
   </section>
 
-  <section>
+  <section class="reveal">
+    <h2>Connects itself</h2>
+    <div class="tools" id="tools">
+      <span class="tool"><span class="dot"></span>Claude Code</span>
+      <span class="tool"><span class="dot"></span>Cursor</span>
+      <span class="tool"><span class="dot"></span>Codex</span>
+      <span class="tool"><span class="dot"></span>Gemini</span>
+    </div>
+    <p class="tools-note">
+      On first launch Slate registers itself as an MCP server with whichever of these it
+      finds installed. No config files to edit, no paths to paste.
+    </p>
+  </section>
+
+  <section class="reveal">
     <h2>After you install</h2>
     <ol class="steps">
       <li>Slate opens and creates your workspace.</li>
-      <li>It registers itself as an MCP server with the AI tools it finds — Claude Code, Cursor, Codex, Gemini. Nothing to configure.</li>
+      <li>It connects to the AI tools it finds. Nothing to configure.</li>
       <li>Restart those tools. They can now <code class="inline">recall</code> and <code class="inline">remember</code> against your workspace.</li>
       <li>Updates arrive in-app: <strong>Settings → About → Check for updates</strong>.</li>
     </ol>
   </section>
 
-  <section>
+  <section class="reveal">
     <h2>Before you paste that</h2>
 
     <div class="note">
@@ -256,20 +416,26 @@
     </div>
   </section>
 
-  <footer>
-    <p>
-      Slate is in alpha. Your data stays on your machine.<br>
-      <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a> ·
-      <a href="install.sh">install.sh</a>
-    </p>
-  </footer>
-
 </div>
 
+<footer>
+  <p>
+    Slate is in alpha. Your data stays on your machine.<br>
+    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a> ·
+    <a href="install.sh">install.sh</a>
+  </p>
+</footer>
+
 <script>
-  // Copy the command. Uses the async clipboard API where available and falls back to a
-  // hidden textarea — the page is served over HTTPS, but it is also opened from a
-  // file:// path while editing, where navigator.clipboard is undefined.
+(() => {
+  "use strict";
+
+  const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // ── Copy the install command ───────────────────────────────────────────────
+  // Async clipboard where available, hidden-textarea fallback otherwise: the page is
+  // served over HTTPS but is also opened from file:// while editing, where
+  // navigator.clipboard is undefined.
   const btn = document.getElementById("copy");
   const cmd = document.getElementById("cmd");
 
@@ -298,6 +464,258 @@
       btn.classList.remove("done");
     }, 2000);
   });
+
+  // ── Reveal sections on scroll ──────────────────────────────────────────────
+  const revealables = document.querySelectorAll(".reveal");
+  if (reduced || !("IntersectionObserver" in window)) {
+    revealables.forEach((el) => el.classList.add("in"));
+  } else {
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (!e.isIntersecting) continue;
+          e.target.classList.add("in");
+          io.unobserve(e.target); // one-way: scrolling back up must not re-animate
+        }
+      },
+      { rootMargin: "0px 0px -12% 0px" },
+    );
+    revealables.forEach((el) => io.observe(el));
+  }
+
+  // ── Tool chips light up in sequence ────────────────────────────────────────
+  // Mirrors what actually happens on first launch: Slate finds each tool and registers
+  // itself, one after another.
+  const tools = [...document.querySelectorAll("#tools .tool")];
+  if (reduced) {
+    tools.forEach((t) => t.classList.add("lit"));
+  } else if ("IntersectionObserver" in window) {
+    const toolIo = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) {
+          if (!e.isIntersecting) continue;
+          tools.forEach((t, i) => setTimeout(() => t.classList.add("lit"), 260 + i * 190));
+          toolIo.disconnect();
+        }
+      },
+      { threshold: 0.5 },
+    );
+    if (tools[0]) toolIo.observe(tools[0].parentElement);
+  } else {
+    tools.forEach((t) => t.classList.add("lit"));
+  }
+
+  // ── The memory graph ───────────────────────────────────────────────────────
+  // Deliberately the same shape Slate's own graph draws (see the app's
+  // memory-graph module): atoms spoked off a hub, faint similarity threads
+  // between hubs, and a pulse travelling the path a recall takes.
+  const canvas = document.getElementById("graph");
+  const ctx = canvas.getContext("2d", { alpha: true });
+
+  let hubs = [];
+  let threads = [];
+  let pulses = [];
+  let w = 0;
+  let h = 0;
+  let raf = 0;
+
+  const rand = (a, b) => a + Math.random() * (b - a);
+
+  function layout() {
+    const dpr = Math.min(devicePixelRatio || 1, 2); // cap: a 3x buffer costs fill rate for no visible gain
+    w = innerWidth;
+    h = innerHeight;
+    canvas.width = w * dpr;
+    canvas.height = h * dpr;
+    canvas.style.width = `${w}px`;
+    canvas.style.height = `${h}px`;
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    // Fewer, smaller hubs on a phone — the graph is atmosphere, not content, and it
+    // must never compete with the install command for either attention or battery.
+    const narrow = w < 720;
+    const hubCount = narrow ? 3 : 5;
+    const scale = Math.min(w, h) / (narrow ? 620 : 900);
+
+    hubs = Array.from({ length: hubCount }, (_, i) => {
+      // Spread hubs on a loose ring so they never stack, then jitter so it does not
+      // read as a clock face.
+      const a = (i / hubCount) * Math.PI * 2 + rand(-0.35, 0.35);
+      const r = Math.min(w, h) * rand(0.26, 0.46);
+      const atomCount = Math.round(rand(4, 8));
+      return {
+        x: w / 2 + Math.cos(a) * r,
+        y: h / 2 + Math.sin(a) * r,
+        // A hub with more atoms gets a bigger ring rather than cramming everyone onto
+        // the same radius — the app's spoke sizing, in miniature.
+        radius: (54 + atomCount * 7) * scale,
+        angle: rand(0, Math.PI * 2),
+        speed: rand(0.00008, 0.00022) * (Math.random() < 0.5 ? -1 : 1),
+        drift: rand(0, Math.PI * 2),
+        atoms: Array.from({ length: atomCount }, (_, j) => ({
+          offset: (j / atomCount) * Math.PI * 2 + rand(-0.2, 0.2),
+          r: rand(0.82, 1.12),
+          size: rand(1.1, 2.2) * scale,
+        })),
+      };
+    });
+
+    // Similarity threads: a handful of cross-hub links, the thing that makes this a
+    // graph rather than a set of separate wheels.
+    threads = [];
+    for (let i = 0; i < hubs.length; i++) {
+      const j = (i + 1 + Math.floor(Math.random() * (hubs.length - 1))) % hubs.length;
+      if (i === j) continue;
+      threads.push({
+        a: i,
+        b: j,
+        ai: Math.floor(Math.random() * hubs[i].atoms.length),
+        bi: Math.floor(Math.random() * hubs[j].atoms.length),
+      });
+    }
+    pulses = [];
+  }
+
+  function atomPos(hub, atom) {
+    const a = hub.angle + atom.offset;
+    return {
+      x: hub.x + Math.cos(a) * hub.radius * atom.r,
+      y: hub.y + Math.sin(a) * hub.radius * atom.r,
+    };
+  }
+
+  function spawnPulse() {
+    if (!threads.length || pulses.length >= 2) return;
+    pulses.push({ thread: threads[Math.floor(Math.random() * threads.length)], t: 0 });
+  }
+
+  function draw(now) {
+    ctx.clearRect(0, 0, w, h);
+
+    for (const hub of hubs) {
+      hub.angle += hub.speed * 16;
+      // A slow bob so the composition never sits perfectly still.
+      const bob = Math.sin(now * 0.00016 + hub.drift) * 5;
+
+      // Spokes
+      ctx.lineWidth = 1;
+      for (const atom of hub.atoms) {
+        const p = atomPos(hub, atom);
+        const grad = ctx.createLinearGradient(hub.x, hub.y + bob, p.x, p.y + bob);
+        grad.addColorStop(0, "rgba(232,228,220,0.09)");
+        grad.addColorStop(1, "rgba(232,228,220,0.015)");
+        ctx.strokeStyle = grad;
+        ctx.beginPath();
+        ctx.moveTo(hub.x, hub.y + bob);
+        ctx.lineTo(p.x, p.y + bob);
+        ctx.stroke();
+      }
+
+      // Atoms
+      for (const atom of hub.atoms) {
+        const p = atomPos(hub, atom);
+        ctx.fillStyle = "rgba(232,228,220,0.30)";
+        ctx.beginPath();
+        ctx.arc(p.x, p.y + bob, atom.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // Hub
+      ctx.fillStyle = "rgba(232,228,220,0.5)";
+      ctx.beginPath();
+      ctx.arc(hub.x, hub.y + bob, 2.6, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.strokeStyle = "rgba(232,228,220,0.10)";
+      ctx.beginPath();
+      ctx.arc(hub.x, hub.y + bob, 9, 0, Math.PI * 2);
+      ctx.stroke();
+    }
+
+    // Similarity threads
+    ctx.lineWidth = 1;
+    for (const t of threads) {
+      const A = hubs[t.a];
+      const B = hubs[t.b];
+      if (!A || !B) continue;
+      const pa = atomPos(A, A.atoms[t.ai]);
+      const pb = atomPos(B, B.atoms[t.bi]);
+      ctx.strokeStyle = "rgba(232,228,220,0.045)";
+      ctx.beginPath();
+      ctx.moveTo(pa.x, pa.y);
+      ctx.lineTo(pb.x, pb.y);
+      ctx.stroke();
+    }
+
+    // Recall pulses travelling a thread
+    for (let i = pulses.length - 1; i >= 0; i--) {
+      const pulse = pulses[i];
+      pulse.t += 0.0055;
+      if (pulse.t >= 1) {
+        pulses.splice(i, 1);
+        continue;
+      }
+      const A = hubs[pulse.thread.a];
+      const B = hubs[pulse.thread.b];
+      if (!A || !B) {
+        pulses.splice(i, 1);
+        continue;
+      }
+      const pa = atomPos(A, A.atoms[pulse.thread.ai]);
+      const pb = atomPos(B, B.atoms[pulse.thread.bi]);
+      const x = pa.x + (pb.x - pa.x) * pulse.t;
+      const y = pa.y + (pb.y - pa.y) * pulse.t;
+      // Fade in and out so it never pops at either end.
+      const alpha = Math.sin(pulse.t * Math.PI) * 0.7;
+      const glow = ctx.createRadialGradient(x, y, 0, x, y, 16);
+      glow.addColorStop(0, `rgba(232,228,220,${alpha * 0.55})`);
+      glow.addColorStop(1, "rgba(232,228,220,0)");
+      ctx.fillStyle = glow;
+      ctx.beginPath();
+      ctx.arc(x, y, 16, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+      ctx.beginPath();
+      ctx.arc(x, y, 1.7, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    raf = requestAnimationFrame(draw);
+  }
+
+  function start() {
+    layout();
+    if (reduced) {
+      draw(0);                    // one static frame: the composition, none of the motion
+      cancelAnimationFrame(raf);
+      return;
+    }
+    raf = requestAnimationFrame(draw);
+    setInterval(spawnPulse, 2600);
+  }
+
+  // A hidden tab should not be animating; browsers throttle rAF anyway, but stopping
+  // outright means a backgrounded page costs nothing at all.
+  document.addEventListener("visibilitychange", () => {
+    if (reduced) return;
+    if (document.hidden) {
+      cancelAnimationFrame(raf);
+    } else {
+      raf = requestAnimationFrame(draw);
+    }
+  });
+
+  let resizeTimer;
+  addEventListener("resize", () => {
+    clearTimeout(resizeTimer);
+    // Rebuilding the layout mid-drag would thrash; settle first.
+    resizeTimer = setTimeout(() => {
+      layout();
+      if (reduced) draw(0);
+    }, 180);
+  });
+
+  start();
+})();
 </script>
 </body>
 </html>
