@@ -90,7 +90,7 @@ release downloads. There is no source code here — Slate's source is private.
 | --- | --- |
 | `install.sh` | The installer. Kept current by CI on every release. |
 | `index.html` | The website, served by GitHub Pages. |
-| `assets/` | Icon and wordmark. |
+| `assets/` | Brand marks, copied from the Slate source repo's `public/assets/` — `icon.svg` (the app tile, used by `index.html` and the header above), `mark.svg` (bare, on transparency) and `logo.svg` (the lockup). Edit them there, not here. |
 | Releases | The `.app.tar.gz` the updater consumes, its signature, the `.dmg`, `latest.json`, and `SHASUMS256.txt`. |
 
 `install.sh` is generated from the Slate source repo rather than edited here — it has to

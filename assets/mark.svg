@@ -1,13 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 1024 1024" fill="none">
-  <!-- THE master. The mark on an off-white tile. 1024x1024 because that is what
-       `tauri icon` wants; the viewBox scales it anywhere else. No wordmark —
-       "Slate" is illegible by 32px and a dock icon is never read, only
-       recognised. Two copies exist for hosts that cannot reach outside their
-       own root — packages/desktop/public/favicon.svg and
-       public/website/img/favicon.svg. Edit here, then copy to both;
-       public/README.md says why they are copies rather than links. -->
-  <rect width="1024" height="1024" rx="232" fill="#FAFAFA"/>
-  <g transform="translate(204.72,147.00) scale(1.697674) translate(-156.5,-39.5)">
+<svg xmlns="http://www.w3.org/2000/svg" width="362" height="430" viewBox="0 0 362 430" fill="none">
+  <!-- THE mark, alone and on transparency: four stacked leaves of a slate.
+       No wordmark — this is the form that has to survive at 16px. The lockup
+       (mark + "Slate") is logo.svg; the app-icon tile is icon.svg.
+       Paths are the traced outlines; they are never rewritten, only translated
+       by the wrapping <g>, because the wordmark carries Q curves that a
+       naive coordinate rewrite silently mangles. -->
+  <g transform="translate(-156.5,-39.5)">
     <path fill="#FE6455" fill-rule="evenodd" d="M 327.0 39.5 L 351.0 39.5 L 366.0 43.5 L 378.0 49.5 L 509.0 123.5 L 517.5 132.0 L 516.5 140.0 L 511.0 145.5 L 506.0 147.5 L 337.0 212.5 L 321.0 216.5 L 303.0 216.5 L 290.0 213.5 L 179.0 156.5 L 161.0 146.5 L 156.5 141.0 L 156.5 133.0 L 163.0 126.5 L 305.0 46.5 L 327.0 39.5 Z"/>  <!-- red — top leaf -->
     <path fill="#FEB206" fill-rule="evenodd" d="M 189.0 184.5 L 197.0 184.5 L 343.0 260.5 L 367.0 269.5 L 437.0 288.5 L 464.0 298.5 L 480.0 306.5 L 496.0 317.5 L 506.5 329.0 L 510.5 336.0 L 512.5 345.0 L 502.0 334.5 L 480.0 321.5 L 462.0 314.5 L 430.0 306.5 L 384.0 300.5 L 301.0 299.5 L 279.0 294.5 L 168.0 237.5 L 160.5 230.0 L 156.5 221.0 L 156.5 213.0 L 160.5 203.0 L 166.0 197.5 L 189.0 184.5 Z"/>  <!-- amber -->
     <path fill="#28B097" fill-rule="evenodd" d="M 457.0 189.5 L 469.0 189.5 L 486.0 196.5 L 511.0 212.5 L 516.5 219.0 L 518.5 225.0 L 516.5 242.0 L 509.5 264.0 L 501.5 277.0 L 489.0 287.5 L 483.0 290.5 L 478.0 290.5 L 459.0 281.5 L 436.0 273.5 L 376.0 258.5 L 366.0 253.5 L 361.5 248.0 L 360.5 243.0 L 363.5 236.0 L 379.0 223.5 L 433.0 198.5 L 457.0 189.5 Z"/>  <!-- teal -->

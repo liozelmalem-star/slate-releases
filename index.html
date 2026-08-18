@@ -12,13 +12,13 @@
 <meta property="og:type" content="website">
 
 <style>
-  /* Palette is the product's: the Shard mark's navy tile and cream face, on the
-     obsidian the app and the marketing site already share. Dark-only on purpose —
-     a light variant would be a second look to keep in step for nobody's benefit. */
+  /* Palette is the product's: obsidian, shared with the app and the marketing
+     site. The brand mark brings its own colors and its own off-white tile, so
+     nothing here tints it. Dark-only on purpose — a light variant would be a
+     second look to keep in step for nobody's benefit. */
   :root {
     --obsidian:  #0A0A0B;
     --panel:     #121214;
-    --navy:      #1C2340;
     --cream:     #E8E4DC;
     --ghost:     #A1A1AA;
     --faint:     #6B6B72;
@@ -91,26 +91,10 @@
   }
   .icon-wrap img { width: 100%; height: 100%; display: block; }
 
-  /* A slow specular sweep across the shard's face — it reads as a facet catching
-     light, which is the whole idea of the mark. */
-  .icon-wrap::after {
-    content: "";
-    position: absolute;
-    inset: -60%;
-    background: linear-gradient(
-      100deg,
-      transparent 42%,
-      rgba(255, 255, 255, .34) 50%,
-      transparent 58%
-    );
-    transform: translateX(-120%);
-    animation: sweep 6.5s ease-in-out 1.4s infinite;
-  }
-  @keyframes sweep {
-    0%   { transform: translateX(-120%); }
-    38%  { transform: translateX(120%); }
-    100% { transform: translateX(120%); }
-  }
+  /* No specular sweep here. It used to sit on this tile as a facet catching
+     light, which was the whole idea of the Shard; the mark that replaced it on
+     2026-08-19 has no facets, and a white sweep over an off-white tile is
+     invisible anyway. Both the ::after and its @keyframes were removed. */
 
   h1 {
     margin: 0 0 14px;
@@ -313,7 +297,7 @@
   @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
     .icon-wrap, h1, .tagline, .install { animation: none; }
-    .icon-wrap::after, .cmd::before { animation: none; opacity: 0; }
+    .cmd::before { animation: none; opacity: 0; }
     .reveal { opacity: 1; transform: none; transition: none; }
   }
 </style>
