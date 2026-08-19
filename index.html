@@ -21,17 +21,18 @@
 
 <style>
   /* ── Tokens ───────────────────────────────────────────────────────────────
-     Lifted verbatim from the app's App.css, in the same space-separated RGB form,
-     so a hue has one definition across the product and this page. Nothing here is
-     a colour this page picked.
+     The ramps are lifted verbatim from the app's App.css, in the same
+     space-separated RGB form, so a hue has one definition across the product and
+     this page. Nothing here is a colour this page invented.
 
        --n-*      the neutral ramp (cool charcoal; the app's `slate-*` scale)
        --brand-*  the accent, the mark's blue leaf
        --leaf-*   the mark's five leaves, the ONE source of categorical colour
 
-     Dark only, still on purpose: the app ships light and dark, but a release page
-     is one screen and a second look would be a second thing to keep in step. The
-     ground is the app's own dark canvas — --n-950, not an invented obsidian. */
+     Below them sit SEMANTIC tokens — --ground, --surface, --text, --edge — and
+     those are the only things the rules further down read. That is what makes the
+     theme switch one block of overrides rather than a `[data-theme]` variant on
+     every selector. */
   :root {
     --n-50: 244 246 250;
     --n-100: 233 235 239;
@@ -49,23 +50,19 @@
     --brand-400: 122 170 254;
     --brand-500: 80 144 255;
     --brand-600: 58 119 225;
+    --brand-700: 43 96 188;
 
-    /* The four a project may take. Green is excluded from this set in the app
-       (ADR 0021): green and teal sit 16° apart and cannot be told apart as small
-       marks without a second cue, and green is also the semantic "working" tone.
-       Its 400 tone is still here for the one place that means *done*. */
-    --leaf-red-400: 255 135 120;
-    --leaf-amber-400: 254 192 89;
-    --leaf-teal-400: 76 194 169;
-    --leaf-blue-400: 84 144 250;
-    --leaf-green-400: 81 195 143;
-    /* Amber's own darker stop, for the one surface that paints it in QUANTITY: a
-       55px hub in the graph. Role tones vary per hue in the app for exactly this
-       reason — the mark's amber is far lighter than its blue (OKLCH L .815 against
-       .587), so one shared tone across the five leaves makes the gold shout while
-       the blue whispers. That is intrinsic to yellow, not a defect to design away.
-       At 9px and 18px, where amber is punctuation, the 400 above is right. */
-    --leaf-amber-600: 210 147 7;
+    /* The mark's leaves at tone 500 — the logo colour itself. These do NOT vary
+       with the theme, because in the app they do not: LeafMark, SectionLabel's
+       tick and IconChip's dot all state tone 500 unconditionally. Stepping light
+       mode down was tried there and reverted as a contrast reflex that cost the
+       one thing that matters — a leaf has to be the colour you recognise. They
+       always sit beside their own label, so the hue is never the sole carrier. */
+    --leaf-red-500: 254 100 85;
+    --leaf-amber-500: 254 178 6;
+    --leaf-green-500: 49 177 124;
+    --leaf-teal-500: 40 176 151;
+    --leaf-blue-500: 57 119 228;
 
     /* Three radii and a shape, replacing the eight this page used to spend
        (10px cards, 5px code, 999px pills). Same scale as the app, same reasons:
@@ -80,8 +77,115 @@
     --ease: cubic-bezier(0.22, 1, 0.36, 1);
   }
 
+  /* ── Light, and it is the default ─────────────────────────────────────────
+     The app opens dark; this page opens light, because the first thing on it is
+     the mark on its own off-white tile and a near-black page makes that tile the
+     brightest object on the screen. The logo sets the ground here.
+
+     Two states and no third. The app's theme is `light | dark` with no "system"
+     option, so this page does not consult prefers-color-scheme either — a page
+     that quietly opened dark on a dark-OS machine would not be light by default,
+     it would be light by coincidence. The choice persists in localStorage. */
+  :root {
+    color-scheme: light;
+
+    --ground: var(--n-50);
+    --surface: 255 255 255;      /* a card is white on light, not a tinted neutral */
+    --surface-2: var(--n-100);   /* a well, an inline code chip */
+    --text: var(--n-900);
+    --text-muted: var(--n-600);  /* body copy inside a card */
+    --text-faint: var(--n-400);  /* section labels, list markers, the footer */
+
+    /* Borders are ALPHA, never a solid neutral. A solid edge is correct on exactly
+       one background; the same rule over a card, a chip or a coloured wash goes
+       muddy. An alpha edge composites against whatever is behind it. */
+    --edge: 18 21 27 / .07;
+    --edge-2: 18 21 27 / .10;
+    --edge-hover: 18 21 27 / .20;
+
+    /* The cleave line where slate splits: light falls on the top face of a layer,
+       so stating that is cheaper and truer than a drop shadow. */
+    --lit: 255 255 255 / .55;
+    --drop: 0 1px 3px rgb(18 21 27 / .08), 0 1px 2px rgb(18 21 27 / .06);
+
+    --chip-bg: 255 255 255;
+    --btn-fg: 255 255 255;
+    --btn-hover: var(--brand-600);
+    --code-fg: var(--brand-700);
+    --ring-offset: 255 255 255;
+    --scroll-thumb: var(--n-300);
+
+    --aura: .035;                /* white shows a tint far more readily than black */
+    --tile-shadow: 0 10px 40px rgb(18 21 27 / .10), 0 0 0 1px rgb(18 21 27 / .06);
+    --trace: var(--brand-500) / .5;
+
+    /* The graph, per theme. Every hub colour lives here rather than in the script,
+       so the whole per-hue/per-theme decision can be read in one place.
+
+       Amber takes a darker stop than the other three — the mark's amber is far
+       lighter than its blue (OKLCH L .815 against .587), and a hub is the largest
+       area of leaf colour anywhere on the page, which is where that difference
+       stops being invisible. Role tones varying per hue is the app's rule in
+       palette.ts, not an exception made here. */
+    --hub-blue: var(--brand-600);
+    --hub-amber: 168 116 0;      /* leaf amber 700 */
+    --hub-teal: 11 149 127;      /* leaf teal 600 */
+    --hub-red: 222 73 61;        /* leaf red 600 */
+    --graph-hub-a: .42;
+    --graph-atom: var(--n-400);
+    --graph-atom-a: .42;
+    --graph-spoke-a: .20;
+    --graph-thread-a: .10;
+    --graph-pulse: var(--brand-600);
+    --graph-core: var(--brand-700);
+  }
+
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+
+    --ground: var(--n-950);
+    --surface: var(--n-900);
+    --surface-2: var(--n-800);
+    --text: var(--n-100);
+    --text-muted: var(--n-400);
+    --text-faint: var(--n-500);
+
+    --edge: 255 255 255 / .07;
+    --edge-2: 255 255 255 / .09;
+    --edge-hover: 255 255 255 / .18;
+
+    --lit: 255 255 255 / .055;
+    --drop: 0 1px 2px rgb(0 0 0 / .28);
+
+    --chip-bg: 255 255 255 / .03;
+    --btn-fg: var(--n-950);
+    --btn-hover: var(--brand-400);
+    --code-fg: var(--brand-300);
+    --ring-offset: var(--n-950);
+    --scroll-thumb: var(--n-700);
+
+    --aura: .06;
+    --tile-shadow: 0 10px 40px rgb(0 0 0 / .6), 0 0 0 1px rgb(255 255 255 / .06);
+    --trace: var(--brand-400) / .7;
+
+    /* Hubs step one tone lighter on the dark ground — the same branch the app's
+       own graph renderer makes (400 on dark, 500 on light). Amber still sits a
+       stop below its neighbours for the reason above. */
+    --hub-blue: 84 144 250;      /* leaf blue 400 */
+    --hub-amber: 210 147 7;      /* leaf amber 600 */
+    --hub-teal: 76 194 169;      /* leaf teal 400 */
+    --hub-red: 255 135 120;      /* leaf red 400 */
+    --graph-hub-a: .55;
+    --graph-atom: var(--n-300);
+    --graph-atom-a: .30;
+    --graph-spoke-a: .10;
+    --graph-thread-a: .045;
+    --graph-pulse: var(--brand-400);
+    --graph-core: 255 255 255;
+  }
+
   * { box-sizing: border-box; }
-  html { color-scheme: dark; scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; }
 
   /* Every transition on the page inherits the one curve, so a `transition` that
      forgets to name a timing function is correct instead of accidental. */
@@ -90,8 +194,8 @@
   body {
     margin: 0;
     padding: 0 24px 96px;
-    background: rgb(var(--n-950));
-    color: rgb(var(--n-100));
+    background: rgb(var(--ground));
+    color: rgb(var(--text));
     font-family: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
     font-size: 16px;
     line-height: 1.6;
@@ -99,18 +203,20 @@
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
+    /* The switch itself is instant on the text and a beat slower on the ground,
+       which is what stops it reading as a flash. */
+    transition: background-color .25s, color .25s;
   }
 
   /* The app's canvas aura: a faint brand wash falling from the top edge, so the
-     ground reads as computational rather than as flat paint. Same gradient, same
-     stops as `.dark .app-canvas`. */
+     ground reads as computational rather than as flat paint. */
   body::before {
     content: "";
     position: fixed;
     inset: 0;
     z-index: 0;
     pointer-events: none;
-    background-image: radial-gradient(120% 70% at 50% -10%, rgb(var(--brand-400) / .06), transparent 60%);
+    background-image: radial-gradient(120% 70% at 50% -10%, rgb(var(--brand-400) / var(--aura)), transparent 60%);
   }
 
   ::selection { background: rgb(var(--brand-500) / .25); }
@@ -120,17 +226,53 @@
   a:focus-visible,
   button:focus-visible {
     outline: none;
-    box-shadow: 0 0 0 2px rgb(var(--brand-500) / .5), 0 0 0 3px rgb(var(--n-950));
+    box-shadow: 0 0 0 2px rgb(var(--brand-500) / .5), 0 0 0 3px rgb(var(--ring-offset));
     border-radius: var(--r-ctl);
   }
 
-  * { scrollbar-width: thin; scrollbar-color: rgb(var(--n-700)) transparent; }
+  * { scrollbar-width: thin; scrollbar-color: rgb(var(--scroll-thumb)) transparent; }
   *::-webkit-scrollbar { width: 10px; height: 10px; }
   *::-webkit-scrollbar-thumb {
-    background: rgb(var(--n-700));
+    background: rgb(var(--scroll-thumb));
     border: 4px solid transparent;
     background-clip: padding-box;
     border-radius: 9999px;
+  }
+
+  /* ── Theme switcher ───────────────────────────────────────────────────────
+     The app's Segmented control, and deliberately not a single toggle button:
+     one button has to be labelled either with the state you are in or the state
+     you would move to, and both readings are available to whoever is looking at
+     it. Showing both options and filling one removes the question. */
+  .theme {
+    position: fixed;
+    top: 18px;
+    right: 18px;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    padding: 2px;
+    border-radius: var(--r-card);
+    background: rgb(var(--surface-2));
+    transition: background-color .25s;
+  }
+  .theme button {
+    display: flex;
+    align-items: center;
+    padding: 5px 8px;
+    border: 0;
+    border-radius: var(--r-ctl);
+    background: transparent;
+    color: rgb(var(--text-faint));
+    cursor: pointer;
+    transition: background-color .15s, color .15s, box-shadow .15s;
+  }
+  .theme button:hover { color: rgb(var(--text)); }
+  .theme button[aria-pressed="true"] {
+    background: rgb(var(--surface));
+    color: rgb(var(--text));
+    box-shadow: var(--drop);
   }
 
   /* ── The memory graph behind everything ───────────────────────────────
@@ -161,9 +303,9 @@
     pointer-events: none;
     background: radial-gradient(
       ellipse 52% 58% at 50% 46%,
-      rgb(var(--n-950) / .92) 0%,
-      rgb(var(--n-950) / .74) 42%,
-      rgb(var(--n-950) / .30) 68%,
+      rgb(var(--ground) / .92) 0%,
+      rgb(var(--ground) / .74) 42%,
+      rgb(var(--ground) / .30) 68%,
       transparent 82%
     );
   }
@@ -188,8 +330,9 @@
        re-round the logo. */
     border-radius: 22.6%;
     overflow: hidden;
-    box-shadow: 0 10px 40px rgb(var(--n-950) / .6), 0 0 0 1px rgb(var(--n-100) / .06);
+    box-shadow: var(--tile-shadow);
     animation: rise .9s var(--ease) both;
+    transition: box-shadow .25s;
   }
   .icon-wrap img { width: 100%; height: 100%; display: block; }
 
@@ -214,7 +357,7 @@
     margin: 0 auto;
     max-width: 28ch;
     font-size: clamp(17px, 3.4vw, 20px);
-    color: rgb(var(--n-400));
+    color: rgb(var(--text-muted));
     letter-spacing: -.01em;
     text-wrap: balance;
     animation: rise .9s var(--ease) .13s both;
@@ -241,13 +384,13 @@
     align-items: center;
     gap: 8px;
     padding: 8px 8px 8px 4px;
-    background: rgb(var(--n-900) / .8);
-    backdrop-filter: blur(8px);
-    border: 1px solid rgb(255 255 255 / .09);
+    background: rgb(var(--surface));
+    border: 1px solid rgb(var(--edge-2));
     border-radius: var(--r-panel);
     overflow: hidden;
     text-align: left;
-    transition: border-color .2s, box-shadow .2s;
+    box-shadow: var(--drop);
+    transition: border-color .2s, box-shadow .2s, background-color .25s;
   }
   .cmd:hover,
   .cmd:focus-within {
@@ -268,7 +411,7 @@
     top: 0; left: 0;
     height: 1px;
     width: 38%;
-    background: linear-gradient(90deg, transparent, rgb(var(--brand-400) / .7), transparent);
+    background: linear-gradient(90deg, transparent, rgb(var(--trace)), transparent);
     animation: trace 5.5s linear infinite;
   }
   @keyframes trace {
@@ -280,7 +423,7 @@
     flex: 1;
     min-width: 0;
     padding: 8px 13px;
-    color: rgb(var(--n-100));
+    color: rgb(var(--text));
     font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
     font-size: 13.5px;
     line-height: 1.5;
@@ -295,7 +438,9 @@
   }
   .cmd code::-webkit-scrollbar { height: 0; }
 
-  /* The app's primary button: brand fill, near-black label, 4px. */
+  /* The app's primary button: brand fill, 4px. The label is white on light and
+     near-black on dark, which is the app's own pair — brand-500 is light enough
+     that white text on it only clears AA once the surrounding ground is dark. */
   .copy {
     flex: none;
     height: 32px;
@@ -303,34 +448,34 @@
     border: 0;
     border-radius: var(--r-ctl);
     background: rgb(var(--brand-500));
-    color: rgb(var(--n-950));
+    color: rgb(var(--btn-fg));
     font-family: inherit;
     font-size: 13px;
     font-weight: 500;
     cursor: pointer;
     transition: background .15s, transform .1s;
   }
-  .copy:hover  { background: rgb(var(--brand-400)); }
+  .copy:hover  { background: rgb(var(--btn-hover)); }
   .copy:active { transform: scale(.97); }
   /* Done is green because green is the app's "working / went through" leaf, not
      because a confirmation is conventionally green. */
-  .copy.done { background: rgb(var(--leaf-green-400)); }
+  .copy.done { background: rgb(var(--leaf-green-500)); color: #fff; }
 
   .under {
     margin: 15px 2px 0;
     font-size: 13px;
-    color: rgb(var(--n-500));
+    color: rgb(var(--text-faint));
     display: flex;
     flex-wrap: wrap;
     gap: 6px 13px;
     justify-content: center;
   }
-  .under a { color: rgb(var(--n-400)); text-decoration-color: rgb(255 255 255 / .14); }
-  .under a:hover { color: rgb(var(--n-100)); }
+  .under a { color: rgb(var(--text-muted)); text-decoration-color: rgb(var(--edge-hover)); }
+  .under a:hover { color: rgb(var(--text)); }
 
   /* ── Sections ─────────────────────────────────────────────────────────
      The app's SectionLabel, to the digit: 11px, 600, uppercase, 0.14em, on the
-     neutral's mid tone — and carrying a small slab in the section's leaf. A
+     neutral's faint tone — and carrying a small slab in the section's leaf. A
      section header is a structural landmark, which is where a quiet brand mark
      belongs; at 9px across four sections it stays punctuation rather than paint. */
   section { padding-top: 66px; }
@@ -344,7 +489,7 @@
     font-weight: 600;
     letter-spacing: .14em;
     text-transform: uppercase;
-    color: rgb(var(--n-500));
+    color: rgb(var(--text-faint));
   }
   h2 svg { flex: none; }
 
@@ -359,19 +504,17 @@
 
   /* ── The one card surface ─────────────────────────────────────────────
      Four surfaces used to be written inline across the app and no two agreed, so
-     the app settled it once: neutral ground, an ALPHA border (a solid neutral edge
-     is correct on exactly one background), and a 1px lit top edge — the cleave
-     line where slate splits. That inset highlight is the detail that reads as
-     expensive, and it is truer than a drop shadow: light falls on the top face of
-     a layer. Every box on this page is now this one surface. */
+     the app settled it once: neutral ground, an ALPHA border, and a 1px lit top
+     edge — the cleave line where slate splits. That inset highlight is the detail
+     that reads as expensive, and it is truer than a drop shadow: light falls on
+     the top face of a layer. Every box on this page is now this one surface. */
   .card {
-    background: rgb(var(--n-900));
-    border: 1px solid rgb(255 255 255 / .07);
+    background: rgb(var(--surface));
+    border: 1px solid rgb(var(--edge));
     border-radius: var(--r-panel);
     padding: 16px 18px;
-    box-shadow:
-      inset 0 1px 0 rgb(255 255 255 / .055),
-      0 1px 2px rgb(0 0 0 / .28);
+    box-shadow: inset 0 1px 0 rgb(var(--lit)), var(--drop);
+    transition: background-color .25s, border-color .25s, box-shadow .25s;
   }
 
   .features { display: grid; gap: 14px; }
@@ -388,11 +531,12 @@
     width: 34px;
     height: 34px;
     border-radius: var(--r-card);
-    background: rgb(255 255 255 / .04);
-    border: 1px solid rgb(255 255 255 / .10);
+    background: rgb(var(--surface-2));
+    border: 1px solid rgb(var(--edge));
+    transition: background-color .25s, border-color .25s;
   }
   .feature h3 { margin: 0 0 4px; font-size: 15px; font-weight: 600; letter-spacing: -.014em; line-height: 1.3; }
-  .feature p  { margin: 0; font-size: 14px; color: rgb(var(--n-400)); }
+  .feature p  { margin: 0; font-size: 14px; color: rgb(var(--text-muted)); }
 
   /* ── Connected tools ──────────────────────────────────────────────────
      Chips, not pills. `full` is a shape on this scale and not a size, so a
@@ -412,48 +556,49 @@
     gap: 6px;
     height: 28px;
     padding: 0 10px;
-    border: 1px solid rgb(255 255 255 / .09);
+    border: 1px solid rgb(var(--edge-2));
     border-radius: var(--r-ctl);
-    background: rgb(255 255 255 / .03);
+    background: rgb(var(--chip-bg));
     font-size: 12px;
-    color: rgb(var(--n-400));
+    color: rgb(var(--text-muted));
     white-space: nowrap;
-    transition: color .4s, border-color .4s;
+    transition: color .4s, border-color .4s, background-color .25s;
   }
   /* Unregistered, the mark is neutral; registering lights it into the tool's own
      leaf. The chip does not change shape or gain a colour of its own — only the
      mark does, which is the point of putting the hue there. */
-  .tool .leaf { color: rgb(var(--n-600)); transition: color .4s; }
-  .tool.lit { color: rgb(var(--n-200)); border-color: rgb(255 255 255 / .18); }
+  .tool .leaf { color: rgb(var(--text-faint)); transition: color .4s; }
+  .tool.lit { color: rgb(var(--text)); border-color: rgb(var(--edge-hover)); }
   .tool.lit .leaf { color: rgb(var(--leaf)); }
 
-  .tools-note { margin: 0; font-size: 14px; color: rgb(var(--n-400)); }
+  .tools-note { margin: 0; font-size: 14px; color: rgb(var(--text-muted)); }
 
   /* ── Notes / steps ────────────────────────────────────────────────── */
   .note {
     font-size: 14px;
-    color: rgb(var(--n-400));
+    color: rgb(var(--text-muted));
   }
-  .note strong { color: rgb(var(--n-100)); font-weight: 600; }
+  .note strong { color: rgb(var(--text)); font-weight: 600; }
   .note + .note { margin-top: 10px; }
 
-  ol.steps { margin: 0; padding-left: 20px; font-size: 14px; color: rgb(var(--n-400)); }
+  ol.steps { margin: 0; padding-left: 20px; font-size: 14px; color: rgb(var(--text-muted)); }
   ol.steps li { margin-bottom: 9px; }
-  ol.steps li::marker { color: rgb(var(--n-600)); font-variant-numeric: tabular-nums; }
+  ol.steps li::marker { color: rgb(var(--text-faint)); font-variant-numeric: tabular-nums; }
 
-  /* Inline code, the app's treatment: the accent's light tone on a raised well,
-     4px, at 0.85em of whatever it sits in. */
+  /* Inline code, the app's treatment: the accent on a raised well, 4px, at 0.85em
+     of whatever it sits in. The accent's DARK tone on light and its light tone on
+     dark — one stop cannot clear AA on both grounds. */
   code.inline {
     padding: 2px 6px;
-    background: rgb(var(--n-800));
+    background: rgb(var(--surface-2));
     border-radius: var(--r-ctl);
     font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
     font-size: .85em;
-    color: rgb(var(--brand-300));
+    color: rgb(var(--code-fg));
     white-space: nowrap;
   }
 
-  a { color: rgb(var(--n-100)); text-underline-offset: 2px; }
+  a { color: rgb(var(--text)); text-underline-offset: 2px; }
 
   footer {
     position: relative;
@@ -461,11 +606,11 @@
     padding-top: 68px;
     text-align: center;
     font-size: 12.5px;
-    color: rgb(var(--n-500));
+    color: rgb(var(--text-faint));
     line-height: 1.9;
   }
-  footer a { color: rgb(var(--n-500)); }
-  footer a:hover { color: rgb(var(--n-300)); }
+  footer a { color: rgb(var(--text-faint)); }
+  footer a:hover { color: rgb(var(--text-muted)); }
 
   /* Motion is decoration here — every one of these is safe to simply not happen. */
   @media (prefers-reduced-motion: reduce) {
@@ -475,8 +620,37 @@
     .reveal { opacity: 1; transform: none; transition: none; }
   }
 </style>
+
+<script>
+  // Before first paint, never after. A theme applied from the main script runs
+  // after the document has already rendered, so a returning dark-mode reader gets
+  // a white flash on every navigation — and a flash is not a small defect on the
+  // page whose whole first impression is the mark sitting on its tile.
+  //
+  // Light is the fallback for anyone with nothing stored, which is what "light by
+  // default" has to mean; prefers-color-scheme is deliberately not consulted.
+  try {
+    var t = localStorage.getItem("slate-theme");
+    document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
+  } catch (e) {
+    document.documentElement.dataset.theme = "light"; // Safari private mode throws on localStorage
+  }
+</script>
 </head>
 <body>
+
+<div class="theme" id="theme" role="group" aria-label="Colour theme">
+  <button type="button" data-theme-set="light" title="Light" aria-label="Light">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
+    </svg>
+  </button>
+  <button type="button" data-theme-set="dark" title="Dark" aria-label="Dark">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/>
+    </svg>
+  </button>
+</div>
 
 <canvas id="graph" aria-hidden="true"></canvas>
 <div id="veil" aria-hidden="true"></div>
@@ -529,31 +703,31 @@
     <!-- Section leaves follow the app's own route map: the Console is blue, Memory
          teal, Workspaces amber, and the run surfaces red. Four sections, four of
          the leaves a project may take — green stays out, as it does there. -->
-    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-blue-400))"><use href="#slab-9"/></svg>What it is</h2>
+    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-blue-500))"><use href="#slab-9"/></svg>What it is</h2>
     <div class="features">
       <div class="card feature">
-        <span class="well" style="color:rgb(var(--leaf-red-400))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
+        <span class="well" style="color:rgb(var(--leaf-red-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
         <div>
           <h3>One file, on your Mac</h3>
           <p>Your whole workspace is a single SQLite file. No account, no sync, no telemetry. It works on a plane.</p>
         </div>
       </div>
       <div class="card feature">
-        <span class="well" style="color:rgb(var(--leaf-amber-400))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
+        <span class="well" style="color:rgb(var(--leaf-amber-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
         <div>
           <h3>Shared memory for every AI tool</h3>
           <p>Slate is an MCP server. What Claude Code learns on Tuesday, Cursor knows on Wednesday.</p>
         </div>
       </div>
       <div class="card feature">
-        <span class="well" style="color:rgb(var(--leaf-teal-400))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
+        <span class="well" style="color:rgb(var(--leaf-teal-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
         <div>
           <h3>Pages and a block editor</h3>
           <p>Nested, typed pages — projects, repos, branches, plans, designs — in a keyboard-first editor.</p>
         </div>
       </div>
       <div class="card feature">
-        <span class="well" style="color:rgb(var(--leaf-blue-400))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
+        <span class="well" style="color:rgb(var(--leaf-blue-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
         <div>
           <h3>An agent that runs on your CLI</h3>
           <p>The in-app agent uses the Claude Code or Gemini CLI you already have. No API keys.</p>
@@ -563,12 +737,12 @@
   </section>
 
   <section class="reveal">
-    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-teal-400))"><use href="#slab-9"/></svg>Connects itself</h2>
+    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-teal-500))"><use href="#slab-9"/></svg>Connects itself</h2>
     <div class="tools" id="tools">
-      <span class="tool" style="--leaf: var(--leaf-red-400)"><svg class="leaf" width="9" height="9"><use href="#slab-9"/></svg>Claude Code</span>
-      <span class="tool" style="--leaf: var(--leaf-amber-400)"><svg class="leaf" width="9" height="9"><use href="#slab-9"/></svg>Cursor</span>
-      <span class="tool" style="--leaf: var(--leaf-teal-400)"><svg class="leaf" width="9" height="9"><use href="#slab-9"/></svg>Codex</span>
-      <span class="tool" style="--leaf: var(--leaf-blue-400)"><svg class="leaf" width="9" height="9"><use href="#slab-9"/></svg>Gemini</span>
+      <span class="tool" style="--leaf: var(--leaf-red-500)"><svg class="leaf" width="9" height="9"><use href="#slab-9"/></svg>Claude Code</span>
+      <span class="tool" style="--leaf: var(--leaf-amber-500)"><svg class="leaf" width="9" height="9"><use href="#slab-9"/></svg>Cursor</span>
+      <span class="tool" style="--leaf: var(--leaf-teal-500)"><svg class="leaf" width="9" height="9"><use href="#slab-9"/></svg>Codex</span>
+      <span class="tool" style="--leaf: var(--leaf-blue-500)"><svg class="leaf" width="9" height="9"><use href="#slab-9"/></svg>Gemini</span>
     </div>
     <p class="tools-note">
       On first launch Slate registers itself as an MCP server with whichever of these it
@@ -577,7 +751,7 @@
   </section>
 
   <section class="reveal">
-    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-amber-400))"><use href="#slab-9"/></svg>After you install</h2>
+    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-amber-500))"><use href="#slab-9"/></svg>After you install</h2>
     <ol class="steps">
       <li>Slate opens and creates your workspace.</li>
       <li>It connects to the AI tools it finds. Nothing to configure.</li>
@@ -587,7 +761,7 @@
   </section>
 
   <section class="reveal">
-    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-red-400))"><use href="#slab-9"/></svg>Before you paste that</h2>
+    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-red-500))"><use href="#slab-9"/></svg>Before you paste that</h2>
 
     <div class="card note">
       <strong>Read the script first.</strong> Piping anything to <code class="inline">bash</code> means trusting
@@ -759,14 +933,35 @@
   // Amber takes its 600 here and its 400 everywhere else on the page — see the
   // token block. A hub is the largest area of leaf colour anywhere on this page,
   // which is where the lightness difference between the hues stops being invisible.
-  const HUB_LEAVES = ["--leaf-blue-400", "--leaf-amber-600", "--leaf-teal-400", "--leaf-red-400"];
-  const css = getComputedStyle(document.documentElement);
-  const token = (name) => css.getPropertyValue(name).trim();
-  // Resolved once, not per frame: getComputedStyle is not free and this runs on
-  // every animation tick.
-  const HUB_RGB = HUB_LEAVES.map(token);
-  const NEUTRAL = token("--n-300");
-  const BRAND = token("--brand-400");
+  // Every colour the canvas paints comes out of the token block, resolved through
+  // getComputedStyle. Nothing here states an rgb value, which is the same rule the
+  // app's renderer follows — a leaf names a hue and `--leaf-*` says what it is, so
+  // a re-hue moves everything at once.
+  //
+  // Resolved into `pal` rather than read per node: getComputedStyle is not free and
+  // this runs on every animation tick. `readPalette()` is called again on a theme
+  // change, which is the only time any of it moves.
+  const HUBS = ["--hub-blue", "--hub-amber", "--hub-teal", "--hub-red"];
+  const css = () => getComputedStyle(document.documentElement);
+  let pal;
+
+  function readPalette() {
+    const c = css();
+    // "18 21 27" → "18,21,27", so it can be dropped straight into rgba().
+    const rgb = (name) => c.getPropertyValue(name).trim().replace(/ +/g, ",");
+    const num = (name) => parseFloat(c.getPropertyValue(name)) || 0;
+    pal = {
+      hubs: HUBS.map(rgb),
+      hubA: num("--graph-hub-a"),
+      atom: rgb("--graph-atom"),
+      atomA: num("--graph-atom-a"),
+      spokeA: num("--graph-spoke-a"),
+      threadA: num("--graph-thread-a"),
+      pulse: rgb("--graph-pulse"),
+      core: rgb("--graph-core"),
+    };
+  }
+  readPalette();
 
   let hubs = [];
   let threads = [];
@@ -809,7 +1004,9 @@
         // SLAB_MIN_HEIGHT stops being one, and the fix is to clamp rather than to
         // shallow the angle — so on a phone the hubs simply stay this size.
         mark: Math.max(SLAB_MIN_HEIGHT / SLAB_HUB_HEIGHT_RATIO, 30 * scale),
-        leaf: HUB_RGB[i % HUB_RGB.length],
+        // An index, not a colour: the palette is re-resolved on a theme change and
+        // the hubs keep their identity across it.
+        hue: i % HUBS.length,
         angle: rand(0, Math.PI * 2),
         speed: rand(0.00008, 0.00022) * (Math.random() < 0.5 ? -1 : 1),
         drift: rand(0, Math.PI * 2),
@@ -869,8 +1066,8 @@
       for (const atom of hub.atoms) {
         const p = atomPos(hub, atom);
         const grad = ctx.createLinearGradient(hub.x, hub.y + bob, p.x, p.y + bob);
-        grad.addColorStop(0, `rgba(${hub.leaf.replace(/ /g, ",")},0.10)`);
-        grad.addColorStop(1, `rgba(${NEUTRAL.replace(/ /g, ",")},0.015)`);
+        grad.addColorStop(0, `rgba(${pal.hubs[hub.hue]},${pal.spokeA})`);
+        grad.addColorStop(1, `rgba(${pal.atom},0.015)`);
         ctx.strokeStyle = grad;
         ctx.beginPath();
         ctx.moveTo(hub.x, hub.y + bob);
@@ -882,14 +1079,14 @@
       // for them to state, and inventing one would be paint rather than punctuation.
       for (const atom of hub.atoms) {
         const p = atomPos(hub, atom);
-        ctx.fillStyle = `rgba(${NEUTRAL.replace(/ /g, ",")},0.30)`;
+        ctx.fillStyle = `rgba(${pal.atom},${pal.atomA})`;
         ctx.beginPath();
         ctx.arc(p.x, p.y + bob, atom.size, 0, Math.PI * 2);
         ctx.fill();
       }
 
       // The hub: one slab, in its project's leaf.
-      const paint = `rgba(${hub.leaf.replace(/ /g, ",")},0.55)`;
+      const paint = `rgba(${pal.hubs[hub.hue]},${pal.hubA})`;
       traceSlab(ctx, hub.x, hub.y + bob, hub.mark);
       ctx.fillStyle = paint;
       ctx.strokeStyle = paint;
@@ -906,7 +1103,7 @@
       if (!A || !B) continue;
       const pa = atomPos(A, A.atoms[t.ai]);
       const pb = atomPos(B, B.atoms[t.bi]);
-      ctx.strokeStyle = `rgba(${NEUTRAL.replace(/ /g, ",")},0.045)`;
+      ctx.strokeStyle = `rgba(${pal.atom},${pal.threadA})`;
       ctx.beginPath();
       ctx.moveTo(pa.x, pa.y);
       ctx.lineTo(pb.x, pb.y);
@@ -934,15 +1131,14 @@
       const y = pa.y + (pb.y - pa.y) * pulse.t;
       // Fade in and out so it never pops at either end.
       const alpha = Math.sin(pulse.t * Math.PI) * 0.7;
-      const brand = BRAND.replace(/ /g, ",");
       const glow = ctx.createRadialGradient(x, y, 0, x, y, 16);
-      glow.addColorStop(0, `rgba(${brand},${alpha * 0.55})`);
-      glow.addColorStop(1, `rgba(${brand},0)`);
+      glow.addColorStop(0, `rgba(${pal.pulse},${alpha * 0.55})`);
+      glow.addColorStop(1, `rgba(${pal.pulse},0)`);
       ctx.fillStyle = glow;
       ctx.beginPath();
       ctx.arc(x, y, 16, 0, Math.PI * 2);
       ctx.fill();
-      ctx.fillStyle = `rgba(255,255,255,${alpha})`;
+      ctx.fillStyle = `rgba(${pal.core},${alpha})`;
       ctx.beginPath();
       ctx.arc(x, y, 1.7, 0, Math.PI * 2);
       ctx.fill();
@@ -971,6 +1167,34 @@
     } else {
       raf = requestAnimationFrame(draw);
     }
+  });
+
+  // ── The theme switcher ─────────────────────────────────────────────────────
+  // The attribute is already on <html> from the inline head script; this only
+  // has to move it, persist it, and tell the canvas — every other surface on the
+  // page reads the semantic tokens and re-paints on its own.
+  const themeBox = document.getElementById("theme");
+  const themeBtns = [...themeBox.querySelectorAll("[data-theme-set]")];
+
+  function applyTheme(next) {
+    document.documentElement.dataset.theme = next;
+    for (const b of themeBtns) b.setAttribute("aria-pressed", String(b.dataset.themeSet === next));
+    // The canvas is the one thing on the page that cannot re-paint from CSS: it
+    // holds resolved colours, so it has to be told.
+    readPalette();
+    if (reduced) draw(0); // no rAF loop running to pick the change up on its own
+    try {
+      localStorage.setItem("slate-theme", next);
+    } catch {
+      // Private browsing refuses the write. The theme is already applied to the
+      // DOM; losing the preference on next visit is not worth an exception.
+    }
+  }
+
+  applyTheme(document.documentElement.dataset.theme === "dark" ? "dark" : "light");
+  themeBox.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-theme-set]");
+    if (btn) applyTheme(btn.dataset.themeSet);
   });
 
   let resizeTimer;
