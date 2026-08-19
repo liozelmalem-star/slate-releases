@@ -11,38 +11,137 @@
 <meta property="og:description" content="Local AI memory that follows you across every tool.">
 <meta property="og:type" content="website">
 
+<!-- Geist and Geist Mono — the app's own two faces (packages/desktop/tailwind.config.js:
+     sans and display are both Geist, mono is Geist Mono). The fallback stack below every
+     rule is the same one the config names, so a blocked font request degrades to what the
+     app degrades to rather than to something this page invented. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
 <style>
-  /* Palette is the product's: obsidian, shared with the app and the marketing
-     site. The brand mark brings its own colors and its own off-white tile, so
-     nothing here tints it. Dark-only on purpose — a light variant would be a
-     second look to keep in step for nobody's benefit. */
+  /* ── Tokens ───────────────────────────────────────────────────────────────
+     Lifted verbatim from the app's App.css, in the same space-separated RGB form,
+     so a hue has one definition across the product and this page. Nothing here is
+     a colour this page picked.
+
+       --n-*      the neutral ramp (cool charcoal; the app's `slate-*` scale)
+       --brand-*  the accent, the mark's blue leaf
+       --leaf-*   the mark's five leaves, the ONE source of categorical colour
+
+     Dark only, still on purpose: the app ships light and dark, but a release page
+     is one screen and a second look would be a second thing to keep in step. The
+     ground is the app's own dark canvas — --n-950, not an invented obsidian. */
   :root {
-    --obsidian:  #0A0A0B;
-    --panel:     #121214;
-    --cream:     #E8E4DC;
-    --ghost:     #A1A1AA;
-    --faint:     #6B6B72;
-    --line:      #26262A;
-    --live:      #6EE7A8;
+    --n-50: 244 246 250;
+    --n-100: 233 235 239;
+    --n-200: 213 216 224;
+    --n-300: 171 177 190;
+    --n-400: 127 132 145;
+    --n-500: 88 93 105;
+    --n-600: 62 66 77;
+    --n-700: 43 47 57;
+    --n-800: 28 31 39;
+    --n-900: 18 21 27;
+    --n-950: 10 12 16;
+
+    --brand-300: 162 196 254;
+    --brand-400: 122 170 254;
+    --brand-500: 80 144 255;
+    --brand-600: 58 119 225;
+
+    /* The four a project may take. Green is excluded from this set in the app
+       (ADR 0021): green and teal sit 16° apart and cannot be told apart as small
+       marks without a second cue, and green is also the semantic "working" tone.
+       Its 400 tone is still here for the one place that means *done*. */
+    --leaf-red-400: 255 135 120;
+    --leaf-amber-400: 254 192 89;
+    --leaf-teal-400: 76 194 169;
+    --leaf-blue-400: 84 144 250;
+    --leaf-green-400: 81 195 143;
+    /* Amber's own darker stop, for the one surface that paints it in QUANTITY: a
+       55px hub in the graph. Role tones vary per hue in the app for exactly this
+       reason — the mark's amber is far lighter than its blue (OKLCH L .815 against
+       .587), so one shared tone across the five leaves makes the gold shout while
+       the blue whispers. That is intrinsic to yellow, not a defect to design away.
+       At 9px and 18px, where amber is punctuation, the 400 above is right. */
+    --leaf-amber-600: 210 147 7;
+
+    /* Three radii and a shape, replacing the eight this page used to spend
+       (10px cards, 5px code, 999px pills). Same scale as the app, same reasons:
+       the mark's corner chord is 5.2% of its width and it never goes pill, so
+       `full` is a SHAPE — dots and spinners — and not a size. */
+    --r-ctl: 4px;    /* anything you click or type in */
+    --r-card: 8px;   /* a card, a well, a popover */
+    --r-panel: 14px; /* a panel, a modal, the shell */
+
+    /* One easing curve for the whole app, and now for the whole page. Every
+       animation below reads this rather than restating a bezier. */
+    --ease: cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   * { box-sizing: border-box; }
   html { color-scheme: dark; scroll-behavior: smooth; }
 
+  /* Every transition on the page inherits the one curve, so a `transition` that
+     forgets to name a timing function is correct instead of accidental. */
+  * { transition-timing-function: var(--ease); }
+
   body {
     margin: 0;
     padding: 0 24px 96px;
-    background: var(--obsidian);
-    color: var(--cream);
-    font: 16px/1.65 system-ui, -apple-system, "Segoe UI", sans-serif;
+    background: rgb(var(--n-950));
+    color: rgb(var(--n-100));
+    font-family: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    font-feature-settings: "kern", "liga", "calt";
+    text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     overflow-x: hidden;
   }
 
+  /* The app's canvas aura: a faint brand wash falling from the top edge, so the
+     ground reads as computational rather than as flat paint. Same gradient, same
+     stops as `.dark .app-canvas`. */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-image: radial-gradient(120% 70% at 50% -10%, rgb(var(--brand-400) / .06), transparent 60%);
+  }
+
+  ::selection { background: rgb(var(--brand-500) / .25); }
+
+  /* The app's keyboard focus ring. The page had none at all, which is the kind of
+     thing a design system is for. */
+  a:focus-visible,
+  button:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px rgb(var(--brand-500) / .5), 0 0 0 3px rgb(var(--n-950));
+    border-radius: var(--r-ctl);
+  }
+
+  * { scrollbar-width: thin; scrollbar-color: rgb(var(--n-700)) transparent; }
+  *::-webkit-scrollbar { width: 10px; height: 10px; }
+  *::-webkit-scrollbar-thumb {
+    background: rgb(var(--n-700));
+    border: 4px solid transparent;
+    background-clip: padding-box;
+    border-radius: 9999px;
+  }
+
   /* ── The memory graph behind everything ───────────────────────────────
      Not decoration for its own sake: this is the shape Slate's own memory graph
-     draws — atoms spoked off a hub, faint similarity threads between hubs, and a
-     pulse travelling the path a recall takes across projects. */
+     draws — hubs with atoms spoked off them, faint similarity threads between
+     hubs, and a pulse travelling the path a recall takes across projects.
+
+     It draws what the app draws now. A hub is the mark's SLAB, not a circle, and
+     it wears its project's leaf; an atom stays round. That split is ADR 0021's:
+     structural hubs take the logo's shape, atoms are content and stay as they
+     were. */
   #graph {
     position: fixed;
     inset: 0;
@@ -62,9 +161,9 @@
     pointer-events: none;
     background: radial-gradient(
       ellipse 52% 58% at 50% 46%,
-      rgba(10, 10, 11, .92) 0%,
-      rgba(10, 10, 11, .74) 42%,
-      rgba(10, 10, 11, .30) 68%,
+      rgb(var(--n-950) / .92) 0%,
+      rgb(var(--n-950) / .74) 42%,
+      rgb(var(--n-950) / .30) 68%,
       transparent 82%
     );
   }
@@ -84,10 +183,13 @@
     width: 84px;
     height: 84px;
     margin: 0 auto 30px;
-    border-radius: 19px;
+    /* 22.6% is the artwork's own corner — icon.svg is a 1024 tile with rx="232".
+       The 4/8/14 scale governs surfaces this page builds; it does not get to
+       re-round the logo. */
+    border-radius: 22.6%;
     overflow: hidden;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, .6), 0 0 0 1px rgba(232, 228, 220, .06);
-    animation: rise .9s cubic-bezier(.2, .7, .3, 1) both;
+    box-shadow: 0 10px 40px rgb(var(--n-950) / .6), 0 0 0 1px rgb(var(--n-100) / .06);
+    animation: rise .9s var(--ease) both;
   }
   .icon-wrap img { width: 100%; height: 100%; display: block; }
 
@@ -99,19 +201,23 @@
   h1 {
     margin: 0 0 14px;
     font-size: clamp(42px, 8vw, 58px);
-    font-weight: 700;
-    letter-spacing: -.04em;
-    line-height: 1.03;
-    animation: rise .9s cubic-bezier(.2, .7, .3, 1) .06s both;
+    /* 600 and -0.028em, not 700 and -0.04em: the app sets both on h1 and this is
+       the same headline at a bigger size, not a poster. */
+    font-weight: 600;
+    letter-spacing: -.028em;
+    line-height: 1.12;
+    text-wrap: balance;
+    animation: rise .9s var(--ease) .06s both;
   }
 
   .tagline {
     margin: 0 auto;
     max-width: 28ch;
     font-size: clamp(17px, 3.4vw, 20px);
-    color: var(--ghost);
+    color: rgb(var(--n-400));
     letter-spacing: -.01em;
-    animation: rise .9s cubic-bezier(.2, .7, .3, 1) .13s both;
+    text-wrap: balance;
+    animation: rise .9s var(--ease) .13s both;
   }
 
   @keyframes rise {
@@ -119,34 +225,50 @@
     to   { opacity: 1; transform: none; }
   }
 
-  /* ── Install ──────────────────────────────────────────────────────── */
+  /* ── Install ──────────────────────────────────────────────────────────
+     Shaped like the app's composer, because it is the same object: the one field
+     on the screen you are meant to use. Panel radius, an alpha edge, and the
+     brand glow as the FOCUS state only — never on at rest, which is the note the
+     composer carries too. */
   .install {
     margin-top: 44px;
-    animation: rise .9s cubic-bezier(.2, .7, .3, 1) .2s both;
+    animation: rise .9s var(--ease) .2s both;
   }
 
   .cmd {
     position: relative;
     display: flex;
-    align-items: stretch;
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: 10px;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 8px 8px 4px;
+    background: rgb(var(--n-900) / .8);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgb(255 255 255 / .09);
+    border-radius: var(--r-panel);
     overflow: hidden;
     text-align: left;
-    transition: border-color .25s;
+    transition: border-color .2s, box-shadow .2s;
   }
-  .cmd:hover { border-color: #35353c; }
+  .cmd:hover,
+  .cmd:focus-within {
+    border-color: rgb(var(--brand-500) / .45);
+    box-shadow:
+      0 0 0 1px rgb(var(--brand-400) / .45),
+      0 10px 48px rgb(var(--brand-400) / .28),
+      0 0 100px rgb(var(--brand-400) / .10);
+  }
 
   /* A light travelling the top edge — the same "signal moving through" idea as the
-     graph, at the one place on the page that is asking to be used. */
+     graph, at the one place on the page that is asking to be used. In the accent
+     now rather than in the text colour: this edge is the app talking, and the app
+     says that in brand. */
   .cmd::before {
     content: "";
     position: absolute;
     top: 0; left: 0;
     height: 1px;
     width: 38%;
-    background: linear-gradient(90deg, transparent, rgba(232, 228, 220, .55), transparent);
+    background: linear-gradient(90deg, transparent, rgb(var(--brand-400) / .7), transparent);
     animation: trace 5.5s linear infinite;
   }
   @keyframes trace {
@@ -157,129 +279,181 @@
   .cmd code {
     flex: 1;
     min-width: 0;
-    padding: 15px 17px;
-    color: var(--cream);
-    font: 13.5px/1.5 ui-monospace, SFMono-Regular, Menlo, monospace;
+    padding: 8px 13px;
+    color: rgb(var(--n-100));
+    font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: 13.5px;
+    line-height: 1.5;
     overflow-x: auto;
     white-space: nowrap;
     /* The command is the point of the page — let it scroll rather than wrap into
-       something nobody can copy correctly by eye. The button is the real path. */
+       something nobody can copy correctly by eye. The button is the real path.
+       It fades out at that edge rather than being cut: a letter sliced in half
+       reads as a rendering bug, where a fade reads as "there is more". */
+    -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 28px), transparent);
+    mask-image: linear-gradient(90deg, #000 calc(100% - 28px), transparent);
   }
   .cmd code::-webkit-scrollbar { height: 0; }
 
+  /* The app's primary button: brand fill, near-black label, 4px. */
   .copy {
     flex: none;
-    padding: 0 18px;
+    height: 32px;
+    padding: 0 14px;
     border: 0;
-    border-left: 1px solid var(--line);
-    background: transparent;
-    color: var(--ghost);
-    font: 600 12.5px/1 system-ui, sans-serif;
-    letter-spacing: .04em;
-    text-transform: uppercase;
+    border-radius: var(--r-ctl);
+    background: rgb(var(--brand-500));
+    color: rgb(var(--n-950));
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
     cursor: pointer;
-    transition: background .15s, color .15s;
+    transition: background .15s, transform .1s;
   }
-  .copy:hover { background: rgba(232, 228, 220, .06); color: var(--cream); }
-  .copy.done  { color: var(--live); }
+  .copy:hover  { background: rgb(var(--brand-400)); }
+  .copy:active { transform: scale(.97); }
+  /* Done is green because green is the app's "working / went through" leaf, not
+     because a confirmation is conventionally green. */
+  .copy.done { background: rgb(var(--leaf-green-400)); }
 
   .under {
     margin: 15px 2px 0;
     font-size: 13px;
-    color: var(--faint);
+    color: rgb(var(--n-500));
     display: flex;
     flex-wrap: wrap;
     gap: 6px 13px;
     justify-content: center;
   }
-  .under a { color: var(--ghost); text-decoration-color: var(--line); }
-  .under a:hover { color: var(--cream); }
+  .under a { color: rgb(var(--n-400)); text-decoration-color: rgb(255 255 255 / .14); }
+  .under a:hover { color: rgb(var(--n-100)); }
 
-  /* ── Sections ─────────────────────────────────────────────────────── */
+  /* ── Sections ─────────────────────────────────────────────────────────
+     The app's SectionLabel, to the digit: 11px, 600, uppercase, 0.14em, on the
+     neutral's mid tone — and carrying a small slab in the section's leaf. A
+     section header is a structural landmark, which is where a quiet brand mark
+     belongs; at 9px across four sections it stays punctuation rather than paint. */
   section { padding-top: 66px; }
 
   h2 {
+    display: flex;
+    align-items: center;
+    gap: 6px;
     margin: 0 0 22px;
-    font-size: 11.5px;
-    font-weight: 700;
+    font-size: 11px;
+    font-weight: 600;
     letter-spacing: .14em;
     text-transform: uppercase;
-    color: var(--faint);
+    color: rgb(var(--n-500));
   }
+  h2 svg { flex: none; }
 
   /* Revealed on scroll by IntersectionObserver; the class is added, never removed,
      so nothing re-animates when you scroll back up. */
   .reveal {
     opacity: 0;
     transform: translateY(18px);
-    transition: opacity .7s cubic-bezier(.2, .7, .3, 1), transform .7s cubic-bezier(.2, .7, .3, 1);
+    transition: opacity .7s var(--ease), transform .7s var(--ease);
   }
   .reveal.in { opacity: 1; transform: none; }
 
-  .features { display: grid; gap: 24px; }
-  @media (min-width: 620px) { .features { grid-template-columns: 1fr 1fr; gap: 28px 34px; } }
+  /* ── The one card surface ─────────────────────────────────────────────
+     Four surfaces used to be written inline across the app and no two agreed, so
+     the app settled it once: neutral ground, an ALPHA border (a solid neutral edge
+     is correct on exactly one background), and a 1px lit top edge — the cleave
+     line where slate splits. That inset highlight is the detail that reads as
+     expensive, and it is truer than a drop shadow: light falls on the top face of
+     a layer. Every box on this page is now this one surface. */
+  .card {
+    background: rgb(var(--n-900));
+    border: 1px solid rgb(255 255 255 / .07);
+    border-radius: var(--r-panel);
+    padding: 16px 18px;
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / .055),
+      0 1px 2px rgb(0 0 0 / .28);
+  }
 
-  .feature h3 { margin: 0 0 5px; font-size: 15.5px; font-weight: 650; letter-spacing: -.01em; }
-  .feature p  { margin: 0; font-size: 14.5px; color: var(--ghost); }
+  .features { display: grid; gap: 14px; }
+  @media (min-width: 620px) { .features { grid-template-columns: 1fr 1fr; gap: 14px; } }
 
-  /* ── Connected tools ──────────────────────────────────────────────── */
+  /* A card leads with its tile, and the hue lives THERE — not on the border. That
+     is the whole reason the surface above can be neutral: a card can say what kind
+     of thing it is without claiming the whole object is an alert. */
+  .feature { display: flex; gap: 13px; align-items: flex-start; }
+  .well {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: var(--r-card);
+    background: rgb(255 255 255 / .04);
+    border: 1px solid rgb(255 255 255 / .10);
+  }
+  .feature h3 { margin: 0 0 4px; font-size: 15px; font-weight: 600; letter-spacing: -.014em; line-height: 1.3; }
+  .feature p  { margin: 0; font-size: 14px; color: rgb(var(--n-400)); }
+
+  /* ── Connected tools ──────────────────────────────────────────────────
+     Chips, not pills. `full` is a shape on this scale and not a size, so a
+     pill-shaped control is the one case the radius scale deliberately excludes —
+     the app now fails its own build on one. Kind is carried by a leaf mark at the
+     head rather than by border colour, which is what lets four kinds share one
+     control instead of reading as four different ones. */
   .tools {
     display: flex;
     flex-wrap: wrap;
-    gap: 10px;
+    gap: 6px;
     margin-bottom: 16px;
   }
   .tool {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 9px 15px;
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: 999px;
-    font-size: 13.5px;
-    color: var(--ghost);
+    gap: 6px;
+    height: 28px;
+    padding: 0 10px;
+    border: 1px solid rgb(255 255 255 / .09);
+    border-radius: var(--r-ctl);
+    background: rgb(255 255 255 / .03);
+    font-size: 12px;
+    color: rgb(var(--n-400));
+    white-space: nowrap;
     transition: color .4s, border-color .4s;
   }
-  .tool .dot {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background: var(--faint);
-    transition: background .4s, box-shadow .4s;
-  }
-  .tool.lit { color: var(--cream); border-color: #35353c; }
-  .tool.lit .dot { background: var(--live); box-shadow: 0 0 9px rgba(110, 231, 168, .8); }
+  /* Unregistered, the mark is neutral; registering lights it into the tool's own
+     leaf. The chip does not change shape or gain a colour of its own — only the
+     mark does, which is the point of putting the hue there. */
+  .tool .leaf { color: rgb(var(--n-600)); transition: color .4s; }
+  .tool.lit { color: rgb(var(--n-200)); border-color: rgb(255 255 255 / .18); }
+  .tool.lit .leaf { color: rgb(var(--leaf)); }
 
-  .tools-note { margin: 0; font-size: 14.5px; color: var(--ghost); }
+  .tools-note { margin: 0; font-size: 14px; color: rgb(var(--n-400)); }
 
   /* ── Notes / steps ────────────────────────────────────────────────── */
   .note {
-    padding: 17px 19px;
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: 10px;
-    font-size: 14.5px;
-    color: var(--ghost);
+    font-size: 14px;
+    color: rgb(var(--n-400));
   }
-  .note strong { color: var(--cream); font-weight: 650; }
-  .note + .note { margin-top: 13px; }
+  .note strong { color: rgb(var(--n-100)); font-weight: 600; }
+  .note + .note { margin-top: 10px; }
 
-  ol.steps { margin: 0; padding-left: 20px; font-size: 14.5px; color: var(--ghost); }
+  ol.steps { margin: 0; padding-left: 20px; font-size: 14px; color: rgb(var(--n-400)); }
   ol.steps li { margin-bottom: 9px; }
-  ol.steps li::marker { color: var(--faint); font-variant-numeric: tabular-nums; }
+  ol.steps li::marker { color: rgb(var(--n-600)); font-variant-numeric: tabular-nums; }
 
+  /* Inline code, the app's treatment: the accent's light tone on a raised well,
+     4px, at 0.85em of whatever it sits in. */
   code.inline {
     padding: 2px 6px;
-    background: var(--panel);
-    border: 1px solid var(--line);
-    border-radius: 5px;
-    font: 12.5px ui-monospace, SFMono-Regular, Menlo, monospace;
-    color: var(--cream);
+    background: rgb(var(--n-800));
+    border-radius: var(--r-ctl);
+    font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-size: .85em;
+    color: rgb(var(--brand-300));
     white-space: nowrap;
   }
 
-  a { color: var(--cream); text-underline-offset: 2px; }
+  a { color: rgb(var(--n-100)); text-underline-offset: 2px; }
 
   footer {
     position: relative;
@@ -287,11 +461,11 @@
     padding-top: 68px;
     text-align: center;
     font-size: 12.5px;
-    color: var(--faint);
+    color: rgb(var(--n-500));
     line-height: 1.9;
   }
-  footer a { color: var(--faint); }
-  footer a:hover { color: var(--ghost); }
+  footer a { color: rgb(var(--n-500)); }
+  footer a:hover { color: rgb(var(--n-300)); }
 
   /* Motion is decoration here — every one of these is safe to simply not happen. */
   @media (prefers-reduced-motion: reduce) {
@@ -306,6 +480,28 @@
 
 <canvas id="graph" aria-hidden="true"></canvas>
 <div id="veil" aria-hidden="true"></div>
+
+<!-- The mark's leaf, at the two sizes this page uses it.
+     Both paths come out of the app's own `lib/style/slab.ts` — `inscribedSlab(r)`
+     then `slabPath` — rather than being drawn by eye, so the sides really do run
+     two across for every one down. Corners round by stroking each slab in its own
+     paint (stroke = fill, linejoin round): the artwork has no sharp point
+     anywhere, and sharp points are what make an angled interface read as
+     aggressive rather than as crafted. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <!-- 9px: the section tick and the chip mark, from inscribedSlab(4) and (3.5). -->
+    <symbol id="slab-9" viewBox="0 0 9 9">
+      <path d="M 0.655 5.6 L 5.055 3.4 L 8.345 3.4 L 3.945 5.6 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+    </symbol>
+    <!-- 18px: the tile a feature card leads with, from inscribedSlab(8). -->
+    <symbol id="slab-18" viewBox="0 0 18 18">
+      <path d="M 1.31 11.2 L 10.11 6.8 L 16.69 6.8 L 7.89 11.2 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
 
 <div class="wrap">
 
@@ -330,34 +526,49 @@
   </header>
 
   <section class="reveal">
-    <h2>What it is</h2>
+    <!-- Section leaves follow the app's own route map: the Console is blue, Memory
+         teal, Workspaces amber, and the run surfaces red. Four sections, four of
+         the leaves a project may take — green stays out, as it does there. -->
+    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-blue-400))"><use href="#slab-9"/></svg>What it is</h2>
     <div class="features">
-      <div class="feature">
-        <h3>One file, on your Mac</h3>
-        <p>Your whole workspace is a single SQLite file. No account, no sync, no telemetry. It works on a plane.</p>
+      <div class="card feature">
+        <span class="well" style="color:rgb(var(--leaf-red-400))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
+        <div>
+          <h3>One file, on your Mac</h3>
+          <p>Your whole workspace is a single SQLite file. No account, no sync, no telemetry. It works on a plane.</p>
+        </div>
       </div>
-      <div class="feature">
-        <h3>Shared memory for every AI tool</h3>
-        <p>Slate is an MCP server. What Claude Code learns on Tuesday, Cursor knows on Wednesday.</p>
+      <div class="card feature">
+        <span class="well" style="color:rgb(var(--leaf-amber-400))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
+        <div>
+          <h3>Shared memory for every AI tool</h3>
+          <p>Slate is an MCP server. What Claude Code learns on Tuesday, Cursor knows on Wednesday.</p>
+        </div>
       </div>
-      <div class="feature">
-        <h3>Pages and a block editor</h3>
-        <p>Nested, typed pages — projects, repos, branches, plans, designs — in a keyboard-first editor.</p>
+      <div class="card feature">
+        <span class="well" style="color:rgb(var(--leaf-teal-400))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
+        <div>
+          <h3>Pages and a block editor</h3>
+          <p>Nested, typed pages — projects, repos, branches, plans, designs — in a keyboard-first editor.</p>
+        </div>
       </div>
-      <div class="feature">
-        <h3>An agent that runs on your CLI</h3>
-        <p>The in-app agent uses the Claude Code or Gemini CLI you already have. No API keys.</p>
+      <div class="card feature">
+        <span class="well" style="color:rgb(var(--leaf-blue-400))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
+        <div>
+          <h3>An agent that runs on your CLI</h3>
+          <p>The in-app agent uses the Claude Code or Gemini CLI you already have. No API keys.</p>
+        </div>
       </div>
     </div>
   </section>
 
   <section class="reveal">
-    <h2>Connects itself</h2>
+    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-teal-400))"><use href="#slab-9"/></svg>Connects itself</h2>
     <div class="tools" id="tools">
-      <span class="tool"><span class="dot"></span>Claude Code</span>
-      <span class="tool"><span class="dot"></span>Cursor</span>
-      <span class="tool"><span class="dot"></span>Codex</span>
-      <span class="tool"><span class="dot"></span>Gemini</span>
+      <span class="tool" style="--leaf: var(--leaf-red-400)"><svg class="leaf" width="9" height="9"><use href="#slab-9"/></svg>Claude Code</span>
+      <span class="tool" style="--leaf: var(--leaf-amber-400)"><svg class="leaf" width="9" height="9"><use href="#slab-9"/></svg>Cursor</span>
+      <span class="tool" style="--leaf: var(--leaf-teal-400)"><svg class="leaf" width="9" height="9"><use href="#slab-9"/></svg>Codex</span>
+      <span class="tool" style="--leaf: var(--leaf-blue-400)"><svg class="leaf" width="9" height="9"><use href="#slab-9"/></svg>Gemini</span>
     </div>
     <p class="tools-note">
       On first launch Slate registers itself as an MCP server with whichever of these it
@@ -366,7 +577,7 @@
   </section>
 
   <section class="reveal">
-    <h2>After you install</h2>
+    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-amber-400))"><use href="#slab-9"/></svg>After you install</h2>
     <ol class="steps">
       <li>Slate opens and creates your workspace.</li>
       <li>It connects to the AI tools it finds. Nothing to configure.</li>
@@ -376,15 +587,15 @@
   </section>
 
   <section class="reveal">
-    <h2>Before you paste that</h2>
+    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-red-400))"><use href="#slab-9"/></svg>Before you paste that</h2>
 
-    <div class="note">
+    <div class="card note">
       <strong>Read the script first.</strong> Piping anything to <code class="inline">bash</code> means trusting
       whoever wrote it and wherever it is hosted. Slate's installer is short, commented,
       and explains every step it takes — <a href="install.sh">read it</a>.
     </div>
 
-    <div class="note">
+    <div class="card note">
       <strong>Why a script and not a .dmg.</strong> Slate is not notarized by Apple yet.
       macOS quarantines anything a browser downloads, and for an un-notarized app that
       becomes a "could not verify this app" dialog you can only clear from System
@@ -394,7 +605,7 @@
       signed either way.
     </div>
 
-    <div class="note">
+    <div class="card note">
       <strong>Apple Silicon only, for now.</strong> The installer checks first and tells
       you, rather than installing something that won't run.
     </div>
@@ -469,7 +680,8 @@
 
   // ── Tool chips light up in sequence ────────────────────────────────────────
   // Mirrors what actually happens on first launch: Slate finds each tool and registers
-  // itself, one after another.
+  // itself, one after another. What changes is only the chip's leaf mark — the control
+  // stays one control, which is why kind lives in the mark and not in the border.
   const tools = [...document.querySelectorAll("#tools .tool")];
   if (reduced) {
     tools.forEach((t) => t.classList.add("lit"));
@@ -489,12 +701,72 @@
     tools.forEach((t) => t.classList.add("lit"));
   }
 
+  // ── The mark's geometry, as the app holds it ───────────────────────────────
+  // Ported from `packages/ui/src/lib/style/slab.ts` so the hubs below are the same
+  // shape the app's memory graph draws, not a slant that looks about right.
+  //
+  // Two across for every one down — atan(1/2) = 26.565°, which is what the artwork
+  // was measured at (26.91° weighted mean, tracing tolerance). Everything else
+  // follows from this one number.
+  const SLAB_RUN_PER_RISE = 2;
+  const SLAB_HUB_HEIGHT_RATIO = 0.55;
+  // Below this height the 2:1 offset is a few pixels and the eye reads a misaligned
+  // rectangle instead of a slab. Shallowing the angle to fit is forbidden — clamp
+  // the size or use a circle.
+  const SLAB_MIN_HEIGHT = 16;
+
+  // A slab sized to sit inside a circle of radius r, centred on the origin. Pick the
+  // height, then SOLVE for the width the circle still has room for once the 2:1
+  // offset is spent — do not guess both.
+  function inscribedSlab(r) {
+    const h = r * SLAB_HUB_HEIGHT_RATIO;
+    const halfH = h / 2;
+    const halfW = Math.sqrt(Math.max(0, r * r - halfH * halfH));
+    return { x: -halfW, y: -halfH, w: Math.max(0, 2 * halfW - h * SLAB_RUN_PER_RISE), h };
+  }
+
+  // x/y place the BOTTOM-LEFT corner — the one that sits on the leaf below it, the
+  // way the leaves in the mark rest on each other.
+  function slabCorners(x, y, w, h) {
+    const offset = h * SLAB_RUN_PER_RISE;
+    return [[x, y + h], [x + offset, y], [x + offset + w, y], [x + w, y + h]];
+  }
+
+  function traceSlab(ctx, cx, cy, r) {
+    const s = inscribedSlab(r);
+    const pts = slabCorners(s.x, s.y, s.w, s.h);
+    ctx.beginPath();
+    ctx.moveTo(cx + pts[0][0], cy + pts[0][1]);
+    for (let i = 1; i < pts.length; i++) ctx.lineTo(cx + pts[i][0], cy + pts[i][1]);
+    ctx.closePath();
+  }
+
   // ── The memory graph ───────────────────────────────────────────────────────
-  // Deliberately the same shape Slate's own graph draws (see the app's
-  // memory-graph module): atoms spoked off a hub, faint similarity threads
-  // between hubs, and a pulse travelling the path a recall takes.
+  // Deliberately the same picture Slate's own graph draws (see the app's
+  // memory-graph renderer): hubs with atoms spoked off them, faint similarity
+  // threads between hubs, and a pulse travelling the path a recall takes.
+  //
+  // A hub is the mark's slab and wears its project's leaf; an atom is a plain dot.
+  // Both of those are the app's rules rather than choices made here — structural
+  // hubs take the logo's shape while atoms stay round (ADR 0021), and an atom at
+  // one or two pixels is under SLAB_MIN_HEIGHT anyway, where the rule says circle.
+  //
+  // The four hues are the four a project may take: green is left out because it
+  // sits 16° from teal and the two cannot be told apart as small marks.
   const canvas = document.getElementById("graph");
   const ctx = canvas.getContext("2d", { alpha: true });
+
+  // Amber takes its 600 here and its 400 everywhere else on the page — see the
+  // token block. A hub is the largest area of leaf colour anywhere on this page,
+  // which is where the lightness difference between the hues stops being invisible.
+  const HUB_LEAVES = ["--leaf-blue-400", "--leaf-amber-600", "--leaf-teal-400", "--leaf-red-400"];
+  const css = getComputedStyle(document.documentElement);
+  const token = (name) => css.getPropertyValue(name).trim();
+  // Resolved once, not per frame: getComputedStyle is not free and this runs on
+  // every animation tick.
+  const HUB_RGB = HUB_LEAVES.map(token);
+  const NEUTRAL = token("--n-300");
+  const BRAND = token("--brand-400");
 
   let hubs = [];
   let threads = [];
@@ -532,7 +804,12 @@
         y: h / 2 + Math.sin(a) * r,
         // A hub with more atoms gets a bigger ring rather than cramming everyone onto
         // the same radius — the app's spoke sizing, in miniature.
-        radius: (54 + atomCount * 7) * scale,
+        orbit: (54 + atomCount * 7) * scale,
+        // The mark itself does NOT scale below the floor. A slab drawn shorter than
+        // SLAB_MIN_HEIGHT stops being one, and the fix is to clamp rather than to
+        // shallow the angle — so on a phone the hubs simply stay this size.
+        mark: Math.max(SLAB_MIN_HEIGHT / SLAB_HUB_HEIGHT_RATIO, 30 * scale),
+        leaf: HUB_RGB[i % HUB_RGB.length],
         angle: rand(0, Math.PI * 2),
         speed: rand(0.00008, 0.00022) * (Math.random() < 0.5 ? -1 : 1),
         drift: rand(0, Math.PI * 2),
@@ -563,8 +840,8 @@
   function atomPos(hub, atom) {
     const a = hub.angle + atom.offset;
     return {
-      x: hub.x + Math.cos(a) * hub.radius * atom.r,
-      y: hub.y + Math.sin(a) * hub.radius * atom.r,
+      x: hub.x + Math.cos(a) * hub.orbit * atom.r,
+      y: hub.y + Math.sin(a) * hub.orbit * atom.r,
     };
   }
 
@@ -573,8 +850,14 @@
     pulses.push({ thread: threads[Math.floor(Math.random() * threads.length)], t: 0 });
   }
 
+  // Rounded joins everywhere, and a stroke in the fill's own colour — the same pair
+  // of attributes the app uses to round a slab. The artwork has no sharp point, so
+  // neither does anything drawn from it.
+  ctx.lineJoin = "round";
+
   function draw(now) {
     ctx.clearRect(0, 0, w, h);
+    ctx.lineJoin = "round";
 
     for (const hub of hubs) {
       hub.angle += hub.speed * 16;
@@ -586,8 +869,8 @@
       for (const atom of hub.atoms) {
         const p = atomPos(hub, atom);
         const grad = ctx.createLinearGradient(hub.x, hub.y + bob, p.x, p.y + bob);
-        grad.addColorStop(0, "rgba(232,228,220,0.09)");
-        grad.addColorStop(1, "rgba(232,228,220,0.015)");
+        grad.addColorStop(0, `rgba(${hub.leaf.replace(/ /g, ",")},0.10)`);
+        grad.addColorStop(1, `rgba(${NEUTRAL.replace(/ /g, ",")},0.015)`);
         ctx.strokeStyle = grad;
         ctx.beginPath();
         ctx.moveTo(hub.x, hub.y + bob);
@@ -595,23 +878,23 @@
         ctx.stroke();
       }
 
-      // Atoms
+      // Atoms. Neutral, and round: they are anonymous here — there is no fact kind
+      // for them to state, and inventing one would be paint rather than punctuation.
       for (const atom of hub.atoms) {
         const p = atomPos(hub, atom);
-        ctx.fillStyle = "rgba(232,228,220,0.30)";
+        ctx.fillStyle = `rgba(${NEUTRAL.replace(/ /g, ",")},0.30)`;
         ctx.beginPath();
         ctx.arc(p.x, p.y + bob, atom.size, 0, Math.PI * 2);
         ctx.fill();
       }
 
-      // Hub
-      ctx.fillStyle = "rgba(232,228,220,0.5)";
-      ctx.beginPath();
-      ctx.arc(hub.x, hub.y + bob, 2.6, 0, Math.PI * 2);
+      // The hub: one slab, in its project's leaf.
+      const paint = `rgba(${hub.leaf.replace(/ /g, ",")},0.55)`;
+      traceSlab(ctx, hub.x, hub.y + bob, hub.mark);
+      ctx.fillStyle = paint;
+      ctx.strokeStyle = paint;
+      ctx.lineWidth = Math.max(1, hub.mark * 0.12);
       ctx.fill();
-      ctx.strokeStyle = "rgba(232,228,220,0.10)";
-      ctx.beginPath();
-      ctx.arc(hub.x, hub.y + bob, 9, 0, Math.PI * 2);
       ctx.stroke();
     }
 
@@ -623,14 +906,15 @@
       if (!A || !B) continue;
       const pa = atomPos(A, A.atoms[t.ai]);
       const pb = atomPos(B, B.atoms[t.bi]);
-      ctx.strokeStyle = "rgba(232,228,220,0.045)";
+      ctx.strokeStyle = `rgba(${NEUTRAL.replace(/ /g, ",")},0.045)`;
       ctx.beginPath();
       ctx.moveTo(pa.x, pa.y);
       ctx.lineTo(pb.x, pb.y);
       ctx.stroke();
     }
 
-    // Recall pulses travelling a thread
+    // Recall pulses travelling a thread. In the accent: a recall is the app doing
+    // something, and the app says that in brand.
     for (let i = pulses.length - 1; i >= 0; i--) {
       const pulse = pulses[i];
       pulse.t += 0.0055;
@@ -650,9 +934,10 @@
       const y = pa.y + (pb.y - pa.y) * pulse.t;
       // Fade in and out so it never pops at either end.
       const alpha = Math.sin(pulse.t * Math.PI) * 0.7;
+      const brand = BRAND.replace(/ /g, ",");
       const glow = ctx.createRadialGradient(x, y, 0, x, y, 16);
-      glow.addColorStop(0, `rgba(232,228,220,${alpha * 0.55})`);
-      glow.addColorStop(1, "rgba(232,228,220,0)");
+      glow.addColorStop(0, `rgba(${brand},${alpha * 0.55})`);
+      glow.addColorStop(1, `rgba(${brand},0)`);
       ctx.fillStyle = glow;
       ctx.beginPath();
       ctx.arc(x, y, 16, 0, Math.PI * 2);
