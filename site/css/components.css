@@ -1,0 +1,85 @@
+/* Components — the reusable surfaces, in the app's own vocabulary: the Segmented
+ * theme switcher, the one card surface, notes, ordered steps, inline code, links.
+ *
+ * "The one card surface" is the important one. Four surfaces used to be written
+ * inline across the app and no two agreed, so the app settled it once: neutral
+ * ground, an ALPHA border, and a 1px lit top edge. Every box on this site is that
+ * surface. Requires tokens.css. */
+
+/* ── Theme switcher ───────────────────────────────────────────────────────
+   The app's Segmented control, and deliberately not a single toggle button:
+   one button has to be labelled either with the state you are in or the state
+   you would move to, and both readings are available to whoever is looking at
+   it. Showing both options and filling one removes the question. */
+.theme {
+  position: fixed;
+  top: 18px;
+  right: 18px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px;
+  border-radius: var(--r-card);
+  background: rgb(var(--surface-2));
+  transition: background-color .25s;
+}
+.theme button {
+  display: flex;
+  align-items: center;
+  padding: 5px 8px;
+  border: 0;
+  border-radius: var(--r-ctl);
+  background: transparent;
+  color: rgb(var(--text-faint));
+  cursor: pointer;
+  transition: background-color .15s, color .15s, box-shadow .15s;
+}
+.theme button:hover { color: rgb(var(--text)); }
+.theme button[aria-pressed="true"] {
+  background: rgb(var(--surface));
+  color: rgb(var(--text));
+  box-shadow: var(--drop);
+}
+
+/* ── The one card surface ─────────────────────────────────────────────
+   Four surfaces used to be written inline across the app and no two agreed, so
+   the app settled it once: neutral ground, an ALPHA border, and a 1px lit top
+   edge — the cleave line where slate splits. That inset highlight is the detail
+   that reads as expensive, and it is truer than a drop shadow: light falls on
+   the top face of a layer. Every box on this page is now this one surface. */
+.card {
+  background: rgb(var(--surface));
+  border: 1px solid rgb(var(--edge));
+  border-radius: var(--r-panel);
+  padding: 16px 18px;
+  box-shadow: inset 0 1px 0 rgb(var(--lit)), var(--drop);
+  transition: background-color .25s, border-color .25s, box-shadow .25s;
+}
+
+/* ── Notes / steps ────────────────────────────────────────────────── */
+.note {
+  font-size: 14px;
+  color: rgb(var(--text-muted));
+}
+.note strong { color: rgb(var(--text)); font-weight: 600; }
+.note + .note { margin-top: 10px; }
+
+ol.steps { margin: 0; padding-left: 20px; font-size: 14px; color: rgb(var(--text-muted)); }
+ol.steps li { margin-bottom: 9px; }
+ol.steps li::marker { color: rgb(var(--text-faint)); font-variant-numeric: tabular-nums; }
+
+/* Inline code, the app's treatment: the accent on a raised well, 4px, at 0.85em
+   of whatever it sits in. The accent's DARK tone on light and its light tone on
+   dark — one stop cannot clear AA on both grounds. */
+code.inline {
+  padding: 2px 6px;
+  background: rgb(var(--surface-2));
+  border-radius: var(--r-ctl);
+  font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: .85em;
+  color: rgb(var(--code-fg));
+  white-space: nowrap;
+}
+
+a { color: rgb(var(--text)); text-underline-offset: 2px; }

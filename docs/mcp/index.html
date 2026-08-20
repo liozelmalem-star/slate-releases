@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slate — the tools every AI tool gains</title>
+<meta name="description" content="The complete MCP tool surface Slate exposes to Claude Code, Cursor, Codex and Gemini — 26 tools over memory, pages, activity and workspaces, against a workspace that stays on your machine.">
+<link rel="icon" href="../../assets/icon.svg">
+
+<meta property="og:title" content="Slate — tool reference">
+<meta property="og:description" content="The 26 MCP tools every AI tool on your machine gains against your workspace.">
+<meta property="og:type" content="website">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../site/css/tokens.css">
+<link rel="stylesheet" href="../../site/css/base.css">
+<link rel="stylesheet" href="../../site/css/layout.css">
+<link rel="stylesheet" href="../../site/css/components.css">
+<link rel="stylesheet" href="../../site/css/docs.css">
+
+
+<script>
+  // Identical to index.html's, and identical for the same reason: a theme applied
+  // after first paint is a white flash on every navigation, and this site now has
+  // navigation. The key is shared, so the choice survives moving between pages.
+  try {
+    var t = localStorage.getItem("slate-theme");
+    document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
+  } catch (e) {
+    document.documentElement.dataset.theme = "light";
+  }
+</script>
+</head>
+<body>
+
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="slab-9" viewBox="0 0 9 9">
+      <path d="M 0.655 5.6 L 5.055 3.4 L 8.345 3.4 L 3.945 5.6 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+
+  <header>
+    <a class="back" href="../">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      Documentation
+    </a>
+    <h1>The tools every AI tool gains</h1>
+    <p class="lede">
+      Slate runs an MCP server on your machine. Point Claude Code, Cursor, Codex or
+      Gemini at it — Slate does that itself on first launch — and each of them gains
+      these 26 tools against the same workspace. Not a copy each. The same one.
+    </p>
+    <span class="t-count"><b>26</b> tools · one workspace · nothing leaves your machine</span>
+  </header>
+
+  <section class="reveal">
+    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-teal-500))"><use href="#slab-9"/></svg>Memory</h2>
+      <p class="t-blurb">The two every tool is told to call: one at the start of a task, one at the end. Everything else on this page is reach; these two are the point.</p>
+    <div class="card t-group">
+        <div class="t-row">
+          <code class="t-name">recall</code>
+          <p class="t-desc">Load context before starting a task. On a feature branch the first result is the branch brief — goal, open checklist, recent sessions, linked docs — then repo conventions and project facts.</p>
+        </div>
+        <div class="t-row">
+          <code class="t-name">remember</code>
+          <p class="t-desc">Save one durable thing as a typed knowledge atom (decision, preference, state, or fact), scoped to the project and deduped against what is already known.</p>
+        </div>
+        <div class="t-row">
+          <code class="t-name">record_decision</code>
+          <p class="t-desc">Record a decision with its full reasoning — what was chosen, what was rejected, and how confident you are. Writes both an atom and a structured page.</p>
+        </div>
+        <div class="t-row">
+          <code class="t-name">list_decisions</code>
+          <p class="t-desc">List recorded decisions with confidence and a one-line summary of the reasoning.</p>
+        </div>
+        <div class="t-row">
+          <code class="t-name">log_mission_progress</code>
+          <p class="t-desc">Append an end-of-session progress entry to the branch's Plan page.</p>
+        </div>
+    </div>
+  </section>
+  <section class="reveal">
+    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-blue-500))"><use href="#slab-9"/></svg>Pages</h2>
+      <p class="t-blurb">The workspace itself — a tree of nested, typed pages. Every mutating tool here takes a dry_run flag that resolves and validates without applying.</p>
+    <div class="card t-group">
+        <div class="t-row">
+          <code class="t-name">create_page</code>
+          <p class="t-desc">Create a page, optionally nested, with an optional Markdown body.</p>
+        </div>
+        <div class="t-row">
+          <code class="t-name">create_document</code>
+          <p class="t-desc">Create a typed workspace document — design, plan, review, bug report — pre-filled with a structured template and linked to its branch.</p>
+        </div>
+        <div class="t-row">
+          <code class="t-name">get_page</code>
+          <p class="t-desc">Read a page: title, icon, breadcrumb path, and body as Markdown.</p>
+        </div>
+        <div class="t-row">
+          <code class="t-name">list_pages</code>
+          <p class="t-desc">List the child pages of a parent, or the top level.</p>
+        </div>
+        <div class="t-row">
+          <code class="t-name">search_pages</code>
+          <p class="t-desc">Find pages whose title matches a query.</p>
+        </div>
+        <div class="t-row">
+          <code class="t-name">search_content</code>
+          <p class="t-desc">Full-text search over titles and bodies, returning a matching snippet.</p>
+        </div>
+        <div class="t-row">
+          <code class="t-name">update_page</code>
+          <p class="t-desc">Change a page's title, icon, or whole body.</p>
+        </div>
+        <div class="t-row">
+          <code class="t-name">edit_page</code>
+          <p class="t-desc">Replace an exact Markdown substring in a body — a surgical edit rather than a rewrite.</p>
+        </div>
+        <div class="t-row">
+          <code class="t-name">append_to_page</code>
+          <p class="t-desc">Add Markdown to the end of a page.</p>
+        </div>
+        <div class="t-row">
+          <code class="t-name">move_page</code>
+          <p class="t-desc">Reparent a page and its subtree.</p>
+        </div>
+        <div class="t-row">
+          <code class="t-name">duplicate_page</code>
+          <p class="t-desc">Copy a page and everything under it.</p>
+        </div>
+        <div class="t-row">
+          <code class="t-name">archive_page</code>
+          <p class="t-desc">Move a page to Trash. Reversible from the app.</p>
+        </div>
+        <div class="t-row">
+          <code class="t-name">resolve_target</code>
+          <p class="t-desc">Work out which branch or knowledge page a target descriptor points at, without writing anything.</p>
+        </div>
+    </div>
+  </section>
+  <section class="reveal">
+    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-amber-500))"><use href="#slab-9"/></svg>Activity</h2>
+      <p class="t-blurb">What you have actually been doing, across every tool — assembled from sessions Slate captured rather than from anything you had to log.</p>
+    <div class="card t-group">
+        <div class="t-row">
+          <code class="t-name">recent_activity</code>
+          <p class="t-desc">Recent AI sessions across all tools and projects, newest first.</p>
+        </div>
+        <div class="t-row">
+          <code class="t-name">activity_stats</code>
+          <p class="t-desc">Totals and breakdowns: sessions this week, which tool you use most, what Slate has learned.</p>
+        </div>
+        <div class="t-row">
+          <code class="t-name">list_projects</code>
+          <p class="t-desc">Tracked projects and repos, with session counts.</p>
+        </div>
+        <div class="t-row">
+          <code class="t-name">parked_work</code>
+          <p class="t-desc">Branches you left carrying uncommitted changes and never came back to — what git cannot tell you.</p>
+        </div>
+    </div>
+  </section>
+  <section class="reveal">
+    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-red-500))"><use href="#slab-9"/></svg>Workspaces</h2>
+      <p class="t-blurb">The only tools here that read anything other than your own machine. They need a cloud sign-in, they are read-only, and signed out they say so rather than returning an empty result that would read as “nobody shared anything”.</p>
+    <div class="card t-group">
+        <div class="t-row">
+          <code class="t-name">recall_workspaces</code>
+          <p class="t-desc">Search what other people published into the workspaces you belong to.</p>
+        </div>
+        <div class="t-row">
+          <code class="t-name">workspace_page</code>
+          <p class="t-desc">Read one shared page in full. Read-only — a page belongs to whoever wrote it.</p>
+        </div>
+    </div>
+  </section>
+  <section class="reveal">
+    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-blue-500))"><use href="#slab-9"/></svg>Tickets & contract</h2>
+    <div class="card t-group">
+        <div class="t-row">
+          <code class="t-name">get_ticket_context</code>
+          <p class="t-desc">Resolve a ticket id to its branch page and a structured progress summary, for drafting an update.</p>
+        </div>
+        <div class="t-row">
+          <code class="t-name">slate_capabilities</code>
+          <p class="t-desc">Handshake the contract: version, schema hash, mutation safety rules, and the supported tool list.</p>
+        </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-teal-500))"><use href="#slab-9"/></svg>Two things worth knowing</h2>
+
+    <div class="card note">
+      <strong>Most tools don't need a page id.</strong> They take a <code class="inline">target</code>
+      descriptor instead — a kind, a <code class="inline">cwd</code>, a branch, a doc type, a
+      title — and resolve the page from it. Pair a target with
+      <code class="inline">dry_run</code> and the tool resolves and validates without
+      applying anything, so an agent can check what it is about to touch first.
+    </div>
+
+    <div class="card note">
+      <strong>This is not Slate's only tool list.</strong> These are the tools your own AI
+      tools reach, over MCP. Slate's in-app Console and its scheduled routines call a
+      second, in-process surface directly. The two lists differ on purpose in places —
+      <code class="inline">slate_capabilities</code> means nothing in-process, and the
+      tools that drive Slate's own windows are not an outside tool's to call.
+    </div>
+  </section>
+
+  <section class="reveal">
+    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-green-500))"><use href="#slab-9"/></svg>Try it</h2>
+    <p class="lede" style="font-size:15px; margin-bottom:16px">
+      Install Slate and it registers itself with the AI tools it finds. Restart them and
+      every tool above is available — no config file to edit, no path to paste.
+    </p>
+    <a class="cta" href="../../">Install Slate</a>
+  </section>
+
+</div>
+
+<footer>
+  <p>
+    Slate is in alpha. Your data stays on your machine.<br>
+    <a href="../../">Home</a> ·
+    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a> ·
+    <a href="../../install.sh">install.sh</a>
+  </p>
+</footer>
+
+<script type="module" src="../../site/js/docs-page.js"></script>
+</body>
+</html>

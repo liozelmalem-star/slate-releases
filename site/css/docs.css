@@ -1,0 +1,167 @@
+/* Everything under /docs/: the back link, the lede, the section cards on the hub,
+ * the tool rows on the reference, shell blocks, and the closing call to action.
+ *
+ * Requires tokens.css, base.css, layout.css, components.css. */
+
+/* A narrower measure than the landing page's 720. This is a reference: it is
+   read by scanning a column of names, and a name that has drifted far from its
+   description is a table nobody can follow. */
+.wrap { max-width: 760px; }
+
+header { padding: 76px 0 4px; }
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 26px;
+  font-size: 13px;
+  color: rgb(var(--text-muted));
+  text-decoration: none;
+}
+.back:hover { color: rgb(var(--text)); }
+
+h1 {
+  margin: 0 0 14px;
+  font-size: clamp(32px, 6vw, 42px);
+  font-weight: 600;
+  letter-spacing: -.026em;
+  line-height: 1.15;
+  text-wrap: balance;
+}
+.lede {
+  margin: 0;
+  max-width: 56ch;
+  font-size: 17px;
+  color: rgb(var(--text-muted));
+  text-wrap: pretty;
+}
+
+/* The tool rows. A definition list in behaviour but not in markup: <dl> would
+   be the honest element and is a genuine pain to lay out two-column with a
+   wrapping description, so this is a grid that says the same thing to a reader
+   and carries the name in <code> so it is still marked up as an identifier. */
+.t-group { padding: 4px 0; }
+.t-row {
+  display: grid;
+  gap: 2px 18px;
+  padding: 11px 18px;
+  border-bottom: 1px solid rgb(var(--edge));
+}
+.t-row:last-child { border-bottom: 0; }
+@media (min-width: 640px) {
+  .t-row { grid-template-columns: 190px 1fr; align-items: baseline; }
+}
+.t-name {
+  font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 13px;
+  color: rgb(var(--code-fg));
+  word-break: break-word;
+}
+.t-desc { margin: 0; font-size: 14px; color: rgb(var(--text-muted)); }
+.t-blurb {
+  margin: -8px 0 16px;
+  max-width: 62ch;
+  font-size: 14px;
+  color: rgb(var(--text-muted));
+  text-wrap: pretty;
+}
+
+.t-count {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 7px;
+  margin-top: 22px;
+  padding: 5px 11px;
+  border: 1px solid rgb(var(--edge-2));
+  border-radius: var(--r-ctl);
+  background: rgb(var(--chip-bg));
+  font-size: 12.5px;
+  color: rgb(var(--text-muted));
+}
+.t-count b { color: rgb(var(--text)); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+.cta {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 9px 16px;
+  border-radius: var(--r-ctl);
+  background: rgb(var(--brand-500));
+  color: rgb(var(--btn-fg));
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: background .15s;
+}
+.cta:hover { background: rgb(var(--btn-hover)); }
+
+
+/* -- The hub's section cards ------------------------------------------- */
+/* A card that is entirely a link, so the whole row is the target rather than a
+   title inside it. The hue lives on the tile, never on the border — same rule as
+   the landing page's feature cards, and the same reason: a card says what kind of
+   thing it is without claiming the whole object is an alert. */
+.d-grid { display: grid; gap: 12px; }
+
+.d-card {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  text-decoration: none;
+  color: inherit;
+  transition: background-color .25s, border-color .2s, box-shadow .2s, transform .12s;
+}
+.d-card:hover {
+  border-color: rgb(var(--edge-hover));
+  transform: translateY(-1px);
+}
+.d-card:hover .d-go { transform: translateX(2px); color: rgb(var(--text-muted)); }
+
+.d-tile {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--r-card);
+  background: rgb(var(--surface-2));
+  border: 1px solid rgb(var(--edge));
+  transition: background-color .25s, border-color .25s;
+}
+.d-body { flex: 1; min-width: 0; }
+.d-title {
+  display: block;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -.014em;
+  color: rgb(var(--text));
+}
+.d-sub {
+  display: block;
+  margin-top: 3px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: rgb(var(--text-muted));
+}
+.d-go {
+  flex: none;
+  color: rgb(var(--text-faint));
+  transition: transform .2s, color .2s;
+}
+
+/* -- Shell / config blocks --------------------------------------------- */
+/* Shared with the landing page's integrity card by name, and defined here too so
+   /docs/ does not have to load home.css to show a config file. Same treatment,
+   because it is the same object: text you are meant to copy, on a raised well. */
+pre.shell {
+  margin: 0;
+  padding: 12px 14px;
+  background: rgb(var(--surface-2));
+  border-radius: var(--r-card);
+  font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12.5px;
+  line-height: 1.65;
+  color: rgb(var(--text-muted));
+  overflow-x: auto;
+  transition: background-color .25s;
+}
+pre.shell .c { color: rgb(var(--text-faint)); }

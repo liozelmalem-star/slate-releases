@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slate — connecting your AI tools</title>
+<meta name="description" content="How Slate registers itself as an MCP server with Claude Code, Cursor and any other MCP-aware tool — and how to do it by hand.">
+<link rel="icon" href="../../assets/icon.svg">
+
+<meta property="og:title" content="Slate — connecting your AI tools">
+<meta property="og:description" content="How Slate registers itself as an MCP server with Claude Code, Cursor and any other MCP-aware tool — and how to do it by hand.">
+<meta property="og:type" content="website">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../site/css/tokens.css">
+<link rel="stylesheet" href="../../site/css/base.css">
+<link rel="stylesheet" href="../../site/css/layout.css">
+<link rel="stylesheet" href="../../site/css/components.css">
+<link rel="stylesheet" href="../../site/css/docs.css">
+
+<script>
+  // Before first paint, never after. Duplicated on every page on purpose: loaded
+  // as a module it would run AFTER the document renders, and a returning
+  // dark-mode reader would get a white flash on every navigation. Four lines is
+  // the cost of not having a build step.
+  try {
+    var t = localStorage.getItem("slate-theme");
+    document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
+  } catch (e) {
+    document.documentElement.dataset.theme = "light";
+  }
+</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="slab-9" viewBox="0 0 9 9">
+      <path d="M 0.655 5.6 L 5.055 3.4 L 8.345 3.4 L 3.945 5.6 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+    </symbol>
+    <!-- 18px: the tile a section card leads with, from inscribedSlab(8). -->
+    <symbol id="slab-18" viewBox="0 0 18 18">
+      <path d="M 1.31 11.2 L 10.11 6.8 L 16.69 6.8 L 7.89 11.2 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header>
+    <a class="back" href="../">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      Documentation
+    </a>
+    <h1>Connecting your AI tools</h1>
+    <p class="lede">
+      Slate runs an MCP server out of its own app bundle. On first launch it registers
+      itself with the tools it finds, so most people never read this page — it is here
+      for when it didn't, for a tool Slate doesn't know about yet, and for anyone who
+      would rather see the config than trust that it happened.
+    </p>
+  </header>
+
+  <section class="reveal">
+    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-green-500))"><use href="#slab-9"/></svg>The binary</h2>
+    <p class="t-blurb">
+      It ships inside the app. There is no separate install, no Node, and nothing to
+      add to your PATH — every config below is the same one line pointed at this file.
+    </p>
+    <pre class="shell">/Applications/Slate.app/Contents/MacOS/slate-mcp</pre>
+  </section>
+
+  <section class="reveal">
+    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-red-500))"><use href="#slab-9"/></svg>Claude Code</h2>
+    <p class="t-blurb">
+      Add this to <code class="inline">~/.claude/settings.json</code>, creating the file
+      if it isn't there. Restart Claude Code and <code class="inline">slate</code>
+      appears in <code class="inline">/mcp</code>.
+    </p>
+    <pre class="shell">{
+  "mcpServers": {
+    "slate": {
+      "command": "/Applications/Slate.app/Contents/MacOS/slate-mcp",
+      "args": []
+    }
+  }
+}</pre>
+    <div class="card note" style="margin-top:14px">
+      <strong>Per project instead.</strong> The same block in
+      <code class="inline">.claude/settings.json</code> at a repo root activates Slate
+      only inside that project, alongside your global config.
+    </div>
+  </section>
+
+  <section class="reveal">
+    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-amber-500))"><use href="#slab-9"/></svg>Cursor</h2>
+    <p class="t-blurb">
+      Settings → MCP → Edit, which opens <code class="inline">~/.cursor/mcp.json</code>.
+      Reload Cursor and the Slate tools appear in the agent's tool list.
+    </p>
+    <pre class="shell">{
+  "mcpServers": {
+    "slate": {
+      "command": "/Applications/Slate.app/Contents/MacOS/slate-mcp",
+      "args": []
+    }
+  }
+}</pre>
+  </section>
+
+  <section class="reveal">
+    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-teal-500))"><use href="#slab-9"/></svg>Anything else</h2>
+    <p class="t-blurb">
+      The server speaks stdio MCP, protocol <code class="inline">2024-11-05</code>. Point
+      any MCP-aware tool at the binary with no arguments — that is the whole integration.
+    </p>
+    <pre class="shell"><span class="c">command:</span>  /Applications/Slate.app/Contents/MacOS/slate-mcp
+<span class="c">args:</span>     []</pre>
+  </section>
+
+  <section class="reveal">
+    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-blue-500))"><use href="#slab-9"/></svg>Check it worked</h2>
+    <p class="t-blurb">Ask the tool you just connected:</p>
+    <div class="card note">
+      “Use the <code class="inline">slate_capabilities</code> tool to check the Slate
+      contract, then use <code class="inline">recall</code> with query
+      <em>test</em> to check if Slate is connected.”
+    </div>
+    <p class="t-blurb" style="margin-top:14px">
+      You should get an answer that references your workspace. An empty result is a
+      success, not a failure — it means the connection is live and nothing matches
+      <em>test</em> yet.
+    </p>
+  </section>
+
+  <section class="reveal">
+    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-green-500))"><use href="#slab-9"/></svg>Next</h2>
+    <p class="lede" style="font-size:15px; margin-bottom:16px">
+      Connected, every one of these tools now works against your workspace.
+    </p>
+    <a class="cta" href="../mcp/">The 26 tools →</a>
+  </section>
+</div>
+
+<footer>
+  <p>
+    Slate is in alpha. Your data stays on your machine.<br>
+    <a href="../../">Home</a> ·
+    <a href="../../docs/">Docs</a> ·
+    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a>
+  </p>
+</footer>
+
+<script type="module" src="../../site/js/docs-page.js"></script>
+</body>
+</html>

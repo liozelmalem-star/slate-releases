@@ -89,9 +89,16 @@ release downloads. There is no source code here — Slate's source is private.
 | Path | What it is |
 | --- | --- |
 | `install.sh` | The installer. Kept current by CI on every release. |
-| `index.html` | The website, served by GitHub Pages. |
-| `assets/` | Brand marks, copied from the Slate source repo's `public/assets/` — `icon.svg` (the app tile, used by `index.html` and the header above), `mark.svg` (bare, on transparency) and `logo.svg` (the lockup). Edit them there, not here. |
+| `index.html` | The landing page, served by GitHub Pages at the site root. |
+| `docs/` | The documentation site: a hub at `/docs/`, connecting your AI tools at `/docs/connect/`, and the full MCP tool reference at `/docs/mcp/`. Each section is a directory, so adding one never moves an existing URL. |
+| `site/` | Everything the website is made of: `site/css/` and `site/js/`, split so a page composes modules rather than copying them. [`site/README.md`](site/README.md) says what belongs where. |
+| `assets/` | Brand marks, copied from the Slate source repo's `public/assets/` — `icon.svg` (the app tile, used by the pages and the header above), `mark.svg` (bare, on transparency) and `logo.svg` (the lockup). Edit them there, not here. |
 | Releases | The `.app.tar.gz` the updater consumes, its signature, the `.dmg`, `latest.json`, and `SHASUMS256.txt`. |
+
+`index.html` and `install.sh` stay at the root because both are pinned by a public
+URL — Pages serves the first at the site root, and the second is the address in the
+install command above, in the app, and in the release pipeline. Everything they load
+lives under `site/`.
 
 `install.sh` is generated from the Slate source repo rather than edited here — it has to
 agree with the release pipeline about the shape of `latest.json`, and one source of truth

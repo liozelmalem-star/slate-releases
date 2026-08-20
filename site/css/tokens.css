@@ -1,0 +1,192 @@
+/* Tokens — the ONE definition of every colour, radius and curve on this site.
+ *
+ * The ramps are lifted verbatim from the app's `packages/ui/src/App.css`, in the
+ * same space-separated RGB form, so a hue has one definition across the product
+ * and this site. Nothing here is a colour the site invented.
+ *
+ * Below the ramps sit SEMANTIC tokens — --ground, --surface, --text, --edge — and
+ * those are the only things any other stylesheet reads. That is what makes the
+ * theme switch one block of overrides rather than a `[data-theme]` variant on
+ * every selector, and it is why a new page needs no colour of its own.
+ *
+ * Load this FIRST. Every other stylesheet here assumes it. */
+
+/* ── Tokens ───────────────────────────────────────────────────────────────
+   The ramps are lifted verbatim from the app's App.css, in the same
+   space-separated RGB form, so a hue has one definition across the product and
+   this page. Nothing here is a colour this page invented.
+
+     --n-*      the neutral ramp (cool charcoal; the app's `slate-*` scale)
+     --brand-*  the accent, the mark's blue leaf
+     --leaf-*   the mark's five leaves, the ONE source of categorical colour
+
+   Below them sit SEMANTIC tokens — --ground, --surface, --text, --edge — and
+   those are the only things the rules further down read. That is what makes the
+   theme switch one block of overrides rather than a `[data-theme]` variant on
+   every selector. */
+:root {
+  --n-50: 244 246 250;
+  --n-100: 233 235 239;
+  --n-200: 213 216 224;
+  --n-300: 171 177 190;
+  --n-400: 127 132 145;
+  --n-500: 88 93 105;
+  --n-600: 62 66 77;
+  --n-700: 43 47 57;
+  --n-800: 28 31 39;
+  --n-900: 18 21 27;
+  --n-950: 10 12 16;
+
+  --brand-300: 162 196 254;
+  --brand-400: 122 170 254;
+  --brand-500: 80 144 255;
+  --brand-600: 58 119 225;
+  --brand-700: 43 96 188;
+
+  /* The mark's leaves at tone 500 — the logo colour itself. These do NOT vary
+     with the theme, because in the app they do not: LeafMark, SectionLabel's
+     tick and IconChip's dot all state tone 500 unconditionally. Stepping light
+     mode down was tried there and reverted as a contrast reflex that cost the
+     one thing that matters — a leaf has to be the colour you recognise. They
+     always sit beside their own label, so the hue is never the sole carrier. */
+  --leaf-red-500: 254 100 85;
+  --leaf-amber-500: 254 178 6;
+  --leaf-green-500: 49 177 124;
+  --leaf-teal-500: 40 176 151;
+  --leaf-blue-500: 57 119 228;
+
+  /* Three radii and a shape, replacing the eight this page used to spend
+     (10px cards, 5px code, 999px pills). Same scale as the app, same reasons:
+     the mark's corner chord is 5.2% of its width and it never goes pill, so
+     `full` is a SHAPE — dots and spinners — and not a size. */
+  --r-ctl: 4px;    /* anything you click or type in */
+  --r-card: 8px;   /* a card, a well, a popover */
+  --r-panel: 14px; /* a panel, a modal, the shell */
+
+  /* One easing curve for the whole app, and now for the whole page. Every
+     animation below reads this rather than restating a bezier. */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* ── Light, and it is the default ─────────────────────────────────────────
+   The app opens dark; this page opens light, because the first thing on it is
+   the mark on its own off-white tile and a near-black page makes that tile the
+   brightest object on the screen. The logo sets the ground here.
+
+   Two states and no third. The app's theme is `light | dark` with no "system"
+   option, so this page does not consult prefers-color-scheme either — a page
+   that quietly opened dark on a dark-OS machine would not be light by default,
+   it would be light by coincidence. The choice persists in localStorage. */
+:root {
+  color-scheme: light;
+
+  --ground: var(--n-50);
+  --surface: 255 255 255;      /* a card is white on light, not a tinted neutral */
+  --surface-2: var(--n-100);   /* a well, an inline code chip */
+  --text: var(--n-900);
+  --text-muted: var(--n-600);  /* body copy inside a card */
+  --text-faint: var(--n-400);  /* section labels, list markers, the footer */
+
+  /* Borders are ALPHA, never a solid neutral. A solid edge is correct on exactly
+     one background; the same rule over a card, a chip or a coloured wash goes
+     muddy. An alpha edge composites against whatever is behind it. */
+  --edge: 18 21 27 / .07;
+  --edge-2: 18 21 27 / .10;
+  --edge-hover: 18 21 27 / .20;
+
+  /* The cleave line where slate splits: light falls on the top face of a layer,
+     so stating that is cheaper and truer than a drop shadow. */
+  --lit: 255 255 255 / .55;
+  --drop: 0 1px 3px rgb(18 21 27 / .08), 0 1px 2px rgb(18 21 27 / .06);
+
+  --chip-bg: 255 255 255;
+  --btn-fg: 255 255 255;
+  --btn-hover: var(--brand-600);
+  --code-fg: var(--brand-700);
+  --ring-offset: 255 255 255;
+  --scroll-thumb: var(--n-300);
+
+  --aura: .035;                /* white shows a tint far more readily than black */
+  --tile-shadow: 0 10px 40px rgb(18 21 27 / .10), 0 0 0 1px rgb(18 21 27 / .06);
+  --trace: var(--brand-500) / .5;
+
+  /* The demo's two borrowed treatments, per theme. Both are the app's, not this
+     page's: `--ok-*` is the green a terminal line goes when a call went through,
+     and `--atom-*` is the DECISION badge on a FactRow — amber because
+     `lib/style/fact-kind.ts` maps decision to the amber leaf, and 500/.08 over
+     leaf-700 text because that is what `LEAF_BADGE` states. A kind's hue is
+     decided in exactly one place in the app, and this page does not get a vote. */
+  --ok-fg: 6 123 82;              /* leaf green 700 */
+  --atom-bg: var(--leaf-amber-500) / .08;
+  --atom-fg: 168 116 0;           /* leaf amber 700 */
+
+  /* The graph, per theme. Every hub colour lives here rather than in the script,
+     so the whole per-hue/per-theme decision can be read in one place.
+
+     Amber takes a darker stop than the other three — the mark's amber is far
+     lighter than its blue (OKLCH L .815 against .587), and a hub is the largest
+     area of leaf colour anywhere on the page, which is where that difference
+     stops being invisible. Role tones varying per hue is the app's rule in
+     palette.ts, not an exception made here. */
+  --hub-blue: var(--brand-600);
+  --hub-amber: 168 116 0;      /* leaf amber 700 */
+  --hub-teal: 11 149 127;      /* leaf teal 600 */
+  --hub-red: 222 73 61;        /* leaf red 600 */
+  --graph-hub-a: .42;
+  --graph-atom: var(--n-400);
+  --graph-atom-a: .42;
+  --graph-spoke-a: .20;
+  --graph-thread-a: .10;
+  --graph-pulse: var(--brand-600);
+  --graph-core: var(--brand-700);
+}
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+
+  --ground: var(--n-950);
+  --surface: var(--n-900);
+  --surface-2: var(--n-800);
+  --text: var(--n-100);
+  --text-muted: var(--n-400);
+  --text-faint: var(--n-500);
+
+  --edge: 255 255 255 / .07;
+  --edge-2: 255 255 255 / .09;
+  --edge-hover: 255 255 255 / .18;
+
+  --lit: 255 255 255 / .055;
+  --drop: 0 1px 2px rgb(0 0 0 / .28);
+
+  --chip-bg: 255 255 255 / .03;
+  --btn-fg: var(--n-950);
+  --btn-hover: var(--brand-400);
+  --code-fg: var(--brand-300);
+  --ring-offset: var(--n-950);
+  --scroll-thumb: var(--n-700);
+
+  --aura: .06;
+  --tile-shadow: 0 10px 40px rgb(0 0 0 / .6), 0 0 0 1px rgb(255 255 255 / .06);
+  --trace: var(--brand-400) / .7;
+
+  /* Both step to the 300 on dark and the badge wash moves to the 400, which is
+     the light/dark pair `LEAF_BADGE` writes out for every leaf. */
+  --ok-fg: 120 210 166;           /* leaf green 300 */
+  --atom-bg: 254 192 89 / .10;    /* leaf amber 400 */
+  --atom-fg: 255 206 128;         /* leaf amber 300 */
+
+  /* Hubs step one tone lighter on the dark ground — the same branch the app's
+     own graph renderer makes (400 on dark, 500 on light). Amber still sits a
+     stop below its neighbours for the reason above. */
+  --hub-blue: 84 144 250;      /* leaf blue 400 */
+  --hub-amber: 210 147 7;      /* leaf amber 600 */
+  --hub-teal: 76 194 169;      /* leaf teal 400 */
+  --hub-red: 255 135 120;      /* leaf red 400 */
+  --graph-hub-a: .55;
+  --graph-atom: var(--n-300);
+  --graph-atom-a: .30;
+  --graph-spoke-a: .10;
+  --graph-thread-a: .045;
+  --graph-pulse: var(--brand-400);
+  --graph-core: 255 255 255;
+}

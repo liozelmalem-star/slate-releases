@@ -1,0 +1,611 @@
+/* The landing page's own furniture, and no other page's: the memory-graph canvas,
+ * the hero, the installer, the feature grid, the connected-tool chips, the loop
+ * demo, and the release strip.
+ *
+ * Requires tokens.css, base.css, layout.css, components.css. */
+
+/* ── The memory graph behind everything ───────────────────────────────
+   Not decoration for its own sake: this is the shape Slate's own memory graph
+   draws — hubs with atoms spoked off them, faint similarity threads between
+   hubs, and a pulse travelling the path a recall takes across projects.
+
+   It draws what the app draws now. A hub is the mark's SLAB, not a circle, and
+   it wears its project's leaf; an atom stays round. That split is ADR 0021's:
+   structural hubs take the logo's shape, atoms are content and stay as they
+   were. */
+#graph {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* The graph is atmosphere and must never win against a sentence. This dims it in the
+   centre band where the text column sits, while leaving it legible out at the edges —
+   cheaper and steadier than trying to tune per-line alpha against unknown content. */
+#veil {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 52% 58% at 50% 46%,
+    rgb(var(--ground) / .92) 0%,
+    rgb(var(--ground) / .74) 42%,
+    rgb(var(--ground) / .30) 68%,
+    transparent 82%
+  );
+}
+
+/* ── Hero ─────────────────────────────────────────────────────────── */
+header { padding: 92px 0 8px; text-align: center; }
+
+.icon-wrap {
+  position: relative;
+  width: 84px;
+  height: 84px;
+  margin: 0 auto 30px;
+  /* 22.6% is the artwork's own corner — icon.svg is a 1024 tile with rx="232".
+     The 4/8/14 scale governs surfaces this page builds; it does not get to
+     re-round the logo. */
+  border-radius: 22.6%;
+  overflow: hidden;
+  box-shadow: var(--tile-shadow);
+  animation: rise .9s var(--ease) both;
+  transition: box-shadow .25s;
+}
+.icon-wrap img { width: 100%; height: 100%; display: block; }
+
+/* No specular sweep here. It used to sit on this tile as a facet catching
+   light, which was the whole idea of the Shard; the mark that replaced it on
+   2026-08-19 has no facets, and a white sweep over an off-white tile is
+   invisible anyway. Both the ::after and its @keyframes were removed. */
+
+h1 {
+  margin: 0 0 14px;
+  font-size: clamp(42px, 8vw, 58px);
+  /* 600 and -0.028em, not 700 and -0.04em: the app sets both on h1 and this is
+     the same headline at a bigger size, not a poster. */
+  font-weight: 600;
+  letter-spacing: -.028em;
+  line-height: 1.12;
+  text-wrap: balance;
+  animation: rise .9s var(--ease) .06s both;
+}
+
+.tagline {
+  margin: 0 auto;
+  max-width: 28ch;
+  font-size: clamp(17px, 3.4vw, 20px);
+  color: rgb(var(--text-muted));
+  letter-spacing: -.01em;
+  text-wrap: balance;
+  animation: rise .9s var(--ease) .13s both;
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ── Install ──────────────────────────────────────────────────────────
+   Shaped like the app's composer, because it is the same object: the one field
+   on the screen you are meant to use. Panel radius, an alpha edge, and the
+   brand glow as the FOCUS state only — never on at rest, which is the note the
+   composer carries too. */
+.install {
+  margin-top: 44px;
+  animation: rise .9s var(--ease) .2s both;
+}
+
+.cmd {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 8px 8px 4px;
+  background: rgb(var(--surface));
+  border: 1px solid rgb(var(--edge-2));
+  border-radius: var(--r-panel);
+  overflow: hidden;
+  text-align: left;
+  box-shadow: var(--drop);
+  transition: border-color .2s, box-shadow .2s, background-color .25s;
+}
+.cmd:hover,
+.cmd:focus-within {
+  border-color: rgb(var(--brand-500) / .45);
+  box-shadow:
+    0 0 0 1px rgb(var(--brand-400) / .45),
+    0 10px 48px rgb(var(--brand-400) / .28),
+    0 0 100px rgb(var(--brand-400) / .10);
+}
+
+/* A light travelling the top edge — the same "signal moving through" idea as the
+   graph, at the one place on the page that is asking to be used. In the accent
+   now rather than in the text colour: this edge is the app talking, and the app
+   says that in brand. */
+.cmd::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  height: 1px;
+  width: 38%;
+  background: linear-gradient(90deg, transparent, rgb(var(--trace)), transparent);
+  animation: trace 5.5s linear infinite;
+}
+@keyframes trace {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(360%); }
+}
+
+.cmd code {
+  flex: 1;
+  min-width: 0;
+  padding: 8px 13px;
+  color: rgb(var(--text));
+  font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 13.5px;
+  line-height: 1.5;
+  overflow-x: auto;
+  white-space: nowrap;
+  /* The command is the point of the page — let it scroll rather than wrap into
+     something nobody can copy correctly by eye. The button is the real path.
+     It fades out at that edge rather than being cut: a letter sliced in half
+     reads as a rendering bug, where a fade reads as "there is more". */
+  -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 28px), transparent);
+  mask-image: linear-gradient(90deg, #000 calc(100% - 28px), transparent);
+}
+.cmd code::-webkit-scrollbar { height: 0; }
+
+/* The app's primary button: brand fill, 4px. The label is white on light and
+   near-black on dark, which is the app's own pair — brand-500 is light enough
+   that white text on it only clears AA once the surrounding ground is dark. */
+.copy {
+  flex: none;
+  height: 32px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: var(--r-ctl);
+  background: rgb(var(--brand-500));
+  color: rgb(var(--btn-fg));
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background .15s, transform .1s;
+}
+.copy:hover  { background: rgb(var(--btn-hover)); }
+.copy:active { transform: scale(.97); }
+/* Done is green because green is the app's "working / went through" leaf, not
+   because a confirmation is conventionally green. */
+.copy.done { background: rgb(var(--leaf-green-500)); color: #fff; }
+
+.under {
+  margin: 15px 2px 0;
+  font-size: 13px;
+  color: rgb(var(--text-faint));
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 13px;
+  justify-content: center;
+}
+.under a { color: rgb(var(--text-muted)); text-decoration-color: rgb(var(--edge-hover)); }
+.under a:hover { color: rgb(var(--text)); }
+
+/* ── Connected tools ──────────────────────────────────────────────────
+   Chips, not pills. `full` is a shape on this scale and not a size, so a
+   pill-shaped control is the one case the radius scale deliberately excludes —
+   the app now fails its own build on one. Kind is carried by a leaf mark at the
+   head rather than by border colour, which is what lets four kinds share one
+   control instead of reading as four different ones. */
+.tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+.tool {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 10px;
+  border: 1px solid rgb(var(--edge-2));
+  border-radius: var(--r-ctl);
+  background: rgb(var(--chip-bg));
+  font-size: 12px;
+  color: rgb(var(--text-muted));
+  white-space: nowrap;
+  transition: color .4s, border-color .4s, background-color .25s;
+}
+/* Unregistered, the mark is neutral; registering lights it into the tool's own
+   leaf. The chip does not change shape or gain a colour of its own — only the
+   mark does, which is the point of putting the hue there. */
+.tool .leaf { color: rgb(var(--text-faint)); transition: color .4s; }
+.tool.lit { color: rgb(var(--text)); border-color: rgb(var(--edge-hover)); }
+.tool.lit .leaf { color: rgb(var(--leaf)); }
+
+.tools-note { margin: 0; font-size: 14px; color: rgb(var(--text-muted)); }
+
+
+/* == The loop =========================================================
+   What Slate claims is not a screen. It is an event that happens BETWEEN two
+   tools on two different days, and no frame of the app contains it: a
+   screenshot of the memory list is a list, and the reader still has to be told
+   what put it there and who read it back. So this section does not show the
+   product, it shows the event — what you typed on the left, what Slate holds
+   because of it on the right.
+
+   Nothing below invents a surface. The frame is the one `.card`, the pane heads
+   are the section-label treatment already defined above, and the fact row is the
+   app's own `components/memory/FactRow` — badge, text, then the metaline of real
+   columns (`confidence`, `uses_count`). A demo drawn in a visual language the
+   product does not use is a drawing of a different product. */
+.demo-frame {
+  /* Panes go edge to edge, so the card's own padding is wrong here and the
+     hairline between them is the card's edge showing through a 1px grid gap —
+     one border instead of two that have to agree. */
+  padding: 0;
+  overflow: hidden;
+  display: grid;
+  gap: 1px;
+  background: rgb(var(--edge));
+}
+@media (min-width: 700px) { .demo-frame { grid-template-columns: 1.15fr 1fr; } }
+
+.demo-pane {
+  position: relative;
+  background: rgb(var(--surface));
+  padding: 13px 15px 15px;
+  transition: background-color .25s;
+}
+
+/* The app's SectionLabel again, one step down: this is a landmark inside a card
+   rather than a landmark on the page, and it should not compete with the h2
+   above it. */
+.demo-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 10px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: rgb(var(--text-faint));
+}
+.demo-head svg { flex: none; }
+
+/* -- Left pane: the terminal ---------------------------------------- */
+.demo-term {
+  font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11.5px;
+  line-height: 1.7;
+  color: rgb(var(--text-muted));
+}
+.demo-term p { margin: 0; }
+
+/* Every line is in the DOM from the first frame and only its opacity moves, so
+   the pane reserves its full height up front. A demo that grows as it plays
+   shoves the rest of the page down mid-sentence. */
+.demo-line {
+  opacity: 0;
+  transform: translateY(3px);
+  transition: opacity .3s var(--ease), transform .3s var(--ease);
+}
+.demo-line.on { opacity: 1; transform: none; }
+
+/* The one thing that DOES change width while it plays is the text being typed,
+   so the lines that wrap are told how tall they will end up. 2 = two lines at
+   this size in the narrowest pane this layout produces. */
+.demo-line[data-lines="2"] { min-height: 40px; }
+
+.demo-sess {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 5px !important;
+  font-family: "Geist", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  text-transform: uppercase;
+  color: rgb(var(--text-faint));
+}
+/* Each tool keeps the leaf it already wears in the chips further down the page.
+   A tool that is red in one section and blue in another is two tools. */
+.demo-sess svg { flex: none; }
+.demo-when {
+  margin-left: auto;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.demo-prompt { color: rgb(var(--text)); }
+.demo-prompt > .demo-chev { color: rgb(var(--text-faint)); }
+
+/* The caret only exists while something is being typed into this line, which is
+   also the only time it is true. */
+[data-type].typing::after {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 1em;
+  margin-left: 1px;
+  vertical-align: text-bottom;
+  background: rgb(var(--brand-500));
+  animation: caret 1s steps(1) infinite;
+}
+@keyframes caret { 50% { opacity: 0; } }
+
+.demo-call { color: rgb(var(--text)); }
+/* The tool-call bullet is brand: a call is the app doing something, and the app
+   says that in the accent — the same reason the recall pulse on the background
+   graph is brand and not neutral. */
+.demo-bullet { color: rgb(var(--brand-500)); }
+.demo-args { color: rgb(var(--text-faint)); }
+
+.demo-res { padding-left: 15px; }
+.demo-ok { color: rgb(var(--ok-fg)); }
+.demo-quote { color: rgb(var(--text)); }
+
+.demo-answer {
+  margin-top: 6px !important;
+  color: rgb(var(--text));
+}
+
+.demo-day {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 13px 0 11px !important;
+  font-family: "Geist", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 11px;
+  color: rgb(var(--text-faint));
+}
+.demo-day::before,
+.demo-day::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: rgb(var(--edge-2));
+}
+
+/* -- Right pane: Slate ----------------------------------------------- */
+.demo-stats {
+  margin: 0 0 8px;
+  font-size: 11.5px;
+  color: rgb(var(--text-faint));
+  font-variant-numeric: tabular-nums;
+}
+
+/* The app's RecentSection: a bordered well with a caption strip on top, then
+   rows. Same caption, because it is the sentence that says what the list is. */
+.demo-list {
+  border: 1px solid rgb(var(--edge));
+  border-radius: var(--r-card);
+  overflow: hidden;
+}
+.demo-list-head {
+  margin: 0;
+  padding: 6px 11px;
+  background: rgb(var(--surface-2));
+  border-bottom: 1px solid rgb(var(--edge));
+  font-size: 11px;
+  line-height: 1.45;
+  color: rgb(var(--text-faint));
+  transition: background-color .25s, border-color .25s;
+}
+
+/* The empty state and the row it becomes occupy the SAME grid cell, so the list
+   does not resize when one replaces the other. The app's own empty copy. */
+.demo-stack { display: grid; }
+.demo-stack > * { grid-area: 1 / 1; }
+.demo-empty {
+  margin: 0;
+  padding: 18px 12px;
+  text-align: center;
+  font-size: 12px;
+  color: rgb(var(--text-faint));
+  transition: opacity .3s var(--ease);
+}
+.demo-empty.gone { opacity: 0; }
+
+/* The LIST is what appears, not the row: the app renders the page-level empty
+   state INSTEAD of the whole RecentSection well, so a bordered well with an
+   empty row inside it is a composite that exists on no screen. Both states sit
+   in the same grid cell, so one replaces the other without resizing. */
+.demo-list {
+  opacity: 0;
+  transform: translateY(3px);
+  transition: opacity .35s var(--ease), transform .35s var(--ease), border-color .25s;
+}
+.demo-list.on { opacity: 1; transform: none; }
+
+.demo-atom {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 10px 11px;
+  transition: box-shadow .35s var(--ease);
+}
+/* A recall that lands on this atom rings it in brand for as long as the read
+   takes. Nothing about the atom itself changes — it is being read, not edited. */
+.demo-atom.hit { box-shadow: inset 0 0 0 1px rgb(var(--brand-500) / .55), 0 0 22px rgb(var(--brand-400) / .18); }
+
+.demo-kind {
+  flex: none;
+  margin-top: 1px;
+  padding: 2px 6px;
+  border-radius: var(--r-ctl);
+  background: rgb(var(--atom-bg));
+  color: rgb(var(--atom-fg));
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  transition: background-color .25s, color .25s;
+}
+.demo-atom-text {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: rgb(var(--text));
+}
+.demo-meta {
+  margin: 3px 0 0;
+  font-size: 10.5px;
+  color: rgb(var(--text-faint));
+  font-variant-numeric: tabular-nums;
+}
+
+/* -- The transfer ----------------------------------------------------- */
+/* One dot, arcing from the call that wrote the memory to the row that now holds
+   it — and back the other way when a different tool reads it. It is positioned
+   from the real geometry of both ends at run time rather than from a hand-drawn
+   path, which is what lets the panes sit side by side on a laptop and stacked on
+   a phone without the animation knowing or caring which. */
+.demo-spark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  margin: -3.5px 0 0 -3.5px;
+  border-radius: 9999px;
+  background: rgb(var(--brand-500));
+  box-shadow: 0 0 12px 3px rgb(var(--brand-400) / .5);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.demo-caption {
+  margin: 14px 2px 0;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: rgb(var(--text-muted));
+  text-wrap: pretty;
+}
+.demo-caption strong { color: rgb(var(--text)); font-weight: 600; }
+
+
+/* == Release provenance ================================================
+   The page said nothing about whether anyone still works on this. For an
+   un-notarized alpha installed with `curl | bash`, that silence is the whole
+   ballgame: a visitor cannot tell a project shipping every few days from one
+   abandoned in July. So the version, its date and the release count are read
+   live from the GitHub API at load — never typed into this file, which would
+   be correct on the day it shipped and a lie the week after.
+
+   Everything here is progressive enhancement. The strip and the section are
+   `hidden` in the markup and only ever un-hidden by a successful fetch, so a
+   rate-limited or offline reader sees the page without them rather than
+   seeing an empty box or a spinner that never resolves. */
+.rel {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 13px;
+  padding: 4px 10px 4px 7px;
+  border: 1px solid rgb(var(--edge-2));
+  border-radius: var(--r-ctl);
+  background: rgb(var(--chip-bg));
+  font-size: 12px;
+  color: rgb(var(--text-muted));
+  text-decoration: none;
+  transition: color .15s, border-color .15s, background-color .25s;
+}
+.rel:hover { color: rgb(var(--text)); border-color: rgb(var(--edge-hover)); }
+/* Green is the app's "working / went through" leaf, and a live release is the
+   one place on this page where that is literally what is being reported. It is
+   a dot and not a slab: at 6px the 2:1 offset is under the slab floor, and the
+   rule there is to use a circle rather than shallow the angle. */
+.rel .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: rgb(var(--leaf-green-500));
+  box-shadow: 0 0 0 3px rgb(var(--leaf-green-500) / .15);
+}
+/* The parts are built as separate spans so the separator can take its own
+   colour, which means the gap has to live on their container — .rel's own gap
+   only reaches its direct children, and all of these are inside one of them. */
+.rel span[id] { display: inline-flex; align-items: center; gap: 7px; }
+.rel .sep { color: rgb(var(--text-faint)); }
+
+/* -- What's new ------------------------------------------------------- */
+/* The changelog is written one bold lead sentence per change — its own header
+   says "write it for the person deciding whether to click". Those leads are
+   therefore already the summary, and this lifts them verbatim rather than
+   paraphrasing a text that was authored for exactly this reader. */
+.news { display: grid; gap: 10px; }
+.news-item { display: flex; gap: 11px; align-items: flex-start; }
+.news-item .tick { flex: none; margin-top: 6px; color: rgb(var(--leaf-amber-500)); }
+.news-item p { margin: 0; font-size: 14px; color: rgb(var(--text-muted)); }
+.news-ver {
+  display: block;
+  margin-bottom: 2px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgb(var(--text-faint));
+}
+
+/* -- Integrity -------------------------------------------------------- */
+/* A block of shell in a note card. It is the one place on the page that asks
+   the reader to run something OTHER than the install line, so it is styled as
+   a well rather than as a second composer — the composer shape is reserved for
+   the command this page is actually for. */
+pre.shell {
+  margin: 10px 0 0;
+  padding: 10px 12px;
+  background: rgb(var(--surface-2));
+  border-radius: var(--r-card);
+  font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+  line-height: 1.6;
+  color: rgb(var(--text-muted));
+  overflow-x: auto;
+  transition: background-color .25s;
+}
+pre.shell .c { color: rgb(var(--text-faint)); }
+
+
+/* -- The feature grid -------------------------------------------------- */
+.features { display: grid; gap: 14px; }
+@media (min-width: 620px) { .features { grid-template-columns: 1fr 1fr; gap: 14px; } }
+
+/* A card leads with its tile, and the hue lives THERE — not on the border. That
+   is the whole reason the surface above can be neutral: a card can say what kind
+   of thing it is without claiming the whole object is an alert. */
+.feature { display: flex; gap: 13px; align-items: flex-start; }
+.well {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--r-card);
+  background: rgb(var(--surface-2));
+  border: 1px solid rgb(var(--edge));
+  transition: background-color .25s, border-color .25s;
+}
+.feature h3 { margin: 0 0 4px; font-size: 15px; font-weight: 600; letter-spacing: -.014em; line-height: 1.3; }
+.feature p  { margin: 0; font-size: 14px; color: rgb(var(--text-muted)); }
+
+
+/* Motion is decoration here — every one of these is safe to simply not happen.
+   The shared half of this (scroll-behavior, .reveal) lives in site.css, because
+   both pages reveal sections; only this page's own animations are listed here. */
+@media (prefers-reduced-motion: reduce) {
+  .icon-wrap, h1, .tagline, .install { animation: none; }
+  .cmd::before { animation: none; opacity: 0; }
+  .demo-line, .demo-list, .demo-atom, .demo-empty { transition: none; }
+  .demo-spark { display: none; }
+}
