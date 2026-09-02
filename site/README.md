@@ -7,7 +7,10 @@ installer pin to the repository root.
 index.html                 the landing page       → /
 docs/index.html            the docs hub           → /docs/
 docs/connect/index.html    connecting your tools  → /docs/connect/
-docs/mcp/index.html        the 26-tool reference  → /docs/mcp/
+docs/mcp/index.html        the 21-tool reference  → /docs/mcp/
+docs/overview/  ]
+docs/features/  ]  GENERATED — do not edit. See "The guide is generated".
+docs/legal/     ]
 install.sh                 the installer          → /install.sh
 assets/                    brand marks (icon, mark, logo)
 site/
@@ -18,6 +21,7 @@ site/
     components.css  theme switcher, the one card surface, notes, inline code
     home.css        the landing page's own furniture
     docs.css        every page under /docs/
+    prose.css       rendered markdown only — the generated pages
   js/
     motion.js       prefers-reduced-motion, read once and shared
     theme.js        the switcher; announces `slate:theme`
@@ -84,16 +88,39 @@ its own DOM, which is why a page only has to call `initTheme()`. That is the pat
 to reach for next: if a fourth page arrives and the `<head>` boilerplate starts
 drifting, that is the signal to add a build step, not to keep copying.
 
-## Growing the docs
+## The guide is generated
 
-`/docs/` is built to be added to, never moved. Each section is its own directory with
-an `index.html`, so a new page is a new folder and a new card on the hub — no existing
-URL changes. The plan is for `overview/`, `features/` and `legal/` to be copied out of
-the private repo's `docs/` by CI on release, the same way `install.sh` already is;
-`internals/`, `developing/` and `plans/` never leave that repo.
+`docs/overview/`, `docs/features/` and `docs/legal/` are **written by a script and
+overwritten on every publish.** Editing them by hand loses the edit at the next release.
 
-One caution learned the hard way: the private docs describe the product as it is meant
-to become. `overview/getting-started.md` currently says Slate is a desktop app for
-"macOS, Windows, and Linux", while the only build that exists is macOS on Apple
-Silicon — which is what this site says. Anything synced has to be true of what a
-visitor can actually install today.
+The source is the private repo's `docs/`, and the rule for what reaches this one is a
+single file: **`docs/SUMMARY.md` lists exactly what is public.** Everything else there —
+`internals/`, `plans/`, `developing/` — is unreachable by the builder rather than merely
+unlisted, so "nothing private ships" is a property of the code and not a promise. A
+published page that links into that half fails the build rather than shipping a dead link.
+
+| | |
+|---|---|
+| Renderer | `scripts/release/build-docs.mjs` (private repo) |
+| Publisher | `yarn docs:publish` — builds here, commits the three directories, pushes `main` |
+| Preview | `yarn docs:publish --dry-run` |
+| Styling | `site/css/prose.css`, scoped under `.prose` so it cannot reach these pages |
+
+The publisher refuses to run if this repo has hand-written changes outside those three
+directories, so a landing-page edit can never be swept into a docs commit.
+
+**The two pages under `/docs/` that are NOT generated** — `connect/` and `mcp/` — stay
+hand-written. They are marketing-grade: live tool chips, a memory graph, a copy button.
+They are also the reason the generator exists: `/docs/mcp/` advertised **26** MCP tools
+for a surface of **21**, five of them deleted, because the count lived in a repo where the
+private one's `check-tool-parity.mjs` could not see it. If either page grows a number that
+the product decides, move that page into the generated set rather than retyping it.
+
+`/docs/` is still built to be added to, never moved: each section is its own directory
+with an `index.html`, so a new page is a new folder and never a changed URL.
+
+One caution that has already cost a release's worth of trust: the private docs describe
+the product as it is meant to become. That is now checked at the source — `platform.md`
+carries a "Can you download it?" column and `getting-started.md` opens with the one bundle
+that actually ships — but the rule stands. **Anything published here has to be true of
+what a visitor can install today.**

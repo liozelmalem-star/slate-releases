@@ -1,0 +1,193 @@
+/* Rendered markdown — every page under /docs/overview/, /docs/features/ and /docs/legal/.
+ *
+ * Those pages are GENERATED, not written: `scripts/release/build-docs.mjs` in the private
+ * repo turns the guide's markdown into the shell the two hand-written pages already use.
+ * So this stylesheet has a job the others do not — it has to make *arbitrary* prose look
+ * deliberate, because nobody hand-places anything on these pages.
+ *
+ * Requires tokens.css, base.css, layout.css, components.css, docs.css.
+ *
+ * Everything is scoped under `.prose` so it cannot reach the hand-written pages, whose
+ * headings carry their own inline slab and their own spacing. Two kinds of page share one
+ * site, and only one of them wants a stylesheet with opinions about `h2`.
+ *
+ * Colour is stated NOWHERE here — only the semantic tokens. That is the rule tokens.css
+ * sets, and it is why both themes come free. */
+
+.prose {
+  margin-top: 34px;
+  font-size: 15.5px;
+  line-height: 1.68;
+  color: rgb(var(--text-muted));
+  text-wrap: pretty;
+}
+
+/* ── Headings ─────────────────────────────────────────────────────────────
+   The guide writes h2 for a section and h3 beneath it, and rarely goes deeper.
+   The page's own h1 is the title in the header, drawn by the shell — the
+   builder strips the markdown's leading `#` so the same words are not set
+   twice, once large and once larger. */
+
+.prose h2,
+.prose h3,
+.prose h4 {
+  margin: 0 0 12px;
+  color: rgb(var(--text));
+  letter-spacing: -.018em;
+  line-height: 1.25;
+  text-wrap: balance;
+  scroll-margin-top: 24px;
+}
+.prose h2 { margin-top: 46px; font-size: 23px; font-weight: 600; }
+.prose h3 { margin-top: 34px; font-size: 17.5px; font-weight: 600; }
+.prose h4 { margin-top: 26px; font-size: 15.5px; font-weight: 600; }
+.prose > :first-child { margin-top: 0; }
+
+/* A heading is a link target — the builder gives every one an id, so a table of
+   contents written in markdown resolves. The anchor is silent until hover: a
+   permalink glyph on every heading is noise on a page with fourteen of them. */
+.prose h2[id]:hover::after,
+.prose h3[id]:hover::after {
+  content: "#";
+  margin-left: .4em;
+  color: rgb(var(--text-faint));
+  font-weight: 400;
+}
+
+/* ── Body ─────────────────────────────────────────────────────────────── */
+
+.prose p { margin: 0 0 16px; max-width: 68ch; }
+.prose strong { color: rgb(var(--text)); font-weight: 600; }
+.prose em { font-style: italic; }
+.prose a { color: rgb(var(--brand-600)); text-decoration: none; border-bottom: 1px solid rgb(var(--brand-600) / .3); }
+.prose a:hover { border-bottom-color: rgb(var(--brand-600)); }
+:root[data-theme="dark"] .prose a { color: rgb(var(--brand-400)); border-bottom-color: rgb(var(--brand-400) / .3); }
+:root[data-theme="dark"] .prose a:hover { border-bottom-color: rgb(var(--brand-400)); }
+
+/* A link the generator could not resolve. It should never ship — the build fails on a
+   link into the unpublished half — so this styling exists to make the impossible case
+   visible rather than invisible if it ever happens. */
+.prose .dead { color: rgb(var(--text-faint)); text-decoration: line-through; }
+
+.prose hr {
+  margin: 40px 0;
+  border: 0;
+  border-top: 1px solid rgb(var(--edge));
+}
+
+/* ── Lists ────────────────────────────────────────────────────────────── */
+
+.prose ul,
+.prose ol { margin: 0 0 16px; padding-left: 22px; max-width: 68ch; }
+.prose li { margin-bottom: 7px; }
+.prose li::marker { color: rgb(var(--text-faint)); }
+.prose ol li::marker { font-variant-numeric: tabular-nums; }
+.prose li > ul,
+.prose li > ol { margin: 7px 0 0; }
+
+/* Task lists. The guide uses few, but a checklist rendered as a bare bullet loses the
+   one thing it is for. */
+.prose li.task { list-style: none; margin-left: -22px; display: flex; gap: 9px; }
+.prose li.task .box {
+  flex: none;
+  margin-top: 4px;
+  width: 14px;
+  height: 14px;
+  border: 1px solid rgb(var(--edge-hover));
+  border-radius: var(--r-ctl);
+  font-size: 10px;
+  line-height: 12px;
+  text-align: center;
+  color: rgb(var(--leaf-green-500));
+}
+.prose li.task.done .box { border-color: rgb(var(--leaf-green-500) / .5); }
+
+/* ── Code ─────────────────────────────────────────────────────────────── */
+
+.prose code {
+  padding: 1px 5px;
+  background: rgb(var(--surface-2));
+  border-radius: var(--r-ctl);
+  color: rgb(var(--code-fg));
+  font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: .88em;
+  white-space: nowrap;
+}
+.prose pre {
+  margin: 0 0 20px;
+  padding: 14px 16px;
+  overflow-x: auto;
+  background: rgb(var(--surface));
+  border: 1px solid rgb(var(--edge));
+  border-radius: var(--r-card);
+  box-shadow: inset 0 1px 0 rgb(var(--lit));
+  line-height: 1.6;
+}
+/* Inside a fence the chip styling is wrong: no background, no colour shift, and wrapping
+   allowed to stay off so a long command scrolls rather than folds. */
+.prose pre code {
+  padding: 0;
+  background: none;
+  border-radius: 0;
+  color: rgb(var(--text));
+  font-size: 13px;
+  white-space: pre;
+}
+
+/* ── Tables ───────────────────────────────────────────────────────────── */
+
+/* The guide leans on tables, and some are wider than the measure. `.scroll` is the
+   builder's wrapper: the table scrolls inside it, and the PAGE never does. */
+.prose .scroll { margin: 0 0 22px; overflow-x: auto; border: 1px solid rgb(var(--edge)); border-radius: var(--r-card); }
+.prose table { width: 100%; border-collapse: collapse; font-size: 14px; }
+.prose thead th {
+  padding: 10px 14px;
+  background: rgb(var(--surface-2));
+  border-bottom: 1px solid rgb(var(--edge));
+  color: rgb(var(--text));
+  font-weight: 600;
+  text-align: left;
+  white-space: nowrap;
+}
+.prose tbody td {
+  padding: 10px 14px;
+  border-bottom: 1px solid rgb(var(--edge));
+  vertical-align: top;
+}
+.prose tbody tr:last-child td { border-bottom: 0; }
+.prose table code { white-space: nowrap; }
+
+/* ── Quotes and notes ─────────────────────────────────────────────────── */
+
+.prose blockquote {
+  margin: 0 0 20px;
+  padding-left: 16px;
+  border-left: 2px solid rgb(var(--edge-hover));
+  color: rgb(var(--text-faint));
+}
+
+/* GitBook's `{% hint style="…" %}`, which the guide uses 39 times. It is nearly always
+   the sentence that stops somebody making a mistake, so it is a card rather than a
+   paragraph, and the accent is the only thing the style changes. */
+.prose .note {
+  margin: 0 0 22px;
+  padding: 14px 16px 14px 18px;
+  background: rgb(var(--surface));
+  border: 1px solid rgb(var(--edge));
+  border-left: 3px solid rgb(var(--brand-500));
+  border-radius: var(--r-card);
+  box-shadow: inset 0 1px 0 rgb(var(--lit)), var(--drop);
+  font-size: 14.5px;
+}
+.prose .note > :last-child { margin-bottom: 0; }
+.prose .note-warning { border-left-color: rgb(var(--leaf-amber-500)); }
+.prose .note-danger { border-left-color: rgb(var(--leaf-red-500)); }
+.prose .note-success { border-left-color: rgb(var(--leaf-green-500)); }
+
+/* ── Narrow ───────────────────────────────────────────────────────────── */
+
+@media (max-width: 560px) {
+  .prose { font-size: 15px; }
+  .prose h2 { margin-top: 38px; font-size: 21px; }
+  .prose pre { padding: 12px 13px; }
+}
