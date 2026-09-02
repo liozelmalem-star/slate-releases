@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slate — Automations</title>
+<meta name="description" content="Everything Slate does when you are not asking it to — what each one is for, and how to switch any of them off.">
+<link rel="icon" href="../../../assets/icon.svg">
+
+<meta property="og:title" content="Slate — Automations">
+<meta property="og:description" content="Everything Slate does when you are not asking it to — what each one is for, and how to switch any of them off.">
+<meta property="og:type" content="article">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../../site/css/tokens.css">
+<link rel="stylesheet" href="../../../site/css/base.css">
+<link rel="stylesheet" href="../../../site/css/layout.css">
+<link rel="stylesheet" href="../../../site/css/components.css">
+<link rel="stylesheet" href="../../../site/css/docs.css">
+<link rel="stylesheet" href="../../../site/css/prose.css">
+
+<script>
+  // Before first paint, never after. See site/README.md — as a module this would run
+  // after the document renders and flash white on every navigation.
+  try {
+    var t = localStorage.getItem("slate-theme");
+    document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
+  } catch (e) {
+    document.documentElement.dataset.theme = "light";
+  }
+</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="slab-9" viewBox="0 0 9 9">
+      <path d="M 0.655 5.6 L 5.055 3.4 L 8.345 3.4 L 3.945 5.6 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="slab-18" viewBox="0 0 18 18">
+      <path d="M 1.31 11.2 L 10.11 6.8 L 16.69 6.8 L 7.89 11.2 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header>
+    <a class="back" href="./">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      Features
+    </a>
+    <h1>Automations</h1>
+  </header>
+
+  <article class="prose reveal">
+<p>Slate runs six things on its own. Each was added for a reason, and each is invisible while it works — which is fine until you want to know what the app is doing right now, or make it stop.</p><p><strong>Connect → Automations</strong> is the one place that answers both. Every automation says what it does and what turning it off costs, and every one of them has a switch.</p><p>It sits in <a href="../connect/">Connect</a>, beside what this workspace runs and what it can reach, because &quot;how does this run, and how do I stop it&quot; is one question.</p><h2 id="whose-background-it-runs-in">Whose background it runs in</h2><p>The page is in two groups, and the heading a switch sits under is the answer to the question people actually have: <em>does turning this off affect my other workspace?</em></p><p><strong>This workspace.</strong> Four of them act on one workspace's own rows — its routines, its pages, its sessions — so two workspaces can genuinely disagree about whether they should run. Turning one off in Personal leaves Work running.</p><p><strong>This Mac.</strong> The other two govern something there is only one of on this computer: the capture that reads your transcripts, and the app that updates itself. A per-workspace answer would have nothing to mean, so turning one off turns it off everywhere.</p><h2 id="what-runs">What runs</h2><div class="scroll"><table><thead><tr><th>Automation</th><th>Scope</th><th>What it does</th><th>Off means</th></tr></thead><tbody><tr><td><strong>Scheduled routines</strong></td><td>This workspace</td><td>Wakes your agents and workflows at the times you set, and files each report under its project</td><td>Nothing runs on a schedule. Routines stay listed, and you can still run them by hand</td></tr><tr><td><strong>Shared workspace sync</strong></td><td>This workspace</td><td>Every two minutes, plus once at startup, pushes the pages you authored in a shared workspace and pulls the ones other people did</td><td>Shared workspaces stop updating in both directions. Personal never syncs either way, on or off</td></tr><tr><td><strong>Notice a session ending</strong></td><td>This workspace</td><td>Clears the queue a finished session leaves behind, and tells any watching workflow that it ended</td><td>Workflows that trigger on a session ending will not fire, and the queue grows until this is on again</td></tr><tr><td><strong>Startup repairs</strong></td><td>This workspace</td><td>On launch, re-derives values earlier versions left missing or wrong — search text, page parents, routine scopes</td><td>Data a past version left broken stays broken, and a future fix will not reach it until this is on again</td></tr><tr><td><strong>Capturing your AI sessions</strong></td><td>This Mac</td><td>Reads the transcripts your AI tools already write and files them under the project their folder belongs to</td><td>Nothing is recorded — sessions you run now will not appear in Activity, and their memory will not be there to recall later</td></tr><tr><td><strong>Automatic updates</strong></td><td>This Mac</td><td>Checks for a new version, downloads it in the background, installs it when you next quit</td><td>You keep the version you have until you check yourself, in Settings → About</td></tr></tbody></table></div><div class="note note-info"><p>A switch you set before this split is carried into every workspace on your machine the next time Slate starts, so nothing you had turned off comes back on.</p></div><div class="note note-info"><p>A switch takes effect on the next pass, not the next launch. Each loop asks whether it is allowed to run every time it ticks, so turning something off stops it within a minute.</p></div><h2 id="what-none-of-them-do">What none of them do</h2><p>Two of these reach the network on Slate's own account, and both are named in <a href="../privacy-and-security/">Privacy &amp; Security</a>: the update check asks for a release manifest, and shared-workspace sync mirrors the workspaces you joined. A third — scheduled routines — reaches it only through the brain CLI it starts, under the auth you already gave that tool. The remaining three are entirely local — reading files on your disk and writing rows to your own database.</p><p>Turning something off never deletes anything. Capture off does not remove sessions already captured; sync off does not withdraw pages already shared (that is <a href="../workspaces/sharing/">leaving a workspace</a>); startup repairs off does not undo repairs already made.</p><h2 id="startup-repairs-honestly">Startup repairs, honestly</h2><p>This is the one switch that can leave you worse off, so it is worth saying plainly.</p><p>These repairs exist because earlier versions of Slate wrote data that later versions know how to fix — a page indexed with empty search text, a routine pointing at a page in the wrong store. They are re-derivations, not guesses, and they run once per fix rather than on every boot.</p><p>Turn them off and Slate stops correcting itself. Anything a past version broke stays broken, and a repair shipped in a future release will not reach your data until this is switched back on. It is here because a thing that rewrites your database on launch should be something you can see and stop — not because turning it off is a good idea.</p><h2 id="see-also">See also</h2><ul><li><a href="../privacy-and-security/">Privacy &amp; Security</a> — every case where bytes leave your machine</li><li><a href="../sessions/">Sessions — the Live Tracker</a> — what capture produces</li><li><a href="../agents-and-workflows/">Agents &amp; Workflows</a> — what the scheduled routines are</li><li><a href="../licensing/">Licensing &amp; Updates</a> — how updating works</li></ul>
+  </article>
+</div>
+
+<footer>
+  <p>
+    Slate is in alpha. Your data stays on your machine.<br>
+    <a href="../../../">Home</a> ·
+    <a href="../../../docs/">Docs</a> ·
+    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a>
+  </p>
+</footer>
+
+<script type="module" src="../../../site/js/docs-page.js"></script>
+</body>
+</html>

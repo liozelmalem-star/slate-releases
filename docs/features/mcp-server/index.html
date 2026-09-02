@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slate — Slate as an MCP Server</title>
+<meta name="description" content="Slate's second identity — a Node stdio MCP server that exposes your workspace and memory to any AI tool, backed by a shared recall/remember contract.">
+<link rel="icon" href="../../../assets/icon.svg">
+
+<meta property="og:title" content="Slate — Slate as an MCP Server">
+<meta property="og:description" content="Slate's second identity — a Node stdio MCP server that exposes your workspace and memory to any AI tool, backed by a shared recall/remember contract.">
+<meta property="og:type" content="article">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../../site/css/tokens.css">
+<link rel="stylesheet" href="../../../site/css/base.css">
+<link rel="stylesheet" href="../../../site/css/layout.css">
+<link rel="stylesheet" href="../../../site/css/components.css">
+<link rel="stylesheet" href="../../../site/css/docs.css">
+<link rel="stylesheet" href="../../../site/css/prose.css">
+
+<script>
+  // Before first paint, never after. See site/README.md — as a module this would run
+  // after the document renders and flash white on every navigation.
+  try {
+    var t = localStorage.getItem("slate-theme");
+    document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
+  } catch (e) {
+    document.documentElement.dataset.theme = "light";
+  }
+</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="slab-9" viewBox="0 0 9 9">
+      <path d="M 0.655 5.6 L 5.055 3.4 L 8.345 3.4 L 3.945 5.6 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="slab-18" viewBox="0 0 18 18">
+      <path d="M 1.31 11.2 L 10.11 6.8 L 16.69 6.8 L 7.89 11.2 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header>
+    <a class="back" href="./">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      Features
+    </a>
+    <h1>Slate as an MCP Server</h1>
+  </header>
+
+  <article class="prose reveal">
+<p>Slate is a workspace you edit by hand and a Console you chat with — but it has a second identity. It ships a <strong>Model Context Protocol (MCP) server</strong> that exposes your workspace and memory to <em>any</em> AI tool you use. Claude Code, Cursor, Codex, Gemini, OpenCode — connect them to Slate, and they all read and write the same long-term memory.</p><p>This is what &quot;cross-tool memory&quot; means in practice: the notes and decisions one tool writes are recalled by the next.</p><h2 id="what-it-is-technically">What it is, technically</h2><p>The server is the <code>@slate/mcp</code> package — a Node stdio MCP server backed by <code>@slate/server</code> imported directly as a library (no HTTP hop). It ships as a <strong>Node SEA sidecar binary</strong>, so there is <strong>no Node install required</strong> on the machine using it. It speaks JSON-RPC over stdio, the standard MCP transport.</p><h2 id="the-recall-remember-contract">The recall / remember contract</h2><p>The tools are built around a simple usage contract that AI clients are expected to follow:</p><ul><li><strong>Start of a task</strong> — call <code>recall({ query, cwd })</code> to load prior decisions, repo conventions, project facts, and the active branch brief.</li><li><strong>End of a task</strong> — call <code>remember</code> once with a one-line summary, the <code>source</code> (the calling tool's name), and <code>cwd</code>.</li></ul><p><code>recall</code> ranks results <strong>lexically and locally</strong> (keyword coverage × recency × confidence — no embeddings, no model call) and stays silent when nothing is relevant. <code>remember</code> writes <strong>one typed knowledge atom</strong> (<code>kind</code>: decision \| preference \| state \| fact), scoped by <code>cwd</code> and deduped against what's already known — a near-duplicate strengthens it, an update supersedes it.</p><h2 id="the-shared-half">The shared half</h2><p><code>recall</code> searches only what is yours. <code>recall_workspaces</code> and <code>workspace_page</code> search what your colleagues chose to share into a <a href="../workspaces/">shared workspace</a> — so a client can answer &quot;has anyone here already solved this?&quot; without anyone being asked in person.</p><p>They are deliberately separate verbs rather than a widened <code>recall</code>: private and shared knowledge have different trust and different blast radius, and a tool that quietly mixed them would make it impossible to tell which you got. Both are read-only, and Row Level Security in Postgres — not this server — decides what they can see.</p><h2 id="capability-discovery">Capability discovery</h2><p>The contract is versioned. Each contract carries an id of the form <code>slate-mcp-contract/DATE</code> (for example <code>slate-mcp-contract/2026-07-01</code>). A client can call <code>slate_capabilities</code> to inspect the contract version, supported tools, access levels, approval policies, and schema hash before doing anything.</p><div class="note note-warning"><p>Clients must <strong>never</strong> call a mutating tool just to discover capabilities. Use <code>slate_capabilities</code> for that — it's the read-only discovery entry point.</p></div><h2 id="in-this-section">In this section</h2><div class="scroll"><table><thead><tr><th>Page</th><th>What it covers</th></tr></thead><tbody><tr><td><a href="tools/">Tool Reference</a></td><td>Every tool the server exposes, grouped, plus <code>target</code> resolution and <code>dry_run</code>.</td></tr><tr><td><a href="connecting/">Connecting Your AI Tools</a></td><td>Wiring Claude Code, Cursor, Codex, Gemini and OpenCode to Slate.</td></tr></tbody></table></div><h2 id="see-also">See also</h2><ul><li><a href="tools/">Tool Reference</a> — the full grouped tool tables.</li><li><a href="connecting/">Connecting Your AI Tools</a> — the setup flow.</li><li><a href="../workspaces/">Workspaces</a> — what <code>recall_workspaces</code> reads, and how pages get there.</li><li><a href="../agent/connected-tools/">Connected MCP Tools</a> — the reverse direction, where Slate's Console is the client.</li></ul>
+  </article>
+</div>
+
+<footer>
+  <p>
+    Slate is in alpha. Your data stays on your machine.<br>
+    <a href="../../../">Home</a> ·
+    <a href="../../../docs/">Docs</a> ·
+    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a>
+  </p>
+</footer>
+
+<script type="module" src="../../../site/js/docs-page.js"></script>
+</body>
+</html>

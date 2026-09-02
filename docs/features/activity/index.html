@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slate — Activity &amp; Analytics</title>
+<meta name="description" content="A view of your captured work over time — session history, a daily brief, per-project activity, and the charts and stats built from it.">
+<link rel="icon" href="../../../assets/icon.svg">
+
+<meta property="og:title" content="Slate — Activity &amp; Analytics">
+<meta property="og:description" content="A view of your captured work over time — session history, a daily brief, per-project activity, and the charts and stats built from it.">
+<meta property="og:type" content="article">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../../site/css/tokens.css">
+<link rel="stylesheet" href="../../../site/css/base.css">
+<link rel="stylesheet" href="../../../site/css/layout.css">
+<link rel="stylesheet" href="../../../site/css/components.css">
+<link rel="stylesheet" href="../../../site/css/docs.css">
+<link rel="stylesheet" href="../../../site/css/prose.css">
+
+<script>
+  // Before first paint, never after. See site/README.md — as a module this would run
+  // after the document renders and flash white on every navigation.
+  try {
+    var t = localStorage.getItem("slate-theme");
+    document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
+  } catch (e) {
+    document.documentElement.dataset.theme = "light";
+  }
+</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="slab-9" viewBox="0 0 9 9">
+      <path d="M 0.655 5.6 L 5.055 3.4 L 8.345 3.4 L 3.945 5.6 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="slab-18" viewBox="0 0 18 18">
+      <path d="M 1.31 11.2 L 10.11 6.8 L 16.69 6.8 L 7.89 11.2 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header>
+    <a class="back" href="./">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      Features
+    </a>
+    <h1>Activity &amp; Analytics</h1>
+  </header>
+
+  <article class="prose reveal">
+<p>Slate captures your AI sessions as you work. The <strong>Activity</strong> page is where that history becomes something you can read: what you did today, which projects you touched, and how your work is trending.</p><p>Everything here is derived from data already on your machine. Nothing is fetched, and nothing is sent out to compute it.</p><hr><h2 id="what-the-activity-page-shows">What the Activity page shows</h2><div class="scroll"><table><thead><tr><th>View</th><th>What it tells you</th></tr></thead><tbody><tr><td>Session history</td><td>The captured AI sessions, most recent first</td></tr><tr><td>Timeline</td><td>Today's and recent days' sessions and facts, newest first</td></tr><tr><td>Per-project activity</td><td>Sessions and effort broken out by project</td></tr><tr><td>Contribution heatmap</td><td>A calendar-style grid of activity density</td></tr><tr><td>Hour-of-day chart</td><td>When during the day you tend to work</td></tr><tr><td>Week-over-week stats</td><td>How this week compares to last</td></tr><tr><td>Fact summary</td><td>An overview of what you've remembered</td></tr><tr><td>Token tracking</td><td>Tokens consumed across sessions</td></tr></tbody></table></div><hr><h2 id="where-the-numbers-come-from">Where the numbers come from</h2><p>Two things feed this page.</p><p>The first is <a href="../memory/session-capture/">session capture</a>: a watcher records your AI sessions from Claude, Codex, Gemini, Cursor and OpenCode as pages, with structured properties (prompt, summary, tool, tokens, model, branch, <code>sessionId</code>). The Activity page reads those.</p><p>The second is the <code>activity_stats</code> tool, which returns session totals (all-time and this week), a per-tool breakdown, the top projects by session count, and a memory block — the same tool your AI clients can call over the MCP server.</p><div class="note note-info"><p>Sessions have been captured two ways over Slate's history. To avoid double-counting, the Activity page deduplicates legacy session pages against mission-model <code>conversationId</code>s, so a session recorded under both shapes still counts once.</p></div><hr><h2 id="see-also">See also</h2><ul><li><a href="../memory/session-capture/">Session Capture</a></li><li><a href="../memory/">Memory</a></li><li><a href="../agents-and-workflows/">Agents &amp; Workflows</a></li></ul>
+  </article>
+</div>
+
+<footer>
+  <p>
+    Slate is in alpha. Your data stays on your machine.<br>
+    <a href="../../../">Home</a> ·
+    <a href="../../../docs/">Docs</a> ·
+    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a>
+  </p>
+</footer>
+
+<script type="module" src="../../../site/js/docs-page.js"></script>
+</body>
+</html>

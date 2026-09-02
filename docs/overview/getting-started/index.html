@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slate — Getting Started</title>
+<meta name="description" content="Install Slate, create your first pages, connect it to your AI tools as a shared memory, and run your first request in the AI Console.">
+<link rel="icon" href="../../../assets/icon.svg">
+
+<meta property="og:title" content="Slate — Getting Started">
+<meta property="og:description" content="Install Slate, create your first pages, connect it to your AI tools as a shared memory, and run your first request in the AI Console.">
+<meta property="og:type" content="article">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../../site/css/tokens.css">
+<link rel="stylesheet" href="../../../site/css/base.css">
+<link rel="stylesheet" href="../../../site/css/layout.css">
+<link rel="stylesheet" href="../../../site/css/components.css">
+<link rel="stylesheet" href="../../../site/css/docs.css">
+<link rel="stylesheet" href="../../../site/css/prose.css">
+
+<script>
+  // Before first paint, never after. See site/README.md — as a module this would run
+  // after the document renders and flash white on every navigation.
+  try {
+    var t = localStorage.getItem("slate-theme");
+    document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
+  } catch (e) {
+    document.documentElement.dataset.theme = "light";
+  }
+</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="slab-9" viewBox="0 0 9 9">
+      <path d="M 0.655 5.6 L 5.055 3.4 L 8.345 3.4 L 3.945 5.6 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="slab-18" viewBox="0 0 18 18">
+      <path d="M 1.31 11.2 L 10.11 6.8 L 16.69 6.8 L 7.89 11.2 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header>
+    <a class="back" href="./">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      Overview
+    </a>
+    <h1>Getting Started</h1>
+  </header>
+
+  <article class="prose reveal">
+<p>This page takes you from a fresh install to a working workspace with cross-tool memory and a running agent.</p><hr><h2 id="system-requirements">System requirements</h2><p><strong>What you can install today is macOS on Apple Silicon</strong>, and only that — the latest release ships one bundle, <code>Slate_&lt;version&gt;_aarch64.dmg</code>. There is no Intel Mac build, no Windows build and no Linux build; the codebase targets all three and none of the others has ever been produced. See <a href="../../features/platform/">Platform &amp; Availability</a> before planning around one.</p><p>To use the <a href="../../features/agent/">AI Console</a> or connect Slate as a memory layer, you need at least one <strong>brain</strong> installed — the <a href="../../features/agent/brains/">Claude Code, Gemini, OpenCode, Cursor or Codex CLI</a>. Slate drives the CLI you already authenticated, so there's no API key to enter.</p><hr><h2 id="1-install">1. Install</h2><p>Get the desktop app and open it. On first launch Slate creates your workspace database at a per-user location:</p><div class="scroll"><table><thead><tr><th>Platform</th><th>Workspace database</th></tr></thead><tbody><tr><td>macOS</td><td><code>~/Library/Application Support/app.slate.workspace/workspace.db</code></td></tr><tr><td>Linux</td><td><code>$XDG_DATA_HOME/app.slate.workspace/</code> — the path the code resolves; no Linux build ships</td></tr><tr><td>Windows</td><td><code>%APPDATA%\app.slate.workspace\</code> — the path the code resolves; no Windows build ships</td></tr></tbody></table></div><p>Everything you do lives in that one SQLite file. You can copy it, back it up, or open it in any SQLite browser — see <a href="../../features/data-and-export/">Your Data &amp; Export</a>.</p><p>Capture starts before setup does. Slate looks for the AI CLIs already on your machine and begins reading their session transcripts the moment the window opens — the first setup screen names what it found. Nothing on your machine is changed to do that, and nothing is sent anywhere; reading files you already have needs no permission from another program.</p><p>Then a four-step setup runs — <strong>Welcome, Brain, Tools, Project</strong>. Every step is skippable, so nothing here blocks you from getting in, and everything it sets up is reachable later from the rail. Two of the four are worth not skipping:</p><ul><li><strong>Tools</strong> registers Slate with your AI tools, which is what makes memory <em>shared</em> rather than a notes app. It is also the one time you are asked before Slate writes to another program's config.</li><li><strong>Project</strong> points Slate at a folder. Until one exists, captured sessions have nowhere to file and land under <strong>Private</strong> whatever repo they came from. The Console says so when it happens, with the folder picker one click away.</li></ul><p>Sharing is no longer part of setup — everything above works with no account. When you want it, it is in <strong>Settings → Workspaces</strong>.</p><h2 id="2-create-your-first-pages">2. Create your first pages</h2><p>The left column is a permanent icon <strong>rail</strong> — Sessions, Console, Projects, Memory, Activity, Agents, Workflows, Loop, Studio, Trash, Settings — beside a <strong>pane</strong> that switches with it. Click <strong>Projects</strong>, which is where you land, for the nested <a href="../../features/pages/">page tree</a> — every root of that tree is a project. Create a page, give it an icon and title, and start typing — the editor is block-based (headings, lists, to-dos, code, quotes) with a slash menu and drag-to-reorder.</p><p>For real work, reach for a <a href="../../features/pages/typed-documents/">typed document</a>: a <strong>project</strong> to group things, a <strong>plan</strong> or <strong>design</strong> doc, or a <a href="../../features/pages/missions/"><strong>mission</strong></a> to track a piece of work with its own session log. Typed docs pre-fill a sensible template so you're not starting from a blank page.</p><p>Press &lt;kbd&gt;⌘K&lt;/kbd&gt; any time to open the <a href="../../features/search/">command palette</a> — jump to a page, run an action, or full-text search across every title and body.</p><h2 id="3-connect-a-tool-to-your-workspace">3. Connect a tool to your workspace</h2><p>Open <strong>Connect → AI tools</strong> and turn on the tools this workspace works with, choosing the account each one uses. Every project inherits what you set, and may override it. See <a href="../../features/agent/brains/">brains</a>:</p><ul><li><strong>Claude</strong> — drives your installed Claude Code CLI (<code>claude-sonnet-4-6</code> by default).</li><li><strong>Gemini</strong> — drives your installed Gemini CLI (<code>gemini-2.5-flash</code> by default). Needs an API key or a Code Assist licence: Google stopped serving the CLI to consumer accounts on 2026-06-18. See <a href="../../features/agent/brains/">Brains</a>.</li><li><strong>OpenCode</strong> — drives your installed OpenCode CLI; the model list comes from whichever providers you have logged into.</li><li><strong>Cursor</strong> — drives your installed <code>cursor-agent</code> CLI (<code>auto</code> by default, and the model list comes from your Cursor account).</li><li><strong>Codex</strong> — drives your installed Codex CLI (<code>gpt-5.3-codex</code> by default).</li></ul><p>Because Slate uses the CLI you already logged into, there's nothing to paste. If you keep separate work and personal CLI configs, set up a <a href="../../features/studio/cli-profiles/">CLI config profile</a> for each.</p><h2 id="4-run-your-first-request">4. Run your first request</h2><p>Open the <strong>Console</strong> — Slate's in-app <a href="../../features/agent/">AI agent</a>. It can read and write your workspace and call any connected tool. Try:</p><ul><li>&quot;Create a plan page under my Slate project for the onboarding flow.&quot;</li><li>&quot;What did I work on this week?&quot;</li><li>&quot;Summarize the open decisions across my projects.&quot;</li></ul><p>The agent uses <a href="../../features/agent/mcp-commands/">curated commands</a> to resolve the right tool and prefill its arguments, so these work even on a light local model.</p><h2 id="5-connect-slate-to-your-other-ai-tools">5. Connect Slate to your other AI tools</h2><p>This is where Slate becomes a shared brain. Slate is itself an <a href="../../features/mcp-server/">MCP server</a>, so Claude Code, Cursor, Codex, Gemini and OpenCode can all read and write the same workspace:</p><ol><li>Open <strong>Connect → AI tools</strong> and turn your tool on there, or see <a href="../../features/mcp-server/connecting/">Connecting Your AI Tools</a>.</li><li>Once connected, those tools can call <code>recall</code> to load context and <code>remember</code> to save decisions — into the same pages you edit by hand.</li><li>Turn on the <a href="../../features/memory/session-capture/">session watcher</a> so Slate captures your Claude / Codex / Gemini / Cursor / OpenCode sessions automatically. On macOS you can run whenever Slate is open.</li></ol><p>From here, <a href="../../features/studio/">Studio</a> lets you write one set of instructions and skills and sync them to every tool at once.</p><hr><h2 id="6-optional-share-with-a-workspace">6. Optional: share with a workspace</h2><p>If you work with other people, a <strong>shared workspace</strong> is a second store that its members read. Sign in from <strong>Settings → Account</strong>, create or join one in <strong>Settings → Workspaces</strong>, then switch into it from the top bar — the whole app follows, and everything you do in there belongs to its members.</p><p>Every workspace carries the same switch, Personal included — but Personal is where automatic capture puts things you never filed, so turning sharing on there counts what it would publish first. To share one project rather than a whole store, move it: its ⋯ menu offers <strong>Move to &lt;workspace&gt;</strong>, and the whole subtree goes with its memory. Nobody can edit your pages whatever their role, and the entire layer is inert until you sign in. See <a href="../../features/workspaces/">Workspaces</a>.</p><hr><h2 id="where-to-go-next">Where to go next</h2><ul><li><a href="../concepts/">Core Concepts</a> — the mental model behind pages, memory, and Studio.</li><li><a href="../../features/mcp-server/">Slate as an MCP Server</a> — the full memory contract.</li><li><a href="../../features/workspaces/">Workspaces</a> — one store per audience, and reading what others wrote.</li><li><a href="../../features/privacy-and-security/">Privacy &amp; Security</a> — what stays local and what doesn't.</li></ul>
+  </article>
+</div>
+
+<footer>
+  <p>
+    Slate is in alpha. Your data stays on your machine.<br>
+    <a href="../../../">Home</a> ·
+    <a href="../../../docs/">Docs</a> ·
+    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a>
+  </p>
+</footer>
+
+<script type="module" src="../../../site/js/docs-page.js"></script>
+</body>
+</html>

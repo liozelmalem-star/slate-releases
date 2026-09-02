@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slate — Your Data &amp; Export</title>
+<meta name="description" content="Your whole workspace is one SQLite file on your machine. Export is a copy, the format is open, and your data outlives the app.">
+<link rel="icon" href="../../../assets/icon.svg">
+
+<meta property="og:title" content="Slate — Your Data &amp; Export">
+<meta property="og:description" content="Your whole workspace is one SQLite file on your machine. Export is a copy, the format is open, and your data outlives the app.">
+<meta property="og:type" content="article">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../../site/css/tokens.css">
+<link rel="stylesheet" href="../../../site/css/base.css">
+<link rel="stylesheet" href="../../../site/css/layout.css">
+<link rel="stylesheet" href="../../../site/css/components.css">
+<link rel="stylesheet" href="../../../site/css/docs.css">
+<link rel="stylesheet" href="../../../site/css/prose.css">
+
+<script>
+  // Before first paint, never after. See site/README.md — as a module this would run
+  // after the document renders and flash white on every navigation.
+  try {
+    var t = localStorage.getItem("slate-theme");
+    document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
+  } catch (e) {
+    document.documentElement.dataset.theme = "light";
+  }
+</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="slab-9" viewBox="0 0 9 9">
+      <path d="M 0.655 5.6 L 5.055 3.4 L 8.345 3.4 L 3.945 5.6 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="slab-18" viewBox="0 0 18 18">
+      <path d="M 1.31 11.2 L 10.11 6.8 L 16.69 6.8 L 7.89 11.2 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header>
+    <a class="back" href="./">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      Features
+    </a>
+    <h1>Your Data &amp; Export</h1>
+  </header>
+
+  <article class="prose reveal">
+<p>Everything in Slate — pages, captured sessions, facts, decisions, agents, workflows, settings — lives in SQLite files on your machine — <code>workspace.db</code> for Personal, one more per shared workspace, and <code>machine.db</code> for what describes this computer. There's no proprietary container, and no cloud copy unless you create or join a shared <a href="../workspaces/">workspace</a>, which is a separate file: everything in it is published, and nothing in Personal ever is. If you can find the file, you own your data outright.</p><hr><h2 id="where-the-file-lives">Where the file lives</h2><p>Slate stores the database at a per-platform path:</p><div class="scroll"><table><thead><tr><th>Platform</th><th>Path</th></tr></thead><tbody><tr><td>macOS</td><td><code>~/Library/Application Support/app.slate.workspace/workspace.db</code></td></tr><tr><td>Linux</td><td><code>$XDG_DATA_HOME/app.slate.workspace/</code></td></tr><tr><td>Windows</td><td><code>%APPDATA%\app.slate.workspace\</code></td></tr></tbody></table></div><p>You can point Slate at a different location by setting the <code>SLATE_DB_PATH</code> environment variable — handy for keeping the workspace on an external drive or in a synced folder of your choosing.</p><hr><h2 id="where-to-find-all-of-this">Where to find all of this</h2><p><strong>Settings → Workspaces</strong>, then <strong>Manage</strong> on the workspace you mean, then <strong>Storage</strong>. It sits on the workspace's own row beside Members and Delete, because a workspace's file is a property of that workspace — and because a list is the only thing that can answer which of yours is taking the disk. It was a Settings tab called Data until 2026-08-30.</p><p>Personal is the one you can relocate; every shared workspace is a replica that lives in Slate's data folder.</p><h2 id="how-big-it-is">How big it is</h2><p>The row under the path says what the workspace costs on disk, and how much of that is space deleted rows left behind. SQLite never shrinks a file on its own — removed rows leave their pages on a freelist the database happily reuses and the operating system never sees again, so a workspace that churns only ever grows. Slate rewrites the file on every launch when there is enough dead space to be worth it; the number here is what it found, and <strong>Reclaim</strong> does it now rather than waiting for the next start. The button only appears when there is enough to return.</p><h2 id="exporting">Exporting</h2><p>From <strong>Settings → Workspaces → Manage → Storage</strong> you can export your workspace in one click. Export is exactly what it sounds like: a copy of the workspace whose row you opened — <code>workspace.db</code> for Personal, <code>workspaces/&lt;id&gt;.db</code> for a shared one, and the row names which. There's no transformation and no lossy conversion — the export <em>is</em> your database.</p><p>The same pane can open the folder holding the file if you'd rather grab it yourself.</p><hr><h2 id="the-format-is-open">The format is open</h2><p>The file is plain SQLite. You don't need Slate to read it. Open <code>workspace.db</code> in any SQLite browser and you'll find your content directly:</p><div class="scroll"><table><thead><tr><th>Table</th><th>Holds</th></tr></thead><tbody><tr><td><code>page</code></td><td>The universal unit — pages, documents, missions, captured sessions</td></tr><tr><td><code>fact</code></td><td>Persistent knowledge with status and text</td></tr><tr><td><code>agent</code></td><td>Scheduled background agents</td></tr><tr><td><code>workflow</code></td><td>Multi-step workflows</td></tr><tr><td><code>setting</code></td><td>App and workspace settings</td></tr><tr><td><code>activity</code></td><td>Commits, branch events and session records captured for this workspace</td></tr></tbody></table></div><p>Page bodies are stored as block JSON, and Slate can convert pages to and from Markdown — so your writing isn't locked inside a binary blob either.</p><hr><h2 id="durability">Durability</h2><p>Two things protect the file while you use it:</p><ul><li><strong>WAL mode.</strong> The database runs in write-ahead-logging mode, allowing concurrent reads while the server writes.</li><li><strong>Pre-migration auto-backup.</strong> Before Slate applies any schema migration, it backs up the database first. An upgrade can't leave you without a fallback.</li></ul><div class="note note-success"><p>Your data survives Slate. Because the file is standard SQLite at a known path, you can back it up, move it, inspect it, or read it years from now with tools that have nothing to do with this app.</p></div><hr><h2 id="what-the-export-does-not-contain">What the export does not contain</h2><p>Two things sit deliberately outside the database:</p><ul><li><strong>Your cloud session</strong>, if you signed in for sharing. It's a <code>0600</code> file <em>beside</em> <code>workspace.db</code>, kept out on purpose — an exported workspace must never hand someone a live refresh token.</li><li><strong>Nothing, actually.</strong> A shared workspace is its own SQLite file on your machine, and the sync pulls your teammates' pages, atoms and activity into it — so exporting that workspace exports theirs too. Moving a page into a shared workspace is a move, not a copy: it leaves your Personal file.</li></ul><hr><h2 id="see-also">See also</h2><ul><li><a href="../privacy-and-security/">Privacy &amp; Security</a></li><li><a href="../workspaces/">Workspaces</a></li></ul>
+  </article>
+</div>
+
+<footer>
+  <p>
+    Slate is in alpha. Your data stays on your machine.<br>
+    <a href="../../../">Home</a> ·
+    <a href="../../../docs/">Docs</a> ·
+    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a>
+  </p>
+</footer>
+
+<script type="module" src="../../../site/js/docs-page.js"></script>
+</body>
+</html>

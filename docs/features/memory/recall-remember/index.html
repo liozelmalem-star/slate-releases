@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slate — Recall &amp; Remember</title>
+<meta name="description" content="The two core verbs of Slate's memory — recall context at the start of a task, remember what you learned at the end.">
+<link rel="icon" href="../../../../assets/icon.svg">
+
+<meta property="og:title" content="Slate — Recall &amp; Remember">
+<meta property="og:description" content="The two core verbs of Slate's memory — recall context at the start of a task, remember what you learned at the end.">
+<meta property="og:type" content="article">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../../../site/css/tokens.css">
+<link rel="stylesheet" href="../../../../site/css/base.css">
+<link rel="stylesheet" href="../../../../site/css/layout.css">
+<link rel="stylesheet" href="../../../../site/css/components.css">
+<link rel="stylesheet" href="../../../../site/css/docs.css">
+<link rel="stylesheet" href="../../../../site/css/prose.css">
+
+<script>
+  // Before first paint, never after. See site/README.md — as a module this would run
+  // after the document renders and flash white on every navigation.
+  try {
+    var t = localStorage.getItem("slate-theme");
+    document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
+  } catch (e) {
+    document.documentElement.dataset.theme = "light";
+  }
+</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="slab-9" viewBox="0 0 9 9">
+      <path d="M 0.655 5.6 L 5.055 3.4 L 8.345 3.4 L 3.945 5.6 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="slab-18" viewBox="0 0 18 18">
+      <path d="M 1.31 11.2 L 10.11 6.8 L 16.69 6.8 L 7.89 11.2 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header>
+    <a class="back" href="../">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      Back
+    </a>
+    <h1>Recall &amp; Remember</h1>
+  </header>
+
+  <article class="prose reveal">
+<p>Slate's memory loop is two verbs. At the <strong>start</strong> of a task an AI tool calls <code>recall</code> to load context; at the <strong>end</strong> it calls <code>remember</code> once to save what it learned. Everything else — capture, routing, ranking — is built around those two calls.</p><h2 id="recall-load-context-at-task-start"><code>recall</code> — load context at task start</h2><pre><code>recall({ query, cwd })</code></pre><p>Given a query and your working directory, <code>recall</code> returns the context that matters for the task ahead:</p><div class="scroll"><table><thead><tr><th>Returned</th><th>When</th></tr></thead><tbody><tr><td>Branch brief</td><td>When <code>cwd</code> is on a feature branch — what this branch is for and its progress.</td></tr><tr><td>Repo conventions</td><td>Always — the conventions Slate has learned for this repository.</td></tr><tr><td>Project facts</td><td>Always — durable facts about the project.</td></tr></tbody></table></div><p>Results are ranked <strong>lexically and locally</strong> — keyword coverage between your query and each atom, weighted by recency (a 30-day half-life) and confidence. There are no embeddings and no model call; the ranking is deterministic. A coverage threshold keeps recall <strong>silent</strong> when nothing is genuinely relevant, so it never pads the context with noise.</p><h2 id="remember-save-what-you-learned-at-task-end"><code>remember</code> — save what you learned at task end</h2><p>Call <code>remember</code> once, at the end of a task, with a concise one-line summary. Each call writes <strong>one typed knowledge atom</strong> — the unit every AI tool shares:</p><div class="scroll"><table><thead><tr><th><code>kind</code></th><th>What it captures</th></tr></thead><tbody><tr><td><code>decision</code></td><td>A choice you made (&quot;chose X over Y because Z&quot;).</td></tr><tr><td><code>preference</code></td><td>A durable working preference.</td></tr><tr><td><code>state</code></td><td>A durable fact about where things stand.</td></tr><tr><td><code>fact</code></td><td>A durable piece of project knowledge.</td></tr></tbody></table></div><p>The atom is scoped to your project via <code>cwd</code> and <strong>deduped against what's already known</strong> — a near-duplicate strengthens the existing atom, an update supersedes it. You don't route anything by hand: the atom <em>is</em> the destination, and it's recalled first by every tool. <code>remember</code> also appends to the branch's human-readable page so you can read the memory back.</p><p><code>kind</code> is optional — omit it and Slate infers it from the text. Preferences and states additionally get placed in a <a href="../decisions-and-facts/#slots-how-a-fact-replaces-another">slot</a> when the workspace already has one that clearly fits, which is what lets a new preference <em>retire</em> the one it contradicts instead of sitting beside it. That is worked out for you; there is nothing to pass.</p><h2 id="logging-progress-mid-mission">Logging progress mid-mission</h2><p>Between the start and end of a longer piece of work, <code>log_mission_progress</code> appends a session summary to the branch's <strong>Plan</strong> page, so a mission accumulates a running record of what happened.</p><h2 id="the-contract-usage-pattern">The contract usage pattern</h2><p>The tools expect a simple, disciplined loop:</p><pre><code>START a task  → recall({ query, cwd })
+… do the work …
+END the task  → remember(one-line summary, source, cwd)</code></pre><p><code>source</code> is the calling tool's name and <code>cwd</code> is your working directory. Call <code>remember</code> <strong>once</strong> per task, not per step — one summary when the work is done.</p><div class="note note-info"><p>Because every AI tool follows the same contract, work done in one tool is recalled by the next. That shared loop is what makes Slate's memory cross-tool.</p></div><h2 id="see-also">See also</h2><ul><li><a href="../decisions-and-facts/">Decisions &amp; Facts</a>. the two things <code>recall</code> ranks and returns.</li><li><a href="../session-capture/">Session Capture</a>. the automatic side of populating memory.</li><li><a href="../../mcp-server/">Slate as an MCP Server</a>. the full tool surface behind these verbs.</li></ul>
+  </article>
+</div>
+
+<footer>
+  <p>
+    Slate is in alpha. Your data stays on your machine.<br>
+    <a href="../../../../">Home</a> ·
+    <a href="../../../../docs/">Docs</a> ·
+    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a>
+  </p>
+</footer>
+
+<script type="module" src="../../../../site/js/docs-page.js"></script>
+</body>
+</html>

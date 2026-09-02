@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slate — Typed Documents &amp; Hierarchy</title>
+<meta name="description" content="A page's doc_type pre-fills a template, tracks a status, and slots it into the project → repo → branch hierarchy that lets memory tools resolve targets.">
+<link rel="icon" href="../../../../assets/icon.svg">
+
+<meta property="og:title" content="Slate — Typed Documents &amp; Hierarchy">
+<meta property="og:description" content="A page's doc_type pre-fills a template, tracks a status, and slots it into the project → repo → branch hierarchy that lets memory tools resolve targets.">
+<meta property="og:type" content="article">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../../../site/css/tokens.css">
+<link rel="stylesheet" href="../../../../site/css/base.css">
+<link rel="stylesheet" href="../../../../site/css/layout.css">
+<link rel="stylesheet" href="../../../../site/css/components.css">
+<link rel="stylesheet" href="../../../../site/css/docs.css">
+<link rel="stylesheet" href="../../../../site/css/prose.css">
+
+<script>
+  // Before first paint, never after. See site/README.md — as a module this would run
+  // after the document renders and flash white on every navigation.
+  try {
+    var t = localStorage.getItem("slate-theme");
+    document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
+  } catch (e) {
+    document.documentElement.dataset.theme = "light";
+  }
+</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="slab-9" viewBox="0 0 9 9">
+      <path d="M 0.655 5.6 L 5.055 3.4 L 8.345 3.4 L 3.945 5.6 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="slab-18" viewBox="0 0 18 18">
+      <path d="M 1.31 11.2 L 10.11 6.8 L 16.69 6.8 L 7.89 11.2 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header>
+    <a class="back" href="../">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      Back
+    </a>
+    <h1>Typed Documents &amp; Hierarchy</h1>
+  </header>
+
+  <article class="prose reveal">
+<p>Every page is the same row in the same table, but two columns give it meaning: <code>doc_type</code> says what kind of document it is, and <code>status</code> says where it stands. Together they turn a flat page store into a structured workspace that the AI memory tools can navigate.</p><h2 id="document-types">Document types</h2><p>Setting a page's <code>doc_type</code> pre-fills a structured template so you start with the right sections instead of a blank block. The <code>DocType</code> enum lives in <code>@slate/schema</code> (<code>doc-type/types.ts</code>):</p><div class="scroll"><table><thead><tr><th>DocType</th><th>Purpose</th></tr></thead><tbody><tr><td><code>general</code></td><td>A plain knowledge page.</td></tr><tr><td><code>design</code></td><td>A design document.</td></tr><tr><td><code>plan</code></td><td>An implementation or work plan.</td></tr><tr><td><code>review</code></td><td>A review write-up.</td></tr><tr><td><code>meeting</code></td><td>Meeting notes.</td></tr><tr><td><code>test-plan</code></td><td>A test plan.</td></tr><tr><td><code>bug-report</code></td><td>A bug report.</td></tr><tr><td><code>project</code></td><td>A top-level project container.</td></tr><tr><td><code>repo</code></td><td>A code repository under a project.</td></tr><tr><td><code>branch</code></td><td>A feature branch under a repo.</td></tr><tr><td><code>mission</code></td><td>A tracked unit of work. See <a href="../missions/">Missions</a>.</td></tr></tbody></table></div><h2 id="status">Status</h2><p>A typed page also carries a <code>status</code> from <code>PAGE_STATUSES</code>:</p><div class="scroll"><table><thead><tr><th>Status</th><th>Meaning</th></tr></thead><tbody><tr><td><code>draft</code></td><td>Started, not yet active.</td></tr><tr><td><code>active</code></td><td>In progress.</td></tr><tr><td><code>done</code></td><td>Completed.</td></tr><tr><td><code>canceled</code></td><td>Abandoned.</td></tr></tbody></table></div><h2 id="the-hierarchy">The hierarchy</h2><p>Some doc types are structural. They form a nesting the memory layer relies on (<code>@slate/schema</code>, <code>doc-type/rules.ts</code>):</p><pre><code>project
+└── repo
+    └── branch
+        └── knowledge pages
+            (plan | design | test-plan | bug-report | review | meeting | general)</code></pre><p>Knowledge pages don't have to sit under a branch — they can also live directly under a <code>project</code> or a <code>repo</code>. What can nest under what is enforced by <code>ALLOWED_DOC_CHILDREN</code>, so the tree stays valid: you can't, for instance, drop a <code>repo</code> inside a <code>branch</code>.</p><div class="note note-info"><p>The hierarchy isn't bureaucracy — it's what makes the memory tools work without you naming an explicit page id. When an AI tool calls <code>recall</code> or <code>remember</code>, Slate resolves a <strong>target</strong> from the current branch, repo, and project by walking this structure. A decision remembered on a feature branch lands on that branch's Decisions section; a repo convention lands in the repo's Notes. No structure, no place to route it.</p></div><h2 id="filling-one-in">Filling one in</h2><p>A knowledge page no longer generates itself. To have a brain write into it, start a session from the page — <strong>Start session</strong> on the page's own header, or from the Sessions tab — and the agent launcher hands the CLI the page, its lineage (project → repo → branch), the branch's goal and next open item, and the decisions already recorded in that project. See <a href="../../sessions/#starting-a-session-from-a-page">Sessions → Starting a session from a page</a>.</p><h2 id="see-also">See also</h2><ul><li><a href="../">Pages &amp; the Block Editor</a> — the universal page model these types build on.</li><li><a href="../missions/">Missions</a> — the <code>mission</code> doc type in depth.</li><li><a href="../../memory/recall-remember/">Recall &amp; Remember</a> — how memory tools resolve a target through the hierarchy.</li></ul>
+  </article>
+</div>
+
+<footer>
+  <p>
+    Slate is in alpha. Your data stays on your machine.<br>
+    <a href="../../../../">Home</a> ·
+    <a href="../../../../docs/">Docs</a> ·
+    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a>
+  </p>
+</footer>
+
+<script type="module" src="../../../../site/js/docs-page.js"></script>
+</body>
+</html>

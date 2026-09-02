@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slate — Missions</title>
+<meta name="description" content="A mission is a first-class typed page for a unit of work — a status dot, a session log, and a home for progress that AI tools append as they go.">
+<link rel="icon" href="../../../../assets/icon.svg">
+
+<meta property="og:title" content="Slate — Missions">
+<meta property="og:description" content="A mission is a first-class typed page for a unit of work — a status dot, a session log, and a home for progress that AI tools append as they go.">
+<meta property="og:type" content="article">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../../../site/css/tokens.css">
+<link rel="stylesheet" href="../../../../site/css/base.css">
+<link rel="stylesheet" href="../../../../site/css/layout.css">
+<link rel="stylesheet" href="../../../../site/css/components.css">
+<link rel="stylesheet" href="../../../../site/css/docs.css">
+<link rel="stylesheet" href="../../../../site/css/prose.css">
+
+<script>
+  // Before first paint, never after. See site/README.md — as a module this would run
+  // after the document renders and flash white on every navigation.
+  try {
+    var t = localStorage.getItem("slate-theme");
+    document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
+  } catch (e) {
+    document.documentElement.dataset.theme = "light";
+  }
+</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="slab-9" viewBox="0 0 9 9">
+      <path d="M 0.655 5.6 L 5.055 3.4 L 8.345 3.4 L 3.945 5.6 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="slab-18" viewBox="0 0 18 18">
+      <path d="M 1.31 11.2 L 10.11 6.8 L 16.69 6.8 L 7.89 11.2 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header>
+    <a class="back" href="../">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      Back
+    </a>
+    <h1>Missions</h1>
+  </header>
+
+  <article class="prose reveal">
+<p>A mission is a page with a job. Where a plain page holds knowledge, a mission holds <strong>work</strong>: it's the container you open when you're driving a feature, a fix, or a task from start to finish, and it stays the anchor for everything that happens along the way.</p><p>Because a mission is just a page with <code>doc_type = mission</code>, it inherits the whole page model — nesting, breadcrumbs, the block editor — and adds two things that make it a work container:</p><ul><li>A <strong>status dot</strong> that reflects the page's <code>status</code> (<code>draft</code>, <code>active</code>, <code>done</code>, <code>canceled</code>) at a glance.</li><li>A <strong>session-log section</strong> where progress accumulates over time rather than overwriting itself.</li></ul><h2 id="the-session-log">The session log</h2><p>The point of a mission is continuity across sessions. You (or an AI tool working on your behalf) don't restart from zero each time — the log is a running record of what happened and when.</p><p>The memory layer writes to it directly. The MCP tool <code>log_mission_progress</code> appends a session summary to the branch's <strong>Plan</strong> page, so each work session leaves a dated entry behind it instead of scattering notes:</p><pre><code>recall  →  work the task  →  log_mission_progress(summary, …)</code></pre><p>Over a few sessions the Plan page becomes the mission's narrative: what was tried, what landed, what's still open. The next session — human or agent — picks up with that context already in front of it.</p><div class="note note-info"><p><code>log_mission_progress</code> is one of Slate's memory tools, exposed to every AI tool you connect. It appends rather than replaces, so progress is additive and the history stays intact. See <a href="../../memory/recall-remember/">Recall &amp; Remember</a> for how it fits the wider recall/remember contract.</p></div><h2 id="see-also">See also</h2><ul><li><a href="../typed-documents/">Typed Documents &amp; Hierarchy</a> — where the <code>mission</code> type and its status sit among the other doc types.</li><li><a href="../../memory/recall-remember/">Recall &amp; Remember</a> — the memory tools that read and write mission progress.</li><li><a href="../">Pages &amp; the Block Editor</a> — the page model a mission is built on.</li></ul>
+  </article>
+</div>
+
+<footer>
+  <p>
+    Slate is in alpha. Your data stays on your machine.<br>
+    <a href="../../../../">Home</a> ·
+    <a href="../../../../docs/">Docs</a> ·
+    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a>
+  </p>
+</footer>
+
+<script type="module" src="../../../../site/js/docs-page.js"></script>
+</body>
+</html>

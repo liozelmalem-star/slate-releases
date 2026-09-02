@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slate — Pages &amp; the Block Editor</title>
+<meta name="description" content="Everything in Slate is a page — nested, typed, and edited in a keyboard-first block editor backed by a single SQLite table.">
+<link rel="icon" href="../../../assets/icon.svg">
+
+<meta property="og:title" content="Slate — Pages &amp; the Block Editor">
+<meta property="og:description" content="Everything in Slate is a page — nested, typed, and edited in a keyboard-first block editor backed by a single SQLite table.">
+<meta property="og:type" content="article">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../../site/css/tokens.css">
+<link rel="stylesheet" href="../../../site/css/base.css">
+<link rel="stylesheet" href="../../../site/css/layout.css">
+<link rel="stylesheet" href="../../../site/css/components.css">
+<link rel="stylesheet" href="../../../site/css/docs.css">
+<link rel="stylesheet" href="../../../site/css/prose.css">
+
+<script>
+  // Before first paint, never after. See site/README.md — as a module this would run
+  // after the document renders and flash white on every navigation.
+  try {
+    var t = localStorage.getItem("slate-theme");
+    document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
+  } catch (e) {
+    document.documentElement.dataset.theme = "light";
+  }
+</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="slab-9" viewBox="0 0 9 9">
+      <path d="M 0.655 5.6 L 5.055 3.4 L 8.345 3.4 L 3.945 5.6 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="slab-18" viewBox="0 0 18 18">
+      <path d="M 1.31 11.2 L 10.11 6.8 L 16.69 6.8 L 7.89 11.2 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header>
+    <a class="back" href="./">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      Features
+    </a>
+    <h1>Pages &amp; the Block Editor</h1>
+  </header>
+
+  <article class="prose reveal">
+<p>The page is Slate's universal unit. A note, a design doc, a repo, a captured AI session, a mission — all of them are rows in one <code>page</code> table. There is no separate &quot;document type&quot; storage layer to learn: nesting, reordering, icons, and archiving work the same way for everything.</p><p>Each page carries an id, a <code>parent_id</code>, a title, an icon, a fractional <code>position</code>, its block content, and a handful of metadata columns (<code>doc_type</code>, <code>status</code>, <code>archived</code>, timestamps). Because it's all one table, moving a mission under a branch or nesting a design doc under a repo is the same operation everywhere.</p><h2 id="the-block-editor">The block editor</h2><p>Slate's editor is <a href="https://www.blocknotejs.org" target="_blank" rel="noreferrer">BlockNote</a>. You write in blocks, and every block is a first-class, reorderable unit rather than a run of Markdown text.</p><div class="scroll"><table><thead><tr><th>Block</th><th>Notes</th></tr></thead><tbody><tr><td>Paragraph</td><td>The default block.</td></tr><tr><td>Heading 1–3</td><td>Three levels of section headings.</td></tr><tr><td>Bullet list</td><td>Unordered items.</td></tr><tr><td>Numbered list</td><td>Ordered items.</td></tr><tr><td>To-do list</td><td>Checkbox items.</td></tr><tr><td>Quote</td><td>Block quote.</td></tr><tr><td>Code</td><td>Fenced code block.</td></tr><tr><td>Divider</td><td>Horizontal rule.</td></tr></tbody></table></div><p>The editor is keyboard-first:</p><ul><li>Type <code>/</code> to open the <strong>slash menu</strong> and insert any block without leaving the keyboard.</li><li><strong>Drag-reorder</strong> blocks by their handle, or move them with the keyboard.</li><li>Standard rich-text shortcuts apply inside a block.</li></ul><p>Content is stored as BlockNote JSON in the page's <code>content</code> column, so the document structure survives round-trips exactly as you left it.</p><h3 id="right-to-left-pages">Right-to-left pages</h3><p>A page written in Hebrew, Arabic or any other RTL script lays out right-to-left — the body, the title, its tab, its breadcrumb and its row in the sidebar. Nothing to turn on and nothing to set: Slate reads the direction off the text itself, and an English page is untouched.</p><p>The rule is <strong>the majority of words</strong>, counted by the script each word starts in — not the browser's <code>dir=&quot;auto&quot;</code>, which judges by the first strong character alone. Real notes open their paragraphs with a ticket id or a package name (<code>PROJ-18323 — Studio 2 דוחה…</code>), and <code>auto</code> calls every one of those an English paragraph. It is not a per-character majority either: one long identifier (<code>@nimbus/r-auto-panels-adt-runtime-lightningcss</code>) would otherwise outvote five Hebrew words in the same sentence.</p><p>A page has ONE direction, so an English heading inside a Hebrew page stays with the page rather than flipping mid-document. A title declares its own — a Hebrew page may keep an English name.</p><h2 id="the-page-tree">The page tree</h2><p>The sidebar is a nested tree of pages. Any page can hold children, to any depth.</p><ul><li><strong>Breadcrumbs</strong> show the path back to the root as <code>Grandparent / Parent / Title</code>.</li><li>Each entry shows an <strong>icon + title</strong>. The icon is either a <a href="https://lucide.dev" target="_blank" rel="noreferrer">Lucide</a> icon name or an emoji.</li><li><strong>Drag-to-reorder</strong> uses a fractional <code>position</code> (a <code>REAL</code> column), so dropping a page between two siblings normally rewrites just the one row that moved. Roughly 52 drops into the same narrowing gap exhaust what a float can divide; at that point the sibling list is renumbered once and the drop lands where you put it.</li><li><strong>Move / nest</strong> a page by dragging it under a new parent.</li><li><strong>Archive</strong> sends a page to the Trash rather than deleting it outright, so a mistaken archive is recoverable.</li></ul><div class="note note-info"><p>Fractional positioning is provided by <code>positionBetween</code> in <code>@slate/shared</code>. It computes a value strictly between two neighbors, which is why reordering is normally a single-row update instead of a bulk rewrite. When the midpoint would equal a neighbour — the float has run out of room — <code>rebalanceSiblings</code> renumbers that one parent's children and the move is recomputed. <code>position</code> is a local sort key and is never pushed to the cloud, so a renumber costs nothing beyond the write.</p></div><h3 id="what-the-tree-knows-and-what-it-doesnt">What the tree knows, and what it doesn't</h3><p>The sidebar holds page <strong>metadata</strong> — title, icon, kind, parent, position, status. It does not hold page bodies. A body is fetched when the page is opened, and the tree is refreshed by a conditional request that costs nothing at all when nothing has changed (see the server's own storage layer).</p><p>The visible consequence is <strong>backlinks</strong>. &quot;Linked from&quot; used to be computed in the browser by scanning every page's body, which only worked because the tree happened to carry them all. It is a server query now — <code>GET /pages/:id/backlinks</code> — asked once when a page opens. Nothing about the panel changed; the scan moved to the layer that already holds the rows.</p><h2 id="markdown-in-markdown-out">Markdown in, Markdown out</h2><p>Blocks convert to and from Markdown through pure helpers in <code>@slate/shared</code> (<code>blocksToMarkdown</code>, <code>markdownToBlocks</code>, <code>parseBlocks</code>). That means content pasted as Markdown lands as real blocks, and blocks can be rendered back to Markdown for tools that expect plain text — including the AI agent and the MCP tools that read and write your pages.</p><h2 id="beyond-the-plain-page">Beyond the plain page</h2><p>The page model is deliberately simple so that richer behavior can be layered on top with just two extra columns:</p><p>&lt;table data-view=&quot;cards&quot;&gt;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;&lt;/th&gt;&lt;th&gt;&lt;/th&gt;&lt;th data-hidden data-card-target data-type=&quot;content-ref&quot;&gt;&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td&gt;&lt;strong&gt;Typed Documents &amp;#x26; Hierarchy&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;How &lt;code&gt;doc_type&lt;/code&gt; pre-fills templates and how project → repo → branch nesting is enforced.&lt;/td&gt;&lt;td&gt;&lt;a href=&quot;typed-documents.md&quot;&gt;typed-documents.md&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;tr&gt;&lt;td&gt;&lt;strong&gt;Missions&lt;/strong&gt;&lt;/td&gt;&lt;td&gt;A first-class work container with a status dot and a session log.&lt;/td&gt;&lt;td&gt;&lt;a href=&quot;missions.md&quot;&gt;missions.md&lt;/a&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;</p><p>Whether a page is shared is decided by <strong>which workspace it is in</strong>, not by a control on the page. Its ⋯ menu can move it — and everything nested under it — into another workspace, which is a real move between two SQLite files rather than a change of label. See <a href="../workspaces/sharing/">Working in a Shared Workspace</a>.</p><h2 id="see-also">See also</h2><ul><li><a href="typed-documents/">Typed Documents &amp; Hierarchy</a> — the <code>doc_type</code> enum and the rules that shape the tree.</li><li><a href="missions/">Missions</a> — pages as tracked units of work.</li><li><a href="../memory/">Memory</a> — how the same pages become cross-tool memory.</li><li><a href="../workspaces/">Workspaces</a> — sharing a page tree with colleagues.</li></ul>
+  </article>
+</div>
+
+<footer>
+  <p>
+    Slate is in alpha. Your data stays on your machine.<br>
+    <a href="../../../">Home</a> ·
+    <a href="../../../docs/">Docs</a> ·
+    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a>
+  </p>
+</footer>
+
+<script type="module" src="../../../site/js/docs-page.js"></script>
+</body>
+</html>

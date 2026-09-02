@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slate — Session Capture</title>
+<meta name="description" content="Slate auto-captures your AI sessions from Claude, Codex, Gemini, Cursor and OpenCode — a filesystem watcher for the tools that write transcripts, a database reader for the one that doesn't. No hooks, no manual logging.">
+<link rel="icon" href="../../../../assets/icon.svg">
+
+<meta property="og:title" content="Slate — Session Capture">
+<meta property="og:description" content="Slate auto-captures your AI sessions from Claude, Codex, Gemini, Cursor and OpenCode — a filesystem watcher for the tools that write transcripts, a database reader for the one that doesn't. No hooks, no manual logging.">
+<meta property="og:type" content="article">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../../../site/css/tokens.css">
+<link rel="stylesheet" href="../../../../site/css/base.css">
+<link rel="stylesheet" href="../../../../site/css/layout.css">
+<link rel="stylesheet" href="../../../../site/css/components.css">
+<link rel="stylesheet" href="../../../../site/css/docs.css">
+<link rel="stylesheet" href="../../../../site/css/prose.css">
+
+<script>
+  // Before first paint, never after. See site/README.md — as a module this would run
+  // after the document renders and flash white on every navigation.
+  try {
+    var t = localStorage.getItem("slate-theme");
+    document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
+  } catch (e) {
+    document.documentElement.dataset.theme = "light";
+  }
+</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="slab-9" viewBox="0 0 9 9">
+      <path d="M 0.655 5.6 L 5.055 3.4 L 8.345 3.4 L 3.945 5.6 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="slab-18" viewBox="0 0 18 18">
+      <path d="M 1.31 11.2 L 10.11 6.8 L 16.69 6.8 L 7.89 11.2 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header>
+    <a class="back" href="../">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      Back
+    </a>
+    <h1>Session Capture</h1>
+  </header>
+
+  <article class="prose reveal">
+<p>Memory is only useful if it fills itself. Slate captures your AI sessions automatically: a filesystem <strong>watcher</strong> observes the conversation files that coding tools already write to disk, detects completed sessions by pattern, and stores each one as a page in your workspace.</p><h2 id="how-capture-works-per-tool">How capture works per tool</h2><div class="scroll"><table><thead><tr><th>Tool</th><th>Capture method</th></tr></thead><tbody><tr><td>Claude</td><td>Watcher — pattern detection on conversation files. No hooks needed.</td></tr><tr><td>Codex</td><td>Watcher — pattern detection on conversation files. No hooks needed.</td></tr><tr><td>Gemini</td><td>Watcher — pattern detection on conversation files. No hooks needed.</td></tr><tr><td>Cursor</td><td>Watcher — <code>cursor-agent</code> writes JSONL under <code>~/.cursor/projects/&lt;project&gt;/agent-transcripts/</code>. No hooks needed.</td></tr><tr><td>OpenCode</td><td>Database reader — OpenCode keeps its sessions in SQLite, not in files, so Slate reads the rows instead of polling a directory. Nothing to configure.</td></tr></tbody></table></div><p>There is nothing to configure for any of them. Four tools write JSONL transcripts and the watcher recognizes them on its own; OpenCode writes no transcript at all, so Slate reads its database (<code>~/.local/share/opencode/opencode.db</code>) read-only and renders each session into the same shape the other four produce. That means one set of rules — the same digest, the same noise filtering, the same branch attribution — applies to every tool rather than the best-supported one.</p><div class="note note-info"><p>Cursor used to be listed here as needing an opt-in <code>sessionEnd</code> hook. It doesn't: its CLI writes ordinary transcripts that the watcher already read. If you enabled that hook on an earlier version you can turn it off — capture continues without it.</p></div><h3 id="auto-discovery-new-tools-and-non-default-configs">Auto-discovery — new tools and non-default configs</h3><p>The four rows above are a seed, not a fixed list. The watcher also <strong>auto-discovers</strong> any AI tool that writes JSONL transcripts under your home directory: it looks for a hidden config folder holding a subdirectory (<code>projects</code>, <code>sessions</code>, <code>tmp</code>, …) whose files parse as a role-tagged transcript, and captures it automatically. Two things fall out for free:</p><ul><li>A <strong>brand-new tool</strong> you install is captured with no registration.</li><li>A <strong>non-default config directory</strong> — e.g. running Claude under <code>~/.claude-personal</code> — is picked up automatically, not just the default <code>~/.claude</code>.</li></ul><p>Nothing is registered by hand; if it writes transcripts under <code>~</code>, it's captured. (XDG <code>~/.config</code> trees are skipped for precision.) Assigning an account to a project is what starts capturing it — there is no separate watch list to keep in step.</p><h2 id="what-a-captured-session-looks-like">What a captured session looks like</h2><p>Each session becomes a page (icon <code>MessageSquare</code> / 💬) with structured JSON properties:</p><div class="scroll"><table><thead><tr><th>Property</th><th>Meaning</th></tr></thead><tbody><tr><td><code>prompt</code></td><td>The originating request for the session.</td></tr><tr><td><code>summary</code></td><td>A one-line summary of what happened.</td></tr><tr><td><code>tool</code></td><td>Which AI tool produced the session.</td></tr><tr><td><code>tokens</code></td><td>Token count for the session.</td></tr><tr><td><code>sessionId</code></td><td>Stable id linking the session back to its conversation.</td></tr><tr><td><code>kind</code></td><td><code>session</code> when a <code>sessionId</code> is present, <code>note</code> when it is not — <strong>derived</strong>, never asserted beside it.</td></tr><tr><td><code>model</code></td><td>The model that ran.</td></tr><tr><td><code>branch</code></td><td>The git branch the work happened on.</td></tr></tbody></table></div><p>The page <strong>body</strong> carries the session's <strong>digest</strong> — every real human turn (the asks and mid-session course-corrections, where decisions live) plus the final outcome. This is deliberate: a session's important decisions are usually made in the middle, so recall's content search needs more than the opening prompt to find them. For a session on a git branch, the digest page is filed under the branch and linked from its session log.</p><p>The <code>branch</code> is taken from the transcript's own record when the tool writes one (Claude Code does); for tools that don't (Codex, Gemini, Cursor, OpenCode), a <strong>freshly captured</strong> session falls back to the repository's current branch, so it no longer collapses to the repo level. Historical back-fill stays repo-level rather than mis-stamp an old session onto today's checkout.</p><p><code>remember</code> writes each atom's human-readable window through this same writer, and such a page has no conversation behind it — no <code>sessionId</code>, no tool. Deriving <code>kind</code> from the <code>sessionId</code> is what keeps the two apart: until 2026-08-29 the writer stamped <code>session</code> on everything, so remembered atoms surfaced in the Console's conversation history offering rows there was nothing to resume. A startup pass retypes the pages already written; it retypes rather than archives, because the page is where a human reads the atom back.</p><p>Captured sessions appear in the <strong>Memory</strong> page and are shown <strong>read-only</strong> — they are a record of what happened, not a document to edit.</p><h2 id="keeping-the-watcher-running">Keeping the watcher running</h2><p>Capture runs inside Slate itself and stops when you quit. Sessions you run while it is closed are picked up the next time you open it — the historical scan catches what the live watchers missed. Turn it on and off in <strong>Settings → Machine &amp; AI</strong>; it is one switch per computer, unlike the tools and sources on the other tabs, which belong to the open workspace.</p><div class="note note-info"><p>The watcher reads files already on your machine and writes only to your local workspace. Session capture sends nothing to the network.</p></div><h2 id="see-also">See also</h2><ul><li><a href="../recall-remember/">Recall &amp; Remember</a>. how captured knowledge is read back and routed.</li><li><a href="../../activity/">Activity &amp; Analytics</a>. session history, streaks, and token tracking built on captures.</li><li><a href="../../privacy-and-security/">Privacy &amp; Security</a>. what stays local and what doesn't.</li></ul>
+  </article>
+</div>
+
+<footer>
+  <p>
+    Slate is in alpha. Your data stays on your machine.<br>
+    <a href="../../../../">Home</a> ·
+    <a href="../../../../docs/">Docs</a> ·
+    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a>
+  </p>
+</footer>
+
+<script type="module" src="../../../../site/js/docs-page.js"></script>
+</body>
+</html>

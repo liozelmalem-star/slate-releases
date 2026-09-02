@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slate — Memory Map</title>
+<meta name="description" content="A visual view of your facts and decisions as a map — places you can learn, rather than a picture you re-read every time.">
+<link rel="icon" href="../../../../assets/icon.svg">
+
+<meta property="og:title" content="Slate — Memory Map">
+<meta property="og:description" content="A visual view of your facts and decisions as a map — places you can learn, rather than a picture you re-read every time.">
+<meta property="og:type" content="article">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../../../site/css/tokens.css">
+<link rel="stylesheet" href="../../../../site/css/base.css">
+<link rel="stylesheet" href="../../../../site/css/layout.css">
+<link rel="stylesheet" href="../../../../site/css/components.css">
+<link rel="stylesheet" href="../../../../site/css/docs.css">
+<link rel="stylesheet" href="../../../../site/css/prose.css">
+
+<script>
+  // Before first paint, never after. See site/README.md — as a module this would run
+  // after the document renders and flash white on every navigation.
+  try {
+    var t = localStorage.getItem("slate-theme");
+    document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
+  } catch (e) {
+    document.documentElement.dataset.theme = "light";
+  }
+</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="slab-9" viewBox="0 0 9 9">
+      <path d="M 0.655 5.6 L 5.055 3.4 L 8.345 3.4 L 3.945 5.6 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="slab-18" viewBox="0 0 18 18">
+      <path d="M 1.31 11.2 L 10.11 6.8 L 16.69 6.8 L 7.89 11.2 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header>
+    <a class="back" href="../">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      Back
+    </a>
+    <h1>Memory Map</h1>
+  </header>
+
+  <article class="prose reveal">
+<p>The Memory Map is a <strong>visual view</strong> of what Slate remembers: the whole corpus at once, every atom placed by what it says, dense areas raised into contours, and the busiest regions named after the words that distinguish them.</p><p>It is not an alternative to reading the atoms — <strong>the map is the stage and the list is the pane beside it</strong>, both on screen together, and one scope picker drives them. There is no view switch to choose between them, and no separate &quot;Recent&quot; view; the list is where you read, correct and retire an atom, and the map is where you see the shape.</p><p>It is a visualization <em>over</em> the existing fact and decision data. It doesn't create a new kind of memory or a separate store — the marks are the same <a href="../decisions-and-facts/">facts and decisions</a> that <code>recall</code> reads and that <a href="../recall-remember/"><code>remember</code></a> writes. Change the underlying data and the view reflects it.</p><h2 id="how-to-read-it">How to read it</h2><ul><li><strong>Position is meaning.</strong> Two atoms sit near each other for one of two reasons: their text is similar — weighted so that words the whole corpus repeats stop counting as evidence — or they cite the same place in your code. A citation counts even when the wording shares nothing, which is how two notes about one file find each other after you have described it two different ways.</li><li><strong>The outer ring is everything unconnected.</strong> Atoms that relate to nothing else Slate knows are placed in a band around the edge rather than dropped into the middle, and drawn smaller and fainter — they are a margin, not a place, and two of them sitting side by side means nothing at all. They raise no contours either, so the terrain describes only what Slate has actually connected. The ring is still worth reading: a large one means much of what you have written stands alone, and usually means those atoms want a citation or a rewrite.</li><li><strong>Contours are density.</strong> The nested rings mark where Slate knows the most. Open ground is where it knows little.</li><li><strong>Colour and shape are kind.</strong> A fact is a circle, a decision a filled slab, a preference a hollow one, state a pair — the same vocabulary the chips above the map use. Those chips filter the <strong>list</strong>, not the map: the map draws each kind as its own form, so hiding three of the four would leave a picture whose shapes no longer match the legend.</li><li><strong>Size is recall.</strong> An atom grows with how often it has actually been used.</li><li><strong>Retired atoms stay, faintly.</strong> Where the corpus <em>used</em> to be dense is part of what the map has to say.</li></ul><p>Zoom past a certain point and every atom takes its own label; below that, the region names are the right level of detail. Click an atom to pin its card — edit the text, retire it, jump to the session that taught it, or merge a duplicate.</p><h2 id="positions-are-stable">Positions are stable</h2><p>The important property, and the reason this is a map rather than a diagram: <strong>an atom keeps its place.</strong> Open the tab tomorrow and the sync material is still over on the left. That is what makes it navigable from memory instead of re-read from scratch each time.</p><p>Keeping that promise takes work behind the scenes. The layout is computed from scratch whenever the corpus changes, and the algorithm that computes it has no preferred orientation or size — left to itself, a recompute would come back rotated, mirrored, or at a different scale. So each new layout is turned, flipped and resized onto the previous one before it is stored, and it is resized to reproduce the previous layout's size exactly rather than whatever size fits it most closely. That distinction is load-bearing: each stored layout is what the next one is measured against, so a fit that shrank the map even slightly would shrink it again on every recompute, and the whole corpus would close up into a single point.</p><p>An atom can still move a long way for two reasons. The first is the useful one: when it stops being alone. Add a citation to something on the outer ring, or write a second atom about the same file, and it leaves the ring for wherever its new neighbours are. The second is an update to Slate itself.</p><h2 id="once-after-an-update">Once after an update</h2><p>Stability holds within a version of Slate, not across one. When an update improves how atoms are placed, the old positions cannot be carried over: fitting a new layout onto the old one reproduces the old one, including whatever the update was meant to fix. So an update that changes the placement drops the previous frame and lays the map out fresh.</p><p>In practice, the first time you open Memory after such an update the map recomputes once and everything moves. After that it is stable again until the next placement change.</p><div class="note note-info"><p>The map is a lens on your memory, not a source of truth of its own. The facts and decisions it draws live in your local SQLite workspace like every other page.</p></div><h2 id="when-it-is-catching-up">When it is catching up</h2><p>Placing a thousand atoms takes about a second, so Slate never does it while you wait. Opening the tab shows the coordinates it already has and quietly recomputes behind you; a small &quot;placing new atoms&quot; note appears while that is happening, and the map sharpens when it lands. The one time this is more than a sharpening is the first open after an update that changed the placement: what you see first is the previous layout, and when the recompute lands the whole map moves at once. Atoms written since the last layout simply are not drawn yet — Slate would rather leave one out for a moment than guess a position and move it later.</p><h2 id="see-also">See also</h2><ul><li><a href="../decisions-and-facts/">Decisions &amp; Facts</a>. the data the map draws.</li><li><a href="../">Memory</a>. how the pieces of the memory layer fit together.</li></ul>
+  </article>
+</div>
+
+<footer>
+  <p>
+    Slate is in alpha. Your data stays on your machine.<br>
+    <a href="../../../../">Home</a> ·
+    <a href="../../../../docs/">Docs</a> ·
+    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a>
+  </p>
+</footer>
+
+<script type="module" src="../../../../site/js/docs-page.js"></script>
+</body>
+</html>

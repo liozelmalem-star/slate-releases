@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slate — Studio</title>
+<meta name="description" content="Write your instructions and skills once, then sync them to every AI tool you use — Claude Code, Cursor, Codex, Gemini and OpenCode — from one source of truth.">
+<link rel="icon" href="../../../assets/icon.svg">
+
+<meta property="og:title" content="Slate — Studio">
+<meta property="og:description" content="Write your instructions and skills once, then sync them to every AI tool you use — Claude Code, Cursor, Codex, Gemini and OpenCode — from one source of truth.">
+<meta property="og:type" content="article">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../../site/css/tokens.css">
+<link rel="stylesheet" href="../../../site/css/base.css">
+<link rel="stylesheet" href="../../../site/css/layout.css">
+<link rel="stylesheet" href="../../../site/css/components.css">
+<link rel="stylesheet" href="../../../site/css/docs.css">
+<link rel="stylesheet" href="../../../site/css/prose.css">
+
+<script>
+  // Before first paint, never after. See site/README.md — as a module this would run
+  // after the document renders and flash white on every navigation.
+  try {
+    var t = localStorage.getItem("slate-theme");
+    document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
+  } catch (e) {
+    document.documentElement.dataset.theme = "light";
+  }
+</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="slab-9" viewBox="0 0 9 9">
+      <path d="M 0.655 5.6 L 5.055 3.4 L 8.345 3.4 L 3.945 5.6 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="slab-18" viewBox="0 0 18 18">
+      <path d="M 1.31 11.2 L 10.11 6.8 L 16.69 6.8 L 7.89 11.2 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header>
+    <a class="back" href="./">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      Features
+    </a>
+    <h1>Studio</h1>
+  </header>
+
+  <article class="prose reveal">
+<p>Every AI coding tool wants its instructions in its own place and its own format. Claude Code reads <code>CLAUDE.md</code> and <code>.claude/</code>; Cursor reads <code>AGENTS.md</code> and <code>.cursor/</code>; Codex and Gemini each have their own layout. Keep them by hand and they drift.</p><p>Studio fixes that. You write your instructions and skills <strong>once</strong>, in one place, and Studio projects them out to every tool. Change the source, run one command, and every adapter is regenerated in sync.</p><h2 id="the-source-of-truth">The source of truth</h2><p>Two things, both checked into the repo, are the only things you edit:</p><div class="scroll"><table><thead><tr><th>Source</th><th>Role</th></tr></thead><tbody><tr><td><code>STUDIO.md</code></td><td>The cross-tool entry point — how to work in this repo.</td></tr><tr><td><code>.studio/</code></td><td>Everything else: <code>studio.toml</code> (the manifest) and <code>skills/</code> (each skill's <code>SKILL.md</code>).</td></tr></tbody></table></div><p>Repo owners edit only <code>STUDIO.md</code> and <code>.studio/</code>. Everything else is generated.</p><h2 id="generated-adapters">Generated adapters</h2><p><code>yarn studio sync</code> reads the manifest and materializes a per-tool adapter for each connected tool. These outputs are <strong>generated and gitignored</strong> — you never hand-edit them:</p><div class="scroll"><table><thead><tr><th>Tool</th><th>Generated paths</th></tr></thead><tbody><tr><td>Claude Code</td><td><code>.claude/skills/</code>, <code>.mcp.json</code>, <code>CLAUDE.md</code></td></tr><tr><td>Cursor</td><td><code>.cursor/skills/</code>, <code>.cursor/mcp.json</code>, <code>.cursor/rules/studio-agents.mdc</code></td></tr><tr><td>Codex</td><td><code>.agents/skills/</code>, <code>.codex/config.toml</code></td></tr><tr><td>Gemini CLI</td><td><code>.gemini/skills/</code>, <code>.gemini/settings.json</code></td></tr><tr><td>OpenCode</td><td><code>.opencode/skills/</code>, <code>.opencode/opencode.json</code>, <code>AGENTS.md</code></td></tr></tbody></table></div><p>Each adapter carries the same skills and the same MCP configuration, translated into the shape that tool expects.</p><h2 id="commands">Commands</h2><pre><code>yarn studio sync     # materialize adapters from STUDIO.md + .studio/
+yarn studio check    # fail on drift (run pre-push)
+yarn studio status   # per-tool table of what's projected
+yarn studio prove    # POC gate</code></pre><p><code>yarn studio check</code> is the guardrail: it fails if a generated adapter has drifted from the source, so a stale <code>CLAUDE.md</code> or <code>.cursor/</code> can't slip into a push.</p><div class="note note-info"><p>Studio is also a page in the app. The in-app <strong>Studio</strong> page lets you edit <code>STUDIO.md</code> and skills directly, then run <strong>Sync to tools</strong> or <strong>Prove POC</strong> without dropping to a terminal.</p></div><h2 id="see-also">See also</h2><ul><li><a href="cli-profiles/">CLI Config Profiles</a> — the accounts your AI tools run under, one per tool per project.</li><li>The Studio System — the developer deep-dive into how projection works.</li></ul>
+  </article>
+</div>
+
+<footer>
+  <p>
+    Slate is in alpha. Your data stays on your machine.<br>
+    <a href="../../../">Home</a> ·
+    <a href="../../../docs/">Docs</a> ·
+    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a>
+  </p>
+</footer>
+
+<script type="module" src="../../../site/js/docs-page.js"></script>
+</body>
+</html>

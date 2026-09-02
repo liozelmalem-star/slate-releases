@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slate — Connecting Your AI Tools</title>
+<meta name="description" content="Wire Claude Code, Cursor, Codex, Gemini or OpenCode to Slate's MCP server so every tool shares the same memory — from the app in three clicks, or by hand.">
+<link rel="icon" href="../../../../assets/icon.svg">
+
+<meta property="og:title" content="Slate — Connecting Your AI Tools">
+<meta property="og:description" content="Wire Claude Code, Cursor, Codex, Gemini or OpenCode to Slate's MCP server so every tool shares the same memory — from the app in three clicks, or by hand.">
+<meta property="og:type" content="article">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../../../site/css/tokens.css">
+<link rel="stylesheet" href="../../../../site/css/base.css">
+<link rel="stylesheet" href="../../../../site/css/layout.css">
+<link rel="stylesheet" href="../../../../site/css/components.css">
+<link rel="stylesheet" href="../../../../site/css/docs.css">
+<link rel="stylesheet" href="../../../../site/css/prose.css">
+
+<script>
+  // Before first paint, never after. See site/README.md — as a module this would run
+  // after the document renders and flash white on every navigation.
+  try {
+    var t = localStorage.getItem("slate-theme");
+    document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
+  } catch (e) {
+    document.documentElement.dataset.theme = "light";
+  }
+</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="slab-9" viewBox="0 0 9 9">
+      <path d="M 0.655 5.6 L 5.055 3.4 L 8.345 3.4 L 3.945 5.6 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="slab-18" viewBox="0 0 18 18">
+      <path d="M 1.31 11.2 L 10.11 6.8 L 16.69 6.8 L 7.89 11.2 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header>
+    <a class="back" href="../">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      Back
+    </a>
+    <h1>Connecting Your AI Tools</h1>
+  </header>
+
+  <article class="prose reveal">
+<h2 id="contents">Contents</h2><ul><li><a href="#the-easy-way-connect-ai-tools">The easy way: Connect → AI tools</a></li><li><a href="#let-studio-project-the-config">Let Studio project the config</a></li><li><a href="#connecting-by-hand">Connecting by hand</a></li><li><a href="#verify-it-is-working">Verify it is working</a></li><li><a href="#how-to-use-it-well">How to use it well</a></li><li><a href="#the-contract">The contract</a></li><li><a href="#troubleshooting">Troubleshooting</a></li></ul><p>Slate's value as a memory layer only shows up once your AI tools are actually connected to it. Any MCP-capable tool — Claude Code, Cursor, Codex, Gemini, OpenCode — can talk to Slate's stdio MCP server and share the same long-term memory. What each of them can then do is the <a href="../tools/">Tool Reference</a>.</p><h2 id="the-easy-way-connect-ai-tools">The easy way: Connect → AI tools</h2><p>Registering Slate with a tool is per config directory, not per project, so it lives once: <strong><a href="../../connect/">Connect → AI tools</a></strong> lists each tool, and its switch installs Slate into the account that row names — as a plugin for Claude Code and Codex, as config entries for the rest — <em>and</em> records that this workspace runs on it. A project can override which account it uses; nothing else needs setting per project. Because the server ships as a <strong>SEA sidecar binary</strong>, there is no Node install and no separate process to babysit — the tool launches the sidecar over stdio.</p><ol><li>Open <strong>Connect → AI tools</strong>.</li><li>Pick the tool and the account, and switch Slate on for it.</li><li>The tool launches the sidecar over stdio and can now call Slate's <a href="../tools/">tools</a>.</li></ol><div class="note note-info"><p>Exact per-tool config differs between Claude Code, Cursor, Codex, Gemini and OpenCode. Use <strong>Connect → AI tools</strong> as the source of truth for what to register — it is kept in sync with what Slate actually exposes.</p></div><h2 id="let-studio-project-the-config">Let Studio project the config</h2><p>You do not have to wire each tool by hand. <strong>Studio</strong> can project MCP configs for you: write your setup once and Studio materializes per-tool adapters — including MCP configs — for Claude Code, Cursor, Codex, Gemini and OpenCode. See <a href="../../studio/">Studio</a>.</p><h2 id="connecting-by-hand">Connecting by hand</h2><p>For using Slate's server without the app driving it. The binary ships inside the app bundle and is self-contained — no Node, no separate install:</p><pre><code>/Applications/Slate.app/Contents/MacOS/slate-mcp</code></pre><h3 id="claude-code">Claude Code</h3><div class="note note-warning"><p><strong>Connecting from the app instead? Skip this.</strong> Slate installs itself into Claude Code as a plugin, and the plugin supplies the MCP server — so Slate removes a hand-added <code>slate</code> entry on its next launch rather than listing every tool twice.</p></div><p>Add to <code>~/.claude.json</code> (create the file if it does not exist):</p><pre><code>{
+  &quot;mcpServers&quot;: {
+    &quot;slate&quot;: {
+      &quot;command&quot;: &quot;/Applications/Slate.app/Contents/MacOS/slate-mcp&quot;,
+      &quot;args&quot;: []
+    }
+  }
+}</code></pre><p>Restart Claude Code. You will see <code>slate</code> listed in <code>/mcp</code>. Dropping the same block into <code>.claude/settings.json</code> at a repo root activates it only inside that project, alongside your global config.</p><h3 id="cursor">Cursor</h3><p>Add to <code>~/.cursor/mcp.json</code> (Cursor → Settings → MCP → Edit), with the same block, then reload Cursor. The Slate tools appear in the agent's tool list.</p><h3 id="any-other-mcp-client">Any other MCP client</h3><p>The server speaks stdio MCP (protocol <code>2024-11-05</code>). Point any MCP-aware tool at the binary with no args:</p><pre><code>command: /Applications/Slate.app/Contents/MacOS/slate-mcp
+args:    []</code></pre><h2 id="verify-it-is-working">Verify it is working</h2><p>Ask your AI tool:</p><blockquote>&quot;Use the slate_capabilities tool to check the Slate contract, then use recall with query 'test' to check if Slate is connected.&quot;</blockquote><p>You should get a response referencing your workspace. Empty results are fine — it means the connection worked and no matching content exists yet.</p><h2 id="how-to-use-it-well">How to use it well</h2><p>Connecting is only half of it. The payoff comes from the rhythm the server asks every connected model to follow, and it sends these as standing instructions:</p><ul><li><strong>Handshake when available</strong> — the model calls <code>slate_capabilities</code> to inspect the contract version, schema hash, tool access levels and mutation safety rules.</li><li><strong>At the start of a task</strong> — the model calls <code>recall</code> with your working directory to load prior decisions, conventions, facts and the active branch brief before acting.</li><li><strong>At the end of a task</strong> — the model MUST call <code>remember</code> for each durable thing the session produced, as one sharp self-contained sentence with a deliberate kind (<code>decision | preference | state | fact</code>). The in-session model has the full context and you already paid for the session, so it distills the memory directly rather than leaving the background pipeline to re-derive it later.</li><li><strong>As it works a branch</strong> — the model keeps the mission current in the same session: <code>log_mission_progress</code> advances the plan, <code>record_decision</code> keeps a decision, <code>create_document</code> adds a plan/design/review the branch should carry.</li><li><strong>No write probes</strong> — the model must never call mutating tools just to discover whether Slate is connected. If <code>recall</code> or <code>remember</code> is missing, it reports a capability mismatch instead.</li><li><strong>Known write targets only</strong> — when a write targets an existing object, its id must come from prior Slate output (<code>get_page</code>, <code>list_pages</code>, <code>search_pages</code>, …) or an explicit user-provided id.</li><li><strong>Branch-aware targets</strong> — <code>append_to_page</code> also accepts a typed <code>target</code> when an id is not known. Use <code>cwd + branch</code> for the branch page, or <code>cwd + branch + doc_type/title</code> for a knowledge page. Slate only writes when that resolves to exactly one resource; ambiguous targets are refused.</li><li><strong>Every page write is additive</strong> — a connected tool can create a page and add to one. Renaming, reparenting, duplicating, trashing and find-and-replace are done in the app, where they can be undone. So there is nothing to dry-run and nothing to confirm: the guard is that the tool does not exist.</li><li><strong>Structured errors</strong> — contract errors are JSON with <code>error.code</code> and <code>error.message</code>, e.g. <code>ambiguous_target</code>, <code>target_not_found</code>.</li></ul><p>Follow that across tools and the memory compounds: what Claude Code learned this morning is recalled by Cursor this afternoon. It happens on its own with capable models, and you can prompt it directly too — <em>&quot;Remember that we decided to use X for Y.&quot;</em></p><p>Memory is stored in your local Slate workspace under <strong>Private → Memory</strong>. You can read, edit or delete entries in the app.</p><p>An example branch knowledge-page target:</p><pre><code>{
+  &quot;target&quot;: {
+    &quot;kind&quot;: &quot;knowledge_page&quot;,
+    &quot;cwd&quot;: &quot;/path/to/repo&quot;,
+    &quot;branch&quot;: &quot;feat/example&quot;,
+    &quot;doc_type&quot;: &quot;plan&quot;
+  },
+  &quot;markdown&quot;: &quot;## Progress\nImplemented the contract tests.&quot;
+}</code></pre><h2 id="the-contract">The contract</h2><p>Generated from the MCP tool registry and checked by <code>packages/mcp/test/tools/contract.test.ts</code>, so it cannot drift from what the server actually exposes. What each tool is <em>for</em> is the <a href="../tools/">Tool Reference</a>.</p><p>&lt;!-- slate-contract:start --&gt;</p><div class="scroll"><table><thead><tr><th>Tool</th><th>Access</th><th>Write target</th></tr></thead><tbody><tr><td><code>slate_capabilities</code></td><td>read</td><td>—</td></tr><tr><td><code>create_document</code></td><td>write</td><td>—</td></tr><tr><td><code>search_pages</code></td><td>read</td><td>—</td></tr><tr><td><code>list_pages</code></td><td>read</td><td>—</td></tr><tr><td><code>get_page</code></td><td>read</td><td>—</td></tr><tr><td><code>resolve_target</code></td><td>read</td><td>—</td></tr><tr><td><code>create_page</code></td><td>write</td><td>—</td></tr><tr><td><code>append_to_page</code></td><td>write</td><td>id, target.kind:branch, target.kind:knowledge_page; ambiguity=refuse</td></tr><tr><td><code>remember</code></td><td>write</td><td>—</td></tr><tr><td><code>recall</code></td><td>read</td><td>—</td></tr><tr><td><code>log_mission_progress</code></td><td>write</td><td>—</td></tr><tr><td><code>record_decision</code></td><td>write</td><td>—</td></tr><tr><td><code>list_decisions</code></td><td>read</td><td>—</td></tr><tr><td><code>recent_activity</code></td><td>read</td><td>—</td></tr><tr><td><code>activity_stats</code></td><td>read</td><td>—</td></tr><tr><td><code>list_projects</code></td><td>read</td><td>—</td></tr><tr><td><code>parked_work</code></td><td>read</td><td>—</td></tr><tr><td><code>search_content</code></td><td>read</td><td>—</td></tr><tr><td><code>get_ticket_context</code></td><td>read</td><td>—</td></tr><tr><td><code>recall_workspaces</code></td><td>read</td><td>—</td></tr><tr><td><code>workspace_page</code></td><td>read</td><td>—</td></tr></tbody></table></div><p>&lt;!-- slate-contract:end --&gt;</p><p><code>recall_workspaces</code> and <code>workspace_page</code> read the <strong>cloud</strong>, so they reach workspaces this machine has never materialised — a workspace you joined on another computer answers here. They need a cloud sign-in (Slate → Settings → Account) and return nothing until somebody shares something. Everything they can see is decided by Row Level Security in Postgres, so they return an empty result — never someone else's workspace — when you are not a member. Both are read-only: a shared page belongs to whoever wrote it, and only its author can change it, which is what removes merge conflicts from the design entirely.</p><h2 id="troubleshooting">Troubleshooting</h2><p><strong>&quot;command not found&quot; or &quot;no such file&quot;</strong> — Slate is not installed. Run <code>bash scripts/install.sh</code> first.</p><p><strong>Tools appear but calls fail</strong> — the workspace database may not exist yet. Open the Slate app at least once; it creates <code>~/Library/Application Support/app.slate.workspace/workspace.db</code> on first launch.</p><p><strong>Running from source</strong> — if you are running from a cloned repo rather than the installed app, use <code>node</code> with <code>packages/mcp/dist/index.js</code>, built by <code>yarn workspace @slate/mcp build</code>.</p><h2 id="see-also">See also</h2><ul><li><a href="../">Slate as an MCP Server</a> — the server you are connecting to.</li><li><a href="../tools/">Tool Reference</a> — what the connected tools can do.</li><li><a href="../../studio/">Studio</a> — project MCP configs to every tool at once.</li></ul>
+  </article>
+</div>
+
+<footer>
+  <p>
+    Slate is in alpha. Your data stays on your machine.<br>
+    <a href="../../../../">Home</a> ·
+    <a href="../../../../docs/">Docs</a> ·
+    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a>
+  </p>
+</footer>
+
+<script type="module" src="../../../../site/js/docs-page.js"></script>
+</body>
+</html>

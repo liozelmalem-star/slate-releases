@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slate — Connected MCP Tools</title>
+<meta name="description" content="The Console reaches every MCP server the brain's own CLI declares. Not to be confused with Slate as an MCP server.">
+<link rel="icon" href="../../../../assets/icon.svg">
+
+<meta property="og:title" content="Slate — Connected MCP Tools">
+<meta property="og:description" content="The Console reaches every MCP server the brain's own CLI declares. Not to be confused with Slate as an MCP server.">
+<meta property="og:type" content="article">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../../../site/css/tokens.css">
+<link rel="stylesheet" href="../../../../site/css/base.css">
+<link rel="stylesheet" href="../../../../site/css/layout.css">
+<link rel="stylesheet" href="../../../../site/css/components.css">
+<link rel="stylesheet" href="../../../../site/css/docs.css">
+<link rel="stylesheet" href="../../../../site/css/prose.css">
+
+<script>
+  // Before first paint, never after. See site/README.md — as a module this would run
+  // after the document renders and flash white on every navigation.
+  try {
+    var t = localStorage.getItem("slate-theme");
+    document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
+  } catch (e) {
+    document.documentElement.dataset.theme = "light";
+  }
+</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="slab-9" viewBox="0 0 9 9">
+      <path d="M 0.655 5.6 L 5.055 3.4 L 8.345 3.4 L 3.945 5.6 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="slab-18" viewBox="0 0 18 18">
+      <path d="M 1.31 11.2 L 10.11 6.8 L 16.69 6.8 L 7.89 11.2 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header>
+    <a class="back" href="../">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      Back
+    </a>
+    <h1>Connected MCP Tools</h1>
+  </header>
+
+  <article class="prose reveal">
+<p>The Console isn't limited to Slate's own workspace tools. It can reach out to <strong>any MCP server you connect</strong>, giving the agent access to whatever those servers expose.</p><h2 id="where-servers-come-from">Where servers come from</h2><p>The Console does not keep its own MCP server list. When a turn is handed to the brain's CLI, that CLI loads the MCP servers declared in its own config — the account's, and the project directory's — and reports back which ones connected. Which account a tool runs under is <a href="../../connect/">Connect → AI tools</a>, and a project may override it; which servers that account declares is the CLI's own config.</p><h2 id="two-directions-dont-conflate-them">Two directions — don't conflate them</h2><p>Slate sits on both sides of MCP, and it's worth being precise about which is which.</p><div class="scroll"><table><thead><tr><th>Direction</th><th>What it means</th></tr></thead><tbody><tr><td>Slate <strong>as</strong> an MCP server</td><td>Slate exposes <em>your workspace</em> to other AI tools (Claude Code, Cursor, Codex, Gemini, OpenCode). Those tools call into Slate.</td></tr><tr><td>The Console reaching <strong>other</strong> servers</td><td>The in-app agent calls <em>out</em> to MCP servers you connect. Slate is the client.</td></tr></tbody></table></div><p>This page is about the second direction. The first — Slate exposing your pages and memory to everything else — is its own feature.</p><h2 id="see-also">See also</h2><ul><li><a href="../../mcp-server/">Slate as an MCP Server</a> — the other direction: your workspace exposed to other tools.</li><li><a href="../mcp-commands/">Curated MCP Commands</a> — how the Console resolves and calls a connected tool.</li><li><a href="../">The AI Console</a> — the agent that does the reaching.</li></ul>
+  </article>
+</div>
+
+<footer>
+  <p>
+    Slate is in alpha. Your data stays on your machine.<br>
+    <a href="../../../../">Home</a> ·
+    <a href="../../../../docs/">Docs</a> ·
+    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a>
+  </p>
+</footer>
+
+<script type="module" src="../../../../site/js/docs-page.js"></script>
+</body>
+</html>

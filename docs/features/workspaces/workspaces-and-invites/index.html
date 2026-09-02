@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slate — Workspaces &amp; Invites</title>
+<meta name="description" content="Accounts, workspaces, roles and the invitation that gets somebody in — plus what a role actually controls, on the server and on your machine.">
+<link rel="icon" href="../../../../assets/icon.svg">
+
+<meta property="og:title" content="Slate — Workspaces &amp; Invites">
+<meta property="og:description" content="Accounts, workspaces, roles and the invitation that gets somebody in — plus what a role actually controls, on the server and on your machine.">
+<meta property="og:type" content="article">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../../../site/css/tokens.css">
+<link rel="stylesheet" href="../../../../site/css/base.css">
+<link rel="stylesheet" href="../../../../site/css/layout.css">
+<link rel="stylesheet" href="../../../../site/css/components.css">
+<link rel="stylesheet" href="../../../../site/css/docs.css">
+<link rel="stylesheet" href="../../../../site/css/prose.css">
+
+<script>
+  // Before first paint, never after. See site/README.md — as a module this would run
+  // after the document renders and flash white on every navigation.
+  try {
+    var t = localStorage.getItem("slate-theme");
+    document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
+  } catch (e) {
+    document.documentElement.dataset.theme = "light";
+  }
+</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="slab-9" viewBox="0 0 9 9">
+      <path d="M 0.655 5.6 L 5.055 3.4 L 8.345 3.4 L 3.945 5.6 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="slab-18" viewBox="0 0 18 18">
+      <path d="M 1.31 11.2 L 10.11 6.8 L 16.69 6.8 L 7.89 11.2 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header>
+    <a class="back" href="../">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      Back
+    </a>
+    <h1>Workspaces &amp; Invites</h1>
+  </header>
+
+  <article class="prose reveal">
+<h2 id="signing-in">Signing in</h2><p><strong>Settings → Account.</strong> Sign in with <strong>GitHub</strong> or <strong>Google</strong> — the two providers that ship today.</p><p>Slate opens your system browser, you approve there, and the provider comes back to a loopback address that Slate's own local server is listening on. The server does the code exchange itself, so no code, token, or password ever passes through the app's UI. The resulting session is written to a <code>0600</code> file in the app-data root rather than inside any database — exporting a workspace must never hand someone a live refresh token — and the local server owns it because Slate's MCP sidecar needs the same session for shared recall.</p><p>Your first sign-in provisions a <strong>personal account</strong>. Nothing else is required to start, and Personal works with no account at all.</p><p>The sidebar footer shows your avatar and name once you are signed in, with one action: sign out. It is a status row, not a second door.</p><hr><h2 id="two-tiers-because-one-isnt-enough">Two tiers, because one isn't enough</h2><div class="scroll"><table><thead><tr><th>Tier</th><th>What it means</th></tr></thead><tbody><tr><td><strong>Account</strong></td><td>The billing/organisation tier. A company, or one person. Roles: <code>owner</code>, <code>admin</code>, <code>member</code>.</td></tr><tr><td><strong>Workspace</strong></td><td>One store with one audience, inside an account. Roles: <code>owner</code>, <code>editor</code>, <code>viewer</code>.</td></tr></tbody></table></div><p>Membership in a workspace is <strong>independent</strong> of membership in the account that owns it. That is the point: a contractor gets one workspace and not the company; a founder who administers the account can reach a workspace inside it without being separately added, so nobody can be locked out of their own company.</p><p>Settings → Workspaces lists every workspace <em>you</em> belong to, across all accounts — not the workspaces of one account. An account-scoped list would show you your own empty personal account and hide the shared workspace you were actually invited to.</p><hr><h2 id="what-a-role-controls">What a role controls</h2><p>A role gates two things: <strong>administration</strong>, and <strong>whether you can write at all</strong>.</p><div class="scroll"><table><thead><tr><th>Role</th><th>Can read</th><th>Can write pages</th><th>Can invite, remove, rename, delete</th></tr></thead><tbody><tr><td><code>owner</code></td><td>yes</td><td>yes</td><td>yes</td></tr><tr><td><code>editor</code></td><td>yes</td><td>yes</td><td>no</td></tr><tr><td><code>viewer</code></td><td>yes</td><td><strong>no</strong></td><td>no</td></tr></tbody></table></div><p>What a role does <strong>not</strong> gate is whose pages you may edit. That is already author-only: nobody can change anyone else's page whatever their role, which is what keeps merge conflicts out of the design entirely. An editor's right is the right to publish <em>their own</em> work.</p><div class="note note-info"><p><strong>A viewer's replica is read-only on your machine too, not just on the server.</strong> Postgres would refuse a viewer's rows on the way up, and a refusal that only happens on the way up is the worst kind: you write pages, believe the workspace has them, and nobody ever sees them. So the role is recorded locally and the write is refused where it is made, with a line saying an editor or the owner can change it.</p><p>Until the role has been fetched — offline, signed out, or on a machine that joined before this existed — the workspace is treated as writable. Refusing writes on the strength of something never fetched would break the offline promise, and the cloud still has the last word.</p></div><hr><h2 id="inviting-someone">Inviting someone</h2><p><strong>Settings → Workspaces</strong>, <strong>Manage</strong> on the workspace's row, then invite by email address.</p><p>An invitation is a membership addressed by an email instead of a user id. It has to work this way: workspace membership keys on a user id, and a user id only exists once that person has signed in at least once. Without an invitation row, a workspace would be reachable only by people who were somehow already in it.</p><p>The address is stored lower-cased and trimmed — the database enforces it — so an invite cannot sit unclaimable next to a differently-cased login.</p><p><strong>Accepting is explicit.</strong> It used to happen silently on sign-in, which meant an invitation always &quot;arrived&quot; even when nobody had told the person anything, and there was no way to decline. Now a pending invitation appears as a banner <strong>at the top of the app</strong>, whichever screen you are on, naming the workspace, who invited you, and the role. Accepting provisions the replica and the workspace appears in the switcher.</p><div class="note note-info"><p>The banner is in the shell rather than on a screen on purpose. Administration lives in Settings, which nobody opens speculatively — so a banner living there would be an invitation nobody is ever shown, which is the exact failure explicit acceptance was introduced to fix.</p></div><p>Pending invitations are listed alongside members, and can be revoked before they are claimed.</p><h2 id="telling-them-about-it">Telling them about it</h2><p>Slate has no mail server of its own — there is no server in this design at all — so it writes the invitation and hands it to something that can already deliver. Every pending row carries two actions:</p><div class="scroll"><table><thead><tr><th>Action</th><th>What happens</th></tr></thead><tbody><tr><td>✉️ <strong>Email</strong></td><td>Your default mail app opens with the invitation composed — addressed, subject filled, body written. You read it and press send.</td></tr><tr><td>📋 <strong>Copy</strong></td><td>The same message goes to your clipboard, for Slack, Teams, or wherever your team actually talks.</td></tr></tbody></table></div><p>The message names the workspace, says who invited them, links to where Slate is installed from, and — the line that matters most — states the exact address the invitation is tied to. Membership is claimed by email, so someone who signs in with their other account finds nothing and has no way to know why.</p><div class="note note-info"><p>The mail arrives <strong>from you</strong>, not from a no-reply address. That is the upside of not having a mail server: better deliverability, and a recipient who recognises the sender. The cost is one click — Slate composes it, you send it.</p></div><hr><h2 id="creating-and-deleting-a-workspace">Creating and deleting a workspace</h2><p><strong>New workspace</strong> in Settings → Workspaces makes one. It belongs to your account, you are its first member, and its replica is provisioned as part of creating it — a workspace you can see in the switcher and cannot write to would be worse than one that was never created.</p><p><strong>Sync now</strong> sits beside it. Sharing happens every couple of minutes anyway; the button is for when you do not want to wait, and it reports what moved.</p><p>Each workspace gets a <strong>colour</strong> so two are told apart at a glance. The colour is yours alone: stored on your machine, not on the shared row, so everyone keeps their own and anyone can recolour regardless of their role.</p><p><strong>Delete</strong> is in the same Manage pane, and it is the one genuinely destructive action in the cloud layer: it removes every page <em>everyone</em> put into that workspace, for every member, with no notice to them. Authors keep whatever they moved back out; the shared rows are gone. Only a workspace owner or an account admin can do it, and Slate asks twice.</p><p>Your own replica is <strong>marked read-only rather than deleted</strong>. Content you can still see is content you can still copy out, and a store vanishing because a server said so is not something a local-first app should do — removing it is then your decision.</p><h2 id="removing-someone">Removing someone</h2><p>Removing a workspace member revokes their read access on the next request they make; Row Level Security decides what they can see on every query, so there is no cached grant to expire.</p><p>On their machine, the workspace stops appearing in the cloud's list, and the next launch marks their replica read-only. They keep reading and exporting what is in it — it was on their disk — but nothing more arrives and nothing more goes up.</p><p>Pages they authored stay in the workspace, since those rows belong to them as author. If they want them gone, that is <strong>Erase my work</strong>, which tombstones every row they authored so every member's replica drops its copy on the next pull.</p><h2 id="see-also">See also</h2><ul><li><a href="../">Workspaces</a></li><li><a href="../sharing/">Working in a Shared Workspace</a></li><li><a href="../../privacy-and-security/">Privacy &amp; Security</a></li></ul>
+  </article>
+</div>
+
+<footer>
+  <p>
+    Slate is in alpha. Your data stays on your machine.<br>
+    <a href="../../../../">Home</a> ·
+    <a href="../../../../docs/">Docs</a> ·
+    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a>
+  </p>
+</footer>
+
+<script type="module" src="../../../../site/js/docs-page.js"></script>
+</body>
+</html>

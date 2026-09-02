@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slate — Tool Reference</title>
+<meta name="description" content="The full grouped tool surface of Slate's MCP server — pages, memory, activity, decisions, tickets, and capability discovery — with target resolution and dry_run.">
+<link rel="icon" href="../../../../assets/icon.svg">
+
+<meta property="og:title" content="Slate — Tool Reference">
+<meta property="og:description" content="The full grouped tool surface of Slate's MCP server — pages, memory, activity, decisions, tickets, and capability discovery — with target resolution and dry_run.">
+<meta property="og:type" content="article">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../../../site/css/tokens.css">
+<link rel="stylesheet" href="../../../../site/css/base.css">
+<link rel="stylesheet" href="../../../../site/css/layout.css">
+<link rel="stylesheet" href="../../../../site/css/components.css">
+<link rel="stylesheet" href="../../../../site/css/docs.css">
+<link rel="stylesheet" href="../../../../site/css/prose.css">
+
+<script>
+  // Before first paint, never after. See site/README.md — as a module this would run
+  // after the document renders and flash white on every navigation.
+  try {
+    var t = localStorage.getItem("slate-theme");
+    document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
+  } catch (e) {
+    document.documentElement.dataset.theme = "light";
+  }
+</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="slab-9" viewBox="0 0 9 9">
+      <path d="M 0.655 5.6 L 5.055 3.4 L 8.345 3.4 L 3.945 5.6 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="slab-18" viewBox="0 0 18 18">
+      <path d="M 1.31 11.2 L 10.11 6.8 L 16.69 6.8 L 7.89 11.2 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header>
+    <a class="back" href="../">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      Back
+    </a>
+    <h1>Tool Reference</h1>
+  </header>
+
+  <article class="prose reveal">
+<p>This is the complete tool surface Slate's MCP server exposes, grouped by concern.</p><h2 id="pages">Pages</h2><div class="scroll"><table><thead><tr><th>Tool</th><th>Purpose</th></tr></thead><tbody><tr><td><code>create_document</code></td><td>Create a typed document (pre-filled by <code>doc_type</code>).</td></tr><tr><td><code>create_page</code></td><td>Create a page in the tree.</td></tr><tr><td><code>get_page</code></td><td>Read one page.</td></tr><tr><td><code>list_pages</code></td><td>List pages, filtered.</td></tr><tr><td><code>search_pages</code></td><td>Search page titles and bodies.</td></tr><tr><td><code>resolve_target</code></td><td>Resolve a <code>target</code> descriptor to a concrete page.</td></tr><tr><td><code>append_to_page</code></td><td>Append content to a page.</td></tr></tbody></table></div><h3 id="renaming-moving-duplicating-and-trashing-are-done-in-the-app">Renaming, moving, duplicating and trashing are done in the app</h3><p>A connected AI tool can create a page and add to one. It cannot rename, reparent, duplicate, trash or find-and-replace inside one. Those are direct-manipulation gestures: you do them in one drag in Slate, and you can undo them. Over MCP there is no undo, and the tool cannot see what it did.</p><p>Slate's own in-app agent still does all five for you, with an undo on each.</p><h2 id="memory">Memory</h2><div class="scroll"><table><thead><tr><th>Tool</th><th>Purpose</th></tr></thead><tbody><tr><td><code>remember</code></td><td>Save one typed knowledge atom (<code>kind</code>: decision \</td><td>preference \</td><td>state \</td><td>fact), scoped by <code>cwd</code> and deduped against what's known — a near-duplicate strengthens, an update supersedes.</td></tr><tr><td><code>recall</code></td><td>Retrieve context; returns the branch brief on a feature branch, plus repo conventions and project facts, ranked lexically (keyword coverage × recency × confidence), silent when nothing is relevant.</td></tr><tr><td><code>log_mission_progress</code></td><td>Append a session summary to the branch Plan page.</td></tr></tbody></table></div><h2 id="workspaces">Workspaces</h2><div class="scroll"><table><thead><tr><th>Tool</th><th>Purpose</th></tr></thead><tbody><tr><td><code>recall_workspaces</code></td><td>Search what other people published, across every workspace you belong to. Returns two halves: <code>memory</code> — their recorded decisions, facts and preferences, one sentence each with an author — and <code>pages</code>, with title, doc type, author and a text excerpt.</td></tr><tr><td><code>workspace_page</code></td><td>Read one shared page in full.</td></tr></tbody></table></div><p>These read the <a href="../../workspaces/">cloud</a>, not your local file. They need a cloud sign-in and are read-only — a shared page belongs to its author. When you are not a member of a workspace, Row Level Security returns an empty result rather than someone else's rows; signed out, they say so plainly instead of returning nothing, since an empty result would read as &quot;nobody has shared anything&quot;.</p><h2 id="activity">Activity</h2><div class="scroll"><table><thead><tr><th>Tool</th><th>Purpose</th></tr></thead><tbody><tr><td><code>recent_activity</code></td><td>Recent sessions and events.</td></tr><tr><td><code>search_content</code></td><td>FTS5 full-text search over titles and bodies.</td></tr><tr><td><code>list_projects</code></td><td>List known projects.</td></tr><tr><td><code>activity_stats</code></td><td>Per-project session count, tokens, and streak.</td></tr><tr><td><code>parked_work</code></td><td>Branches left carrying UNCOMMITTED changes and not returned to. Cannot be derived from git — a commit records what landed, so work still in the index or working tree is invisible to <code>git log</code>.</td></tr></tbody></table></div><h2 id="decisions">Decisions</h2><div class="scroll"><table><thead><tr><th>Tool</th><th>Purpose</th></tr></thead><tbody><tr><td><code>record_decision</code></td><td>Record a decision — title, reasoning, alternatives, confidence, outcome.</td></tr><tr><td><code>list_decisions</code></td><td>List recorded decisions.</td></tr></tbody></table></div><h2 id="tickets">Tickets</h2><div class="scroll"><table><thead><tr><th>Tool</th><th>Purpose</th></tr></thead><tbody><tr><td><code>get_ticket_context</code></td><td>Resolve a Jira-style ticket id to its linked pages and branch.</td></tr></tbody></table></div><h2 id="contract">Contract</h2><div class="scroll"><table><thead><tr><th>Tool</th><th>Purpose</th></tr></thead><tbody><tr><td><code>slate_capabilities</code></td><td>Contract version, supported tools, access levels, approval policies, schema hash. Read-only discovery.</td></tr></tbody></table></div><h2 id="resolving-a-target">Resolving a target</h2><p>Most tools don't need an explicit page id. Instead they accept a <strong><code>target</code></strong> descriptor and resolve the page from it:</p><div class="scroll"><table><thead><tr><th>Field</th><th>Meaning</th></tr></thead><tbody><tr><td><code>kind</code></td><td>The kind of page to resolve.</td></tr><tr><td><code>cwd</code></td><td>Your working directory — anchors to the right repo/branch.</td></tr><tr><td><code>branch</code></td><td>The branch to scope to.</td></tr><tr><td><code>doc_type</code></td><td>The typed-document kind.</td></tr><tr><td><code>title</code></td><td>The page title.</td></tr></tbody></table></div><p>Pair a <code>target</code> with <code>dry_run</code> to have the tool resolve and validate the target first, before any write is applied.</p><h2 id="why-this-isnt-the-only-tool-list">Why this isn't the only tool list</h2><p>Slate exposes its operations on two surfaces. This one — MCP over stdio — is what your own AI tools reach. The other is in-process: the tools Slate's Console commands and its scheduled routines call directly, without any protocol in between.</p><p>They can't share an implementation. The MCP server imports <code>@slate/server</code> as a library; the in-app surface speaks HTTP to it. So the two lists differ, and some of that is deliberate: <code>slate_capabilities</code> has no meaning in-process, and the tools that navigate Slate's own UI or schedule background runs are deliberately not an outside tool's to call.</p><p>The rest of the difference is gaps rather than boundaries — operations one surface can reach and the other simply hasn't been given yet. Every concept is declared once in <code>packages/shared/src/tools/catalog.ts</code> with the surfaces it belongs on and, when it's on only one, why; a test per package holds each registry to it. If a tool you expect isn't here, that file says whether it was a decision.</p><h2 id="see-also">See also</h2><ul><li><a href="../">Slate as an MCP Server</a> — what backs these tools and the recall/remember contract.</li><li><a href="../connecting/">Connecting Your AI Tools</a> — how to make these tools available to your AI tools.</li><li><a href="../../memory/recall-remember/">Recall &amp; Remember</a> — the memory tools in depth.</li></ul>
+  </article>
+</div>
+
+<footer>
+  <p>
+    Slate is in alpha. Your data stays on your machine.<br>
+    <a href="../../../../">Home</a> ·
+    <a href="../../../../docs/">Docs</a> ·
+    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a>
+  </p>
+</footer>
+
+<script type="module" src="../../../../site/js/docs-page.js"></script>
+</body>
+</html>

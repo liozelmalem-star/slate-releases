@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slate — Terms of Use</title>
+<meta name="description" content="The terms that govern your use of the Slate desktop application, including the license, acceptable use, warranty disclaimer, and third-party tools.">
+<link rel="icon" href="../../../assets/icon.svg">
+
+<meta property="og:title" content="Slate — Terms of Use">
+<meta property="og:description" content="The terms that govern your use of the Slate desktop application, including the license, acceptable use, warranty disclaimer, and third-party tools.">
+<meta property="og:type" content="article">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../../site/css/tokens.css">
+<link rel="stylesheet" href="../../../site/css/base.css">
+<link rel="stylesheet" href="../../../site/css/layout.css">
+<link rel="stylesheet" href="../../../site/css/components.css">
+<link rel="stylesheet" href="../../../site/css/docs.css">
+<link rel="stylesheet" href="../../../site/css/prose.css">
+
+<script>
+  // Before first paint, never after. See site/README.md — as a module this would run
+  // after the document renders and flash white on every navigation.
+  try {
+    var t = localStorage.getItem("slate-theme");
+    document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
+  } catch (e) {
+    document.documentElement.dataset.theme = "light";
+  }
+</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="slab-9" viewBox="0 0 9 9">
+      <path d="M 0.655 5.6 L 5.055 3.4 L 8.345 3.4 L 3.945 5.6 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="slab-18" viewBox="0 0 18 18">
+      <path d="M 1.31 11.2 L 10.11 6.8 L 16.69 6.8 L 7.89 11.2 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header>
+    <a class="back" href="./">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      Legal
+    </a>
+    <h1>Terms of Use</h1>
+  </header>
+
+  <article class="prose reveal">
+<div class="note note-info"><p>This is a template/placeholder legal document for a product still in development. It is not legal advice and does not create a binding contract in its current form. It should be reviewed and completed by qualified counsel — including the license terms, governing law, and contact details — before any commercial release.</p></div><p>These Terms of Use (&quot;Terms&quot;) govern your use of Slate (the &quot;Software&quot;), a local-first AI workspace desktop application with an optional team-sharing layer. By installing or using the Software, you agree to these Terms. If you do not agree, do not use the Software.</p><h2 id="license-to-use-the-software">License to Use the Software</h2><p>Slate is currently transitioning from a personal tool toward a commercial product. The licensing model below is on the roadmap and is not fully shipped; treat it as planned terms to be finalized before release.</p><div class="note note-info"><p><strong>Roadmap.</strong> The planned model is a free 30-day trial, followed by a one-time <strong>Personal</strong> license (planned at $49) for individual use. After the trial, the app is designed to move to a read-only state until a license key is entered. A Team tier is to be determined. License validation is designed to be thin and offline-capable: a key is checked once on activation, and a signed receipt is stored in your OS keychain. Exact license grant, restrictions, and pricing will be finalized before any commercial release.</p></div><p>Subject to the applicable license, you are granted a personal, non-exclusive, non-transferable right to install and use the Software on devices you control.</p><h2 id="acceptable-use">Acceptable Use</h2><p>You agree to:</p><ul><li>Use the Software in compliance with applicable laws and regulations.</li><li>Use the Software only with content and systems you have the right to access.</li><li>Not use the Software for unlawful activity, harassment, or surveillance.</li><li>Not attempt to reverse engineer, circumvent licensing, or otherwise misuse the Software except to the extent such restriction is prohibited by law.</li></ul><p>Because Slate can read and write your local workspace and reach connected tools, you are responsible for reviewing AI-generated outputs and tool actions before relying on them.</p><h2 id="your-content">Your Content</h2><p>You retain full ownership of everything in your workspace and of any AI-generated outputs. Slate stores your content locally in a SQLite file that you control, and claims no ownership over it.</p><p>If you use the optional team layer, the contents of a shared workspace you create or join are copied to a hosted database so that workspace's members can read them. Your Personal workspace is never transmitted. You are responsible for what you put into a shared workspace — including making sure you have the right to share it, and that it does not include confidential material belonging to someone else. Sharing is opt-in at the level of the workspace and reversible, but not retroactive. See the <a href="../privacy-policy/">Privacy Policy</a> for details on data handling.</p><h2 id="no-warranty">No Warranty</h2><p>The Software is provided &quot;as is&quot; and &quot;as available,&quot; without warranties of any kind, express or implied, including implied warranties of merchantability, fitness for a particular purpose, and non-infringement. Slate is pre-1.0 software: its primary tested platform is macOS, Linux is expected to work, and Windows has not yet been smoke-tested. AI features generate outputs probabilistically and may be inaccurate, incomplete, or outdated. You are solely responsible for how you use the Software and its outputs.</p><h2 id="limitation-of-liability">Limitation of Liability</h2><p>To the maximum extent permitted by law, the developer is not liable for any indirect, incidental, consequential, special, or punitive damages, or for loss of data, loss of profits, or reliance on AI-generated outputs, arising from your use of or inability to use the Software. The developer is not responsible for interruptions or failures caused by third-party software, operating systems, model providers, or services. You are responsible for maintaining your own backups of your workspace.</p><h2 id="third-party-tools">Third-Party Tools</h2><p>Slate integrates with tools you install and control. These are governed by their own terms, not by these Terms:</p><ul><li>The <strong>Claude Code CLI</strong> and the <strong>Gemini CLI</strong> (Slate's &quot;brains&quot;) make model calls under the terms of Anthropic and Google respectively. You authenticate those tools yourself.</li><li>Any <strong>MCP server</strong> you connect to Slate operates under its own terms; you are responsible for the data you send to it.</li></ul><p>Your use of these third-party tools is between you and their providers.</p><h2 id="changes-to-these-terms">Changes to These Terms</h2><p>These Terms may be updated as Slate moves toward a commercial release, including to finalize the licensing model or to reflect legal requirements. Continued use of the Software after an update constitutes acceptance of the revised Terms.</p><h2 id="governing-law">Governing Law</h2><p>These Terms are governed by the laws of [Insert Jurisdiction], without regard to conflict-of-law principles. [Insert dispute-resolution and venue provisions before release.]</p><h2 id="contact">Contact</h2><p>[Insert contact address before release.]</p><h2 id="see-also">See also</h2><ul><li><a href="../../features/privacy-and-security/">Privacy &amp; Security</a></li><li><a href="../../features/licensing/">Licensing &amp; Updates</a></li></ul>
+  </article>
+</div>
+
+<footer>
+  <p>
+    Slate is in alpha. Your data stays on your machine.<br>
+    <a href="../../../">Home</a> ·
+    <a href="../../../docs/">Docs</a> ·
+    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a>
+  </p>
+</footer>
+
+<script type="module" src="../../../site/js/docs-page.js"></script>
+</body>
+</html>

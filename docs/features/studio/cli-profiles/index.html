@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slate — CLI Config Profiles</title>
+<meta name="description" content="Each project decides which AI tools it uses and the account each one runs under — so work stays on the work login and personal work stays personal, including sessions you start yourself in a terminal.">
+<link rel="icon" href="../../../../assets/icon.svg">
+
+<meta property="og:title" content="Slate — CLI Config Profiles">
+<meta property="og:description" content="Each project decides which AI tools it uses and the account each one runs under — so work stays on the work login and personal work stays personal, including sessions you start yourself in a terminal.">
+<meta property="og:type" content="article">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../../../site/css/tokens.css">
+<link rel="stylesheet" href="../../../../site/css/base.css">
+<link rel="stylesheet" href="../../../../site/css/layout.css">
+<link rel="stylesheet" href="../../../../site/css/components.css">
+<link rel="stylesheet" href="../../../../site/css/docs.css">
+<link rel="stylesheet" href="../../../../site/css/prose.css">
+
+<script>
+  // Before first paint, never after. See site/README.md — as a module this would run
+  // after the document renders and flash white on every navigation.
+  try {
+    var t = localStorage.getItem("slate-theme");
+    document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
+  } catch (e) {
+    document.documentElement.dataset.theme = "light";
+  }
+</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="slab-9" viewBox="0 0 9 9">
+      <path d="M 0.655 5.6 L 5.055 3.4 L 8.345 3.4 L 3.945 5.6 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="slab-18" viewBox="0 0 18 18">
+      <path d="M 1.31 11.2 L 10.11 6.8 L 16.69 6.8 L 7.89 11.2 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header>
+    <a class="back" href="../">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      Back
+    </a>
+    <h1>CLI Config Profiles</h1>
+  </header>
+
+  <article class="prose reveal">
+<p>Your AI tools each keep a configuration directory — where auth, settings and history live — and you may well have more than one. A work login and a personal login are different directories, and which one a session uses decides whose account touched that code.</p><p>Slate makes that <strong>a property of the project</strong>, not of the app.</p><h2 id="how-it-works">How it works</h2><p>Open <strong>Connect → AI tools</strong> and, for every tool, choose the one account this workspace runs it under. A project can override the answer for itself; most never need to, and the table below is what a machine with two accounts looks like:</p><div class="scroll"><table><thead><tr><th>Project</th><th>Claude</th><th>Gemini</th></tr></thead><tbody><tr><td>Acme</td><td>the work login</td><td>the work login</td></tr><tr><td>Personal</td><td>your personal login</td><td>your personal login</td></tr></tbody></table></div><p>That single rule — <strong>one account per tool, per project</strong> — is what makes everything else unambiguous. Anything that runs picks a <em>tool</em>; the project it runs in supplies the account. So an agent, a Console turn, or a workflow step never stores a login, and moving a workflow between projects re-points it automatically.</p><p>Each account is a directory on your machine, shared by every project that names it. The project's panel says so, and names the other projects on that account.</p><p><strong>Installing Slate into an account is not a project setting.</strong> Writing Slate's MCP server into a config directory covers every project that names it — one directory, one answer — so it lives once, in <strong>Connect → Automations → Where Slate is installed</strong>, which lists each account and the projects it covers. A project's own panel only declares: which tools, which account, which model.</p><h2 id="which-folders-a-project-covers">Which folders a project covers</h2><p>All of them — the folder on the project itself, and the folder of every repo under it. The project's own folders name them, and a session is judged by the <strong>deepest</strong> one that contains it. So a checkout that belongs to one project while sitting inside another project's folder is governed by the project it belongs to, and the enclosing project keeps everything else.</p><p>Nothing has to be re-saved for this: the list is derived from your pages, so a repo Slate discovered a minute ago is covered a minute ago.</p><h2 id="what-it-governs">What it governs</h2><ul><li><strong>Which models</strong> the project's Console, agents and workflows may run.</li><li><strong>The Console</strong>, when scoped to the project.</li><li><strong>Agents and workflows</strong> that belong to it — including scheduled runs nobody is watching, which is where a wrong account matters most.</li><li><strong>Sessions you start yourself in a terminal.</strong> Slate installs its hooks into each account — as a plugin for Claude Code and Codex, into the config directory for the rest — and they refuse the first prompt of a session running under an account the project does not use.</li></ul><p>Models are never restricted — a project can set a default model per tool, but any model may be used.</p><h2 id="what-it-cant-govern">What it can't govern</h2><ul><li>A tool with <strong>no config-directory setting</strong> (OpenCode and Cursor today) cannot be pinned to an account, so Slate declines to pretend otherwise: it can be captured, but not governed. The panel says which and why.</li><li>A project with <strong>no folder anywhere</strong> covers its pages but not a terminal — Slate matches a terminal session by its working directory, so a project with no directory to match has nothing to match against. Its own folder is not the only one that counts: every repo under it brings its folder along, so a project whose page names no folder still governs the checkouts it holds.</li><li>Enforcement <strong>fails open</strong> if Slate itself is broken (an unreadable setting, a crashed hook). That is deliberate: failing closed would make your AI tool unusable in every repo with no way to fix it from inside the broken tool. Two independent layers plus an after-the-fact report cover the gap.</li></ul><h2 id="how-you-know-its-working">How you know it's working</h2><p>The project's <strong>Overview</strong> tab reports every captured session against the accounts the project declares, and flags any that ran under a different one. Without it, &quot;nothing was refused&quot; and &quot;nothing was enforced&quot; would look identical.</p><h2 id="capture-follows-the-same-list">Capture follows the same list</h2><p>Slate captures sessions from every account a project names. Assigning a tool under Connect → AI tools is the whole of it — there is no second list to keep in sync.</p><h2 id="see-also">See also</h2><ul><li><a href="../../agent/brains/">Brains &amp; Model Providers</a> — the tools these environments configure.</li><li><a href="../">Studio</a> — the wider &quot;configure once, use everywhere&quot; story.</li></ul>
+  </article>
+</div>
+
+<footer>
+  <p>
+    Slate is in alpha. Your data stays on your machine.<br>
+    <a href="../../../../">Home</a> ·
+    <a href="../../../../docs/">Docs</a> ·
+    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a>
+  </p>
+</footer>
+
+<script type="module" src="../../../../site/js/docs-page.js"></script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slate — Decisions &amp; Facts</title>
+<meta name="description" content="Two kinds of durable memory — decisions are logged choices with rationale, facts are persistent pieces of knowledge ranked for recall.">
+<link rel="icon" href="../../../../assets/icon.svg">
+
+<meta property="og:title" content="Slate — Decisions &amp; Facts">
+<meta property="og:description" content="Two kinds of durable memory — decisions are logged choices with rationale, facts are persistent pieces of knowledge ranked for recall.">
+<meta property="og:type" content="article">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../../../site/css/tokens.css">
+<link rel="stylesheet" href="../../../../site/css/base.css">
+<link rel="stylesheet" href="../../../../site/css/layout.css">
+<link rel="stylesheet" href="../../../../site/css/components.css">
+<link rel="stylesheet" href="../../../../site/css/docs.css">
+<link rel="stylesheet" href="../../../../site/css/prose.css">
+
+<script>
+  // Before first paint, never after. See site/README.md — as a module this would run
+  // after the document renders and flash white on every navigation.
+  try {
+    var t = localStorage.getItem("slate-theme");
+    document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
+  } catch (e) {
+    document.documentElement.dataset.theme = "light";
+  }
+</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="slab-9" viewBox="0 0 9 9">
+      <path d="M 0.655 5.6 L 5.055 3.4 L 8.345 3.4 L 3.945 5.6 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="slab-18" viewBox="0 0 18 18">
+      <path d="M 1.31 11.2 L 10.11 6.8 L 16.69 6.8 L 7.89 11.2 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header>
+    <a class="back" href="../">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      Back
+    </a>
+    <h1>Decisions &amp; Facts</h1>
+  </header>
+
+  <article class="prose reveal">
+<p>Slate's long-term memory holds two distinct kinds of knowledge. A <strong>decision</strong> is a choice you made, recorded with its reasoning. A <strong>fact</strong> is a durable piece of knowledge that stays true across tasks. Keeping them separate matters: you recall facts to know <em>what is so</em>, and you review decisions to know <em>why you chose what you did</em>.</p><h2 id="decisions">Decisions</h2><p>A decision is a logged choice with rationale. Record one with <code>record_decision</code>:</p><div class="scroll"><table><thead><tr><th>Field</th><th>Meaning</th></tr></thead><tbody><tr><td><code>title</code></td><td>What was decided.</td></tr><tr><td><code>reasoning</code></td><td>Why.</td></tr><tr><td><code>alternatives</code></td><td>The options that were considered and rejected.</td></tr><tr><td><code>confidence</code></td><td>How sure you are.</td></tr><tr><td><code>outcome</code></td><td>How it turned out.</td></tr></tbody></table></div><p>List them back with <code>list_decisions</code>. Decisions are also where <code>remember</code> routes anything it detects as a decision — onto a Decision page and the branch's Decisions section.</p><h2 id="facts">Facts</h2><p>A fact is persistent knowledge — not tied to a single session, and not a choice, just something durable about the project or your preferences. Each fact carries:</p><div class="scroll"><table><thead><tr><th>Attribute</th><th>Meaning</th></tr></thead><tbody><tr><td><code>text</code></td><td>The knowledge itself.</td></tr><tr><td><code>kind</code></td><td><code>decision</code>, <code>preference</code>, <code>state</code>, or <code>fact</code>.</td></tr><tr><td><code>confidence</code></td><td>How strongly it's held; strengthened by near-duplicates.</td></tr><tr><td><code>status</code></td><td><code>active</code> or <code>superseded</code>.</td></tr><tr><td><code>subject</code></td><td>The <strong>slot</strong> it asserts about, when it has one — see <a href="#slots-how-a-fact-replaces-another">Slots</a>.</td></tr></tbody></table></div><p>Facts are ranked <strong>lexically</strong> when <a href="../recall-remember/"><code>recall</code></a> runs — keyword coverage weighted by recency and confidence, no embeddings and no model call — so the ones most relevant to your query surface first. The <code>status</code> field is how facts age: knowledge that no longer holds is <strong>superseded</strong> by whatever replaced it, and overlapping facts can be merged, without deleting the record.</p><h2 id="slots-how-a-fact-replaces-another">Slots — how a fact replaces another</h2><p>A <strong>preference</strong> and a <strong>state</strong> are single-valued: you hold one preference per axis, and a thread is in one state. So when a new one arrives, the old one should not sit beside it — it should be retired. Deciding that by similarity does not work: &quot;dark theme&quot; and &quot;light theme&quot; share no words at all, and a contradiction often looks <em>more</em> similar than a restatement.</p><p>A <strong>slot</strong> settles it without guessing. It is a stable dotted key naming the axis — <code>ui.theme</code>, <code>deps.db-boundary</code>, <code>branch.slate.main.state</code> — and a later fact on the same slot retires the earlier one, deterministically.</p><p><strong>Slate works the key out for you.</strong> It is not something you or your AI tool has to supply. A subject that is not a well-formed dotted key — a branch name, a dated snapshot, a title with spaces — is discarded rather than stored, because a key that can never recur can never supersede anything; the fact is simply deduped by similarity instead, which is the ordinary path. Where a fact clearly belongs in a slot the workspace already uses, Slate places it there; where it is ambiguous, it leaves it alone. Decisions and plain facts never take a slot at all — they accumulate, because superseding them would throw away knowledge that is still true.</p><h2 id="decision-vs-fact-in-one-line">Decision vs. fact, in one line</h2><ul><li><strong>Decision</strong> — &quot;We chose X over Y because Z.&quot; A choice, preserved with its rationale.</li><li><strong>Fact</strong> — &quot;The project uses X.&quot; A durable statement, ranked and recalled by relevance.</li></ul><h2 id="facts-slate-writes-for-itself">Facts Slate writes for itself</h2><p>Almost every fact is written by an AI tool calling <a href="../recall-remember/"><code>remember</code></a>. One is not: Slate derives a <code>state</code> fact for each branch that is carrying <strong>uncommitted work</strong>, from the same activity log behind <a href="../../activity/">Parked work</a> — one per branch, on a <a href="#slots-how-a-fact-replaces-another">slot</a> named <code>branch.&lt;repo&gt;.&lt;branch&gt;.state</code>, refreshed whenever the server starts. (The key carries the branch name exactly as git spells it, a <code>/</code> in <code>feat/foo</code> included — a slot key is an identity, and rewriting it would point the next boot at an empty slot.)</p><p>It writes only that case on purpose. A branch whose work has all landed would produce &quot;stands at <code>&lt;sha&gt;</code> \&lt;message\&gt;&quot; — which <code>git log -1</code> already answers, and a memory store earns nothing by restating git. Work still sitting in your index or working tree is the opposite: no commit records it, so nothing else can tell you it is there.</p><p>Because the slot is named, the newest reading <strong>supersedes</strong> the previous one rather than accumulating beside it, and a branch you return to and commit simply stops producing a fact. State facts also expire from ranking after 14 days, so a branch you abandon fades out on its own.</p><h2 id="is-the-corpus-still-worth-trusting">Is the corpus still worth trusting?</h2><p>Facts accumulate for as long as you use Slate, and two ways of going bad are invisible from the outside. <strong>Corpus health</strong> — a widget on the <a href="../../activity/">Activity</a> dashboard — measures both and can repair them.</p><p><strong>An atom filed under a page you deleted.</strong> A fact's scope is a page, and recall reaches facts by walking the page tree. Delete the page and the fact is not wrong, it is unreachable: no search will return it again, and nothing says so. The repair moves it to the same fallback scope a session with no recognised project writes to, which puts it back in reach.</p><p><strong>A citation that stopped resolving.</strong> A fact can carry a <code>source_ref</code> like <code>path/to/file.ts:98</code>, and the whole point of that citation is that your AI tool checks it before trusting the claim — the repo is the source of truth, the memory is not. Once the file moves or goes, that check costs a lookup and teaches nothing; worse, paths get reused, so an old ref eventually resolves against a file with nothing to do with the claim. The repair drops the citation and keeps the claim, which is what an uncited fact always was.</p><div class="note note-info"><p>The check is deliberately cautious about what it calls broken. A citation whose project folder is not on this machine is reported as <strong>not judged</strong>, never as stale — that is a fact about this computer, not about the atom. Press <strong>Show what would change</strong> before repairing; it lists the files it could not find, which is what tells you the check is right.</p></div><p>The panel also reports things it will <strong>not</strong> touch, because each is a judgement rather than a fault: facts recall has never returned, facts longer than a sentence, facts with no tags, and exact duplicates. That last one is the health check on the write path — dedup runs on every write, so a duplicate count that starts climbing means something stopped working.</p><p>Nothing here runs on its own. Whether a citation resolves depends on what is checked out right now, so a repair that swept at startup would strip good citations the first time you worked from a different checkout.</p><h2 id="see-also">See also</h2><ul><li><a href="../recall-remember/">Recall &amp; Remember</a>. how facts and decisions are written and read back.</li><li><a href="../map/">Memory Map</a>. facts and decisions placed by what they say.</li><li><a href="../../mcp-server/">Slate as an MCP Server</a>. <code>record_decision</code>, <code>list_decisions</code>, and the rest of the contract.</li></ul>
+  </article>
+</div>
+
+<footer>
+  <p>
+    Slate is in alpha. Your data stays on your machine.<br>
+    <a href="../../../../">Home</a> ·
+    <a href="../../../../docs/">Docs</a> ·
+    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a>
+  </p>
+</footer>
+
+<script type="module" src="../../../../site/js/docs-page.js"></script>
+</body>
+</html>

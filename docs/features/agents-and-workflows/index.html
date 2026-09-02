@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slate — Agents &amp; Workflows</title>
+<meta name="description" content="Scheduled background agents that wake on a cron-like cadence, gather your recent context, and run the model with tools — plus multi-step workflows they can trigger.">
+<link rel="icon" href="../../../assets/icon.svg">
+
+<meta property="og:title" content="Slate — Agents &amp; Workflows">
+<meta property="og:description" content="Scheduled background agents that wake on a cron-like cadence, gather your recent context, and run the model with tools — plus multi-step workflows they can trigger.">
+<meta property="og:type" content="article">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../../site/css/tokens.css">
+<link rel="stylesheet" href="../../../site/css/base.css">
+<link rel="stylesheet" href="../../../site/css/layout.css">
+<link rel="stylesheet" href="../../../site/css/components.css">
+<link rel="stylesheet" href="../../../site/css/docs.css">
+<link rel="stylesheet" href="../../../site/css/prose.css">
+
+<script>
+  // Before first paint, never after. See site/README.md — as a module this would run
+  // after the document renders and flash white on every navigation.
+  try {
+    var t = localStorage.getItem("slate-theme");
+    document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
+  } catch (e) {
+    document.documentElement.dataset.theme = "light";
+  }
+</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="slab-9" viewBox="0 0 9 9">
+      <path d="M 0.655 5.6 L 5.055 3.4 L 8.345 3.4 L 3.945 5.6 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="slab-18" viewBox="0 0 18 18">
+      <path d="M 1.31 11.2 L 10.11 6.8 L 16.69 6.8 L 7.89 11.2 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header>
+    <a class="back" href="./">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      Features
+    </a>
+    <h1>Agents &amp; Workflows</h1>
+  </header>
+
+  <article class="prose reveal">
+<p>Most of Slate is something you drive. Agents are the part that runs on its own. You describe what you want done and when, and Slate wakes on schedule, pulls together your recent context, and hands it to a brain along with your tools.</p><p>Workflows are the multi-step routines those agents (or event watchers) kick off.</p><hr><h2 id="agents">Agents</h2><p>An agent is a scheduled job with a prompt. You define it on the <strong>Agents</strong> page: a cadence, a prompt, and optional scoping. From then on it runs in the background without you opening the Console.</p><h3 id="which-workspace-a-routine-belongs-to">Which workspace a routine belongs to</h3><p>Routines belong to the workspace you created them in, and only that workspace lists them. This is not a filter over a shared set — an agent is scoped to a <strong>project page</strong>, so it lives in the same store as the project it reads, and switching workspace genuinely changes which routines exist.</p><p>It follows that a routine runs <strong>while you are in its workspace</strong>. The tick only fires routines from the workspace the window is showing, because a run's report is filed by the same window that produced it: claiming one from anywhere else would write a team's report into your personal store, which is the kind of mistake a workspace boundary exists to make impossible.</p><p>Moving a project to another workspace takes its routines with it.</p><h3 id="how-scheduling-works">How scheduling works</h3><p>Agents run on a cron-like cadence — daily, weekly, monthly, or at a specific hour. The executor lives in the Tauri host (<code>src-tauri/src/agents/</code>) and ticks every 60 seconds. On each tick it finds the agents that are due in the active workspace's store.</p><p>The split of work is deliberate: Rust gathers context, the webview runs the model.</p><pre><code>every 60s tick (Rust)
+  └─ find due agents
+       └─ gather context: sessions, facts, pages, prior runs
+            └─ emit `agent_due` → webview
+                 └─ run LLM + tools
+                      └─ report back → `agents_report_run`</code></pre><p>Because the model call runs in the webview over the AI bridge, an agent reaches the same brains and tools the Console does — nothing is proxied to a separate service. WHICH brain, and under which account, is the agent's own: it names a tool, and its project supplies the account.</p><h3 id="context-an-agent-sees">Context an agent sees</h3><p>Before it runs, the executor assembles the material the prompt can reference:</p><div class="scroll"><table><thead><tr><th>Source</th><th>What it brings in</th></tr></thead><tbody><tr><td>Sessions</td><td>Recently captured AI sessions, each with its full one-line summary</td></tr><tr><td>Facts</td><td>Active facts, tagged by kind (<code>decision</code> / <code>preference</code> / <code>state</code> / <code>fact</code>) with the reasoning (<code>why</code>) attached, so the brain can weigh a claim rather than take it on faith</td></tr><tr><td>Pages</td><td>Relevant workspace pages</td></tr><tr><td>Prior runs</td><td>The agent's own earlier output (its opening lines), so it can build on what it already said instead of repeating itself</td></tr></tbody></table></div><p>Each session is tagged with its <strong>top-level project</strong> (Acme, Private, …), so a brief run over all projects can group its output <strong>by project</strong> rather than blending unrelated work into one report.</p><p>Grounding doesn't stop at this pre-gathered dump. The agent runs with the same <strong>workspace tools</strong> as the Console — so a well-written prompt tells it to recall and search for the real decisions and threads behind those summaries, rather than reasoning over titles alone. The seeded <strong>Morning Brief</strong> prompt does exactly this, per project.</p><h3 id="grounding-on-your-live-tools">Grounding on your live tools</h3><p>Everything above is Slate's own record — what was true when it was written. A ticket that has since moved, or a PR that has since opened, is invisible to it. So before a routine writes anything, it also checks the world.</p><p>Each captured session records the directory it ran in and the CLI config it ran under. From the period's sessions the runner derives the distinct <strong>working contexts</strong>, ranks them (real git checkouts first, then by activity), and takes the top three. For each, it runs one short pass with the brain started <em>in that directory under that config</em> — which is what makes your own project-scoped MCP servers (Jira, GitHub, Slack) load, exactly as they do when you work there. Each pass asks only for identifiers and states: ticket keys and statuses, PR numbers and states. Ticket bodies, comments, and message contents are never requested or stored.</p><p>One kind of failure gets a button rather than a sentence: a source that failed because it needs signing in. That is the only one you can fix on the spot, so the running card offers <strong>Log in</strong> next to it, signs in against the <strong>same account and directory the pass used</strong> — a server can be declared in a project's folder or in one CLI account's config, and asking the wrong one reports it missing — and then re-runs the routine, because a fresh token against a stale report still shows an empty card.</p><p>If the sign-in fails, the card says why in the CLI's own words. And if the reason is that the server has no sign-in to complete at all — a local (stdio) server, where the flow only exists for HTTP and SSE ones — the button goes away rather than inviting a click that can never work.</p><p>What comes back is handed to the report as two explicit lists: what was <strong>verified this run</strong>, and which sources <strong>could not be reached</strong>. That split is the point. A routine may state a ticket or PR status as current fact only if a tool returned it this run — anything else is written as last-known and marked unverified. The Standup and Shutdown both end with a <strong>Not verified</strong> section naming every source they couldn't reach and every context they didn't check; if a routine reached everything, it says so outright. A missing section would read as &quot;all verified&quot;, which is the failure this exists to prevent.</p><h3 id="prompt-template-variables">Prompt template variables</h3><p>Inside an agent's prompt you can drop template variables that expand to that gathered context when the agent runs:</p><div class="scroll"><table><thead><tr><th>Variable</th><th>Expands to</th></tr></thead><tbody><tr><td><code>@sessions</code></td><td>Recent captured sessions</td></tr><tr><td><code>@facts</code></td><td>Active facts</td></tr><tr><td><code>@pages</code></td><td>Relevant pages</td></tr><tr><td><code>@date</code></td><td>Today's date</td></tr><tr><td><code>@prior_outputs</code></td><td>Output from the agent's recent runs</td></tr></tbody></table></div><h3 id="scoping-and-chaining">Scoping and chaining</h3><p>An agent can be narrowed to a single project with <code>scope_project_id</code>, so a morning brief for one project only reasons over that project's sessions, facts, and pages.</p><p>An agent can also chain into a workflow after it finishes, via <code>post_workflow_id</code> — useful when the &quot;think&quot; step and the &quot;act&quot; steps are cleaner as separate pieces.</p><h3 id="the-report-finds-you">The report finds you</h3><p>When a run finishes it files a dated report — but you don't have to go looking for it. A native OS notification fires on completion, carrying the report's opening line so you can read the gist without opening the app. And on the Console home, a <strong>Today card</strong> surfaces your latest Morning Brief, so it greets you when you open Slate.</p><p>Wherever you open it from — the Today card, the &quot;report ready&quot; toast, a routine's <strong>Last report</strong> — the report opens <strong>in Loop</strong>, on the stage beside the runs that came before it. It is never a page: what a run produced is not a document you filed, and Slate stores it as neither.</p><h3 id="the-ceremonies">The ceremonies</h3><p>The seeded routines mirror the operating rhythm of a high-functioning engineering org, run for you from your own memory and organized <strong>by project</strong>:</p><div class="scroll"><table><thead><tr><th>Routine</th><th>Cadence</th><th>What it produces</th></tr></thead><tbody><tr><td><strong>Standup</strong></td><td>daily</td><td>Where each project stands and today's focus</td></tr><tr><td><strong>Planning</strong></td><td>weekly (Mon)</td><td>What to commit to for the week ahead, prioritized per project</td></tr><tr><td><strong>Review</strong></td><td>weekly (Fri)</td><td>What shipped, what's in flight, what's blocked</td></tr><tr><td><strong>Retro</strong></td><td>weekly (Fri)</td><td>What went well, what dragged, one concrete change</td></tr><tr><td><strong>Monthly Review</strong></td><td>monthly</td><td>Trajectory, the decisions that mattered, one thing to change</td></tr></tbody></table></div><p>Each is just a scheduled routine with a prompt — edit the cadence, scope it to one project, or add your own. Their output lands in <strong>Loop</strong>, the latest of each on top.</p><hr><h2 id="workflows">Workflows</h2><p>Workflows live on the <strong>Workflows</strong> page. A workflow is a multi-step routine — either prompt-based (the model works through the steps) or manually defined.</p><p>Workflows don't have to be triggered by hand. They can be started by:</p><ul><li>an <strong>agent</strong>, via its <code>post_workflow_id</code>, or</li><li>a <strong>watcher</strong> that fires on an event.</li></ul><p>Watchers listen for things happening rather than a clock:</p><div class="scroll"><table><thead><tr><th>Trigger</th><th>Fires when</th></tr></thead><tbody><tr><td><code>session_ended</code></td><td>A captured AI session finishes</td></tr><tr><td>Daily at hour X</td><td>A chosen hour of day arrives</td></tr></tbody></table></div><h3 id="where-a-step-runs">Where a step runs</h3><p>A workflow runs <strong>in its project's directory</strong> — the checkout Slate is watching for it, or the project folder if there is no checkout. That is what makes your project-scoped MCP servers (Jira, GitHub, Slack) load for a step, exactly as they do when you work in that directory yourself, and it is the same rule a routine's grounding pass follows.</p><p>So a step can be written to check something rather than recall it. A project with no folder configured is the one exception: its steps run where nothing is scoped, so they have no connected tools to reach and can only work from what you put in the prompt.</p><p>The directory is resolved once for the whole run, not per step, so editing a project mid-run cannot split one workflow across two places.</p><div class="note note-info"><p>An agent belongs to a project, and a workflow runs in one. Each names a TOOL; the project supplies the account it runs under, so the same workflow is one account in one project and another elsewhere. A background run costs the same model calls as running the prompt yourself in the Console.</p></div><hr><h2 id="loop">Loop</h2><p>Routine reports and workflow results are machine-generated — a different kind of thing than the pages you write by hand. So they are not pages at all: they live in their own store and are collected in <strong>Loop</strong>, the surface that keeps you <em>in the loop</em>. Nothing to hide from the sidebar, because nothing puts them there.</p><p>Loop is an operating picture, not an archive. The <strong>Latest</strong> row shows the newest report from each routine — today's standup, this week's review, the last retro — so you see where everything stands at a glance. <strong>Earlier</strong> is the full history below, newest first. Every entry is labelled with the routine's <em>current</em> name and icon (so a renamed routine keeps its whole history under one heading) and the <strong>project scope</strong> it ran on. Selecting one opens the full report.</p><p>Under the hood each run writes one <code>output</code> row: what produced it (a routine or a workflow, by id), the run it belongs to, its title and body, and the <code>scope_project_id</code> the grouping above reads. It stopped being a page on purpose — a report is something a run produced, not something you wrote. One thing changed with it: a report is <strong>deleted rather than trashed</strong> — it asks first, and the routine can always run again.</p><p><strong>⌘K searches reports too.</strong> They have an index of their own over title and body, so a phrase you remember reading in last Tuesday's standup finds the standup — listed under <strong>REPORTS</strong>, separately from your pages, because it opens in Loop rather than in the tree.</p><hr><h2 id="see-also">See also</h2><ul><li><a href="../agent/">The AI Console</a></li><li><a href="../activity/">Activity &amp; Analytics</a></li><li><a href="../sessions/">Sessions — the Live Tracker</a></li></ul>
+  </article>
+</div>
+
+<footer>
+  <p>
+    Slate is in alpha. Your data stays on your machine.<br>
+    <a href="../../../">Home</a> ·
+    <a href="../../../docs/">Docs</a> ·
+    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a>
+  </p>
+</footer>
+
+<script type="module" src="../../../site/js/docs-page.js"></script>
+</body>
+</html>

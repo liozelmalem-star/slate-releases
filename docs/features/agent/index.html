@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slate — The AI Console</title>
+<meta name="description" content="Slate's in-app AI agent — the Console. It reads and writes your workspace and reaches the MCP tools you connect, with the intelligence pushed into code.">
+<link rel="icon" href="../../../assets/icon.svg">
+
+<meta property="og:title" content="Slate — The AI Console">
+<meta property="og:description" content="Slate's in-app AI agent — the Console. It reads and writes your workspace and reaches the MCP tools you connect, with the intelligence pushed into code.">
+<meta property="og:type" content="article">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../../site/css/tokens.css">
+<link rel="stylesheet" href="../../../site/css/base.css">
+<link rel="stylesheet" href="../../../site/css/layout.css">
+<link rel="stylesheet" href="../../../site/css/components.css">
+<link rel="stylesheet" href="../../../site/css/docs.css">
+<link rel="stylesheet" href="../../../site/css/prose.css">
+
+<script>
+  // Before first paint, never after. See site/README.md — as a module this would run
+  // after the document renders and flash white on every navigation.
+  try {
+    var t = localStorage.getItem("slate-theme");
+    document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
+  } catch (e) {
+    document.documentElement.dataset.theme = "light";
+  }
+</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="slab-9" viewBox="0 0 9 9">
+      <path d="M 0.655 5.6 L 5.055 3.4 L 8.345 3.4 L 3.945 5.6 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="slab-18" viewBox="0 0 18 18">
+      <path d="M 1.31 11.2 L 10.11 6.8 L 16.69 6.8 L 7.89 11.2 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header>
+    <a class="back" href="./">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      Features
+    </a>
+    <h1>The AI Console</h1>
+  </header>
+
+  <article class="prose reveal">
+<p>Slate has an agent built into the app. It lives on the <strong>Console</strong> page, and it can do two things most chat boxes can't: it reads and writes your own workspace — nested pages, memory, activity — and it reaches out to any MCP tools you connect. It is provider-agnostic; the same Console works whichever brain you point it at.</p><p>The Console is <code>packages/ui/src/pages/Console/Console.tsx</code>. What makes it interesting is not the chat UI but the design principle underneath it.</p><h2 id="push-intelligence-into-code-not-the-model">Push intelligence into code, not the model</h2><p>The usual way to make an agent capable is to hand a large model a big pile of tools and hope it picks the right one with the right arguments. That works on frontier models and falls apart on light local ones.</p><p>Slate takes the opposite approach: <strong>do the reasoning in code, and leave the model the smallest possible decision.</strong> A request is matched by keyword routing to a <strong>curated MCP command</strong>, which resolves the connected tool, prefills every argument the app already knows, and asks the model to fill only the remaining fields — via structured output, so the result is a single, well-formed tool call.</p><p>Anything the curated table doesn't match is handed to the brain's own CLI, which runs its own tool loop over its own MCP connections. Slate itself no longer runs a tool loop in the app: a turn is either <strong>one</strong> curated tool call or a CLI handoff.</p><div class="note note-info"><p>Because Slate doesn't drive the loop, it doesn't cap its steps either — the brain's CLI decides when it's done. The one cap that exists belongs to the one agent Slate runs itself: the scheduled agent runner behind Loop.</p></div><h2 id="both-halves-of-memory">Both halves of memory</h2><p>The Console reads the memory of the workspace you are standing in (<code>recall_memory</code>) <strong>and</strong> what colleagues wrote in every <a href="../workspaces/">workspace</a> you belong to, including ones this machine has not materialised (<code>recall_workspaces</code>, then <code>workspace_page</code> for a full body). &quot;What does the team know about retries&quot;, &quot;has anyone solved this before&quot; and &quot;who worked on the sync layer&quot; reach the shared half; the private phrasings — &quot;what do I know about…&quot; — stay local. A shared answer always names its author, because a colleague's decision is not your own memory.</p><p>The shared verbs live in the one tool registry (<code>packages/ui/src/lib/agent/tools/</code>), so scheduled agents and page generation get them too: a generated Design checks whether somebody already designed the same thing rather than starting over.</p><p>Naming a workspace in the question is enough — &quot;what data do I have in my Apollo workspace&quot; routes straight to the shared verbs, scoped to Apollo, with no model choosing a tool and no MCP connection required. A mention only counts alongside a team cue (<em>workspace</em>, <em>team</em>, <em>shared</em>), so &quot;fix the Apollo timeout bug&quot; stays an ordinary request.</p><h2 id="every-conversation-beside-the-one-you-are-in">Every conversation, beside the one you are in</h2><p>The left pane lists your past conversations <strong>grouped by day</strong> — Today, Yesterday, then the weekday or date — with <strong>New chat</strong> and a <strong>filter box</strong> at its head. Each day heading carries its own count, and the rows under it show a clock time rather than &quot;1 day ago&quot;, which is only readable because the heading has already settled the day. Clicking one resumes it exactly as the Continue card does — the transcript loads and the brain picks the thread back up.</p><p><strong>Only the newest day is open.</strong> A busy day holds forty-odd conversations, which is more than a screen for a single day, so an older day is one line saying it exists and how much is in it; click the heading to open it. Typing in the filter opens every day it found something in, and clearing the filter gives you back whatever you had opened by hand.</p><p>Under each title is a second line: the conversation's distilled summary, or the <code>repo · branch</code> it ran in when the summary is the tail of the conversation rather than a description of it. A title is the first thing you happened to type, so it is often not an identifier — three conversations can all read &quot;Is the way i run all…&quot; — and the second line is what tells them apart. The filter matches both lines, so a conversation is reachable by what it concluded and not only by how it opened.</p><p>It exists because the Console's history used to live only on the <em>welcome</em> screen, which is what you see before the first message. Once you were talking, the stage was the conversation and there was no way back to an older one except starting a fresh session to get the welcome screen back. The pane follows the composer's scope like everything else on the page, and it renders a page of 30 at a time with the rest offered by count — a machine that has captured hundreds of sessions should not mount hundreds of rows to show a dozen.</p><p>The list holds conversations only. A page is a conversation when it carries a <code>sessionId</code> — the id it is resumed by — which is also what a remembered atom's page does not have.</p><p><strong>Drag a file onto the composer</strong> and it becomes an attachment, the same way a paste does: an image is sent as an image to a brain that can see, and a text or code file is inlined under its name. Dropping anywhere else in the app still imports a folder as pages — the composer is the one place a drop means &quot;give this to the agent&quot;. Slate reads the file because you handed it over; a path a session merely <em>printed</em> is held to a stricter rule and is only read when it sits inside a folder the app already has business in.</p><p><strong>Dropping on a running session is a third thing</strong>, and deliberately the smallest: the path is <em>typed at that session's prompt</em>, quoted, with no newline. Nothing is read and nothing is sent — the CLI in that terminal keeps its own context and reads its own files, and the one thing it cannot know is where you just pointed. You see the line before anything runs on it, and you press Enter or you do not.</p><p>The composer's scope control sets it explicitly, and it is the only scope control: one dropdown of your <strong>projects</strong>, resting at <strong>Everything</strong>. Whatever you pick, the whole page follows it — the Recents list, the Continue card, the starter chips and the brain's own searches. It lists projects and not workspaces because the Console is already <em>in</em> a workspace: which one is the switcher's job, permanently visible in the top bar, and offering the same choice twice is how two controls end up disagreeing. It isn't persisted either, so a scope from last week can't quietly hide an answer.</p><h2 id="in-this-section">In this section</h2><div class="scroll"><table><thead><tr><th>Page</th><th>What it covers</th></tr></thead><tbody><tr><td><a href="brains/">Brains &amp; Model Providers</a></td><td>The five brains — Claude, Gemini, OpenCode, Cursor and Codex — each a thin driver over a locally-installed CLI, so no API key. Gemini is the exception since 2026-06-18: Google requires paid access for its CLI.</td></tr><tr><td><a href="mcp-commands/">Curated MCP Commands</a></td><td>The routing → prefill → structured-output mechanism that makes the Console work on a light model.</td></tr><tr><td><a href="connected-tools/">Connected MCP Tools</a></td><td>Reaching any MCP server you connect, and toggling individual tools per server.</td></tr></tbody></table></div><h2 id="see-also">See also</h2><ul><li><a href="../mcp-server/">Slate as an MCP Server</a> — the other side of the coin: your workspace exposed to other AI tools.</li><li><a href="../memory/">Memory</a> — the recall/remember layer the Console reads and writes.</li><li><a href="../studio/">Studio</a> — write instructions and skills once, sync them to every tool.</li></ul>
+  </article>
+</div>
+
+<footer>
+  <p>
+    Slate is in alpha. Your data stays on your machine.<br>
+    <a href="../../../">Home</a> ·
+    <a href="../../../docs/">Docs</a> ·
+    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a>
+  </p>
+</footer>
+
+<script type="module" src="../../../site/js/docs-page.js"></script>
+</body>
+</html>

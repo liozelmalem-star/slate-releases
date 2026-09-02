@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slate — Working in a Shared Workspace</title>
+<meta name="description" content="Inside a shared workspace, everything is shared — that is what the container means. What read-only protects, and how the replica stays in step.">
+<link rel="icon" href="../../../../assets/icon.svg">
+
+<meta property="og:title" content="Slate — Working in a Shared Workspace">
+<meta property="og:description" content="Inside a shared workspace, everything is shared — that is what the container means. What read-only protects, and how the replica stays in step.">
+<meta property="og:type" content="article">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../../../site/css/tokens.css">
+<link rel="stylesheet" href="../../../../site/css/base.css">
+<link rel="stylesheet" href="../../../../site/css/layout.css">
+<link rel="stylesheet" href="../../../../site/css/components.css">
+<link rel="stylesheet" href="../../../../site/css/docs.css">
+<link rel="stylesheet" href="../../../../site/css/prose.css">
+
+<script>
+  // Before first paint, never after. See site/README.md — as a module this would run
+  // after the document renders and flash white on every navigation.
+  try {
+    var t = localStorage.getItem("slate-theme");
+    document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
+  } catch (e) {
+    document.documentElement.dataset.theme = "light";
+  }
+</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="slab-9" viewBox="0 0 9 9">
+      <path d="M 0.655 5.6 L 5.055 3.4 L 8.345 3.4 L 3.945 5.6 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="slab-18" viewBox="0 0 18 18">
+      <path d="M 1.31 11.2 L 10.11 6.8 L 16.69 6.8 L 7.89 11.2 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header>
+    <a class="back" href="../">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      Back
+    </a>
+    <h1>Working in a Shared Workspace</h1>
+  </header>
+
+  <article class="prose reveal">
+<p>There is no &quot;publish this page&quot; button, and there is no rule to draw around a subtree. The unit is the <strong>container</strong>:</p><blockquote><em>this workspace is a team's, so everything in it is the team's.</em></blockquote><p>That is the whole model. A page you create in a shared workspace is shared the moment it exists. A decision your AI records while you work there is the team's. A commit in a repository that workspace owns lands in its activity feed. Nothing is marked, and nothing can be quietly <em>not</em> marked.</p><div class="note note-info"><p>The corollary matters as much: work you do not want shared goes in <strong>Personal</strong>, which never syncs. The boundary is a different file, not a predicate re-evaluated on every pass.</p></div><hr><h2 id="getting-existing-work-in">Getting existing work in</h2><p>A project that already exists in Personal is moved, not copied. Right-click it in the sidebar — or use the ⋯ in its page header — and pick <strong>Move to &lt;workspace&gt;</strong>.</p><ul><li><strong>The whole subtree goes.</strong> A project takes its repos, its branches, and the plans and designs hanging off them.</li><li><strong>Ids are preserved.</strong> Page ids are UUIDs, so a page already published under one keeps its cloud rows instead of arriving as a second copy.</li><li><strong>Properties come too</strong>, unlike a publish. A project's folder path is what the folder→workspace routing table is projected from, and losing it would un-govern the repository.</li><li><strong>Its memory comes too</strong> — the atoms anchored to the moved pages, and only those.</li><li><strong>It lands at the top level</strong>, because its old parent is in the store it just left. Pointing at that parent would be a dangling reference that renders as nothing.</li></ul><p>The move is read, then written, then deleted — in that order, because no transaction spans two SQLite files. A failure between the write and the delete leaves the pages in <strong>both</strong> stores, which is visible and re-runnable. The other order would lose them.</p><p>Moving <em>out</em> of a shared workspace works identically. A project shared with a team that ends is a project you keep.</p><hr><h2 id="read-only-and-why-there-is-no-merge">Read-only, and why there is no merge</h2><p>Each page in a shared workspace has exactly one writer: its author. Open a teammate's page and you get the real page — real icon, real breadcrumb, real child grid — with the editor in read-only mode and a line saying which of the two reasons applies:</p><div class="scroll"><table><thead><tr><th>Reason</th><th>What it means</th></tr></thead><tbody><tr><td><strong>Another author</strong></td><td>Somebody else wrote this page. Their edits reach you; yours would not reach them.</td></tr><tr><td><strong>Workspace is read-only</strong></td><td>The workspace was deleted upstream, or you were removed. Everything stays readable and exportable.</td></tr></tbody></table></div><p>This is what keeps the design affordable. Because a row's author is the only person who can have changed it, &quot;take the remote copy&quot; and &quot;send the local copy&quot; are never in competition — so there are no version columns, no 409 handling and no conflict resolution anywhere in the system.</p><p>One thing follows from it that is worth knowing: <strong>manual sibling ordering is a Personal affordance.</strong> Dragging a page above its sibling writes <code>position</code> on pages you may not own. Shared workspaces order by type and title instead.</p><hr><h2 id="deletions-have-to-travel">Deletions have to travel</h2><p>A row that simply disappeared from the cloud could not be told apart from a row you had not fetched yet, so an incremental pull would never remove anything and a deleted page would live on every teammate's disk forever. Deletions are therefore <strong>tombstones</strong>: a row that says &quot;gone&quot;, and when.</p><p>That creates one hazard the pull handles explicitly. <code>page.parent_id</code> cascades on delete, so applying a teammate's deletion as a plain local <code>DELETE</code> would silently take <strong>your</strong> children with it — local data loss. The pull re-parents your surviving children to the workspace root <em>before</em> applying a foreign delete, and never relies on the cascade. The count comes back from a sync as <code>reparented</code>, and <strong>Sync now</strong> reports it, because it is the one outcome that changes what you see without you having done anything.</p><hr><h2 id="memory-is-shared-the-same-way">Memory is shared the same way</h2><p>An atom — a decision, fact, preference or state recorded by <code>remember</code> or <code>record_decision</code> — is anchored to a page. If that page is in a shared workspace, the atom is the workspace's.</p><p>What travels is the distilled sentence, its kind, its subject, its confidence, and <strong>where it was learned</strong>. Provenance is not decoration: in a team, &quot;which project taught us this&quot; is what makes a claim actionable.</p><p>What does not travel:</p><ul><li><strong>The reasoning body.</strong> The published atom is the sentence, not the session it came from.</li><li><strong>Superseded atoms.</strong> Supersede a decision and the old one is withdrawn on the next pass. The one thing worse than a colleague not finding your decision is finding the one you already reversed.</li><li><strong>Cross-project atoms.</strong> An atom with no page — &quot;prefers pnpm&quot;, &quot;always run the linter first&quot; — is a private working habit that recall unions into every project on your machine. Those live in Personal and are never moved by anything.</li></ul><div class="note note-warning"><p>That last exclusion is enforced in the move itself, by a function that refuses unscoped atoms outright rather than by a filter at the call site. It exists because the first implementation asked for &quot;the subtree's atoms&quot; using the same call <code>recall</code> uses — which unions the unscoped ones in, correctly for recall and catastrophically for a move — and carried 33 private facts into a shared workspace on its first real run.</p></div><h3 id="finding-a-teammates-memory-from-your-own-checkout">Finding a teammate's memory from your own checkout</h3><p>You and a colleague clone the same repository to different folders. Their atoms are anchored to <em>their</em> project and repo pages, and those pages record an absolute path — <code>/Users/ana/…</code> — which does not exist on your machine and never will.</p><p>So Slate identifies a repository by its <strong>git remote</strong>, normalized to <code>host/owner/repo</code>, not by where it happens to sit on disk. When you run recall in your checkout and no stored path matches, it asks which repository you are in and finds the page recording that same remote. Their memory resolves against your directory layout.</p><p>Some deliberate limits:</p><ul><li><strong>The remote is the identity.</strong> A checkout with no fetchable remote gets nothing — a repository nobody can fetch from is not one two people can be talking about.</li><li><strong>Never by name.</strong> Two unrelated repositories called <code>site</code> do not pool one another's memory; only an exact remote match counts.</li><li><strong>However you cloned it.</strong> <code>git@github.com:Acme/Site.git</code> and <code>https://github.com/acme/site</code> are one repository, because the key is lower-cased and credentials are stripped before it is stored.</li></ul><div class="note note-warning"><p>Before this, every atom in a shared workspace arrived on a teammate's disk and none of it was reachable. Measured on a real replica: 760 atoms, not one of them scoped in a way the second member could resolve — and recall said nothing, it simply returned empty. The same argument had already been made and answered for the activity feed; atom scope had not caught up.</p></div><hr><h2 id="telling-at-a-glance-which-workspace-you-are-in">Telling at a glance which workspace you are in</h2><p>The switcher in the top bar names it, always, with its colour beside it and a padlock if it is read-only. Colours are yours: stored on this machine, not on the shared row, so recolouring changes what <em>you</em> see and nothing about what anyone else sees.</p><hr><h2 id="what-a-change-costs">What a change costs</h2><p>A page's cloud identity is a hash over exactly the fields that get published — id, parent, title, <code>doc_type</code>, and content. Editing something that is not published, like a page property or the order of its siblings, does not manufacture a change and does not cost a push.</p><p>Republishing updates in place. A row is keyed by <em>(workspace, page)</em>, so an edit overwrites its own row rather than piling up copies.</p><h2 id="see-also">See also</h2><ul><li><a href="../">Workspaces</a></li><li><a href="../workspaces-and-invites/">Workspaces &amp; Invites</a></li><li><a href="../../privacy-and-security/">Privacy &amp; Security</a></li></ul>
+  </article>
+</div>
+
+<footer>
+  <p>
+    Slate is in alpha. Your data stays on your machine.<br>
+    <a href="../../../../">Home</a> ·
+    <a href="../../../../docs/">Docs</a> ·
+    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a>
+  </p>
+</footer>
+
+<script type="module" src="../../../../site/js/docs-page.js"></script>
+</body>
+</html>

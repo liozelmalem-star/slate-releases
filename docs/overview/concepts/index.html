@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slate — Core Concepts</title>
+<meta name="description" content="The mental model behind Slate — pages as the universal unit, memory as a shared MCP layer, brains that drive your CLIs, and Studio as one playbook for every tool.">
+<link rel="icon" href="../../../assets/icon.svg">
+
+<meta property="og:title" content="Slate — Core Concepts">
+<meta property="og:description" content="The mental model behind Slate — pages as the universal unit, memory as a shared MCP layer, brains that drive your CLIs, and Studio as one playbook for every tool.">
+<meta property="og:type" content="article">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../../site/css/tokens.css">
+<link rel="stylesheet" href="../../../site/css/base.css">
+<link rel="stylesheet" href="../../../site/css/layout.css">
+<link rel="stylesheet" href="../../../site/css/components.css">
+<link rel="stylesheet" href="../../../site/css/docs.css">
+<link rel="stylesheet" href="../../../site/css/prose.css">
+
+<script>
+  // Before first paint, never after. See site/README.md — as a module this would run
+  // after the document renders and flash white on every navigation.
+  try {
+    var t = localStorage.getItem("slate-theme");
+    document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
+  } catch (e) {
+    document.documentElement.dataset.theme = "light";
+  }
+</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="slab-9" viewBox="0 0 9 9">
+      <path d="M 0.655 5.6 L 5.055 3.4 L 8.345 3.4 L 3.945 5.6 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="slab-18" viewBox="0 0 18 18">
+      <path d="M 1.31 11.2 L 10.11 6.8 L 16.69 6.8 L 7.89 11.2 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header>
+    <a class="back" href="./">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      Overview
+    </a>
+    <h1>Core Concepts</h1>
+  </header>
+
+  <article class="prose reveal">
+<p>Slate has a small number of ideas that everything else is built from. Understand these six and the rest of the product follows.</p><hr><h2 id="1-everything-is-a-page">1. Everything is a page</h2><p>The <a href="../../features/pages/">page</a> is Slate's universal unit. A project, a repo, a design doc, a mission, a captured AI session — all of them are rows in one <code>page</code> table, distinguished by an optional <code>doc_type</code>. Pages nest into a tree (each page has a <code>parent_id</code>), order by a fractional <code>position</code> so drag-reorder never renumbers the whole tree, and carry their content as block-editor JSON.</p><p>This uniformity is why the same handful of tools — create, read, update, move, archive — work everywhere, whether you're editing by hand or an AI is writing on your behalf.</p><h2 id="2-typed-documents-give-work-structure">2. Typed documents give work structure</h2><p>A page can be <a href="../../features/pages/typed-documents/">typed</a>: <code>project</code>, <code>repo</code>, <code>branch</code>, <code>plan</code>, <code>design</code>, <code>review</code>, <code>meeting</code>, <code>test-plan</code>, <code>bug-report</code>, <code>mission</code>, or plain <code>general</code>. The type pre-fills a template and constrains where the page can live — a <code>branch</code> sits under a <code>repo</code> sits under a <code>project</code>, and knowledge pages (plans, designs, reviews…) hang off any of them. This hierarchy is what lets memory tools resolve &quot;the plan for the branch I'm on&quot; without you naming an id.</p><h2 id="3-memory-is-a-shared-mcp-layer">3. Memory is a shared MCP layer</h2><p>Slate's second identity is a <a href="../../features/mcp-server/">memory server</a>. It speaks <a href="https://modelcontextprotocol.io" target="_blank" rel="noreferrer">MCP</a>, so any AI tool — Claude Code, Cursor, Codex, Gemini, or Slate's own <a href="../../features/agent/">Console</a> — can call the same two verbs:</p><ul><li><strong><code>recall</code></strong> at the start of a task to load the relevant context (the brief for your current branch, repo conventions, project facts).</li><li><strong><code>remember</code></strong> at the end to save what happened — a decision, a result, a learned preference — routed automatically to the right page.</li></ul><p>A <a href="../../features/memory/session-capture/">filesystem watcher</a> captures the sessions themselves, so the memory grows even when a tool forgets to write to it. The result: what one tool learns, every tool can see.</p><h2 id="4-brains-drive-your-clis">4. Brains drive your CLIs</h2><p>Slate doesn't ship its own model or ask for an API key. A <a href="../../features/agent/brains/">brain</a> is a thin driver over a CLI you already have installed and logged into — the <strong>Claude Code</strong>, <strong>Gemini</strong>, <strong>OpenCode</strong>, <strong>Cursor</strong> or <strong>Codex</strong> CLI. Slate proxies calls through its Rust layer, so your credentials stay in those tools and never touch the app's renderer.</p><p>The agent is designed to run well even on a light model by <a href="../../features/agent/mcp-commands/">pushing intelligence into code</a>: it resolves the right tool and prefills its arguments, leaving the model to fill only the gaps via structured output.</p><h2 id="5-studio-is-one-playbook-for-every-tool">5. Studio is one playbook for every tool</h2><p><a href="../../features/studio/">Studio</a> is where you write your instructions and skills once — in <code>STUDIO.md</code> and <code>.studio/</code> — and project them out to every AI tool's native config format: Claude Code, Cursor, Codex, Gemini and OpenCode. Change the playbook in one place, run <code>yarn studio sync</code>, and every tool picks up the change.</p><h2 id="6-a-workspace-is-shared-or-private-as-a-whole">6. A workspace is shared or private as a whole</h2><p><a href="../../features/workspaces/">Workspaces</a> are optional and inert until you sign in. When you do use them, the unit of sharing is not a page and not a rule — it is the <strong>container</strong>: <em>this workspace is a team's, so everything in it is the team's.</em></p><p>Your <strong>Personal</strong> workspace is the store that never syncs. Each shared workspace is its own file, on the same schema, and you switch into one from the top bar the way you switch branches. Nothing is marked, so there is no predicate to get wrong; work you do not want shared goes in Personal, which is a different file rather than a different rule.</p><p>Sharing is one-way. Each page has exactly one writer — its author — which is what removes merge conflicts, version columns, and &quot;whose edit wins&quot; from the design entirely. A teammate's page opens read-only, in the real editor, with a line saying why.</p><hr><h2 id="how-it-fits-together">How it fits together</h2><pre><code>                    ┌──────────────────────────────┐
+   You ───────────► │  Personal — one SQLite file  │   never leaves this machine
+   (block editor)   │        on-device, private     │
+                    └──────────────┬───────────────┘
+                                   │
+                    ┌──────────────┴───────────────┐   ─ ─ push what I wrote ─ ─▶  team
+                    │ Nimbus — its own SQLite file │   ◀─ ─ pull what they did ─ ─ workspace
+                    │  same schema, same app shell │        (Postgres + RLS)
+                    └──────────────┬───────────────┘
+                                   │  MCP (recall / remember / pages)
+        ┌──────────────┬───────────┼───────────┬──────────────┐
+        ▼              ▼           ▼            ▼              ▼
+    Slate Console   Claude Code  Cursor      Codex         Gemini
+    (built-in)      └──────────── your AI tools, one shared memory ┘
+                                   ▲
+                              Studio syncs one
+                            playbook to all of them</code></pre><p>Everything above the files is stateless and swappable; the workspaces are the durable things you keep. Only the second box has a dashed line, and only you decide whether there is a second box at all.</p><h2 id="see-also">See also</h2><ul><li><a href="../../features/pages/">Pages &amp; the Block Editor</a></li><li><a href="../../features/mcp-server/">Slate as an MCP Server</a></li><li><a href="../../features/agent/">The AI Console</a></li><li><a href="../../features/studio/">Studio</a></li><li><a href="../../features/workspaces/">Workspaces</a></li></ul>
+  </article>
+</div>
+
+<footer>
+  <p>
+    Slate is in alpha. Your data stays on your machine.<br>
+    <a href="../../../">Home</a> ·
+    <a href="../../../docs/">Docs</a> ·
+    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a>
+  </p>
+</footer>
+
+<script type="module" src="../../../site/js/docs-page.js"></script>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slate — Memory</title>
+<meta name="description" content="Slate's memory is a shared, cross-tool layer — an MCP server every AI tool can read and write, populated automatically, and readable by hand as pages.">
+<link rel="icon" href="../../../assets/icon.svg">
+
+<meta property="og:title" content="Slate — Memory">
+<meta property="og:description" content="Slate's memory is a shared, cross-tool layer — an MCP server every AI tool can read and write, populated automatically, and readable by hand as pages.">
+<meta property="og:type" content="article">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../../site/css/tokens.css">
+<link rel="stylesheet" href="../../../site/css/base.css">
+<link rel="stylesheet" href="../../../site/css/layout.css">
+<link rel="stylesheet" href="../../../site/css/components.css">
+<link rel="stylesheet" href="../../../site/css/docs.css">
+<link rel="stylesheet" href="../../../site/css/prose.css">
+
+<script>
+  // Before first paint, never after. See site/README.md — as a module this would run
+  // after the document renders and flash white on every navigation.
+  try {
+    var t = localStorage.getItem("slate-theme");
+    document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
+  } catch (e) {
+    document.documentElement.dataset.theme = "light";
+  }
+</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="slab-9" viewBox="0 0 9 9">
+      <path d="M 0.655 5.6 L 5.055 3.4 L 8.345 3.4 L 3.945 5.6 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="slab-18" viewBox="0 0 18 18">
+      <path d="M 1.31 11.2 L 10.11 6.8 L 16.69 6.8 L 7.89 11.2 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header>
+    <a class="back" href="./">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      Features
+    </a>
+    <h1>Memory</h1>
+  </header>
+
+  <article class="prose reveal">
+<p>Most &quot;AI memory&quot; is a black box: your context disappears into opaque embeddings that only one tool, in one session, can use. Slate inverts that. Its memory is a <strong>shared cross-tool layer</strong> — the same knowledge is available to every AI tool you use, and it's stored as something you can actually read.</p><p>Three things make it work together:</p><ul><li><strong>Slate is itself an MCP server.</strong> Any AI tool that speaks MCP — Claude Code, Cursor, Codex, Gemini, OpenCode — can <code>recall</code> context at the start of a task and <code>remember</code> what it learned at the end. One workspace, many tools.</li><li><strong>A session watcher populates it automatically.</strong> A filesystem watcher captures your AI sessions as they happen, so memory grows without you managing it.</li><li><strong>Memory is literally your pages.</strong> Captured sessions, decisions, and facts are stored in the same SQLite workspace as everything else. When something is wrong, you open the page and fix it — no re-indexing ritual.</li></ul><div class="note note-info"><p>There are no embeddings-of-your-whole-life, and no account is required. Memory lives in a local SQLite file, and nothing leaves your machine without an explicit action — a <a href="../workspaces/">shared workspace</a> is a <em>different file</em> that your private work never enters, and cross-project atoms with no page of their own never leave Personal at all.</p></div><h2 id="in-this-section">In this section</h2><div class="scroll"><table><thead><tr><th>Page</th><th>What it covers</th></tr></thead><tbody><tr><td><a href="session-capture/">Session Capture</a></td><td>The filesystem watcher that auto-captures AI sessions as pages.</td></tr><tr><td><a href="recall-remember/">Recall &amp; Remember</a></td><td>The two core verbs — load context at task start, save what you learned at task end.</td></tr><tr><td><a href="decisions-and-facts/">Decisions &amp; Facts</a></td><td>Logged choices with rationale, and durable pieces of knowledge ranked for recall.</td></tr><tr><td><a href="map/">Memory Map</a></td><td>A visual view of facts and decisions, placed by meaning.</td></tr></tbody></table></div><p>The read/write surface itself — the tools every AI client calls — is documented in <a href="../mcp-server/">Slate as an MCP Server</a>.</p><p>Memory has a shared half too. Anything you mark for a <a href="../workspaces/">shared workspace</a> becomes readable by your colleagues <em>and</em> by their AI, through <code>recall_workspaces</code>. <code>recall</code> stays private and local; the shared half is a separate, explicit verb.</p><h2 id="why-this-matters">Why this matters</h2><p>You can't trust a memory you can't read. Because Slate's memory is your pages, you can browse it, edit it, and correct it by hand — and the next <code>recall</code> reflects the change. It's also the cleanest possible export: it's just a SQLite file you own.</p><h2 id="see-also">See also</h2><ul><li><a href="../mcp-server/">Slate as an MCP Server</a>. how AI tools read and write memory.</li><li><a href="recall-remember/">Recall &amp; Remember</a>. the two verbs at the center of the loop.</li><li><a href="../activity/">Activity &amp; Analytics</a>. what the captured sessions add up to.</li></ul>
+  </article>
+</div>
+
+<footer>
+  <p>
+    Slate is in alpha. Your data stays on your machine.<br>
+    <a href="../../../">Home</a> ·
+    <a href="../../../docs/">Docs</a> ·
+    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a>
+  </p>
+</footer>
+
+<script type="module" src="../../../site/js/docs-page.js"></script>
+</body>
+</html>
