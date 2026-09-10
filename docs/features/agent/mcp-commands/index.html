@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Slate — Curated MCP Commands</title>
-<meta name="description" content="The mechanism behind the Console: keyword routing resolves a tool, the app prefills known args, and the model fills only the rest via structured output.">
+<meta name="description" content="The mechanism behind the Console: keyword routing picks one of Slate's own tools, the app prefills known args, and the model fills only the rest.">
 <link rel="icon" href="../../../../assets/icon.svg">
 
 <meta property="og:title" content="Slate — Curated MCP Commands">
-<meta property="og:description" content="The mechanism behind the Console: keyword routing resolves a tool, the app prefills known args, and the model fills only the rest via structured output.">
+<meta property="og:description" content="The mechanism behind the Console: keyword routing picks one of Slate's own tools, the app prefills known args, and the model fills only the rest.">
 <meta property="og:type" content="article">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -58,12 +58,12 @@
   </header>
 
   <article class="prose reveal">
-<p>A curated MCP command is Slate's answer to the question &quot;how do you make a small model reliably call the right tool with the right arguments?&quot; The trick is to not ask the model to do most of that work.</p><h2 id="the-pipeline">The pipeline</h2><pre><code>request
-  → keyword routing            (match the request to a curated command)
-  → resolve a connected tool   (find the actual MCP tool it maps to)
-  → prefill known args         (the app injects everything it already knows)
-  → model fills the rest       (structured output — only the unknown fields)
-  → single tool call</code></pre><p>Each stage narrows the model's job. By the time the model is invoked, it isn't choosing a tool or assembling a whole argument object — it's filling a few blanks in a schema the app already half-completed.</p><h2 id="structured-output-does-the-constraining">Structured output does the constraining</h2><p>The &quot;model fills the rest&quot; step is a <strong>structured-output</strong> call, not free-form text. The app hands the model a JSON schema for the missing fields and asks for JSON via <code>ChatOptions.jsonSchema</code>, parsing it from the CLI brain's response. The app then merges the known args it injected with the fields the model returned, producing one well-formed tool call.</p><p>This is the piece that makes the Console work on a very light model. The model never has to emit valid tool-call JSON from scratch; it fills a shape.</p><h2 id="the-fallback">The fallback</h2><p>Anything the curated table doesn't match is handed to the brain's own CLI, which loops over its own MCP tools and decides when it is done. Slate runs no generic tool loop of its own. The curated path is preferred precisely because it doesn't depend on the model being smart.</p><h2 id="see-also">See also</h2><ul><li><a href="../">The AI Console</a> — the agent this mechanism powers.</li><li><a href="../connected-tools/">Connected MCP Tools</a> — the tools a curated command resolves against.</li><li><a href="../brains/">Brains &amp; Model Providers</a> — the brain that runs the tool loop when no curated command matches.</li></ul>
+<p>A curated command routes a request straight to one of Slate's <strong>own</strong> workspace tools — create a page, search your notes, ask a shared workspace — without the model choosing anything. It is how a small model reliably calls the right tool with the right arguments: by not asking it to do most of that work.</p><h2 id="the-pipeline">The pipeline</h2><pre><code>request
+  → keyword routing      (match the request to a curated command)
+  → resolve the tool     (the workspace tool the command names)
+  → prefill known args   (the app injects everything it already knows)
+  → model fills the rest (structured output — only the unknown fields)
+  → single tool call</code></pre><p>Each stage narrows the model's job. By the time the model is invoked it is filling a few blanks in a schema the app already half-completed. &quot;Create a plan about retries&quot; resolves to <code>create_page</code> with <code>doc_type</code> already set, so the only thing left for the model is the title.</p><p>Naming one of your own workspaces outranks the keyword table. &quot;What data do I have in my Apollo workspace&quot; routes to <code>recall_workspaces</code> with the workspace id prefilled.</p><h2 id="structured-output-does-the-constraining">Structured output does the constraining</h2><p>The last step asks the model for JSON matching a schema of the missing fields only, and the app merges what comes back with the arguments it injected. A read-only tool then runs straight away; a tool that writes asks you to approve the call first.</p><p>The model never has to emit valid tool-call JSON from scratch. It fills a shape.</p><h2 id="the-fallback">The fallback</h2><p>Anything the curated table does not match is handed to the brain's own CLI, which loops over its own MCP tools and decides when it is done. Slate runs no generic tool loop of its own.</p><h2 id="see-also">See also</h2><ul><li><a href="../">The AI Console</a> — the agent this mechanism powers.</li><li><a href="../connected-tools/">Connected MCP Tools</a> — what the brain's CLI reaches when no curated command matches.</li><li><a href="../brains/">Brains &amp; Model Providers</a> — the brain that runs the tool loop in that case.</li></ul>
   </article>
 </div>
 
