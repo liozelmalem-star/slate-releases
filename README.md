@@ -23,9 +23,11 @@ curl -fsSL https://liozelmalem-star.github.io/slate-releases/install.sh | bash
 macOS, Apple Silicon. No Homebrew, no Node, no Rust, no build step — the download
 already contains everything.
 
-The script installs `Slate.app` into `/Applications` and opens it. On first launch Slate
-registers itself as an MCP server with the AI tools it finds — Claude Code, Cursor,
-Codex, Gemini — so there is nothing to configure.
+The script installs `Slate.app` into `/Applications` and opens it.
+
+Slate can register itself as an MCP server with the AI tools it finds — Claude Code,
+Cursor, Codex, Gemini, OpenCode — and it asks first. Connect one from the setup screen
+and Slate keeps the rest current for you. Nothing outside Slate is touched until you do.
 
 Updates arrive in-app: **Settings → About → Check for updates**.
 
@@ -63,6 +65,36 @@ xattr -dr com.apple.quarantine /Applications/Slate.app
 
 ---
 
+## Uninstall
+
+```bash
+curl -fsSL https://liozelmalem-star.github.io/slate-releases/uninstall.sh | bash
+```
+
+**Your workspace is kept.** Every page and everything Slate remembered stays where it is.
+Deleting it takes a second, explicit flag.
+
+Add `--dry-run` to see every step first without changing anything — worth doing once,
+because the line that matters is the one naming your workspace and its size.
+
+Slate installs itself into the AI tools you connect it to, so deleting `Slate.app` by hand
+leaves those entries behind pointing at an app that is gone. The uninstaller takes them
+out for you — and only the ones Slate put there. An MCP server you registered yourself is
+never touched.
+
+| Flag | What it does |
+| --- | --- |
+| `--dry-run` | Print every step and change nothing |
+| `--delete-workspace` | Also delete your pages, your memory and the backups |
+| `--keep-connections` | Leave Slate's entries in your AI tools alone |
+| `--prefix <dir>` | Look for `Slate.app` somewhere other than `/Applications` |
+
+Pass a flag through the pipe with `bash -s --`, e.g.
+`… | bash -s -- --dry-run`. Full detail, including how to do it all by hand:
+[Uninstalling](https://liozelmalem-star.github.io/slate-releases/docs/overview/uninstalling/).
+
+---
+
 ## What Slate is
 
 A personal, local-first AI workspace — nested pages, a block editor, and an in-app AI
@@ -88,16 +120,17 @@ release downloads. There is no source code here — Slate's source is private.
 
 | Path | What it is |
 | --- | --- |
-| `install.sh` | The installer. Kept current by CI on every release. |
+| `install.sh` | The installer. Kept current on every release. |
+| `uninstall.sh` | The uninstaller. Removes Slate and takes it back out of the AI tools it installed itself into. |
 | `index.html` | The landing page, served by GitHub Pages at the site root. |
 | `docs/` | The documentation site: a hub at `/docs/`, connecting your AI tools at `/docs/connect/`, and the full MCP tool reference at `/docs/mcp/`. Each section is a directory, so adding one never moves an existing URL. |
 | `site/` | Everything the website is made of: `site/css/` and `site/js/`, split so a page composes modules rather than copying them. [`site/README.md`](site/README.md) says what belongs where. |
 | `assets/` | Brand marks, copied from the Slate source repo's `public/assets/` — `icon.svg` (the app tile, used by the pages and the header above), `mark.svg` (bare, on transparency) and `logo.svg` (the lockup). Edit them there, not here. |
 | Releases | The `.app.tar.gz` the updater consumes, its signature, the `.dmg`, `latest.json`, and `SHASUMS256.txt`. |
 
-`index.html` and `install.sh` stay at the root because both are pinned by a public
-URL — Pages serves the first at the site root, and the second is the address in the
-install command above, in the app, and in the release pipeline. Everything they load
+`index.html`, `install.sh` and `uninstall.sh` stay at the root because each is pinned by a
+public URL — Pages serves the first at the site root, and the two scripts are the
+addresses in the commands above, in the app, and in the release pipeline. Everything they load
 lives under `site/`.
 
 `install.sh` is generated from the Slate source repo rather than edited here — it has to
