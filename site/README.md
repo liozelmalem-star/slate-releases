@@ -12,6 +12,7 @@ docs/overview/  ]
 docs/features/  ]  GENERATED — do not edit. See "The guide is generated".
 docs/legal/     ]
 install.sh                 the installer          → /install.sh
+uninstall.sh               the uninstaller        → /uninstall.sh
 assets/                    brand marks (icon, mark, logo)
 site/
   css/
@@ -36,10 +37,11 @@ site/
     docs-page.js    entry for every page under /docs/
 ```
 
-## Why `index.html` and `install.sh` are not in here
+## Why `index.html` and the two scripts are not in here
 
-`index.html` is what GitHub Pages serves at the site root, and `install.sh` is
-pinned by its public URL — `https://liozelmalem-star.github.io/slate-releases/install.sh`
+`index.html` is what GitHub Pages serves at the site root, and `install.sh` and
+`uninstall.sh` are pinned by their public URLs —
+`https://liozelmalem-star.github.io/slate-releases/install.sh`
 appears in the README, in the app, and in the release pipeline. Moving either
 breaks a published address. Everything they load lives in here.
 

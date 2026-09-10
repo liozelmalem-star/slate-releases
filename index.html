@@ -305,6 +305,16 @@ shasum -a 256 -c SHASUMS256.txt</pre>
       <strong>Apple Silicon only, for now.</strong> The installer checks first and tells
       you, rather than installing something that won't run.
     </div>
+
+    <div class="card note">
+      <strong>You can take it back off in one command.</strong> Slate registers itself with
+      the AI tools you connect, so removing the app by hand would leave those entries
+      behind. The uninstaller undoes them for you — and keeps your workspace, unless you
+      ask it not to. <code class="inline">--dry-run</code> shows you everything first.
+      <pre class="shell"><span class="c"># see what it would do, then do it</span>
+curl -fsSL https://liozelmalem-star.github.io/slate-releases/uninstall.sh | bash -s -- --dry-run
+curl -fsSL https://liozelmalem-star.github.io/slate-releases/uninstall.sh | bash</pre>
+    </div>
   </section>
 
 </div>
@@ -313,7 +323,8 @@ shasum -a 256 -c SHASUMS256.txt</pre>
   <p>
     Slate is in alpha. Your data stays on your machine.<br>
     <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a> ·
-    <a href="install.sh">install.sh</a>
+    <a href="install.sh">install.sh</a> ·
+    <a href="uninstall.sh">uninstall.sh</a>
   </p>
 </footer>
 

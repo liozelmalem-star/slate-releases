@@ -9,7 +9,7 @@
 #
 # Downloads a prebuilt Slate.app and installs it to /Applications. No Homebrew, no
 # Node, no Rust, no compile step — the app bundle already contains everything,
-# including the slate-mcp and slate-server sidecars.
+# including the slate-mcp sidecar.
 #
 # WHY curl AND NOT A .dmg
 # -----------------------
@@ -210,8 +210,10 @@ echo ""
 dim "  Your workspace is one SQLite file on this Mac. Nothing is uploaded unless you"
 dim "  sign in and explicitly share a page."
 echo ""
-dim "  On first launch Slate registers itself as an MCP server with the AI tools it"
-dim "  finds — Claude Code, Cursor, Codex, Gemini. No config to edit."
+dim "  Slate can register itself as an MCP server with the AI tools it finds — Claude"
+dim "  Code, Cursor, Codex, Gemini. It asks first: connect one from the setup screen"
+dim "  and it keeps the rest current for you. Nothing outside Slate is touched until"
+dim "  you do."
 echo ""
 dim "  Updates arrive in-app: Settings → About → Check for updates."
 echo ""
