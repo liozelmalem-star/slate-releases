@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slate — Loop &amp; Routines</title>
+<meta name="description" content="Routines — something that runs on a trigger and does steps — and Loop, where you set them up, run them and read every report they write.">
+<link rel="icon" href="../../../assets/icon.svg">
+
+<meta property="og:title" content="Slate — Loop &amp; Routines">
+<meta property="og:description" content="Routines — something that runs on a trigger and does steps — and Loop, where you set them up, run them and read every report they write.">
+<meta property="og:type" content="article">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../../site/css/tokens.css">
+<link rel="stylesheet" href="../../../site/css/base.css">
+<link rel="stylesheet" href="../../../site/css/layout.css">
+<link rel="stylesheet" href="../../../site/css/components.css">
+<link rel="stylesheet" href="../../../site/css/docs.css">
+<link rel="stylesheet" href="../../../site/css/prose.css">
+
+<script>
+  // Before first paint, never after. See site/README.md — as a module this would run
+  // after the document renders and flash white on every navigation.
+  try {
+    var t = localStorage.getItem("slate-theme");
+    document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
+  } catch (e) {
+    document.documentElement.dataset.theme = "light";
+  }
+</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="slab-9" viewBox="0 0 9 9">
+      <path d="M 0.655 5.6 L 5.055 3.4 L 8.345 3.4 L 3.945 5.6 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="slab-18" viewBox="0 0 18 18">
+      <path d="M 1.31 11.2 L 10.11 6.8 L 16.69 6.8 L 7.89 11.2 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header>
+    <a class="back" href="./">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      Features
+    </a>
+    <h1>Loop &amp; Routines</h1>
+  </header>
+
+  <article class="prose reveal">
+<p>Most of Slate is something you drive. A <strong>routine</strong> is the part that runs for you: a standup at 7:00, a review of whatever you paste in, a debrief when a coding session ends. Every routine lives in <strong>Loop</strong>, and so does every report it writes.</p><h2 id="contents">Contents</h2><ul><li><a href="#what-a-routine-is">What a routine is</a></li><li><a href="#what-starts-it">What starts it</a></li><li><a href="#its-steps">Its steps</a></li><li><a href="#the-brief">The brief</a></li><li><a href="#context-a-brief-sees">Context a brief sees</a></li><li><a href="#grounding-on-your-live-tools">Grounding on your live tools</a></li><li><a href="#prompt-template-variables">Prompt template variables</a></li><li><a href="#where-a-routine-runs">Where a routine runs</a></li><li><a href="#the-ceremonies">The ceremonies</a></li><li><a href="#loop">Loop</a></li><li><a href="#the-report-finds-you">The report finds you</a></li><li><a href="#see-also">See also</a></li></ul><hr><h2 id="what-a-routine-is">What a routine is</h2><p>A routine is <strong>a trigger and a list of steps</strong>. You make one in Loop with <strong>New routine</strong>: start from a template, describe what you want and let a brain write it, or fill it in yourself. <strong>Generate a routine</strong>, beside it, goes straight to describing it.</p><h3 id="what-starts-it">What starts it</h3><div class="scroll"><table><thead><tr><th>Starts</th><th>When it runs</th></tr></thead><tbody><tr><td><strong>By hand</strong></td><td>Only when you press <strong>Run now</strong>. You can type something for it to start with.</td></tr><tr><td><strong>On a schedule</strong></td><td>Daily, weekly or monthly, at the time you set.</td></tr><tr><td><strong>When a session ends</strong></td><td>After Slate captures an AI coding session.</td></tr></tbody></table></div><p>A routine that starts on its own only does so while <strong>Runs on its own</strong> is switched on. Any routine can be run by hand at any time, switched on or not.</p><p>A routine belongs to the workspace you made it in, and runs <strong>while you are in that workspace</strong>. Moving a project to another workspace takes its routines with it.</p><h3 id="its-steps">Its steps</h3><p>Steps run in order, and each one reads what came before:</p><ul><li><strong><code>@context</code></strong> is what the run started with — the text you typed at Run now, &quot;A coding session just ended.&quot;, or today's date for a scheduled run. After a brief, it is the brief's report.</li><li><strong><code>@prev</code></strong> is the previous step's answer.</li></ul><p>A step can name its own AI tool, so one step can run on Claude and the next on Gemini. A step that names none uses the routine's tool, and the project supplies the account.</p><p>Every run writes <strong>one report</strong>. It leads with the last step's answer; the earlier steps follow under their own labels, so nothing is lost.</p><hr><h2 id="the-brief">The brief</h2><p>The <strong>first step can be a brief of recent work</strong>. A brief is what makes a standup a standup: before it writes anything, Slate gathers what happened and checks it against your live tools. Only the first step can be one, because every later step reads its report.</p><h3 id="context-a-brief-sees">Context a brief sees</h3><div class="scroll"><table><thead><tr><th>Source</th><th>What it brings in</th></tr></thead><tbody><tr><td>Sessions</td><td>Recently captured AI sessions, each with its full one-line summary, tagged with its top-level project</td></tr><tr><td>Facts</td><td>Active facts, tagged by kind (<code>decision</code> / <code>preference</code> / <code>state</code> / <code>fact</code>) with the reasoning attached</td></tr><tr><td>Pages</td><td>Relevant workspace pages</td></tr><tr><td>Prior runs</td><td>This routine's own three most recent reports, so it can build on what it already said</td></tr></tbody></table></div><p><strong>Look back</strong> sets how many days of sessions it reads. <strong>Write decisions back to memory</strong> lets the brief end its report with an <code>atoms</code> block that Slate saves as memory, and removes from the report you read.</p><p>A brief also runs with the same read-only <strong>workspace tools</strong> as the Console, so its prompt can tell it to search for the real decisions behind a session summary.</p><h3 id="grounding-on-your-live-tools">Grounding on your live tools</h3><p>Everything above is Slate's own record — what was true when it was written. A ticket that has since moved is invisible to it. So before a brief writes, it checks the world.</p><p>Each captured session records the directory it ran in and the CLI config it ran under. Slate derives the distinct <strong>working contexts</strong> from the period's sessions, ranks them (real git checkouts first, then by how much work happened in them), and takes the top three. For each it runs one short pass with the brain started <em>in that directory under that config</em>, which is what makes your project-scoped MCP servers (Jira, GitHub, Slack) load. Each pass asks only for identifiers and states: ticket keys and statuses, PR numbers and states. Ticket bodies, comments and message contents are never requested or stored.</p><p>A source that failed because it needs signing in gets a <strong>Log in</strong> button on the running card, which signs in against the same account and directory the pass used and runs the routine again.</p><p>The report then carries two lists: what was <strong>verified this run</strong>, and which sources <strong>could not be reached</strong>. A brief may state a ticket or PR status as current only if a tool returned it this run. The Standup and the Shutdown both end with a <strong>Not verified</strong> section; if a brief reached everything, it says so outright.</p><h3 id="prompt-template-variables">Prompt template variables</h3><p>A brief's prompt can use these, filled in just before it runs:</p><div class="scroll"><table><thead><tr><th>Variable</th><th>Expands to</th></tr></thead><tbody><tr><td><code>@sessions</code></td><td>Recent captured sessions</td></tr><tr><td><code>@facts</code></td><td>Active facts</td></tr><tr><td><code>@pages</code></td><td>Relevant pages</td></tr><tr><td><code>@date</code></td><td>Today's date</td></tr><tr><td><code>@prior_outputs</code></td><td>This routine's recent reports</td></tr></tbody></table></div><p>Only a brief can read them. The editor tells you if a later step uses one, and points you at <code>@context</code> instead.</p><hr><h2 id="where-a-routine-runs">Where a routine runs</h2><p>A routine runs <strong>in its project's directory</strong> — the checkout Slate is watching for it, or the project folder if there is no checkout. That is what makes your project-scoped MCP servers load for every step. A routine with no project does not run: nothing supplies the account it would run under, and Loop says so above <strong>Run now</strong>.</p><p>The directory is resolved once for the whole run, so editing a project mid-run cannot split one routine across two places.</p><div class="note note-info"><p>A background run costs the same model calls as running the prompts yourself. Nobody is watching it, so a brief stops after six tool turns, every step gives up after four minutes without an answer, and each run carries a spend ceiling.</p></div><hr><h2 id="the-ceremonies">The ceremonies</h2><p>Slate seeds six routines that mirror the operating rhythm of an engineering org, each a single brief organized <strong>by project</strong>. All six arrive <strong>switched off</strong>: run one from the Console card when you want it, and switch it on in Loop.</p><div class="scroll"><table><thead><tr><th>Routine</th><th>Starts</th><th>What it produces</th></tr></thead><tbody><tr><td><strong>Standup</strong></td><td>daily, 07:00</td><td>Where each project stands and today's focus</td></tr><tr><td><strong>Shutdown</strong></td><td>daily, 18:00</td><td>What moved today, loose ends, and tomorrow's first move</td></tr><tr><td><strong>Planning</strong></td><td>weekly, Mon</td><td>What to commit to for the week ahead, per project</td></tr><tr><td><strong>Review</strong></td><td>weekly, Fri</td><td>What shipped, what's in flight, what's blocked</td></tr><tr><td><strong>Retro</strong></td><td>weekly, Fri</td><td>What went well, what dragged, one concrete change</td></tr><tr><td><strong>Monthly Review</strong></td><td>monthly</td><td>Trajectory, the decisions that mattered, one thing to change</td></tr></tbody></table></div><p>Each is an ordinary routine: change its time, scope it to one project, or add a step after the brief — &quot;turn this into three Slack-ready bullets&quot;.</p><hr><h2 id="loop">Loop</h2><p>Loop opens on its <strong>Overview</strong>, an operating picture. <strong>Latest</strong> shows the newest report from each routine plus a live card for any run in progress. <strong>History</strong> below holds every report, grouped by routine, newest first. A renamed routine keeps its whole history under its current name. A report opens only when you pick one.</p><p>Below <strong>Overview</strong> in Loop's list are your routines, grouped by what starts them: <strong>Running</strong>, <strong>On a schedule</strong>, <strong>When a session ends</strong> and <strong>By hand</strong>. Pick one to see what starts it, when it runs next, its steps and every report it wrote, with <strong>Run now</strong> and a box for what to start it with. <strong>Edit</strong> opens the same routine in the editor, and <strong>Overview</strong> brings the first screen back.</p><p>A report is <strong>deleted rather than trashed</strong> — the delete button asks once, and the routine can always run again. Deleting a routine keeps its reports.</p><p><strong>⌘K searches reports too.</strong> They have an index of their own over title and body, listed under <strong>REPORTS</strong>, separately from your pages, because a report opens in Loop.</p><h3 id="the-report-finds-you">The report finds you</h3><p>When a run finishes, a native OS notification carries the report's opening line. On the Console home a <strong>Today</strong> card shows your latest ceremony — the Standup in the morning, the Shutdown from 17:00 — with a button to run a fresh one when the last is not from today. Wherever you open a report from, it opens <strong>in Loop</strong>, beside the runs that came before it.</p><hr><h2 id="see-also">See also</h2><ul><li><a href="../agent/">The AI Console</a></li><li><a href="../automations/">Automations</a> — the switch that stops routines running on their own</li><li><a href="../sessions/">Sessions — the Live Tracker</a></li></ul>
+  </article>
+</div>
+
+<footer>
+  <p>
+    Slate is in alpha. Your data stays on your machine.<br>
+    <a href="../../../">Home</a> ·
+    <a href="../../../docs/">Docs</a> ·
+    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a>
+  </p>
+</footer>
+
+<script type="module" src="../../../site/js/docs-page.js"></script>
+</body>
+</html>
