@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slate — Artifacts</title>
+<meta name="description" content="Pages your AI tools publish for you to look at — an HTML app, a chart, a report or a Markdown note — kept in your workspace with every version.">
+<link rel="icon" href="../../../assets/icon.svg">
+
+<meta property="og:title" content="Slate — Artifacts">
+<meta property="og:description" content="Pages your AI tools publish for you to look at — an HTML app, a chart, a report or a Markdown note — kept in your workspace with every version.">
+<meta property="og:type" content="article">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../../site/css/tokens.css">
+<link rel="stylesheet" href="../../../site/css/base.css">
+<link rel="stylesheet" href="../../../site/css/layout.css">
+<link rel="stylesheet" href="../../../site/css/components.css">
+<link rel="stylesheet" href="../../../site/css/docs.css">
+<link rel="stylesheet" href="../../../site/css/prose.css">
+
+<script>
+  // Before first paint, never after. See site/README.md — as a module this would run
+  // after the document renders and flash white on every navigation.
+  try {
+    var t = localStorage.getItem("slate-theme");
+    document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
+  } catch (e) {
+    document.documentElement.dataset.theme = "light";
+  }
+</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="slab-9" viewBox="0 0 9 9">
+      <path d="M 0.655 5.6 L 5.055 3.4 L 8.345 3.4 L 3.945 5.6 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="slab-18" viewBox="0 0 18 18">
+      <path d="M 1.31 11.2 L 10.11 6.8 L 16.69 6.8 L 7.89 11.2 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header>
+    <a class="back" href="./">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      Features
+    </a>
+    <h1>Artifacts</h1>
+  </header>
+
+  <article class="prose reveal">
+<p>An <strong>artifact</strong> is a page an AI tool made for you to look at: an HTML app, a dashboard, a chart, a report, or a note in Markdown. Any connected tool (Claude Code, Codex, Cursor, Gemini, OpenCode) publishes one with Slate's <code>publish_artifact</code> MCP tool. It is stored in your workspace, on this Mac, and appears in the <strong>Artifacts</strong> tab of the left rail.</p><h2 id="making-and-changing-one">Making and changing one</h2><p>The way Claude's artifacts work: you do not write or edit an artifact by hand. You ask.</p><ul><li><strong>Ask for one</strong> in plain words: &quot;publish this as an artifact&quot;, &quot;make me a dashboard of this data as an artifact&quot;. The tool sends the whole page with a title.</li><li><strong>Ask for a change</strong>: &quot;make the bars blue&quot;, &quot;add a summary at the top&quot;. The tool reads the current page with <code>get_artifact</code> and publishes the changed page under the same artifact. That adds a <strong>version</strong>, and the older ones stay. Publishing the same page again adds no version.</li></ul><h2 id="the-artifacts-tab">The Artifacts tab</h2><ul><li>The pane lists every artifact, newest first, with an icon for HTML or Markdown and when it last changed. With nothing picked, the newest one is shown.</li><li>The artifact fills the stage. The header says who made it and when.</li><li><strong>Preview | Code</strong> switches between the page and its source. The source is read-only. HTML is laid out to be read: one block per line, indented by depth. Only the spacing changes, and a script keeps its own lines. <strong>Copy HTML</strong> still copies the page exactly as the tool published it.</li><li><strong>‹ v2 of 3 ›</strong> steps through the versions when there is more than one.</li><li>The <strong>⋯</strong> menu holds <strong>Copy</strong> (the page's HTML or Markdown), <strong>Open in browser</strong> (HTML only), <strong>Rename</strong>, and <strong>Delete</strong>, which asks once more and then removes every version.</li></ul><h2 id="how-an-html-artifact-looks">How an HTML artifact looks</h2><p>Every HTML artifact gets Slate's look before its own styles: the app's font, its colours, and plain buttons, inputs, tables, code and headings. It follows the app as you use it — light or dark, and your workspace's colour — and changes at once when you switch, without reloading. A page that styles itself keeps its own look, because any rule it writes wins over Slate's.</p><p>The AI tools are told this when they publish, so they write plain HTML and use Slate's colours: <code>var(--text)</code>, <code>var(--muted)</code>, <code>var(--surface)</code>, <code>var(--border)</code>, <code>var(--accent)</code>, the chart colours <code>var(--c1)</code> to <code>var(--c5)</code> (the mark's five), and the classes <code>card</code>, <code>badge</code>, <code>grid</code>, <code>row</code> and <code>stack</code>. Opened in your own browser, the page uses Slate's default colours and your system's light or dark setting.</p><h2 id="where-it-runs">Where it runs</h2><p>An HTML artifact runs its own scripts. It is served straight from your workspace on a private local address, apart from Slate and your data, and it cannot steer the Slate window. Nothing is copied to disk to show it. It can load scripts and fonts from the internet like any web page. A Markdown artifact is shown as formatted text.</p><p>Artifacts live in the workspace they were published from, like pages. They are not shared or synced.</p><h2 id="limits">Limits</h2><ul><li>One page per artifact, up to 5,000,000 characters.</li><li>HTML or Markdown only.</li></ul>
+  </article>
+</div>
+
+<footer>
+  <p>
+    Slate is in alpha. Your data stays on your machine.<br>
+    <a href="../../../">Home</a> ·
+    <a href="../../../docs/">Docs</a> ·
+    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a>
+  </p>
+</footer>
+
+<script type="module" src="../../../site/js/docs-page.js"></script>
+</body>
+</html>
