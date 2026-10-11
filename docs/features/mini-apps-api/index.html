@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slate — App API</title>
+<meta name="description" content="Every call, hook and part an app can import from Slate, with what each one returns and which permission it needs.">
+<link rel="icon" href="../../../assets/icon.svg">
+
+<meta property="og:title" content="Slate — App API">
+<meta property="og:description" content="Every call, hook and part an app can import from Slate, with what each one returns and which permission it needs.">
+<meta property="og:type" content="article">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../../site/css/tokens.css">
+<link rel="stylesheet" href="../../../site/css/base.css">
+<link rel="stylesheet" href="../../../site/css/layout.css">
+<link rel="stylesheet" href="../../../site/css/components.css">
+<link rel="stylesheet" href="../../../site/css/docs.css">
+<link rel="stylesheet" href="../../../site/css/prose.css">
+
+<script>
+  // Before first paint, never after. See site/README.md — as a module this would run
+  // after the document renders and flash white on every navigation.
+  try {
+    var t = localStorage.getItem("slate-theme");
+    document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
+  } catch (e) {
+    document.documentElement.dataset.theme = "light";
+  }
+</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="slab-9" viewBox="0 0 9 9">
+      <path d="M 0.655 5.6 L 5.055 3.4 L 8.345 3.4 L 3.945 5.6 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="slab-18" viewBox="0 0 18 18">
+      <path d="M 1.31 11.2 L 10.11 6.8 L 16.69 6.8 L 7.89 11.2 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header>
+    <a class="back" href="../">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      Back
+    </a>
+    <h1>App API</h1>
+  </header>
+
+  <article class="prose reveal">
+<p>What a <a href="../mini-apps/">app</a> can import from Slate. Your AI tool gets all of this as TypeScript declarations when it reads the app, and Slate checks every save against the same declarations, so a call that is not on this page is an error before the app runs. The Files editor completes from them as you type.</p><pre><code>import { createRoot } from &quot;react-dom/client&quot;;
+import { slate } from &quot;@slate/sdk&quot;;
+import { count, dayLabel } from &quot;@slate/sdk/format&quot;;
+import { useQuery } from &quot;@slate/sdk/react&quot;;
+import { BarList, Badge, Card, Page, QueryView, Section } from &quot;@slate/ui&quot;;
+
+function App() {
+  const week = useQuery(() =&gt; slate.sessions.count({ days: 7 }));
+  return (
+    &lt;QueryView query={week} isEmpty={(d) =&gt; d.total === 0} empty=&quot;No AI sessions this week.&quot;&gt;
+      {(d) =&gt; (
+        &lt;Page title=&quot;AI sessions this week&quot; actions={&lt;Badge tone=&quot;active&quot;&gt;{count(d.total, &quot;session&quot;)}&lt;/Badge&gt;}&gt;
+          &lt;Section title=&quot;Per day&quot;&gt;
+            &lt;Card&gt;
+              &lt;BarList rows={d.byDay.map((x) =&gt; ({ label: dayLabel(x.day), value: x.count }))} /&gt;
+            &lt;/Card&gt;
+          &lt;/Section&gt;
+        &lt;/Page&gt;
+      )}
+    &lt;/QueryView&gt;
+  );
+}
+
+createRoot(document.getElementById(&quot;root&quot;)!).render(&lt;App /&gt;);</code></pre><p>Your AI tool sees three whole examples like this one, a chart, a list and a form, and Slate builds each of them in its own tests.</p><h2 id="slatesdk"><code>@slate/sdk</code></h2><p>Everything here reads or acts inside the app's own project. <code>since</code> is one of <code>&quot;1d&quot;</code>, <code>&quot;7d&quot;</code>, <code>&quot;30d&quot;</code> or <code>&quot;90d&quot;</code>. Every list returns newest first, at most <code>limit</code> rows; to read on, pass the last row's time as <code>before</code>.</p><h3 id="reading">Reading</h3><div class="scroll"><table><thead><tr><th>Call</th><th>What it returns</th></tr></thead><tbody><tr><td><code>slate.project.get()</code></td><td>The project's id and name.</td></tr><tr><td><code>slate.pages.list({ limit })</code></td><td>The project's pages, newest first, each with its <code>kind</code>: group, project, branch, a document, a session.</td></tr><tr><td><code>slate.pages.get(id)</code></td><td>One page with its text.</td></tr><tr><td><code>slate.memories.list({ limit })</code></td><td>The project's memories, newest first.</td></tr><tr><td><code>slate.memories.search(text)</code></td><td>Memories holding every word of <code>text</code>.</td></tr><tr><td><code>slate.sessions.list({ since, limit })</code></td><td>AI sessions recorded in the project: tool, date, title, summary.</td></tr><tr><td><code>slate.sessions.count({ days })</code></td><td>Session counts per day (default 7 days, at most 90) and per tool, for a chart.</td></tr><tr><td><code>slate.sessions.live()</code></td><td>The AI sessions running in the project now: working, waiting or idle.</td></tr><tr><td><code>slate.usage.list({ since, limit })</code></td><td>AI runs in the project (default the last 30 days): tool, model, time, prompts, tokens and cost.</td></tr><tr><td><code>slate.activity.list({ since, kinds, limit })</code></td><td>Git activity in the project's folders (default the last 7 days): commits with their message, branches made, switched and deleted, files staged.</td></tr><tr><td><code>slate.artifacts.list({ limit })</code></td><td>The project's artifacts, this app included, each with a link to open it.</td></tr><tr><td><code>slate.routines.list()</code></td><td>The routines the project can run.</td></tr></tbody></table></div><h3 id="acting">Acting</h3><div class="scroll"><table><thead><tr><th>Call</th><th>What it does</th><th>Permission</th></tr></thead><tbody><tr><td><code>slate.tasks.list({ section, open })</code></td><td>Items in Tasks.</td><td>Read your Tasks</td></tr><tr><td><code>slate.tasks.create({ title, remindAt })</code></td><td>Adds an item of your own.</td><td>Change your Tasks</td></tr><tr><td><code>slate.tasks.remind(id, when)</code></td><td>Reminds you later: <code>&quot;tomorrow&quot;</code>, <code>&quot;next-week&quot;</code> or a time.</td><td>Change your Tasks</td></tr><tr><td><code>slate.tasks.done(id)</code></td><td>Marks an item done.</td><td>Change your Tasks</td></tr><tr><td><code>slate.memories.save({ text, kind })</code></td><td>Saves a memory, after showing you its words.</td><td>Save memories</td></tr><tr><td><code>slate.pages.create({ title, text })</code></td><td>Makes a page in the project, after showing you its words.</td><td>Write pages</td></tr><tr><td><code>slate.pages.append(id, text)</code></td><td>Adds text to a page, after showing you its words.</td><td>Write pages</td></tr><tr><td><code>slate.routines.run(id)</code></td><td>Runs a routine; Slate asks you each time.</td><td>Run routines</td></tr><tr><td><code>slate.sessions.start({ prompt })</code></td><td>Opens a session with the prompt typed in; you press Send.</td><td>Open AI sessions</td></tr><tr><td><code>slate.ui.open(link)</code></td><td>Opens a page, task or artifact in Slate.</td><td>—</td></tr><tr><td><code>slate.ui.toast(text)</code></td><td>A short note at the bottom of the window, one a second at most.</td><td>—</td></tr></tbody></table></div><p>An app asks for a permission in its <code>slate.json</code>:</p><pre><code>{ &quot;permissions&quot;: [{ &quot;use&quot;: &quot;tasks.write&quot;, &quot;why&quot;: &quot;Move a review to tomorrow&quot; }] }</code></pre><p>The permissions are <code>tasks.read</code>, <code>tasks.write</code>, <code>memories.write</code>, <code>pages.write</code>, <code>routines.run</code> and <code>sessions.start</code>. A refused call throws a <code>SlateError</code> whose <code>code</code> says why: <code>not_allowed</code> (the app did not ask), <code>not_granted</code> (you have not allowed it yet), <code>bad_request</code>, <code>failed</code> or <code>no_answer</code>.</p><h3 id="its-own-data">Its own data</h3><p><code>slate.store.get(key)</code>, <code>set(key, value)</code>, <code>delete(key)</code> and <code>keys()</code> keep the app's own data on this Mac, never synced, up to 1 MB.</p><p><code>slate.on(area, fn)</code> calls <code>fn</code> when Slate's data changes in that area: <code>&quot;pages&quot;</code>, <code>&quot;memories&quot;</code>, <code>&quot;tasks&quot;</code>, <code>&quot;sessions&quot;</code> or <code>&quot;activity&quot;</code>, or <code>&quot;changed&quot;</code> for every change. An area also hears a change Slate cannot name.</p><h2 id="slatesdkreact"><code>@slate/sdk/react</code></h2><div class="scroll"><table><thead><tr><th>Hook</th><th>What it does</th></tr></thead><tbody><tr><td><code>useQuery(load, deps, { on })</code></td><td>Reads with <code>load</code> and returns <code>{ data, loading, error, refresh }</code>. It keeps the last answer while it reads again, and reads again by itself when pages, memories or tasks change. A live view adds <code>on: [&quot;sessions&quot;, &quot;activity&quot;]</code>.</td></tr><tr><td><code>useStore(key, initial)</code></td><td>One value of the app's own data, as <code>[value, setValue]</code>, saved as it changes.</td></tr></tbody></table></div><h2 id="slatesdkformat"><code>@slate/sdk/format</code></h2><div class="scroll"><table><thead><tr><th>Function</th><th>What it writes</th></tr></thead><tbody><tr><td><code>dayOf(at)</code>, <code>lastDays(n)</code></td><td>Days as the person lives them, &quot;YYYY-MM-DD&quot;: the same days <code>sessions.count</code> counts by.</td></tr><tr><td><code>dayLabel(day)</code></td><td>&quot;Mon 12&quot;</td></tr><tr><td><code>duration(ms)</code></td><td>&quot;45s&quot;, &quot;12m&quot;, &quot;3h 20m&quot;</td></tr><tr><td><code>compact(n)</code></td><td>&quot;940&quot;, &quot;12.4k&quot;, &quot;1.2M&quot;</td></tr><tr><td><code>money(usd)</code></td><td>&quot;$3.10&quot;, &quot;&lt;$0.01&quot;</td></tr><tr><td><code>count(n, &quot;session&quot;)</code></td><td>&quot;1 session&quot;, &quot;3 sessions&quot;</td></tr><tr><td><code>timeZone()</code></td><td>The person's time zone.</td></tr></tbody></table></div><h2 id="slateui"><code>@slate/ui</code></h2><p>Slate's own parts, in its light and dark themes:</p><ul><li><strong>Page layout:</strong> <code>Page</code> (a title, a line under it, the page's buttons), <code>Section</code> (a part under its label), <code>Grid</code> (cards side by side that wrap), <code>Header</code>, <code>SectionLabel</code></li><li><strong>A read's states:</strong> <code>QueryView</code> takes what <code>useQuery</code> returned and shows the wait, an error with Retry, your words when there is nothing, or your screen</li><li><strong>Charts and numbers:</strong> <code>BarList</code> (labelled bars to one scale), <code>Sparkline</code>, <code>StatCard</code> (a number and how it moved), <code>RankedList</code></li><li><strong>Controls:</strong> <code>Button</code>, <code>IconButton</code>, <code>Input</code>, <code>Textarea</code>, <code>Select</code>, <code>Checkbox</code>, <code>Switch</code>, <code>Segmented</code></li><li><strong>Display:</strong> <code>Badge</code>, <code>Chip</code>, <code>Avatar</code>, <code>Kbd</code>, <code>When</code> (a time like &quot;3h ago&quot;)</li><li><strong>Frames and lists:</strong> <code>Card</code>, <code>Row</code></li><li><strong>States:</strong> <code>Callout</code>, <code>EmptyState</code>, <code>ErrorState</code>, <code>Loading</code>, <code>Spinner</code>, <code>Skeleton</code>, <code>SkeletonLines</code></li></ul><p><code>react</code>, <code>react-dom/client</code> and <code>lucide-react</code> (every icon) are there as usual.</p>
+  </article>
+</div>
+
+<footer>
+  <p>
+    Slate is in alpha. Your data stays on your machine.<br>
+    <a href="../../../">Home</a> ·
+    <a href="../../../docs/">Docs</a> ·
+    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a>
+  </p>
+</footer>
+
+<script type="module" src="../../../site/js/docs-page.js"></script>
+</body>
+</html>
