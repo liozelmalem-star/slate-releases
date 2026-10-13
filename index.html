@@ -18,11 +18,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <!-- Dependency order: tokens first, the page's own furniture last. See site/README.md. -->
-<link rel="stylesheet" href="site/css/tokens.css?v=20261014b">
-<link rel="stylesheet" href="site/css/base.css?v=20261014b">
-<link rel="stylesheet" href="site/css/layout.css?v=20261014b">
-<link rel="stylesheet" href="site/css/components.css?v=20261014b">
-<link rel="stylesheet" href="site/css/home.css?v=20261014b">
+<link rel="stylesheet" href="site/css/tokens.css?v=20261014c">
+<link rel="stylesheet" href="site/css/base.css?v=20261014c">
+<link rel="stylesheet" href="site/css/layout.css?v=20261014c">
+<link rel="stylesheet" href="site/css/components.css?v=20261014c">
+<link rel="stylesheet" href="site/css/home.css?v=20261014c">
 
 <script>
   // Before first paint, never after — a theme applied later is a white flash for a
@@ -141,10 +141,19 @@
      same model, same contract text, with and without Slate's hooks. -->
 <section class="proof reveal">
   <div class="wrap-wide"><div class="proof-in">
-    <div class="proof-num"><span class="n dim">7%</span><span class="l">of AI sessions save what they learned when they are only <em>told</em> to</span></div>
+    <div class="proof-num"><span class="n dim">7%</span><span class="l">of coding sessions saved what they learned when the AI tool was only <em>told</em> to</span></div>
     <svg class="proof-arrow" width="34" height="34" aria-hidden="true"><use href="#i-arrow"/></svg>
-    <div class="proof-num"><span class="n grad">76%</span><span class="l">when Slate makes sure they do</span></div>
-    <p class="proof-note">Measured over 89 real sessions — same model, same instructions, with and without Slate's hooks. Every other AI memory product ships the instruction alone.</p>
+    <div class="proof-num"><span class="n grad">76%</span><span class="l">when Slate's hooks made it check before it stopped</span></div>
+    <div class="proof-how">
+      <p class="proof-h">What was checked</p>
+      <ul>
+        <li><b>89 real coding sessions</b> on one developer's Mac, over the same weeks in August 2026 — the same AI model and the same memory instructions in every one.</li>
+        <li><b>Only sessions that owed a memory were counted:</b> real work on a git branch, where the instructions asked the AI to save what it learned before finishing.</li>
+        <li><b>The only difference was Slate's end-of-turn hooks.</b> Without them, 3 of 43 sessions saved their work. With them, 35 of 46 did.</li>
+        <li><b>Saved means written back to memory</b> — a decision, a lesson or progress filed on the branch — not just mentioned in the chat.</li>
+      </ul>
+      <p class="proof-caveat">One machine and one developer's sessions: measured, not yet independently repeated.</p>
+    </div>
   </div></div>
 </section>
 
@@ -509,6 +518,6 @@ shasum -a 256 -c SHASUMS256.txt</pre>
   </p>
 </footer>
 
-<script type="module" src="site/js/home.js?v=20261014b"></script>
+<script type="module" src="site/js/home.js?v=20261014c"></script>
 </body>
 </html>
