@@ -834,3 +834,74 @@ h2.mid { font-size: clamp(26px, 3.2vw, 34px); line-height: 1.12; margin: 0 0 16p
   .proof-arrow { transform: rotate(90deg); }
 }
 @media (max-width: 560px) { .loop { grid-template-columns: minmax(0, 1fr); } }
+
+/* ══ The mark, one leaf at a time ══════════════════════════════════════════
+   The page's brand device: Slate's five-leaf mark, where each of the five places
+   owns one leaf. A mark lights the leaves named in its data-on and leaves the
+   rest grey. The leaf colours are registered properties so a leaf lighting up
+   fades in instead of snapping. Leaf → place: blue Home, red Sessions, teal
+   Memory, amber Tasks, green Agents. */
+@property --lf-red   { syntax: "<color>"; inherits: true; initial-value: #c8ccd6; }
+@property --lf-amber { syntax: "<color>"; inherits: true; initial-value: #c8ccd6; }
+@property --lf-teal  { syntax: "<color>"; inherits: true; initial-value: #c8ccd6; }
+@property --lf-blue  { syntax: "<color>"; inherits: true; initial-value: #c8ccd6; }
+@property --lf-green { syntax: "<color>"; inherits: true; initial-value: #c8ccd6; }
+.mk {
+  --off: rgb(var(--n-300) / .75);
+  --lf-red: var(--off); --lf-amber: var(--off); --lf-teal: var(--off); --lf-blue: var(--off); --lf-green: var(--off);
+  transition: --lf-red .6s var(--ease), --lf-amber .6s var(--ease), --lf-teal .6s var(--ease), --lf-blue .6s var(--ease), --lf-green .6s var(--ease);
+  flex: none;
+}
+:root[data-theme="dark"] .mk { --off: rgb(var(--n-600)); }
+.mk[data-on~="red"]   { --lf-red: #FE6455; }
+.mk[data-on~="amber"] { --lf-amber: #FEB206; }
+.mk[data-on~="teal"]  { --lf-teal: #28B097; }
+.mk[data-on~="blue"]  { --lf-blue: #3977E4; }
+.mk[data-on~="green"] { --lf-green: #31B17C; }
+#mark5 .lf-red { fill: var(--lf-red); }
+#mark5 .lf-amber { fill: var(--lf-amber); }
+#mark5 .lf-teal { fill: var(--lf-teal); }
+#mark5 .lf-blue { fill: var(--lf-blue); }
+#mark5 .lf-green { fill: var(--lf-green); }
+.mk path { fill: inherit; }
+
+/* Tabs carry their place's mark. */
+.show-tabs button { display: inline-flex; align-items: center; gap: 8px; }
+.show-tabs .mk { width: 15px; height: 18px; opacity: .55; transition: opacity .25s, --lf-red .6s, --lf-amber .6s, --lf-teal .6s, --lf-blue .6s, --lf-green .6s; }
+.show-tabs button[aria-selected="true"] .mk, .show-tabs button:hover .mk { opacity: 1; }
+
+/* Each pillar opens with its mark and its number. */
+.pillar-k { display: flex; align-items: center; gap: 12px; margin: 0 0 16px; }
+.pillar-k span { display: flex; flex-direction: column; line-height: 1.2; }
+.pillar-k b { font-size: 15px; font-weight: 650; letter-spacing: -.01em; color: rgb(var(--text)); }
+.pillar-k i { font-style: normal; font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; color: rgb(var(--text-faint)); font-weight: 600; }
+.feat-copy kbd { font: 500 12px var(--mono, ui-monospace, monospace); padding: 1px 6px; border-radius: 4px; border: 1px solid rgb(var(--edge-2)); background: rgb(var(--surface)); color: rgb(var(--text)); }
+
+/* The sticky mark that assembles while the five pillars scroll past. */
+#features { position: relative; }
+.assemble {
+  position: fixed; left: max(16px, calc(50% - 680px)); top: 50%; z-index: 5;
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+  transform: translate(-8px, -50%); opacity: 0; pointer-events: none;
+  transition: opacity .4s var(--ease), transform .4s var(--ease);
+}
+.assemble.on { opacity: 1; transform: translate(0, -50%); }
+.assemble .mk-big { width: 64px; height: 76px; filter: drop-shadow(0 6px 18px rgb(10 12 16 / .12)); }
+.assemble-cap { font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: rgb(var(--text-faint)); text-align: center; min-height: 1.3em; }
+@media (max-width: 1279px) { .assemble { display: none; } }
+
+/* The payoff. */
+.one-in { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 64px; align-items: center; }
+.one-mark { display: grid; place-items: center; padding: 30px; border-radius: 28px;
+  background: radial-gradient(60% 60% at 50% 45%, rgb(var(--brand-500) / .12), transparent 70%); }
+.mk-hero { width: min(300px, 70%); height: auto; aspect-ratio: 362 / 430; filter: drop-shadow(0 24px 48px rgb(10 12 16 / .18)); }
+.one-copy > p { margin: 0 0 22px; font-size: 17px; line-height: 1.6; color: rgb(var(--text-muted)); max-width: 56ch; }
+.one-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.one-list li { display: flex; align-items: center; gap: 12px; font-size: 15px; color: rgb(var(--text-muted)); }
+.one-list .mk { width: 20px; height: 24px; }
+.one-list b { color: rgb(var(--text)); font-weight: 600; min-width: 74px; }
+@media (max-width: 900px) {
+  .one-in { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .mk-hero { width: 180px; }
+}
+@media (prefers-reduced-motion: reduce) { .mk, .show-tabs .mk { transition: none; } }
