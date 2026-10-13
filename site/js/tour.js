@@ -155,9 +155,13 @@ function onFrameClick({ el, x }) {
   const step = CHAPTERS[ch].steps[st];
   // The rail: any of its places opens that place's chapter.
   if (x < 64) {
-    const label = (el.closest("a,button,[role=tab],[role=button]") || el).textContent.replace(/\s+/g, " ").trim();
+    const ctl = el.closest("a,button,[role=tab],[role=button],[role=link]") || el;
+    const label = [ctl.textContent, ctl.getAttribute("aria-label"), ctl.getAttribute("title")]
+      .filter(Boolean)
+      .map((t) => t.replace(/\s+/g, " ").trim())
+      .join(" | ");
     for (const [place, i] of PLACES) {
-      if (label === place || label.endsWith(place)) return go(i, 0);
+      if (label.split(" | ").some((l) => l === place || l.endsWith(place) || l.startsWith(`${place} `))) return go(i, 0);
     }
   }
   // The step's own target, or anything inside it.
