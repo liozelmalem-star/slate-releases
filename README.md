@@ -145,7 +145,9 @@ release downloads. There is no source code here — Slate's source is private.
 | `uninstall.sh` | The uninstaller. Removes Slate and takes it back out of the AI tools it installed itself into. |
 | `index.html` | The landing page, served by GitHub Pages at the site root. |
 | `docs/` | The documentation site: a hub at `/docs/`, connecting your AI tools at `/docs/connect/`, the MCP tool overview at `/docs/mcp/`, and the generated manual under `/docs/overview/`, `/docs/features/` and `/docs/legal/`. Each section is a directory, so adding one never moves an existing URL. |
+| `tour/` | The guided tour at `/tour/`: Slate's own rendered screens (`tour/screens/`) shown in a frame (`tour/app.html`) with the app's compiled stylesheet, driven by the chapters in `site/js/tour/`. See [`site/README.md`](site/README.md#the-tour). |
 | `site/` | Everything the website is made of: `site/css/` and `site/js/`, split so a page composes modules rather than copying them. [`site/README.md`](site/README.md) says what belongs where. |
+| `assets/shots/` | Real screenshots of Slate used on the landing page, captured at 2× from the running app with example data. |
 | `assets/` | Brand marks, copied from the Slate source repo's `public/assets/` — `icon.svg` (the app tile, used by the pages and the header above), `mark.svg` (bare, on transparency) and `logo.svg` (the lockup). Edit them there, not here. |
 | Releases | The `.app.tar.gz` the updater consumes, its signature, the `.dmg`, `latest.json`, and `SHASUMS256.txt`. |
 

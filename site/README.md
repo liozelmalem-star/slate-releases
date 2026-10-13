@@ -129,3 +129,40 @@ the product as it is meant to become. That is now checked at the source — `pla
 carries a "Can you download it?" column and `getting-started.md` opens with the one bundle
 that actually ships — but the rule stands. **Anything published here has to be true of
 what a visitor can install today.**
+
+## The tour
+
+`/tour/` walks through every place in Slate on Slate's **own rendered screens** — not
+mockups. Each file in `tour/screens/` is the `<body>` the running app drew for one state
+(an open dialog, a selected tab), and `tour/app.css` is the stylesheet the app had loaded
+when it drew them, so a screen is pixel-for-pixel the app. Nothing of the app's source is
+here: only what it rendered.
+
+| Piece | What it is |
+|---|---|
+| `tour/index.html` | The page: chapter list, step card, and the frame |
+| `tour/app.html`, `tour/app.js` | The frame. Shows a screen, rings an element, types, patches; reports every click |
+| `site/js/tour.js` | The engine: steps, the ring, rail clicks jump to a chapter, `#chapter/step` in the URL |
+| `site/js/tour/<place>.js` | One chapter per place — its steps, the screen each shows, what it rings |
+| `tour/screens/*.html` | Captured screens, scrubbed of the capture machine's paths |
+| `tour/app.css`, `tour/fonts/` | The app's compiled stylesheet and its fonts — generated, do not edit |
+
+**When Slate's UI changes, the screens go stale.** They were captured by driving the real
+app in a browser against its own local server with a seeded demo workspace (the e2e
+suite's setup: `SLATE_E2E_UI=1 yarn dev`, `window.__SLATE_E2E_SERVER__`), saving
+`document.body.innerHTML` and the union of loaded stylesheet rules for each state. To
+refresh a chapter, recapture its states the same way, keep the screen ids, and re-check
+each step's ring by opening `/tour/#<chapter>/<step>`.
+
+## The landing page's brand device
+
+Each of the five places on the landing page owns one leaf of the mark — red Sessions,
+teal Memory, green Agents & Tasks, amber Apps & Artifacts, blue Toolkit. The hero's cards
+and each feature section light only their leaf (`.mk[data-on]`, the `#mark5` symbol), and
+`site/js/assemble.js` lights the pinned mark leaf by leaf as the five sections scroll past.
+
+## Cache versions
+
+Every page loads its CSS and JS with `?v=<date><letter>`. Bump it in every hand-written
+page whenever a stylesheet or script changes — Pages lets browsers cache them for ten
+minutes, and a new page with an old stylesheet renders broken.
