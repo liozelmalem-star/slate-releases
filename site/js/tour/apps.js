@@ -168,7 +168,7 @@ export const apps = {
       screen: "apps",
       spot: DESCRIBE,
       title: "Try it",
-      body: "<p>Describe a small app you would open every day, for example: <em>“A list of the PRs waiting on me, oldest first, with a count of review items in Tasks.”</em> Press <kbd>Enter</kbd> and open its card to watch the chat.</p><p>Then ask for one change in <strong>Build</strong>, and see the new version arrive in Preview.</p>",
+      body: "<p>Describe a small app you would open every day, for example: <em>“A weekly chart of the memories each AI tool saved, with the five newest under it.”</em> Press <kbd>Enter</kbd> and open its card to watch the chat.</p><p>Then ask for one change in <strong>Build</strong>, and see the new version arrive in Preview.</p>",
     },
   ],
 };

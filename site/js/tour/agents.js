@@ -98,7 +98,7 @@ export const agents = {
     },
     {
       screen: "agents-steps",
-      spot: { text: "May do", up: 2 },
+      spot: { text: "May do", up: 1 },
       title: "What it may do, and its steps",
       body: "<p><strong>May do</strong> holds three lists: <strong>Allowed</strong> runs without asking, <strong>Asks first</strong> waits for you, <strong>Denied</strong> is refused. One call per line; <code>mcp__slack__*</code> covers a whole server.</p><p><strong>Steps</strong> run in order. A first <strong>Recent work</strong> step gathers your sessions, memories and pages, and checks them against your live tools.</p>",
     },
