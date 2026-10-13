@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Slate — every AI tool you use, finally working as one</title>
 <meta name="description" content="Slate is the memory layer between you and every AI tool you use. It sees every Claude Code, Codex, Cursor, Gemini and OpenCode session, remembers what each one learned, hands it to the next at the moment it needs it, and works for you while you're away — all on your Mac.">
-<link rel="icon" href="assets/icon.svg">
+<link rel="icon" href="assets/icon.svg" media="(prefers-color-scheme: light)">
+<link rel="icon" href="assets/icon-dark.svg" media="(prefers-color-scheme: dark)">
 
 <meta property="og:title" content="Slate — every AI tool you use, finally working as one">
 <meta property="og:description" content="Your AI tools forget. Slate remembers — for all of them, on your Mac.">
@@ -18,11 +19,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <!-- Dependency order: tokens first, the page's own furniture last. See site/README.md. -->
-<link rel="stylesheet" href="site/css/tokens.css?v=20261014c">
-<link rel="stylesheet" href="site/css/base.css?v=20261014c">
-<link rel="stylesheet" href="site/css/layout.css?v=20261014c">
-<link rel="stylesheet" href="site/css/components.css?v=20261014c">
-<link rel="stylesheet" href="site/css/home.css?v=20261014c">
+<link rel="stylesheet" href="site/css/tokens.css?v=20261014d">
+<link rel="stylesheet" href="site/css/base.css?v=20261014d">
+<link rel="stylesheet" href="site/css/layout.css?v=20261014d">
+<link rel="stylesheet" href="site/css/components.css?v=20261014d">
+<link rel="stylesheet" href="site/css/home.css?v=20261014d">
 
 <script>
   // Before first paint, never after — a theme applied later is a white flash for a
@@ -64,7 +65,7 @@
 
 <nav class="topnav" aria-label="Site">
   <div class="topnav-in">
-    <a class="brand" href="./"><img src="assets/icon.svg" alt="" width="26" height="26">Slate</a>
+    <a class="brand" href="./"><img class="logo-light" src="assets/icon.svg" alt="" width="26" height="26"><img class="logo-dark" src="assets/icon-dark.svg" alt="" width="26" height="26">Slate</a>
     <span class="grow"></span>
     <a href="#features" class="hide-sm">Features</a>
     <a href="tour/">Tour</a>
@@ -493,7 +494,7 @@ shasum -a 256 -c SHASUMS256.txt</pre>
 <!-- ══ Closing ══════════════════════════════════════════════════════════ -->
 <section class="close reveal">
   <div class="wrap-wide close-in">
-    <img src="assets/icon.svg" alt="" width="64" height="64">
+    <img class="logo-light" src="assets/icon.svg" alt="" width="64" height="64"><img class="logo-dark" src="assets/icon-dark.svg" alt="" width="64" height="64">
     <h2 class="big">Give every AI tool the same memory.</h2>
     <p class="lede">One command. About thirty seconds. Everything stays on your Mac.</p>
     <div class="install">
@@ -518,6 +519,6 @@ shasum -a 256 -c SHASUMS256.txt</pre>
   </p>
 </footer>
 
-<script type="module" src="site/js/home.js?v=20261014c"></script>
+<script type="module" src="site/js/home.js?v=20261014d"></script>
 </body>
 </html>

@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Slate — the guided tour</title>
 <meta name="description" content="Walk through Slate, place by place, in its own window: setting it up, sessions, Home, Tasks, projects and pages, shared memory, activity, artifacts, apps, agents, Toolkit, Connect and Settings.">
-<link rel="icon" href="../assets/icon.svg">
+<link rel="icon" href="../assets/icon.svg" media="(prefers-color-scheme: light)">
+<link rel="icon" href="../assets/icon-dark.svg" media="(prefers-color-scheme: dark)">
 
 <meta property="og:title" content="Slate — the guided tour">
 <meta property="og:description" content="Every place in Slate, one guided step at a time, in Slate's own window.">
@@ -15,10 +16,10 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="../site/css/tokens.css?v=20261014a">
-<link rel="stylesheet" href="../site/css/base.css?v=20261014a">
-<link rel="stylesheet" href="../site/css/components.css?v=20261014a">
-<link rel="stylesheet" href="../site/css/tour.css?v=20261014a">
+<link rel="stylesheet" href="../site/css/tokens.css?v=20261014d">
+<link rel="stylesheet" href="../site/css/base.css?v=20261014d">
+<link rel="stylesheet" href="../site/css/components.css?v=20261014d">
+<link rel="stylesheet" href="../site/css/tour.css?v=20261014d">
 
 <script>
   // Before first paint, never after — see the same four lines on every page.
@@ -33,7 +34,7 @@
 <body class="tour-page">
 
 <div class="tour-top">
-  <a class="back" href="../"><img src="../assets/icon.svg" alt="">Slate</a>
+  <a class="back" href="../"><img class="logo-light" src="../assets/icon.svg" alt=""><img class="logo-dark" src="../assets/icon-dark.svg" alt="">Slate</a>
   <span class="grow"></span>
   <a class="back" href="../docs/">Docs</a>
   
@@ -74,6 +75,6 @@
   </div>
 </main>
 
-<script type="module" src="../site/js/tour.js?v=20261014a"></script>
+<script type="module" src="../site/js/tour.js?v=20261014d"></script>
 </body>
 </html>

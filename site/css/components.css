@@ -83,3 +83,10 @@ code.inline {
 }
 
 a { color: rgb(var(--text)); text-underline-offset: 2px; }
+
+/* The logo in both themes. A page that shows the app tile renders it twice —
+   icon.svg (off-white tile) and icon-dark.svg (the app's dark neutral) — and the
+   theme decides which one is seen. */
+.logo-dark { display: none; }
+:root[data-theme="dark"] .logo-light { display: none; }
+:root[data-theme="dark"] .logo-dark { display: initial; }
