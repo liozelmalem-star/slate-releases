@@ -18,11 +18,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <!-- Dependency order: tokens first, the page's own furniture last. See site/README.md. -->
-<link rel="stylesheet" href="site/css/tokens.css?v=20261013d">
-<link rel="stylesheet" href="site/css/base.css?v=20261013d">
-<link rel="stylesheet" href="site/css/layout.css?v=20261013d">
-<link rel="stylesheet" href="site/css/components.css?v=20261013d">
-<link rel="stylesheet" href="site/css/home.css?v=20261013d">
+<link rel="stylesheet" href="site/css/tokens.css?v=20261013f">
+<link rel="stylesheet" href="site/css/base.css?v=20261013f">
+<link rel="stylesheet" href="site/css/layout.css?v=20261013f">
+<link rel="stylesheet" href="site/css/components.css?v=20261013f">
+<link rel="stylesheet" href="site/css/home.css?v=20261013f">
 
 <script>
   // Before first paint, never after — a theme applied later is a white flash for a
@@ -107,12 +107,12 @@
   <!-- The product, first. Real screens captured from the running app with example data;
        the tabs swap between four of them and the tour has the rest. -->
   <div class="wrap-wide showcase reveal">
-    <div class="show-tabs" role="tablist" aria-label="Screens">
-      <button role="tab" aria-selected="true" data-shot="home"><svg class="mk" data-on="blue" viewBox="0 0 362 430" aria-hidden="true"><use href="#mark5"/></svg>Home</button>
-      <button role="tab" aria-selected="false" data-shot="sessions"><svg class="mk" data-on="red" viewBox="0 0 362 430" aria-hidden="true"><use href="#mark5"/></svg>Sessions</button>
-      <button role="tab" aria-selected="false" data-shot="memory"><svg class="mk" data-on="teal" viewBox="0 0 362 430" aria-hidden="true"><use href="#mark5"/></svg>Memory</button>
-      <button role="tab" aria-selected="false" data-shot="tasks"><svg class="mk" data-on="amber" viewBox="0 0 362 430" aria-hidden="true"><use href="#mark5"/></svg>Tasks</button>
-      <button role="tab" aria-selected="false" data-shot="standup"><svg class="mk" data-on="green" viewBox="0 0 362 430" aria-hidden="true"><use href="#mark5"/></svg>Agents</button>
+    <div class="show-tabs" role="tablist" aria-label="Five places in Slate">
+      <button role="tab" aria-selected="true" data-shot="home"><svg class="mk" data-on="blue" viewBox="0 0 362 430" aria-hidden="true"><use href="#mark5"/></svg><span><b>Home</b><small>What needs you</small></span></button>
+      <button role="tab" aria-selected="false" data-shot="sessions"><svg class="mk" data-on="red" viewBox="0 0 362 430" aria-hidden="true"><use href="#mark5"/></svg><span><b>Sessions</b><small>Every AI session</small></span></button>
+      <button role="tab" aria-selected="false" data-shot="memory"><svg class="mk" data-on="teal" viewBox="0 0 362 430" aria-hidden="true"><use href="#mark5"/></svg><span><b>Memory</b><small>Shared by every tool</small></span></button>
+      <button role="tab" aria-selected="false" data-shot="tasks"><svg class="mk" data-on="amber" viewBox="0 0 362 430" aria-hidden="true"><use href="#mark5"/></svg><span><b>Tasks</b><small>Everything you owe</small></span></button>
+      <button role="tab" aria-selected="false" data-shot="standup"><svg class="mk" data-on="green" viewBox="0 0 362 430" aria-hidden="true"><use href="#mark5"/></svg><span><b>Agents</b><small>Work done for you</small></span></button>
     </div>
     <figure class="shot shot-hero">
       <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
@@ -200,18 +200,18 @@
 <!-- ══ Features ═════════════════════════════════════════════════════════ -->
 <div id="features">
 
-<!-- The five places, one leaf of the mark each. A sticky mark beside them lights each
-     leaf as its section passes, and the full mark assembles after the fifth
-     (site/js/assemble.js). Leaf → place: blue Home, red Sessions, teal Memory,
-     amber Tasks, green Agents. -->
-<aside class="assemble" aria-hidden="true">
-  <svg class="mk mk-big" data-on="" width="120" height="143" viewBox="0 0 362 430" aria-hidden="true"><use href="#mark5"/></svg>
-  <span class="assemble-cap"></span>
-</aside>
-
-<section class="feat pillar reveal" data-leaf="blue" data-name="Home">
-  <div class="wrap-wide feat-in">
-    <div class="feat-copy">
+<!-- The five places, told as one story. A large mark stays pinned beside them: it
+     starts apart and grey, each place lights its own leaf as it scrolls past, and the
+     leaves close up into the whole mark after the fifth (site/js/assemble.js).
+     Leaf → place: blue Home, red Sessions, teal Memory, amber Tasks, green Agents. -->
+<div class="wrap-wide story">
+  <div class="story-mark" aria-hidden="true">
+    <svg class="big-mark" viewBox="0 0 362 430"><g transform="translate(-156.5,-39.5)"><path class="lf" data-leaf="red" style="--c:#FE6455" fill-rule="evenodd" d="M 327.0 39.5 L 351.0 39.5 L 366.0 43.5 L 378.0 49.5 L 509.0 123.5 L 517.5 132.0 L 516.5 140.0 L 511.0 145.5 L 506.0 147.5 L 337.0 212.5 L 321.0 216.5 L 303.0 216.5 L 290.0 213.5 L 179.0 156.5 L 161.0 146.5 L 156.5 141.0 L 156.5 133.0 L 163.0 126.5 L 305.0 46.5 L 327.0 39.5 Z"/><path class="lf" data-leaf="amber" style="--c:#FEB206" fill-rule="evenodd" d="M 189.0 184.5 L 197.0 184.5 L 343.0 260.5 L 367.0 269.5 L 437.0 288.5 L 464.0 298.5 L 480.0 306.5 L 496.0 317.5 L 506.5 329.0 L 510.5 336.0 L 512.5 345.0 L 502.0 334.5 L 480.0 321.5 L 462.0 314.5 L 430.0 306.5 L 384.0 300.5 L 301.0 299.5 L 279.0 294.5 L 168.0 237.5 L 160.5 230.0 L 156.5 221.0 L 156.5 213.0 L 160.5 203.0 L 166.0 197.5 L 189.0 184.5 Z"/><path class="lf" data-leaf="teal" style="--c:#28B097" fill-rule="evenodd" d="M 457.0 189.5 L 469.0 189.5 L 486.0 196.5 L 511.0 212.5 L 516.5 219.0 L 518.5 225.0 L 516.5 242.0 L 509.5 264.0 L 501.5 277.0 L 489.0 287.5 L 483.0 290.5 L 478.0 290.5 L 459.0 281.5 L 436.0 273.5 L 376.0 258.5 L 366.0 253.5 L 361.5 248.0 L 360.5 243.0 L 363.5 236.0 L 379.0 223.5 L 433.0 198.5 L 457.0 189.5 Z"/><path class="lf" data-leaf="blue" style="--c:#3977E4" fill-rule="evenodd" d="M 191.0 269.5 L 196.0 269.5 L 252.0 299.5 L 276.0 309.5 L 287.0 311.5 L 374.0 312.5 L 408.0 316.5 L 435.0 322.5 L 460.0 331.5 L 481.0 343.5 L 495.5 358.0 L 499.5 364.0 L 501.5 371.0 L 500.0 371.5 L 485.0 362.5 L 455.0 354.5 L 409.0 353.5 L 367.0 361.5 L 300.0 385.5 L 278.0 386.5 L 269.0 384.5 L 258.0 380.5 L 175.0 337.5 L 160.5 325.0 L 156.5 315.0 L 156.5 300.0 L 160.5 291.0 L 169.0 282.5 L 191.0 269.5 Z"/><path class="lf" data-leaf="green" style="--c:#31B17C" fill-rule="evenodd" d="M 421.0 366.5 L 453.0 367.5 L 473.0 372.5 L 477.0 374.5 L 481.5 380.0 L 480.5 389.0 L 474.0 395.5 L 462.0 402.5 L 352.0 461.5 L 332.0 469.5 L 312.0 469.5 L 292.0 460.5 L 179.0 397.5 L 173.5 392.0 L 172.5 389.0 L 172.5 384.0 L 176.0 378.5 L 194.0 367.5 L 200.0 367.5 L 267.0 402.5 L 283.0 406.5 L 300.0 406.5 L 328.0 398.5 L 362.0 382.5 L 386.0 373.5 L 421.0 366.5 Z"/></g></svg>
+    <p class="story-cap"><b></b><span></span></p>
+  </div>
+  <div class="story-steps">
+    <section class="pillar step" data-leaf="blue" data-name="Home">
+      <div class="feat-copy">
       <p class="pillar-k"><svg class="mk" data-on="blue" width="30" height="36" viewBox="0 0 362 430" aria-hidden="true"><use href="#mark5"/></svg><span><b>Home</b><i>1 of 5</i></span></p>
       <h2 class="mid">Start the day with what needs you — and ask for anything.</h2>
       <p>Home opens on what is waiting for you: a session with a question, an agent asking first, a review you owe. Below it, one box to ask anything, on the AI tool you already use.</p>
@@ -222,13 +222,11 @@
       </ul>
       <a class="more" href="tour/#home">See Home in the tour <svg width="14" height="14"><use href="#i-arrow"/></svg></a>
     </div>
-    <figure class="shot"><img loading="lazy" src="assets/shots/home.webp" srcset="assets/shots/home-1x.webp 1320w, assets/shots/home.webp 2640w" sizes="(min-width: 1180px) 700px, 100vw" width="1320" height="860" alt="Slate's Home: ten things need you, with a session waiting on an answer at the top"></figure>
-  </div>
-</section>
+      <figure class="shot"><img loading="lazy" src="assets/shots/home.webp" srcset="assets/shots/home-1x.webp 1320w, assets/shots/home.webp 2640w" sizes="(min-width: 1180px) 740px, 100vw" width="1320" height="860" alt="Slate's Home: ten things need you, with a session waiting on an answer at the top"></figure>
+    </section>
 
-<section class="feat pillar flip reveal" data-leaf="red" data-name="Sessions">
-  <div class="wrap-wide feat-in">
-    <div class="feat-copy">
+    <section class="pillar step" data-leaf="red" data-name="Sessions">
+      <div class="feat-copy">
       <p class="pillar-k"><svg class="mk" data-on="red" width="30" height="36" viewBox="0 0 362 430" aria-hidden="true"><use href="#mark5"/></svg><span><b>Sessions</b><i>2 of 5</i></span></p>
       <h2 class="mid">See every session — and who is waiting on you.</h2>
       <p>Slate reads the transcripts your AI tools already write, so every session on your Mac shows up on its own, grouped by project and branch. Nothing to install in each tool.</p>
@@ -239,13 +237,11 @@
       </ul>
       <a class="more" href="tour/#sessions">See Sessions in the tour <svg width="14" height="14"><use href="#i-arrow"/></svg></a>
     </div>
-    <figure class="shot"><img loading="lazy" src="assets/shots/sessions.webp" srcset="assets/shots/sessions-1x.webp 1320w, assets/shots/sessions.webp 2640w" sizes="(min-width: 1180px) 700px, 100vw" width="1320" height="860" alt="Sessions: the live list grouped by project beside a map of every session on this Mac"></figure>
-  </div>
-</section>
+      <figure class="shot"><img loading="lazy" src="assets/shots/sessions.webp" srcset="assets/shots/sessions-1x.webp 1320w, assets/shots/sessions.webp 2640w" sizes="(min-width: 1180px) 740px, 100vw" width="1320" height="860" alt="Sessions: the live list grouped by project beside a map of every session on this Mac"></figure>
+    </section>
 
-<section class="feat pillar reveal" data-leaf="teal" data-name="Memory">
-  <div class="wrap-wide feat-in">
-    <div class="feat-copy">
+    <section class="pillar step" data-leaf="teal" data-name="Memory">
+      <div class="feat-copy">
       <p class="pillar-k"><svg class="mk" data-on="teal" width="30" height="36" viewBox="0 0 362 430" aria-hidden="true"><use href="#mark5"/></svg><span><b>Memory</b><i>3 of 5</i></span></p>
       <h2 class="mid">One memory that every AI tool reads and writes.</h2>
       <p>Slate is an MCP server. Your tools <code class="inline">recall</code> at the start of a task and <code class="inline">remember</code> at the end — decisions with their reasons, preferences, lessons — into the same workspace.</p>
@@ -256,7 +252,57 @@
       </ul>
       <a class="more" href="tour/#memory">See Memory in the tour <svg width="14" height="14"><use href="#i-arrow"/></svg></a>
     </div>
-    <figure class="shot"><img loading="lazy" src="assets/shots/memory.webp" srcset="assets/shots/memory-1x.webp 1320w, assets/shots/memory.webp 2640w" sizes="(min-width: 1180px) 700px, 100vw" width="1320" height="860" alt="Memory: memories mapped onto the folders they cite, with changes proposed by Claude Code waiting for review"></figure>
+      <figure class="shot"><img loading="lazy" src="assets/shots/memory.webp" srcset="assets/shots/memory-1x.webp 1320w, assets/shots/memory.webp 2640w" sizes="(min-width: 1180px) 740px, 100vw" width="1320" height="860" alt="Memory: memories mapped onto the folders they cite, with changes proposed by Claude Code waiting for review"></figure>
+    </section>
+
+    <section class="pillar step" data-leaf="amber" data-name="Tasks">
+      <div class="feat-copy">
+      <p class="pillar-k"><svg class="mk" data-on="amber" width="30" height="36" viewBox="0 0 362 430" aria-hidden="true"><use href="#mark5"/></svg><span><b>Tasks</b><i>4 of 5</i></span></p>
+      <h2 class="mid">Everything you owe, from every tool, in one list.</h2>
+      <p>Issues assigned to you, reviews you owe, messages waiting on a reply — from GitHub, Linear, Jira, Slack and more — beside the to-dos you write yourself, with a reminder on any of them.</p>
+      <ul class="ticks">
+        <li><svg><use href="#i-check"/></svg><span><strong>Run with AI</strong>: the run plans, stops for your approval, builds, and stops again before it ships.</span></li>
+        <li><svg><use href="#i-check"/></svg><span>Nothing is pushed, posted or sent until you say so.</span></li>
+        <li><svg><use href="#i-check"/></svg><span>Descriptions are read live from the source — never copied into Slate.</span></li>
+      </ul>
+      <a class="more" href="tour/#tasks">See Tasks in the tour <svg width="14" height="14"><use href="#i-arrow"/></svg></a>
+    </div>
+      <figure class="shot"><img loading="lazy" src="assets/shots/tasks.webp" srcset="assets/shots/tasks-1x.webp 1320w, assets/shots/tasks.webp 2640w" sizes="(min-width: 1180px) 740px, 100vw" width="1320" height="860" alt="Tasks: to-dos, review requests and Slack replies that need you, with one to-do open"></figure>
+    </section>
+
+    <section class="pillar step" data-leaf="green" data-name="Agents">
+      <div class="feat-copy">
+      <p class="pillar-k"><svg class="mk" data-on="green" width="30" height="36" viewBox="0 0 362 430" aria-hidden="true"><use href="#mark5"/></svg><span><b>Agents</b><i>5 of 5</i></span></p>
+      <h2 class="mid">Agents that work while you don't — inside your rules.</h2>
+      <p>A standup at 7:00. A debrief when a session ends. A plan for every ticket assigned to you. Each agent runs on the AI tool you already have, and writes its report to a thread you can answer.</p>
+      <ul class="ticks">
+        <li><svg><use href="#i-check"/></svg><span><strong>Reading goes ahead. Writing asks you first.</strong> Merging and deleting are refused.</span></li>
+        <li><svg><use href="#i-check"/></svg><span>A held call waits as a card — <strong>Yes, do it</strong> runs it once.</span></li>
+        <li><svg><use href="#i-check"/></svg><span>Start from a template — Standup, Weekly review, Retro — or describe your own.</span></li>
+      </ul>
+      <a class="more" href="tour/#agents">See Agents in the tour <svg width="14" height="14"><use href="#i-arrow"/></svg></a>
+    </div>
+      <figure class="shot"><img loading="lazy" src="assets/shots/standup.webp" srcset="assets/shots/standup-1x.webp 1320w, assets/shots/standup.webp 2640w" sizes="(min-width: 1180px) 740px, 100vw" width="1320" height="860" alt="The Standup agent's thread: a report per project for yesterday and today"></figure>
+    </section>
+  </div>
+</div>
+
+<!-- The payoff: the five leaves, assembled. -->
+<section class="one reveal" id="one">
+  <div class="wrap-wide one-in">
+    <div class="one-mark"><svg class="mk mk-hero" data-on="blue red teal amber green" viewBox="0 0 362 430" aria-hidden="true"><use href="#mark5"/></svg></div>
+    <div class="one-copy">
+      <p class="kicker">Five places</p>
+      <h2 class="big">One Slate.</h2>
+      <p>Each place is useful on its own. Together they are the thing no single AI tool can be: one layer that sees every session, remembers what each one learned, knows what you owe, and works while you're away — for every tool you use.</p>
+      <ul class="one-list">
+        <li><svg class="mk" data-on="blue" viewBox="0 0 362 430" aria-hidden="true"><use href="#mark5"/></svg><b>Home</b> what needs you, and a box to ask anything</li>
+        <li><svg class="mk" data-on="red" viewBox="0 0 362 430" aria-hidden="true"><use href="#mark5"/></svg><b>Sessions</b> every AI session on your Mac</li>
+        <li><svg class="mk" data-on="teal" viewBox="0 0 362 430" aria-hidden="true"><use href="#mark5"/></svg><b>Memory</b> what they learned, shared by all of them</li>
+        <li><svg class="mk" data-on="amber" viewBox="0 0 362 430" aria-hidden="true"><use href="#mark5"/></svg><b>Tasks</b> everything you owe, from every tool</li>
+        <li><svg class="mk" data-on="green" viewBox="0 0 362 430" aria-hidden="true"><use href="#mark5"/></svg><b>Agents</b> the routine work, done inside your rules</li>
+      </ul>
+    </div>
   </div>
 </section>
 
@@ -307,58 +353,6 @@
   </div>
 </section>
 
-<section class="feat pillar flip reveal" data-leaf="amber" data-name="Tasks">
-  <div class="wrap-wide feat-in">
-    <div class="feat-copy">
-      <p class="pillar-k"><svg class="mk" data-on="amber" width="30" height="36" viewBox="0 0 362 430" aria-hidden="true"><use href="#mark5"/></svg><span><b>Tasks</b><i>4 of 5</i></span></p>
-      <h2 class="mid">Everything you owe, from every tool, in one list.</h2>
-      <p>Issues assigned to you, reviews you owe, messages waiting on a reply — from GitHub, Linear, Jira, Slack and more — beside the to-dos you write yourself, with a reminder on any of them.</p>
-      <ul class="ticks">
-        <li><svg><use href="#i-check"/></svg><span><strong>Run with AI</strong>: the run plans, stops for your approval, builds, and stops again before it ships.</span></li>
-        <li><svg><use href="#i-check"/></svg><span>Nothing is pushed, posted or sent until you say so.</span></li>
-        <li><svg><use href="#i-check"/></svg><span>Descriptions are read live from the source — never copied into Slate.</span></li>
-      </ul>
-      <a class="more" href="tour/#tasks">See Tasks in the tour <svg width="14" height="14"><use href="#i-arrow"/></svg></a>
-    </div>
-    <figure class="shot"><img loading="lazy" src="assets/shots/tasks.webp" srcset="assets/shots/tasks-1x.webp 1320w, assets/shots/tasks.webp 2640w" sizes="(min-width: 1180px) 700px, 100vw" width="1320" height="860" alt="Tasks: to-dos, review requests and Slack replies that need you, with one to-do open"></figure>
-  </div>
-</section>
-
-<section class="feat pillar reveal" data-leaf="green" data-name="Agents">
-  <div class="wrap-wide feat-in">
-    <div class="feat-copy">
-      <p class="pillar-k"><svg class="mk" data-on="green" width="30" height="36" viewBox="0 0 362 430" aria-hidden="true"><use href="#mark5"/></svg><span><b>Agents</b><i>5 of 5</i></span></p>
-      <h2 class="mid">Agents that work while you don't — inside your rules.</h2>
-      <p>A standup at 7:00. A debrief when a session ends. A plan for every ticket assigned to you. Each agent runs on the AI tool you already have, and writes its report to a thread you can answer.</p>
-      <ul class="ticks">
-        <li><svg><use href="#i-check"/></svg><span><strong>Reading goes ahead. Writing asks you first.</strong> Merging and deleting are refused.</span></li>
-        <li><svg><use href="#i-check"/></svg><span>A held call waits as a card — <strong>Yes, do it</strong> runs it once.</span></li>
-        <li><svg><use href="#i-check"/></svg><span>Start from a template — Standup, Weekly review, Retro — or describe your own.</span></li>
-      </ul>
-      <a class="more" href="tour/#agents">See Agents in the tour <svg width="14" height="14"><use href="#i-arrow"/></svg></a>
-    </div>
-    <figure class="shot"><img loading="lazy" src="assets/shots/standup.webp" srcset="assets/shots/standup-1x.webp 1320w, assets/shots/standup.webp 2640w" sizes="(min-width: 1180px) 700px, 100vw" width="1320" height="860" alt="The Standup agent's thread: a report per project for yesterday and today"></figure>
-  </div>
-</section>
-
-<!-- The payoff: the five leaves, assembled. -->
-<section class="one reveal" id="one">
-  <div class="wrap-wide one-in">
-    <div class="one-mark"><svg class="mk mk-hero" data-on="blue red teal amber green" viewBox="0 0 362 430" aria-hidden="true"><use href="#mark5"/></svg></div>
-    <div class="one-copy">
-      <p class="kicker">Five places</p>
-      <h2 class="big">One Slate.</h2>
-      <p>Each place is useful on its own. Together they are the thing no single AI tool can be: one layer that sees every session, remembers what each one learned, knows what you owe, and works while you're away — for every tool you use.</p>
-      <ul class="one-list">
-        <li><svg class="mk" data-on="blue" viewBox="0 0 362 430" aria-hidden="true"><use href="#mark5"/></svg><b>Home</b> what needs you, and a box to ask anything</li>
-        <li><svg class="mk" data-on="red" viewBox="0 0 362 430" aria-hidden="true"><use href="#mark5"/></svg><b>Sessions</b> every AI session on your Mac</li>
-        <li><svg class="mk" data-on="teal" viewBox="0 0 362 430" aria-hidden="true"><use href="#mark5"/></svg><b>Memory</b> what they learned, shared by all of them</li>
-        <li><svg class="mk" data-on="amber" viewBox="0 0 362 430" aria-hidden="true"><use href="#mark5"/></svg><b>Tasks</b> everything you owe, from every tool</li>
-        <li><svg class="mk" data-on="green" viewBox="0 0 362 430" aria-hidden="true"><use href="#mark5"/></svg><b>Agents</b> the routine work, done inside your rules</li>
-      </ul>
-    </div>
-  </div>
-</section>
 
 <!-- Three more, smaller: they matter, and they would make the page a manual. -->
 <section class="reveal">
@@ -515,6 +509,6 @@ shasum -a 256 -c SHASUMS256.txt</pre>
   </p>
 </footer>
 
-<script type="module" src="site/js/home.js?v=20261013d"></script>
+<script type="module" src="site/js/home.js?v=20261013f"></script>
 </body>
 </html>
