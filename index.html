@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Slate — one home for every AI coding session</title>
-<meta name="description" content="Slate sees every Claude Code, Codex, Cursor, Gemini and OpenCode session on your Mac, gives them one shared memory, and runs agents for you inside rules you set. Local-first, no account, no API keys.">
+<title>Slate — every AI tool you use, finally working as one</title>
+<meta name="description" content="Slate is the memory layer between you and every AI tool you use. It sees every Claude Code, Codex, Cursor, Gemini and OpenCode session, remembers what each one learned, hands it to the next at the moment it needs it, and works for you while you're away — all on your Mac.">
 <link rel="icon" href="assets/icon.svg">
 
-<meta property="og:title" content="Slate — one home for every AI coding session">
-<meta property="og:description" content="Every session on your Mac, one memory every AI tool shares, and agents that work inside your rules. Local-first.">
+<meta property="og:title" content="Slate — every AI tool you use, finally working as one">
+<meta property="og:description" content="Your AI tools forget. Slate remembers — for all of them, on your Mac.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://liozelmalem-star.github.io/slate-releases/assets/shots/home.webp">
 
@@ -18,11 +18,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <!-- Dependency order: tokens first, the page's own furniture last. See site/README.md. -->
-<link rel="stylesheet" href="site/css/tokens.css?v=20261013b">
-<link rel="stylesheet" href="site/css/base.css?v=20261013b">
-<link rel="stylesheet" href="site/css/layout.css?v=20261013b">
-<link rel="stylesheet" href="site/css/components.css?v=20261013b">
-<link rel="stylesheet" href="site/css/home.css?v=20261013b">
+<link rel="stylesheet" href="site/css/tokens.css?v=20261013c">
+<link rel="stylesheet" href="site/css/base.css?v=20261013c">
+<link rel="stylesheet" href="site/css/layout.css?v=20261013c">
+<link rel="stylesheet" href="site/css/components.css?v=20261013c">
+<link rel="stylesheet" href="site/css/home.css?v=20261013c">
 
 <script>
   // Before first paint, never after — a theme applied later is a white flash for a
@@ -80,11 +80,12 @@
     <a class="rel" id="rel" hidden href="https://github.com/liozelmalem-star/slate-releases/releases">
       <span class="dot"></span><span id="rel-text"></span>
     </a>
-    <h1>One home for every<br><span class="grad">AI coding session.</span></h1>
+    <h1>Every AI tool you use,<br><span class="grad">finally working as one.</span></h1>
     <p class="lede">
-      Slate sees every Claude Code, Codex, Cursor, Gemini and OpenCode session on your Mac,
-      gives them <strong>one memory they all share</strong>, and runs agents for you inside
-      rules you set. Everything stays on your machine.
+      Claude Code, Codex, Cursor, Gemini and OpenCode each start from zero. Slate is the layer
+      between them: it <strong>sees every session, remembers what each one learned, and hands
+      it to the next one</strong> the moment it needs it — then keeps working for you while
+      you're away. All of it on your Mac.
     </p>
 
     <div class="install" id="install">
@@ -134,11 +135,23 @@
   </div>
 </section>
 
+<!-- ══ The proof ════════════════════════════════════════════════════════
+     The measurement in docs/internals/strategy/enforcement-finding.md: 89 real sessions,
+     same model, same contract text, with and without Slate's hooks. -->
+<section class="proof reveal">
+  <div class="wrap-wide"><div class="proof-in">
+    <div class="proof-num"><span class="n dim">7%</span><span class="l">of AI sessions save what they learned when they are only <em>told</em> to</span></div>
+    <svg class="proof-arrow" width="34" height="34" aria-hidden="true"><use href="#i-arrow"/></svg>
+    <div class="proof-num"><span class="n grad">76%</span><span class="l">when Slate makes sure they do</span></div>
+    <p class="proof-note">Measured over 89 real sessions — same model, same instructions, with and without Slate's hooks. Every other AI memory product ships the instruction alone.</p>
+  </div></div>
+</section>
+
 <!-- ══ The problem ══════════════════════════════════════════════════════ -->
 <section class="problem reveal">
   <div class="wrap-wide">
     <p class="kicker"><svg width="9" height="9" style="color:rgb(var(--leaf-red-500))"><use href="#slab-9"/></svg>Why Slate</p>
-    <h2 class="big">Every AI tool starts from zero.<br>You end up being the glue.</h2>
+    <h2 class="big">Every AI tool starts from zero.<br>Today, you are the memory.</h2>
     <div class="pains">
       <div class="pain">
         <h3>It forgot yesterday</h3>
@@ -153,7 +166,33 @@
         <p>Standups, reviews, the ticket you owe a reply. None of it happens unless you do it, and none of it is the work you sat down to do.</p>
       </div>
     </div>
-    <p class="answer">Slate is the layer underneath: <strong>one place that sees every session, remembers what they learned, and does the routine work</strong> — on your Mac, in files you own.</p>
+    <p class="answer">Slate fixes it the way your own memory works: it <strong>notices, remembers, recalls and acts</strong> — for every AI tool at once, on your Mac, in files you own.</p>
+
+    <!-- The product's own model (docs/internals/product-architecture.md): perceive →
+         save what lasts → recall at the moment of need, with an AI on top that acts. -->
+    <ol class="loop">
+      <li>
+        <span class="loop-n">1</span>
+        <h3>It notices everything</h3>
+        <p>Every session from every AI tool is captured as it happens, from the transcripts the tools already write. Nothing to remember to do, nothing to paste.</p>
+      </li>
+      <li>
+        <span class="loop-n">2</span>
+        <h3>It remembers what lasts</h3>
+        <p>Decisions with their reasons, preferences, lessons, where each branch stands — each tied to the file it's about, and flagged when that code changes.</p>
+      </li>
+      <li>
+        <span class="loop-n">3</span>
+        <h3>It hands it back on time</h3>
+        <p>When any tool starts a task, the right memory is already there — whichever tool you open next. Not when you think to ask: when the work needs it.</p>
+      </li>
+      <li>
+        <span class="loop-n">4</span>
+        <h3>It works while you're away</h3>
+        <p>Agents run your standup, debrief each session and draft the reply you owe — on the AI tool you already pay for, inside rules you set.</p>
+      </li>
+    </ol>
+    <p class="name-note">Why "Slate"? A slate is the clapperboard that syncs separate cameras onto one timeline. Your AI tools are the cameras.</p>
   </div>
 </section>
 
@@ -163,25 +202,8 @@
 <section class="feat reveal">
   <div class="wrap-wide feat-in">
     <div class="feat-copy">
-      <p class="kicker"><svg width="9" height="9" style="color:rgb(var(--leaf-teal-500))"><use href="#slab-9"/></svg>Sessions</p>
-      <h2 class="mid">See every session — and who is waiting on you.</h2>
-      <p>Slate reads the transcripts your AI tools already write, so every session on your Mac shows up on its own, grouped by project and branch. Nothing to install in each tool.</p>
-      <ul class="ticks">
-        <li><svg><use href="#i-check"/></svg><span><strong>Working, needs you, idle</strong> — at a glance, in the list and on the map.</span></li>
-        <li><svg><use href="#i-check"/></svg><span>Start a session here, in a new worktree, in the cloud, or <strong>pick it up on your phone</strong>.</span></li>
-        <li><svg><use href="#i-check"/></svg><span>Read what a branch changed and send review comments back to the session.</span></li>
-      </ul>
-      <a class="more" href="tour/#sessions">See Sessions in the tour <svg width="14" height="14"><use href="#i-arrow"/></svg></a>
-    </div>
-    <figure class="shot"><img loading="lazy" src="assets/shots/sessions.webp" srcset="assets/shots/sessions-1x.webp 1320w, assets/shots/sessions.webp 2640w" sizes="(min-width: 1180px) 700px, 100vw" width="1320" height="860" alt="Sessions: the live list grouped by project beside a map of every session on this Mac"></figure>
-  </div>
-</section>
-
-<section class="feat flip reveal">
-  <div class="wrap-wide feat-in">
-    <div class="feat-copy">
       <p class="kicker"><svg width="9" height="9" style="color:rgb(var(--leaf-amber-500))"><use href="#slab-9"/></svg>Memory</p>
-      <h2 class="mid">One memory that every tool reads and writes.</h2>
+      <h2 class="mid">One memory that every AI tool reads and writes.</h2>
       <p>Slate is an MCP server. Your tools <code class="inline">recall</code> at the start of a task and <code class="inline">remember</code> at the end — decisions with their reasons, preferences, lessons — into the same workspace.</p>
       <ul class="ticks">
         <li><svg><use href="#i-check"/></svg><span><strong>24 tools</strong> every connected AI tool gains, against one workspace.</span></li>
@@ -240,6 +262,24 @@
     <p class="demo-caption">Two tools, two days, <strong>nothing pasted between them</strong>. The second one didn't remember — it asked Slate, the one thing the two of them share.</p>
   </div>
 </section>
+
+<section class="feat flip reveal">
+  <div class="wrap-wide feat-in">
+    <div class="feat-copy">
+      <p class="kicker"><svg width="9" height="9" style="color:rgb(var(--leaf-teal-500))"><use href="#slab-9"/></svg>Sessions</p>
+      <h2 class="mid">See every session — and who is waiting on you.</h2>
+      <p>Slate reads the transcripts your AI tools already write, so every session on your Mac shows up on its own, grouped by project and branch. Nothing to install in each tool.</p>
+      <ul class="ticks">
+        <li><svg><use href="#i-check"/></svg><span><strong>Working, needs you, idle</strong> — at a glance, in the list and on the map.</span></li>
+        <li><svg><use href="#i-check"/></svg><span>Start a session here, in a new worktree, in the cloud, or <strong>pick it up on your phone</strong>.</span></li>
+        <li><svg><use href="#i-check"/></svg><span>Read what a branch changed and send review comments back to the session.</span></li>
+      </ul>
+      <a class="more" href="tour/#sessions">See Sessions in the tour <svg width="14" height="14"><use href="#i-arrow"/></svg></a>
+    </div>
+    <figure class="shot"><img loading="lazy" src="assets/shots/sessions.webp" srcset="assets/shots/sessions-1x.webp 1320w, assets/shots/sessions.webp 2640w" sizes="(min-width: 1180px) 700px, 100vw" width="1320" height="860" alt="Sessions: the live list grouped by project beside a map of every session on this Mac"></figure>
+  </div>
+</section>
+
 
 <section class="feat reveal">
   <div class="wrap-wide feat-in">
@@ -423,7 +463,7 @@ shasum -a 256 -c SHASUMS256.txt</pre>
 <section class="close reveal">
   <div class="wrap-wide close-in">
     <img src="assets/icon.svg" alt="" width="64" height="64">
-    <h2 class="big">Give your AI tools a memory.</h2>
+    <h2 class="big">Give every AI tool the same memory.</h2>
     <p class="lede">One command. About thirty seconds. Everything stays on your Mac.</p>
     <div class="install">
       <div class="cmd">
@@ -447,6 +487,6 @@ shasum -a 256 -c SHASUMS256.txt</pre>
   </p>
 </footer>
 
-<script type="module" src="site/js/home.js?v=20261013b"></script>
+<script type="module" src="site/js/home.js?v=20261013c"></script>
 </body>
 </html>
