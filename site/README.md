@@ -7,7 +7,7 @@ installer pin to the repository root.
 index.html                 the landing page       → /
 docs/index.html            the docs hub           → /docs/
 docs/connect/index.html    connecting your tools  → /docs/connect/
-docs/mcp/index.html        the 21-tool reference  → /docs/mcp/
+docs/mcp/index.html        the 24-tool overview   → /docs/mcp/
 docs/overview/  ]
 docs/features/  ]  GENERATED — do not edit. See "The guide is generated".
 docs/legal/     ]
@@ -117,6 +117,9 @@ They are also the reason the generator exists: `/docs/mcp/` advertised **26** MC
 for a surface of **21**, five of them deleted, because the count lived in a repo where the
 private one's `check-tool-parity.mjs` could not see it. If either page grows a number that
 the product decides, move that page into the generated set rather than retyping it.
+Until then, check `/docs/mcp/` against the contract table in the private repo's
+`docs/features/mcp-server/connecting.md` on every release — it fell behind again, to 21
+for a surface of 24, between September and October.
 
 `/docs/` is still built to be added to, never moved: each section is its own directory
 with an `index.html`, so a new page is a new folder and never a changed URL.

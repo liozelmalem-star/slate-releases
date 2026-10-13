@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Slate — local AI memory that follows you across every tool</title>
-<meta name="description" content="A personal, local-first AI workspace. Nested pages, a block editor, and an in-app AI agent — all in one SQLite file on your Mac. Also an MCP server, so every AI tool shares the same memory.">
+<meta name="description" content="A personal, local-first AI workspace on your Mac. Every AI coding session captured, one memory that Claude Code, Codex, Cursor, Gemini and OpenCode all read and write, and agents that work for you inside rules you set.">
 <link rel="icon" href="assets/icon.svg">
 
 <meta property="og:title" content="Slate">
@@ -108,13 +108,13 @@
        The section that answers "what IS this", because the four cards below
        answer "what does it have" and those are different questions.
 
-       Every string inside the terminal is real: `remember` and `recall` are the
-       two MCP tools Slate registers (packages/mcp/src/tools/memory/tools.ts),
+       Every string inside the terminal is real: `remember` and `recall` are two of
+       the MCP tools Slate registers (packages/mcp/src/tools/memory/tools.ts),
        the arguments are their actual argument names, and the `⎿` payloads are
-       their actual return shapes — `remember` answers
-       {saved, atom:{action,id}} (server/src/operations/memory/remember.ts) and
-       `recall` answers a hit list whose `title` IS the atom's kind
-       (server/src/operations/recall/search.ts). The row on the right is the
+       their actual return shapes, trimmed — `remember` answers
+       {saved, action, factId, …} (server/src/operations/memory/remember.ts) and
+       `recall` answers a hit list whose `title` IS the atom's kind and whose
+       `ref` is what a session cites it by (server/src/operations/recall/search.ts). The row on the right is the
        app's FactRow, down to `conf 0.90` being remember()'s default confidence
        for a hand-written atom.
 
@@ -140,7 +140,7 @@
           </p>
           <p class="demo-line demo-prompt" data-step="p1" data-lines="2"><span class="demo-chev">&gt;</span> <span data-type="p1"></span></p>
           <p class="demo-line demo-call" data-step="c1" data-lines="2"><span class="demo-bullet">⏺</span> remember<span class="demo-args">(text: "SQLite over Postgres — local-first, it has to work offline", kind: "decision")</span></p>
-          <p class="demo-line demo-res" data-step="k1"><span class="demo-args">⎿</span> {"saved":true,"atom":{"action":"add"}}</p>
+          <p class="demo-line demo-res" data-step="k1"><span class="demo-args">⎿</span> {"saved":true,"action":"add"}</p>
 
           <p class="demo-line demo-day" data-step="day"><span>the next day</span></p>
 
@@ -150,7 +150,7 @@
           </p>
           <p class="demo-line demo-prompt" data-step="p2"><span class="demo-chev">&gt;</span> <span data-type="p2"></span></p>
           <p class="demo-line demo-call" data-step="c2"><span class="demo-bullet">⏺</span> recall<span class="demo-args">(query: "database choice")</span></p>
-          <p class="demo-line demo-res" data-step="r2" data-lines="2"><span class="demo-args">⎿</span> [{"title":<span class="demo-quote">"decision"</span>,"snippet":<span class="demo-quote">"SQLite over Postgres — local-first, it has to work offline"</span>}]</p>
+          <p class="demo-line demo-res" data-step="r2" data-lines="2"><span class="demo-args">⎿</span> [{"ref":<span class="demo-quote">"m:7f3a2b1c"</span>,"title":<span class="demo-quote">"decision"</span>,"snippet":<span class="demo-quote">"SQLite over Postgres — local-first, it has to work offline"</span>}]</p>
           <p class="demo-line demo-answer" data-step="a2">Because you decided that on Tuesday — it has to work offline.</p>
 
         </div>
@@ -181,77 +181,114 @@
       Two tools, two days, <strong>nothing pasted between them</strong>. The second one
       didn't remember — it asked Slate, which is the only thing the two of them share.
       Every AI tool on your machine reads and writes the same memory, and all of it
-      stays in one file you own.
+      stays in files on your Mac.
     </p>
   </section>
 
 
   <section class="reveal">
-    <!-- Section leaves follow the app's own route map: the Console is blue, Memory
+    <!-- Section leaves follow the app's own route map: Home is blue, Memory
          teal, Workspaces amber, and the run surfaces red. Green stays out, here as
          on the canvas — it sits 16° from teal and the two are not tellable apart at
          9px.
 
          That leaves four hues for five sections, so exactly one repeats, and it
          repeats where two sections speak for the same layer: "What it does" renders
-         the Memory surface and "Connects itself" is the MCP server that fills it.
-         Both teal. Reaching for green to avoid the repeat would have bought a
-         distinct hue nobody can resolve. -->
+         the Memory surface and "Connects to your tools" is the MCP server that fills
+         it. Both teal. Inside "What it is" the cards cycle the four hues in order,
+         because there they only tell neighbours apart.
+
+         Every name below is the screen word, taken from the app's own catalog
+         (packages/catalog/src/en/places.json and terms.json): Home, Sessions,
+         Agents, Apps, Tasks, Toolkit. A word the app has retired — Console,
+         Routine, Studio — does not appear on this page. -->
     <h2><svg width="9" height="9" style="color:rgb(var(--leaf-blue-500))"><use href="#slab-9"/></svg>What it is</h2>
     <div class="features">
       <div class="card feature">
         <span class="well" style="color:rgb(var(--leaf-red-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
         <div>
-          <h3>One file, on your Mac</h3>
-          <p>Your whole workspace is a single SQLite file. No account, no sync, no telemetry. It works on a plane.</p>
+          <h3>On your Mac, not in a cloud</h3>
+          <p>Every workspace is a SQLite file on your machine. No account, no subscription, nothing uploaded by default. Usage counts are opt-in and off until you turn them on.</p>
         </div>
       </div>
       <div class="card feature">
         <span class="well" style="color:rgb(var(--leaf-amber-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
         <div>
-          <h3>Shared memory for every AI tool</h3>
-          <p>Slate is an MCP server. What Claude Code learns on Tuesday, Cursor knows on Wednesday.</p>
+          <h3>One memory for every AI tool</h3>
+          <p>Slate is an MCP server. Your tools <code class="inline">recall</code> at the start of a task and <code class="inline">remember</code> at the end — decisions, preferences, lessons — into the same workspace.</p>
         </div>
       </div>
       <div class="card feature">
         <span class="well" style="color:rgb(var(--leaf-teal-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
         <div>
-          <h3>Pages and a block editor</h3>
-          <p>Nested, typed pages — projects, repos, branches, plans, designs — in a keyboard-first editor.</p>
+          <h3>Sessions, captured and live</h3>
+          <p>Slate reads the transcripts your AI CLIs already write, so every session becomes a page. Sessions shows who is working and who is waiting on you — on this Mac, in the cloud, or from your phone.</p>
         </div>
       </div>
       <div class="card feature">
         <span class="well" style="color:rgb(var(--leaf-blue-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
         <div>
-          <h3>An agent that runs on your CLI</h3>
-          <p>The in-app agent uses the Claude Code or Gemini CLI you already have. No API keys.</p>
+          <h3>Home runs on the CLI you have</h3>
+          <p>The in-app agent drives Claude Code, Codex, Cursor, OpenCode or Gemini — whichever you already signed in to. No API key to paste.</p>
+        </div>
+      </div>
+      <div class="card feature">
+        <span class="well" style="color:rgb(var(--leaf-red-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
+        <div>
+          <h3>Agents that work inside your rules</h3>
+          <p>A standup at 7:00, a plan for each new ticket, a debrief when a session ends. Reading goes ahead, writing asks you first, merging and deleting are refused.</p>
+        </div>
+      </div>
+      <div class="card feature">
+        <span class="well" style="color:rgb(var(--leaf-amber-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
+        <div>
+          <h3>Apps and artifacts</h3>
+          <p>Describe an app and watch your AI tool build it. It reads your workspace, acts only through what you allowed, and has no internet. Reports and charts your tools publish land in Artifacts.</p>
+        </div>
+      </div>
+      <div class="card feature">
+        <span class="well" style="color:rgb(var(--leaf-teal-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
+        <div>
+          <h3>Tasks, in one list</h3>
+          <p>Issues assigned to you, reviews you owe, messages waiting on a reply, and the to-dos you write yourself — with a reminder on any of them.</p>
+        </div>
+      </div>
+      <div class="card feature">
+        <span class="well" style="color:rgb(var(--leaf-blue-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
+        <div>
+          <h3>Pages, Toolkit and workspaces</h3>
+          <p>Nested, typed pages in a keyboard-first block editor. Write skills once and sync them to every tool. Share a whole workspace with a team — or nothing, until you sign in.</p>
         </div>
       </div>
     </div>
   </section>
 
   <section class="reveal">
-    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-teal-500))"><use href="#slab-9"/></svg>Connects itself</h2>
+    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-teal-500))"><use href="#slab-9"/></svg>Connects to your tools</h2>
     <div class="tools" id="tools">
       <span class="tool" style="--leaf: var(--leaf-red-500)"><svg class="leaf" width="9" height="9"><use href="#slab-9"/></svg>Claude Code</span>
-      <span class="tool" style="--leaf: var(--leaf-amber-500)"><svg class="leaf" width="9" height="9"><use href="#slab-9"/></svg>Cursor</span>
       <span class="tool" style="--leaf: var(--leaf-teal-500)"><svg class="leaf" width="9" height="9"><use href="#slab-9"/></svg>Codex</span>
       <span class="tool" style="--leaf: var(--leaf-blue-500)"><svg class="leaf" width="9" height="9"><use href="#slab-9"/></svg>Gemini</span>
+      <span class="tool" style="--leaf: var(--leaf-amber-500)"><svg class="leaf" width="9" height="9"><use href="#slab-9"/></svg>Cursor</span>
+      <span class="tool" style="--leaf: var(--leaf-green-500)"><svg class="leaf" width="9" height="9"><use href="#slab-9"/></svg>OpenCode</span>
     </div>
     <p class="tools-note">
-      On first launch Slate registers itself as an MCP server with whichever of these it
-      finds installed. No config files to edit, no paths to paste. Each of them gains the
-      <a href="docs/mcp/">same 26 tools</a> against the same workspace.
+      Turn a tool on in setup or in <strong>Connect → AI tools</strong> and Slate installs
+      itself there — as a plugin in Claude Code and Codex, as an MCP server in the rest.
+      It asks before it touches another program's config, and after the first one it keeps
+      tools you install later connected too. Each of them gains the
+      <a href="docs/mcp/">same 24 tools</a> against the same workspace.
     </p>
   </section>
 
   <section class="reveal">
     <h2><svg width="9" height="9" style="color:rgb(var(--leaf-amber-500))"><use href="#slab-9"/></svg>After you install</h2>
     <ol class="steps">
-      <li>Slate opens and creates your workspace.</li>
-      <li>It connects to the AI tools it finds. Nothing to configure.</li>
-      <li>Restart those tools. They can now <code class="inline">recall</code> and <code class="inline">remember</code> against your workspace.</li>
-      <li>Updates arrive in-app: <strong>Settings → About → Check for updates</strong>.</li>
+      <li>Slate opens, creates your Personal workspace, and starts reading the session transcripts your AI CLIs already keep. Nothing is changed and nothing is sent.</li>
+      <li>A four-step setup runs — <strong>Welcome, AI tool, Connect, Project</strong>. Every step can be skipped.</li>
+      <li><strong>Connect</strong> is what makes memory shared: restart the tools you turned on and they can <code class="inline">recall</code> and <code class="inline">remember</code> against your workspace.</li>
+      <li>Home opens on a <strong>Set up Slate</strong> card: connect an AI tool, start a session, see your first memory.</li>
+      <li>Updates arrive on their own. Slate downloads them quietly and installs when you next quit — the restart is always yours.</li>
     </ol>
   </section>
 

@@ -25,11 +25,16 @@ already contains everything.
 
 The script installs `Slate.app` into `/Applications` and opens it.
 
-Slate can register itself as an MCP server with the AI tools it finds — Claude Code,
-Cursor, Codex, Gemini, OpenCode — and it asks first. Connect one from the setup screen
-and Slate keeps the rest current for you. Nothing outside Slate is touched until you do.
+Then a four-step setup runs — **Welcome, AI tool, Connect, Project** — and every step can
+be skipped. **Connect** installs Slate into the AI tools you pick — Claude Code, Codex,
+Gemini, Cursor, OpenCode — as a plugin in Claude Code and Codex and as an MCP server in
+the rest. It asks first: nothing outside Slate is touched until you connect one, and after
+that Slate keeps tools you install later connected too.
+Full walkthrough: [Getting Started](https://liozelmalem-star.github.io/slate-releases/docs/overview/getting-started/).
 
-Updates arrive in-app: **Settings → About → Check for updates**.
+Updates arrive on their own. Slate checks while it is open, downloads a new version in the
+background, and installs it when you next quit — or press **Restart now**. **Settings →
+About → Check now** if you don't want to wait.
 
 ### Read it before you run it
 
@@ -49,8 +54,8 @@ asked to disable a security control.
 
 The honest tradeoff: the installer verifies a SHA256 checksum, but the script and the
 binaries come from the same host, so that covers a corrupted download rather than a
-compromised one. Notarization is what buys third-party authenticity, and it's on the
-roadmap. Updates *are* signed — the app verifies a minisign signature against a public
+compromised one. Notarization is what buys third-party authenticity, and it isn't
+done yet. Updates *are* signed — the app verifies a minisign signature against a public
 key compiled into it and refuses anything that doesn't match.
 
 ### Manual install
@@ -97,19 +102,35 @@ Pass a flag through the pipe with `bash -s --`, e.g.
 
 ## What Slate is
 
-A personal, local-first AI workspace — nested pages, a block editor, and an in-app AI
-agent, all in one SQLite file on your machine.
+A personal, local-first AI workspace — and the memory layer under every AI tool you use.
+Everything lives in SQLite files on your Mac.
 
-- **One file, on your Mac.** No account, no sync, no telemetry. It works on a plane.
-- **Shared memory for every AI tool.** Slate is an MCP server, so what Claude Code learns
-  on Tuesday, Cursor knows on Wednesday.
-- **Pages and a block editor.** Nested, typed pages — projects, repos, branches, plans,
-  designs — in a keyboard-first editor.
-- **An agent that runs on your CLI.** The in-app agent drives the Claude Code or Gemini
-  CLI you already have. No API keys.
+- **On your Mac, not in a cloud.** No account and no subscription. Nothing leaves the
+  machine unless you act; usage counts are opt-in and off until you turn them on.
+- **One memory for every AI tool.** Slate is an MCP server with
+  [24 tools](https://liozelmalem-star.github.io/slate-releases/docs/mcp/). Claude Code,
+  Codex, Cursor, Gemini and OpenCode `recall` at the start of a task and `remember` at
+  the end, into the same workspace — so what Claude Code learns on Tuesday, Cursor knows
+  on Wednesday.
+- **Sessions, captured and live.** Slate reads the transcripts your AI CLIs already write
+  and keeps each session as a page. **Sessions** shows every one on this Mac — who is
+  working, who is waiting on you — and starts new ones locally, in the cloud, or for your
+  phone.
+- **Home, on the CLI you already have.** The in-app agent drives Claude Code, Codex,
+  Cursor, OpenCode or Gemini under the sign-in you already have. No API keys.
+- **Agents.** Work that runs for you on a trigger — a standup at 7:00, a plan for each new
+  ticket — inside rules you set: reading goes ahead, writing asks you first, merging and
+  deleting are refused.
+- **Apps and Artifacts.** Describe a small app and your AI tool builds it inside Slate; it
+  reads your workspace and has no internet. Pages and charts your tools publish land in
+  Artifacts, every version kept.
+- **Tasks.** Issues, reviews and replies you owe, from the tools that report them, beside
+  the to-dos you write yourself.
+- **Pages, Toolkit, Workspaces.** Nested, typed pages in a block editor; skills written once
+  and synced to every tool; and sharing scoped to a whole workspace, off until you sign in.
 
-Everything is local by default. Nothing leaves the machine unless you sign in and
-explicitly mark a page to share.
+Read the whole manual at
+[liozelmalem-star.github.io/slate-releases/docs](https://liozelmalem-star.github.io/slate-releases/docs/).
 
 ---
 
@@ -123,7 +144,7 @@ release downloads. There is no source code here — Slate's source is private.
 | `install.sh` | The installer. Kept current on every release. |
 | `uninstall.sh` | The uninstaller. Removes Slate and takes it back out of the AI tools it installed itself into. |
 | `index.html` | The landing page, served by GitHub Pages at the site root. |
-| `docs/` | The documentation site: a hub at `/docs/`, connecting your AI tools at `/docs/connect/`, and the full MCP tool reference at `/docs/mcp/`. Each section is a directory, so adding one never moves an existing URL. |
+| `docs/` | The documentation site: a hub at `/docs/`, connecting your AI tools at `/docs/connect/`, the MCP tool overview at `/docs/mcp/`, and the generated manual under `/docs/overview/`, `/docs/features/` and `/docs/legal/`. Each section is a directory, so adding one never moves an existing URL. |
 | `site/` | Everything the website is made of: `site/css/` and `site/js/`, split so a page composes modules rather than copying them. [`site/README.md`](site/README.md) says what belongs where. |
 | `assets/` | Brand marks, copied from the Slate source repo's `public/assets/` — `icon.svg` (the app tile, used by the pages and the header above), `mark.svg` (bare, on transparency) and `logo.svg` (the lockup). Edit them there, not here. |
 | Releases | The `.app.tar.gz` the updater consumes, its signature, the `.dmg`, `latest.json`, and `SHASUMS256.txt`. |

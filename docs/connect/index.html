@@ -4,11 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Slate — connecting your AI tools</title>
-<meta name="description" content="How Slate registers itself as an MCP server with Claude Code, Cursor and any other MCP-aware tool — and how to do it by hand.">
+<meta name="description" content="How Slate connects to Claude Code, Codex, Gemini, Cursor and OpenCode from its own Connect screen — and how to point any MCP-aware tool at it by hand.">
 <link rel="icon" href="../../assets/icon.svg">
 
 <meta property="og:title" content="Slate — connecting your AI tools">
-<meta property="og:description" content="How Slate registers itself as an MCP server with Claude Code, Cursor and any other MCP-aware tool — and how to do it by hand.">
+<meta property="og:description" content="How Slate connects to Claude Code, Codex, Gemini, Cursor and OpenCode — and how to do it by hand.">
 <meta property="og:type" content="website">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -58,18 +58,41 @@
     </a>
     <h1>Connecting your AI tools</h1>
     <p class="lede">
-      Slate runs an MCP server out of its own app bundle. On first launch it registers
-      itself with the tools it finds, so most people never read this page — it is here
-      for when it didn't, for a tool Slate doesn't know about yet, and for anyone who
-      would rather see the config than trust that it happened.
+      Slate runs an MCP server out of its own app bundle, and connects it to your AI tools
+      when you turn them on. Most people never read past the first section — the rest is
+      for a tool Slate doesn't know about yet, and for anyone who would rather see the
+      config than trust that it happened.
     </p>
   </header>
 
   <section class="reveal">
+    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-amber-500))"><use href="#slab-9"/></svg>The easy way</h2>
+    <p class="t-blurb">
+      Setup's <strong>Connect</strong> step, or <strong>Connect → AI tools</strong> any time
+      after it, lists five tools: Claude Code, Codex, Gemini, Cursor and OpenCode. Pick the
+      tool and the profile it runs under, switch it on, and Slate is installed for that
+      config folder — every project on this Mac included.
+    </p>
+    <div class="card note">
+      <strong>What the switch writes.</strong> In Claude Code and Codex, Slate runs the
+      tool's own plugin install, and the plugin supplies the MCP server. In Gemini, Cursor
+      and OpenCode it adds an MCP entry and its recall hooks to the tool's config. Each row
+      names the file it writes, every write copies the original aside first, and turning the
+      switch off takes out what Slate put there.
+    </div>
+    <div class="card note">
+      <strong>It asks first, once.</strong> Nothing outside Slate's own folder is touched
+      until you connect a tool yourself. After that, Slate keeps tools you install
+      <em>later</em> connected too, without asking again.
+    </div>
+  </section>
+
+  <section class="reveal">
     <h2><svg width="9" height="9" style="color:rgb(var(--leaf-green-500))"><use href="#slab-9"/></svg>The binary</h2>
     <p class="t-blurb">
-      It ships inside the app. There is no separate install, no Node, and nothing to
-      add to your PATH — every config below is the same one line pointed at this file.
+      For connecting by hand. It ships inside the app: there is no separate install, no
+      Node, and nothing to add to your PATH — every config below is the same one line
+      pointed at this file.
     </p>
     <pre class="shell">/Applications/Slate.app/Contents/MacOS/slate-mcp</pre>
   </section>
@@ -77,9 +100,9 @@
   <section class="reveal">
     <h2><svg width="9" height="9" style="color:rgb(var(--leaf-red-500))"><use href="#slab-9"/></svg>Claude Code</h2>
     <p class="t-blurb">
-      Add this to <code class="inline">~/.claude/settings.json</code>, creating the file
-      if it isn't there. Restart Claude Code and <code class="inline">slate</code>
-      appears in <code class="inline">/mcp</code>.
+      Add this to <code class="inline">~/.claude.json</code>, creating the file if it
+      isn't there. Restart Claude Code and <code class="inline">slate</code> appears in
+      <code class="inline">/mcp</code>.
     </p>
     <pre class="shell">{
   "mcpServers": {
@@ -90,9 +113,9 @@
   }
 }</pre>
     <div class="card note" style="margin-top:14px">
-      <strong>Per project instead.</strong> The same block in
-      <code class="inline">.claude/settings.json</code> at a repo root activates Slate
-      only inside that project, alongside your global config.
+      <strong>Connected from the app? Skip this.</strong> There Slate is installed as a
+      Claude Code plugin, which supplies the server — so on its next launch Slate removes a
+      hand-added <code class="inline">slate</code> entry rather than list every tool twice.
     </div>
   </section>
 
@@ -115,8 +138,8 @@
   <section class="reveal">
     <h2><svg width="9" height="9" style="color:rgb(var(--leaf-teal-500))"><use href="#slab-9"/></svg>Anything else</h2>
     <p class="t-blurb">
-      The server speaks stdio MCP, protocol <code class="inline">2024-11-05</code>. Point
-      any MCP-aware tool at the binary with no arguments — that is the whole integration.
+      The server speaks stdio MCP. Point any MCP-aware tool at the binary with no
+      arguments — that is the whole integration.
     </p>
     <pre class="shell"><span class="c">command:</span>  /Applications/Slate.app/Contents/MacOS/slate-mcp
 <span class="c">args:</span>     []</pre>
@@ -142,7 +165,7 @@
     <p class="lede" style="font-size:15px; margin-bottom:16px">
       Connected, every one of these tools now works against your workspace.
     </p>
-    <a class="cta" href="../mcp/">The 21 tools →</a>
+    <a class="cta" href="../mcp/">The 24 tools →</a>
   </section>
 </div>
 
