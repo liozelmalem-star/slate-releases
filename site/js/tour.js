@@ -225,3 +225,8 @@ renderChapters();
 renderCard();
 // The frame may have finished before this module ran, and its "ready" with it.
 attach();
+// A link into another chapter (or the back button) changes only the hash.
+addEventListener("hashchange", () => {
+  const [c, n] = fromHash();
+  if (c !== ch || n !== st) go(c, n);
+});
