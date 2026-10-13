@@ -886,7 +886,7 @@ h2.mid { font-size: clamp(26px, 3.2vw, 34px); line-height: 1.12; margin: 0 0 16p
 .one-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
 .one-list li { display: flex; align-items: center; gap: 12px; font-size: 15px; color: rgb(var(--text-muted)); }
 .one-list .mk { width: 20px; height: 24px; }
-.one-list b { color: rgb(var(--text)); font-weight: 600; min-width: 74px; }
+.one-list b { color: rgb(var(--text)); font-weight: 600; min-width: 140px; }
 @media (max-width: 900px) {
   .one-in { grid-template-columns: minmax(0, 1fr); gap: 24px; }
   .mk-hero { width: 180px; }
