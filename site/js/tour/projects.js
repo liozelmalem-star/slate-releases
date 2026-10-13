@@ -1,1 +1,100 @@
-export const projects = { id: "projects", title: "Projects", steps: [{ screen: "home", title: "Coming soon", body: "<p>This chapter is being written.</p>" }] };
+// Projects: the workspace's pages. Groups, projects and branches come from your folders and
+// sessions; plans, designs and notes are pages you write in a block editor.
+export const projects = {
+  id: "projects",
+  title: "Projects",
+  place: "Projects",
+  icon: '<path d="M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z"/><path d="M12 22V12"/><polyline points="3.29 7 12 12 20.71 7"/><path d="m7.5 4.27 9 5.15"/>',
+  links: [
+    { match: { text: "Checkout redesign", exact: true }, step: 6 },
+  ],
+  steps: [
+    {
+      screen: "projects",
+      spot: { text: "All pages", exact: true, up: 3 },
+      title: "Your work, as pages",
+      body: "<p><strong>Projects</strong> holds everything you and your AI tools write about your work: plans, designs, bug reports, meeting notes, and what each branch is up to. It is one tree of pages, stored in a single file on your machine.</p><p>You do not build the outline by hand. Slate makes it from your folders and the sessions it captures.</p>",
+    },
+    {
+      screen: "projects",
+      spot: { text: "All pages", exact: true, up: 2 },
+      title: "Groups, projects, branches",
+      body: "<p>A <strong>project</strong> is a folder you open, usually a git repository: <strong>acme-web</strong>. A <strong>group</strong> collects related projects: <strong>Acme</strong>. Under a project are its <strong>branches</strong>, and under a branch the pages written on it: a Plan, a Design, a Bug Report.</p><p>A branch page appears once something lands on it, a session, a document or a decision. When git removes the branch, its page moves to <strong>Past branches</strong>; nothing is lost.</p>",
+    },
+    {
+      screen: "projects",
+      spot: { text: "All projects", exact: true },
+      click: true,
+      title: "Narrow to one project",
+      body: "<p>The project picker at the top of the side panel narrows the tree to one project. Projects keeps its own choice; Agents, Activity, Artifacts and Memory each have their own.</p>",
+      try: "Open the picker: click <strong>All projects</strong>.",
+    },
+    {
+      screen: "projects-picker",
+      spot: { text: "Manage projects…", up: 2 },
+      title: "Add and manage projects",
+      body: "<p>Pick a project, or go back to <strong>All projects</strong>. At the foot of the list, <strong>New project…</strong> asks for a folder and takes its name from it. <strong>Manage projects…</strong> lists them by group, where you rename one, open its page or move it to Trash.</p><p>The same two commands are in the workspace menu at the top of the rail, and in <kbd>⌘K</kbd>.</p>",
+    },
+    {
+      screen: "projects",
+      spot: { text: "Add a short description", up: 1 },
+      click: { text: "feat/checkout-redesign", exact: true, within: { text: "All pages", exact: true, up: 2 } },
+      title: "A project's page",
+      body: "<p>A group, project or branch opens on a page of its own: the name, one line of description, and tabs that each count what they hold. A project has <strong>Branches</strong>, <strong>Documents</strong>, <strong>Sessions</strong> and <strong>Memory</strong>.</p><p><strong>Start session</strong>, in the header, starts an AI tool in the project's folder, under the project's account.</p>",
+      try: "Click the <strong>feat/checkout-redesign</strong> branch in the tree.",
+    },
+    {
+      screen: "projects-branch",
+      spot: { text: "Progress", exact: true, up: 3 },
+      click: { text: "Checkout redesign", exact: true, within: { text: "Progress", exact: true, up: 3 } },
+      title: "A branch's page",
+      body: "<p>A branch is where a piece of work lives. <strong>Pages</strong> lists its plans and designs, with buttons to add another. <strong>Progress</strong> is the log your AI tools add to as they work, <strong>Sessions</strong> lists every captured session on the branch, and <strong>Memory</strong> what was learned there.</p>",
+      try: "Open the Plan: click <strong>Checkout redesign</strong>.",
+    },
+    {
+      screen: "projects-plan",
+      spot: { text: "Edited 13 hours ago", up: 2 },
+      title: "The page header",
+      body: "<p>The breadcrumbs show where the page lives: <strong>Acme / acme-web / feat/checkout-redesign</strong>.</p><p>On the right: when it was last edited, find in page (<kbd>⌘F</kbd>), the star that adds it to <strong>Favorites</strong> at the top of the tree, and <strong>⋯</strong> for the rest, such as moving the page or Move to Trash.</p>",
+    },
+    {
+      screen: "projects-plan",
+      spot: { text: "Change the page type" },
+      click: true,
+      title: "Every page has a type",
+      body: "<p>The chip under the title is the page's type, here <strong>Plan</strong>, next to its status. A type tells your AI tools what the page is for, and gives it a template.</p>",
+      try: "Click the <strong>Plan</strong> chip.",
+    },
+    {
+      screen: "projects-type",
+      spot: { text: "Change it any time", up: 2 },
+      title: "Seven types, each with a template",
+      body: "<p><strong>Doc</strong>, <strong>Plan</strong>, <strong>Design</strong>, <strong>Test Plan</strong>, <strong>Bug Report</strong>, <strong>Review</strong> and <strong>Meeting</strong>. A new page starts as a Doc.</p><p>Changing the type adds the new template's headings after what is already there. Nothing you wrote is lost, and switching back and forth adds them only once.</p>",
+    },
+    {
+      screen: "projects-plan",
+      spot: { css: ".ProseMirror" },
+      spotOpts: { pad: 4 },
+      title: "A block editor",
+      body: "<p>Pages are written in blocks: headings, lists, to-do lists, quotes, code, tables, images. Drag a block by its handle to move it. Paste Markdown and it becomes real blocks.</p><p>Your AI tools read and write the same pages through Slate. When one changes the page you have open, you see it within seconds, and if you are typing at the time, your text is kept.</p>",
+    },
+    {
+      screen: "projects-slash",
+      spot: { text: "Write with AI", up: 1 },
+      title: "Type / for any block",
+      body: "<p>On an empty line, type <kbd>/</kbd> to open the slash menu and insert any block without leaving the keyboard.</p><p>The first item, <strong>Write with AI</strong>, asks an AI tool to draft text into the page. If a draft fails, the prompt stays open with the reason and a <strong>Retry</strong>.</p>",
+    },
+    {
+      screen: "projects-slash-page",
+      spot: { text: "Page card", up: 1 },
+      title: "Link pages together",
+      body: "<p>Keep typing to filter: <kbd>/page</kbd> finds <strong>Link to page</strong>, which drops an inline link, and <strong>Page card</strong>, which embeds another page as a preview. <kbd>@</kbd> also links a page inline.</p><p><strong>Callout</strong>, in Basic blocks, sets a note apart from the text.</p>",
+    },
+    {
+      screen: "projects",
+      spot: { text: "New page · Everything", up: 1 },
+      title: "Try this: write a plan for a branch",
+      body: "<p>Pick a project in the picker, then press <strong>New page</strong> (<kbd>⌘N</kbd>). The button names where it goes; on <strong>All projects</strong> it goes under <strong>Everything else</strong>. The colored button beside it, <strong>Generate a page</strong> (<kbd>⌘⇧G</kbd>), asks an AI tool to draft one instead.</p><p>Give it a title, set the type to <strong>Plan</strong>, fill in the headings, and drag it under its branch. Every AI session on that branch can now read it.</p>",
+    },
+  ],
+};

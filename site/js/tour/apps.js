@@ -72,6 +72,7 @@ export const apps = {
   title: "Apps",
   place: "Apps",
   icon: '<rect x="2" y="4" width="20" height="16" rx="2"/><path d="M10 4v4"/><path d="M2 8h20"/><path d="M6 4v4"/>',
+  links: [{ match: { text: "PR review queue", exact: true, within: { css: "aside" } }, step: 4 }],
   steps: [
     {
       screen: "apps",
@@ -94,8 +95,8 @@ export const apps = {
     },
     {
       screen: "apps",
-      spot: { text: "PR review queue", within: { css: "main" }, up: 3 },
-      click: { text: "PR review queue", within: { css: "main" } },
+      spot: { css: 'main button[aria-label^="PR review queue"]' },
+      click: true,
       title: "Your apps",
       body: "<p>Each card shows the app itself, running small. <strong>PR review queue</strong> lists pull requests waiting on you; <strong>Sessions this week</strong> charts your AI sessions.</p><p>An app you leave unopened for 60 days moves to Trash, with a warning on its card first.</p>",
       try: "Click <strong>PR review queue</strong> to open it.",

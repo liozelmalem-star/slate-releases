@@ -37,7 +37,7 @@ export const setup = {
     },
     {
       screen: "setup-aitool",
-      spot: { text: "Claude Code", exact: true },
+      spot: { text: "Claude Code", exact: true, within: { text: "Pick your AI tool", up: 2 } },
       title: "Pick your AI tool",
       body:
         "<p>Slate has no API keys and calls no model itself. Its AI runs on a tool you already have installed, under your own login.</p>" +

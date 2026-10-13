@@ -10,7 +10,7 @@ export const home = {
   steps: [
     {
       screen: "home",
-      spot: { text: "things need you", up: 1 },
+      spot: { text: "things need you" },
       title: "Home is what needs you, right now",
       body:
         "<p>Home counts what is waiting on you and shows it one card at a time. Below sits the box you start everything from.</p>" +
@@ -36,7 +36,7 @@ export const home = {
     },
     {
       screen: "home",
-      spot: { css: "textarea" },
+      spot: { css: "textarea", up: 3 },
       title: "Ask, find, or make anything",
       body:
         "<p>The box at the bottom talks to your AI tool, with your Slate memory and pages to work from. Ask a question, find something, or have it make a page or a change.</p>" +
