@@ -3,25 +3,21 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Slate — local AI memory that follows you across every tool</title>
-<meta name="description" content="A personal, local-first AI workspace on your Mac. Every AI coding session captured, one memory that Claude Code, Codex, Cursor, Gemini and OpenCode all read and write, and agents that work for you inside rules you set.">
+<title>Slate — one home for every AI coding session</title>
+<meta name="description" content="Slate sees every Claude Code, Codex, Cursor, Gemini and OpenCode session on your Mac, gives them one shared memory, and runs agents for you inside rules you set. Local-first, no account, no API keys.">
 <link rel="icon" href="assets/icon.svg">
 
-<meta property="og:title" content="Slate">
-<meta property="og:description" content="Local AI memory that follows you across every tool.">
+<meta property="og:title" content="Slate — one home for every AI coding session">
+<meta property="og:description" content="Every session on your Mac, one memory every AI tool shares, and agents that work inside your rules. Local-first.">
 <meta property="og:type" content="website">
+<meta property="og:image" content="https://liozelmalem-star.github.io/slate-releases/assets/shots/home.webp">
 
-<!-- Geist and Geist Mono — the app's own two faces (packages/desktop/tailwind.config.js:
-     sans and display are both Geist, mono is Geist Mono). The fallback stack below every
-     rule is the same one the config names, so a blocked font request degrades to what the
-     app degrades to rather than to something this page invented. -->
+<!-- Geist and Geist Mono — the app's own two faces. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-<!-- The site's stylesheets, in dependency order: tokens must land before anything
-     reads them, and a page's own furniture last so it can override a component.
-     See site/README.md for what belongs in which. -->
+<!-- Dependency order: tokens first, the page's own furniture last. See site/README.md. -->
 <link rel="stylesheet" href="site/css/tokens.css">
 <link rel="stylesheet" href="site/css/base.css">
 <link rel="stylesheet" href="site/css/layout.css">
@@ -29,352 +25,425 @@
 <link rel="stylesheet" href="site/css/home.css">
 
 <script>
-  // Before first paint, never after. A theme applied from the main script runs
-  // after the document has already rendered, so a returning dark-mode reader gets
-  // a white flash on every navigation — and a flash is not a small defect on the
-  // page whose whole first impression is the mark sitting on its tile.
-  //
-  // Light is the fallback for anyone with nothing stored, which is what "light by
-  // default" has to mean; prefers-color-scheme is deliberately not consulted.
+  // Before first paint, never after — a theme applied later is a white flash for a
+  // returning dark-mode reader. Light is the fallback; prefers-color-scheme is not consulted.
   try {
     var t = localStorage.getItem("slate-theme");
     document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
   } catch (e) {
-    document.documentElement.dataset.theme = "light"; // Safari private mode throws on localStorage
+    document.documentElement.dataset.theme = "light";
   }
 </script>
 </head>
-<body>
-
+<body class="home">
 
 <canvas id="graph" aria-hidden="true"></canvas>
 <div id="veil" aria-hidden="true"></div>
 
-<!-- The mark's leaf, at the two sizes this page uses it.
-     Both paths come out of the app's own `lib/style/slab.ts` — `inscribedSlab(r)`
-     then `slabPath` — rather than being drawn by eye, so the sides really do run
-     two across for every one down. Corners round by stroking each slab in its own
-     paint (stroke = fill, linejoin round): the artwork has no sharp point
-     anywhere, and sharp points are what make an angled interface read as
-     aggressive rather than as crafted. -->
+<!-- The mark's leaf at the two sizes this page uses it, from the app's own slab geometry
+     (lib/style/slab.ts: inscribedSlab(r) → slabPath), and the five AI tools' marks from
+     the app's BrandIcon.tsx. Codex has no distributable logo; the app draws a terminal glyph. -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <defs>
-    <!-- 9px: the section tick and the chip mark, from inscribedSlab(4) and (3.5). -->
     <symbol id="slab-9" viewBox="0 0 9 9">
-      <path d="M 0.655 5.6 L 5.055 3.4 L 8.345 3.4 L 3.945 5.6 Z"
-            fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+      <path d="M 0.655 5.6 L 5.055 3.4 L 8.345 3.4 L 3.945 5.6 Z" fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
     </symbol>
-    <!-- 18px: the tile a feature card leads with, from inscribedSlab(8). -->
     <symbol id="slab-18" viewBox="0 0 18 18">
-      <path d="M 1.31 11.2 L 10.11 6.8 L 16.69 6.8 L 7.89 11.2 Z"
-            fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+      <path d="M 1.31 11.2 L 10.11 6.8 L 16.69 6.8 L 7.89 11.2 Z" fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
     </symbol>
+    <symbol id="m-claude" viewBox="0 0 24 24"><path fill="currentColor" d="m4.7144 15.9555 4.7174-2.6471.079-.2307-.079-.1275h-.2307l-.7893-.0486-2.6956-.0729-2.3375-.0971-2.2646-.1214-.5707-.1215-.5343-.7042.0546-.3522.4797-.3218.686.0608 1.5179.1032 2.2767.1578 1.6514.0972 2.4468.255h.3886l.0546-.1579-.1336-.0971-.1032-.0972L6.973 9.8356l-2.55-1.6879-1.3356-.9714-.7225-.4918-.3643-.4614-.1578-1.0078.6557-.7225.8803.0607.2246.0607.8925.686 1.9064 1.4754 2.4893 1.8336.3643.3035.1457-.1032.0182-.0728-.164-.2733-1.3539-2.4467-1.445-2.4893-.6435-1.032-.17-.6194c-.0607-.255-.1032-.4674-.1032-.7285L6.287.1335 6.6997 0l.9957.1336.419.3642.6192 1.4147 1.0018 2.2282 1.5543 3.0296.4553.8985.2429.8318.091.255h.1579v-.1457l.1275-1.706.2368-2.0947.2307-2.6957.0789-.7589.3764-.9107.7468-.4918.5828.2793.4797.686-.0668.4433-.2853 1.8517-.5586 2.9021-.3643 1.9429h.2125l.2429-.2429.9835-1.3053 1.6514-2.0643.7286-.8196.85-.9046.5464-.4311h1.0321l.759 1.1293-.34 1.1657-1.0625 1.3478-.8804 1.1414-1.2628 1.7-.7893 1.36.0729.1093.1882-.0183 2.8535-.607 1.5421-.2794 1.8396-.3157.8318.3886.091.3946-.3278.8075-1.967.4857-2.3072.4614-3.4364.8136-.0425.0304.0486.0607 1.5482.1457.6618.0364h1.621l3.0175.2247.7892.522.4736.6376-.079.4857-1.2142.6193-1.6393-.3886-3.825-.9107-1.3113-.3279h-.1822v.1093l1.0929 1.0686 2.0035 1.8092 2.5075 2.3314.1275.5768-.3218.4554-.34-.0486-2.2039-1.6575-.85-.7468-1.9246-1.621h-.1275v.17l.4432.6496 2.3436 3.5214.1214 1.0807-.17.3521-.6071.2125-.6679-.1214-1.3721-1.9246L14.38 17.959l-1.1414-1.9428-.1397.079-.674 7.2552-.3156.3703-.7286.2793-.6071-.4614-.3218-.7468.3218-1.4753.3886-1.9246.3157-1.53.2853-1.9004.17-.6314-.0121-.0425-.1397.0182-1.4328 1.9672-2.1796 2.9446-1.7243 1.8456-.4128.164-.7164-.3704.0667-.6618.4008-.5889 2.386-3.0357 1.4389-1.882.929-1.0868-.0062-.1579h-.0546l-6.3385 4.1164-1.1293.1457-.4857-.4554.0608-.7467.2307-.2429 1.9064-1.3114Z"/></symbol>
+    <symbol id="m-codex" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"/><line x1="12" x2="20" y1="19" y2="19"/></g></symbol>
+    <symbol id="m-gemini" viewBox="0 0 24 24"><path fill="currentColor" d="M11.04 19.32Q12 21.51 12 24q0-2.49.93-4.68.96-2.19 2.58-3.81t3.81-2.55Q21.51 12 24 12q-2.49 0-4.68-.93a12.3 12.3 0 0 1-3.81-2.58 12.3 12.3 0 0 1-2.58-3.81Q12 2.49 12 0q0 2.49-.96 4.68-.93 2.19-2.55 3.81a12.3 12.3 0 0 1-3.81 2.58Q2.49 12 0 12q2.49 0 4.68.96 2.19.93 3.81 2.55t2.55 3.81"/></symbol>
+    <symbol id="m-cursor" viewBox="0 0 24 24"><path fill="currentColor" d="M11.503.131 1.891 5.678a.84.84 0 0 0-.42.726v11.188c0 .3.162.575.42.724l9.609 5.55a1 1 0 0 0 .998 0l9.61-5.55a.84.84 0 0 0 .42-.724V6.404a.84.84 0 0 0-.42-.726L12.497.131a1.01 1.01 0 0 0-.996 0M2.657 6.338h18.55c.263 0 .43.287.297.515L12.23 22.918c-.062.107-.229.064-.229-.06V12.335a.59.59 0 0 0-.295-.51l-9.11-5.257c-.109-.063-.064-.23.061-.23"/></symbol>
+    <symbol id="m-opencode" viewBox="0 0 240 300"><path fill="currentColor" fill-opacity=".5" d="M180 240H60V120H180V240Z"/><path fill="currentColor" d="M180 60H60V240H180V60ZM240 300H0V0H240V300Z"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   </defs>
 </svg>
 
-<div class="wrap">
+<nav class="topnav" aria-label="Site">
+  <div class="topnav-in">
+    <a class="brand" href="./"><img src="assets/icon.svg" alt="" width="26" height="26">Slate</a>
+    <span class="grow"></span>
+    <a href="#features" class="hide-sm">Features</a>
+    <a href="tour/">Tour</a>
+    <a href="docs/">Docs</a>
+    <a href="#faq" class="hide-sm">FAQ</a>
+    <a class="nav-cta" href="#install">Install</a>
+    <span class="nav-theme"></span>
+  </div>
+</nav>
 
-  <header>
-    <div class="icon-wrap"><img src="assets/icon.svg" alt=""></div>
-    <h1>Slate</h1>
-    <p class="tagline">Local AI memory that follows you across every tool.</p>
+<!-- ══ Hero ═════════════════════════════════════════════════════════════ -->
+<header class="hero">
+  <div class="wrap-wide hero-in">
+    <a class="rel" id="rel" hidden href="https://github.com/liozelmalem-star/slate-releases/releases">
+      <span class="dot"></span><span id="rel-text"></span>
+    </a>
+    <h1>One home for every<br><span class="grad">AI coding session.</span></h1>
+    <p class="lede">
+      Slate sees every Claude Code, Codex, Cursor, Gemini and OpenCode session on your Mac,
+      gives them <strong>one memory they all share</strong>, and runs agents for you inside
+      rules you set. Everything stays on your machine.
+    </p>
 
-    <div class="install">
+    <div class="install" id="install">
       <div class="cmd">
         <code id="cmd">curl -fsSL https://liozelmalem-star.github.io/slate-releases/install.sh | bash</code>
-        <button class="copy" id="copy" type="button">Copy</button>
+        <button class="copy" id="copy" type="button" data-copy="cmd">Copy</button>
+      </div>
+      <div class="hero-ctas">
+        <a class="btn-ghost" href="tour/">Take the guided tour <svg width="15" height="15"><use href="#i-arrow"/></svg></a>
       </div>
       <p class="under">
-        <span>macOS · Apple Silicon</span>
-        <span>·</span>
-        <a href="https://github.com/liozelmalem-star/slate-releases/releases/latest">All downloads</a>
-        <span>·</span>
+        <span>macOS · Apple Silicon</span><span>·</span><span>No account</span><span>·</span><span>No API keys</span><span>·</span>
         <a href="install.sh">Read the install script</a>
-        <span>·</span>
-        <a href="docs/">Docs</a>
-        <span>·</span>
-        <a href="tour/">Take the tour</a>
       </p>
-
-      <!-- Filled in from the GitHub API on load, and hidden until it is. See the
-           token block: nothing about the current version is written into this file. -->
-      <a class="rel" id="rel" hidden href="https://github.com/liozelmalem-star/slate-releases/releases">
-        <span class="dot"></span>
-        <span id="rel-text"></span>
-      </a>
     </div>
-  </header>
+  </div>
 
+  <!-- The product, first. Real screens captured from the running app with example data;
+       the tabs swap between four of them and the tour has the rest. -->
+  <div class="wrap-wide showcase reveal">
+    <div class="show-tabs" role="tablist" aria-label="Screens">
+      <button role="tab" aria-selected="true" data-shot="home">Home</button>
+      <button role="tab" aria-selected="false" data-shot="sessions">Sessions</button>
+      <button role="tab" aria-selected="false" data-shot="memory">Memory</button>
+      <button role="tab" aria-selected="false" data-shot="standup">Agents</button>
+      <button role="tab" aria-selected="false" data-shot="tasks">Tasks</button>
+    </div>
+    <figure class="shot shot-hero">
+      <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
+      <img id="show-img" src="assets/shots/home.webp" srcset="assets/shots/home-1x.webp 1320w, assets/shots/home.webp 2640w" sizes="(min-width: 1180px) 1120px, 100vw" width="1320" height="860" alt="Slate's Home: ten things need you, with a session waiting on an answer at the top">
+    </figure>
+    <p class="show-cap" id="show-cap">Home opens on what needs you — a session waiting on an answer, an agent asking first — and a box to ask anything.</p>
+  </div>
+</header>
 
-  <!-- == The loop ======================================================
-       The section that answers "what IS this", because the four cards below
-       answer "what does it have" and those are different questions.
+<!-- ══ Works with ═══════════════════════════════════════════════════════ -->
+<section class="works reveal" aria-label="Works with">
+  <div class="wrap-wide">
+    <p class="works-h">Works with the AI tools you already use — no API keys, under your own sign-in</p>
+    <div class="works-row">
+      <span class="tool-mark"><svg style="color:#D97757"><use href="#m-claude"/></svg>Claude Code</span>
+      <span class="tool-mark"><svg style="color:#10A37F"><use href="#m-codex"/></svg>Codex</span>
+      <span class="tool-mark"><svg style="color:#4285F4"><use href="#m-gemini"/></svg>Gemini</span>
+      <span class="tool-mark"><svg><use href="#m-cursor"/></svg>Cursor</span>
+      <span class="tool-mark"><svg viewBox="0 0 240 300"><use href="#m-opencode"/></svg>OpenCode</span>
+    </div>
+  </div>
+</section>
 
-       Every string inside the terminal is real: `remember` and `recall` are two of
-       the MCP tools Slate registers (packages/mcp/src/tools/memory/tools.ts),
-       the arguments are their actual argument names, and the `⎿` payloads are
-       their actual return shapes, trimmed — `remember` answers
-       {saved, action, factId, …} (server/src/operations/memory/remember.ts) and
-       `recall` answers a hit list whose `title` IS the atom's kind and whose
-       `ref` is what a session cites it by (server/src/operations/recall/search.ts). The row on the right is the
-       app's FactRow, down to `conf 0.90` being remember()'s default confidence
-       for a hand-written atom.
+<!-- ══ The problem ══════════════════════════════════════════════════════ -->
+<section class="problem reveal">
+  <div class="wrap-wide">
+    <p class="kicker"><svg width="9" height="9" style="color:rgb(var(--leaf-red-500))"><use href="#slab-9"/></svg>Why Slate</p>
+    <h2 class="big">Every AI tool starts from zero.<br>You end up being the glue.</h2>
+    <div class="pains">
+      <div class="pain">
+        <h3>It forgot yesterday</h3>
+        <p>Each session starts blank. What Claude Code worked out on Tuesday, Cursor has never heard of on Wednesday — so you explain it again.</p>
+      </div>
+      <div class="pain">
+        <h3>Five terminals, one of them waiting</h3>
+        <p>Sessions run in different tools and folders. The one that stopped to ask you a question has been sitting there for twenty minutes.</p>
+      </div>
+      <div class="pain">
+        <h3>The busywork never stops</h3>
+        <p>Standups, reviews, the ticket you owe a reply. None of it happens unless you do it, and none of it is the work you sat down to do.</p>
+      </div>
+    </div>
+    <p class="answer">Slate is the layer underneath: <strong>one place that sees every session, remembers what they learned, and does the routine work</strong> — on your Mac, in files you own.</p>
+  </div>
+</section>
 
-       The frame around them is schematic on purpose. Two different CLIs do not
-       render a tool call the same way, and drawing one of them would be a
-       screenshot of Claude Code rather than a picture of Slate. -->
-  <section class="reveal" id="demo">
-    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-teal-500))"><use href="#slab-9"/></svg>What it does</h2>
+<!-- ══ Features ═════════════════════════════════════════════════════════ -->
+<div id="features">
 
+<section class="feat reveal">
+  <div class="wrap-wide feat-in">
+    <div class="feat-copy">
+      <p class="kicker"><svg width="9" height="9" style="color:rgb(var(--leaf-teal-500))"><use href="#slab-9"/></svg>Sessions</p>
+      <h2 class="mid">See every session — and who is waiting on you.</h2>
+      <p>Slate reads the transcripts your AI tools already write, so every session on your Mac shows up on its own, grouped by project and branch. Nothing to install in each tool.</p>
+      <ul class="ticks">
+        <li><svg><use href="#i-check"/></svg><span><strong>Working, needs you, idle</strong> — at a glance, in the list and on the map.</span></li>
+        <li><svg><use href="#i-check"/></svg><span>Start a session here, in a new worktree, in the cloud, or <strong>pick it up on your phone</strong>.</span></li>
+        <li><svg><use href="#i-check"/></svg><span>Read what a branch changed and send review comments back to the session.</span></li>
+      </ul>
+      <a class="more" href="tour/#sessions">See Sessions in the tour <svg width="14" height="14"><use href="#i-arrow"/></svg></a>
+    </div>
+    <figure class="shot"><img loading="lazy" src="assets/shots/sessions.webp" srcset="assets/shots/sessions-1x.webp 1320w, assets/shots/sessions.webp 2640w" sizes="(min-width: 1180px) 700px, 100vw" width="1320" height="860" alt="Sessions: the live list grouped by project beside a map of every session on this Mac"></figure>
+  </div>
+</section>
+
+<section class="feat flip reveal">
+  <div class="wrap-wide feat-in">
+    <div class="feat-copy">
+      <p class="kicker"><svg width="9" height="9" style="color:rgb(var(--leaf-amber-500))"><use href="#slab-9"/></svg>Memory</p>
+      <h2 class="mid">One memory that every tool reads and writes.</h2>
+      <p>Slate is an MCP server. Your tools <code class="inline">recall</code> at the start of a task and <code class="inline">remember</code> at the end — decisions with their reasons, preferences, lessons — into the same workspace.</p>
+      <ul class="ticks">
+        <li><svg><use href="#i-check"/></svg><span><strong>24 tools</strong> every connected AI tool gains, against one workspace.</span></li>
+        <li><svg><use href="#i-check"/></svg><span>Memories cite the file they are about, and get flagged when that code changes.</span></li>
+        <li><svg><use href="#i-check"/></svg><span>Nothing is merged or retired behind your back — <strong>you review it</strong>.</span></li>
+      </ul>
+      <a class="more" href="tour/#memory">See Memory in the tour <svg width="14" height="14"><use href="#i-arrow"/></svg></a>
+    </div>
+    <figure class="shot"><img loading="lazy" src="assets/shots/memory.webp" srcset="assets/shots/memory-1x.webp 1320w, assets/shots/memory.webp 2640w" sizes="(min-width: 1180px) 700px, 100vw" width="1320" height="860" alt="Memory: memories mapped onto the folders they cite, with changes proposed by Claude Code waiting for review"></figure>
+  </div>
+</section>
+
+<!-- The loop, live: two tools, two days, nothing pasted between them. Every string is
+     real — remember and recall are Slate's MCP tools, with their real argument names and
+     (trimmed) return shapes: remember answers {saved, action, …}
+     (server/src/operations/memory/remember.ts), recall a hit list whose title is the
+     memory's kind and whose ref is what a session cites it by
+     (server/src/operations/recall/search.ts). -->
+<section class="reveal" id="demo">
+  <div class="wrap">
     <div class="card demo-frame">
       <span class="demo-spark" aria-hidden="true"></span>
-
-      <!-- The terminal. aria-hidden because it is a scripted animation with no
-           steady state to read; the caption below the card carries the meaning
-           in prose, for a screen reader and for anyone who does not wait. -->
       <div class="demo-pane">
         <p class="demo-head">Your terminal</p>
         <div class="demo-term" aria-hidden="true">
-
-          <p class="demo-line demo-sess" data-step="s1">
-            <svg width="9" height="9" style="color:rgb(var(--leaf-red-500))"><use href="#slab-9"/></svg>
-            claude code<span class="demo-when">Tuesday</span>
-          </p>
+          <p class="demo-line demo-sess" data-step="s1"><svg width="9" height="9" style="color:rgb(var(--leaf-red-500))"><use href="#slab-9"/></svg>claude code<span class="demo-when">Tuesday</span></p>
           <p class="demo-line demo-prompt" data-step="p1" data-lines="2"><span class="demo-chev">&gt;</span> <span data-type="p1"></span></p>
           <p class="demo-line demo-call" data-step="c1" data-lines="2"><span class="demo-bullet">⏺</span> remember<span class="demo-args">(text: "SQLite over Postgres — local-first, it has to work offline", kind: "decision")</span></p>
           <p class="demo-line demo-res" data-step="k1"><span class="demo-args">⎿</span> {"saved":true,"action":"add"}</p>
-
           <p class="demo-line demo-day" data-step="day"><span>the next day</span></p>
-
-          <p class="demo-line demo-sess" data-step="s2">
-            <svg width="9" height="9" style="color:rgb(var(--leaf-amber-500))"><use href="#slab-9"/></svg>
-            cursor<span class="demo-when">Wednesday</span>
-          </p>
+          <p class="demo-line demo-sess" data-step="s2"><svg width="9" height="9" style="color:rgb(var(--leaf-amber-500))"><use href="#slab-9"/></svg>cursor<span class="demo-when">Wednesday</span></p>
           <p class="demo-line demo-prompt" data-step="p2"><span class="demo-chev">&gt;</span> <span data-type="p2"></span></p>
           <p class="demo-line demo-call" data-step="c2"><span class="demo-bullet">⏺</span> recall<span class="demo-args">(query: "database choice")</span></p>
           <p class="demo-line demo-res" data-step="r2" data-lines="2"><span class="demo-args">⎿</span> [{"ref":<span class="demo-quote">"m:7f3a2b1c"</span>,"title":<span class="demo-quote">"decision"</span>,"snippet":<span class="demo-quote">"SQLite over Postgres — local-first, it has to work offline"</span>}]</p>
           <p class="demo-line demo-answer" data-step="a2">Because you decided that on Tuesday — it has to work offline.</p>
-
         </div>
       </div>
-
-      <!-- Slate. The Memory surface: the stats line, then the recency list. -->
       <div class="demo-pane">
         <p class="demo-head"><svg width="9" height="9" style="color:rgb(var(--leaf-blue-500))"><use href="#slab-9"/></svg>Slate · Memory</p>
         <p class="demo-stats" aria-hidden="true"><span data-count>0</span> active</p>
-
         <div class="demo-stack" aria-hidden="true">
-          <p class="demo-empty">Nothing consolidated yet — facts appear here as sessions are distilled.</p>
+          <p class="demo-empty">Nothing saved yet — memories appear here as sessions end.</p>
           <div class="demo-list" data-step="atom">
-            <p class="demo-list-head">What Slate learned lately — newest first. Edit or drop anything that's wrong.</p>
+            <p class="demo-list-head">What Slate learned lately — newest first.</p>
             <div class="demo-atom">
               <span class="demo-kind">decision</span>
               <div>
                 <p class="demo-atom-text">SQLite over Postgres — local-first, it has to work offline</p>
-                <p class="demo-meta">conf 0.90 · used 0× · <span data-today></span></p>
+                <p class="demo-meta">Claude Code · m:7f3a2b1c · <span data-today></span></p>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <p class="demo-caption">Two tools, two days, <strong>nothing pasted between them</strong>. The second one didn't remember — it asked Slate, the one thing the two of them share.</p>
+  </div>
+</section>
 
-    <p class="demo-caption">
-      Two tools, two days, <strong>nothing pasted between them</strong>. The second one
-      didn't remember — it asked Slate, which is the only thing the two of them share.
-      Every AI tool on your machine reads and writes the same memory, and all of it
-      stays in files on your Mac.
-    </p>
-  </section>
-
-
-  <section class="reveal">
-    <!-- Section leaves follow the app's own route map: Home is blue, Memory
-         teal, Workspaces amber, and the run surfaces red. Green stays out, here as
-         on the canvas — it sits 16° from teal and the two are not tellable apart at
-         9px.
-
-         That leaves four hues for five sections, so exactly one repeats, and it
-         repeats where two sections speak for the same layer: "What it does" renders
-         the Memory surface and "Connects to your tools" is the MCP server that fills
-         it. Both teal. Inside "What it is" the cards cycle the four hues in order,
-         because there they only tell neighbours apart.
-
-         Every name below is the screen word, taken from the app's own catalog
-         (packages/catalog/src/en/places.json and terms.json): Home, Sessions,
-         Agents, Apps, Tasks, Toolkit. A word the app has retired — Console,
-         Routine, Studio — does not appear on this page. -->
-    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-blue-500))"><use href="#slab-9"/></svg>What it is</h2>
-    <div class="features">
-      <div class="card feature">
-        <span class="well" style="color:rgb(var(--leaf-red-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
-        <div>
-          <h3>On your Mac, not in a cloud</h3>
-          <p>Every workspace is a SQLite file on your machine. No account, no subscription, nothing uploaded by default. Usage counts are opt-in and off until you turn them on.</p>
-        </div>
-      </div>
-      <div class="card feature">
-        <span class="well" style="color:rgb(var(--leaf-amber-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
-        <div>
-          <h3>One memory for every AI tool</h3>
-          <p>Slate is an MCP server. Your tools <code class="inline">recall</code> at the start of a task and <code class="inline">remember</code> at the end — decisions, preferences, lessons — into the same workspace.</p>
-        </div>
-      </div>
-      <div class="card feature">
-        <span class="well" style="color:rgb(var(--leaf-teal-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
-        <div>
-          <h3>Sessions, captured and live</h3>
-          <p>Slate reads the transcripts your AI CLIs already write, so every session becomes a page. Sessions shows who is working and who is waiting on you — on this Mac, in the cloud, or from your phone.</p>
-        </div>
-      </div>
-      <div class="card feature">
-        <span class="well" style="color:rgb(var(--leaf-blue-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
-        <div>
-          <h3>Home runs on the CLI you have</h3>
-          <p>The in-app agent drives Claude Code, Codex, Cursor, OpenCode or Gemini — whichever you already signed in to. No API key to paste.</p>
-        </div>
-      </div>
-      <div class="card feature">
-        <span class="well" style="color:rgb(var(--leaf-red-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
-        <div>
-          <h3>Agents that work inside your rules</h3>
-          <p>A standup at 7:00, a plan for each new ticket, a debrief when a session ends. Reading goes ahead, writing asks you first, merging and deleting are refused.</p>
-        </div>
-      </div>
-      <div class="card feature">
-        <span class="well" style="color:rgb(var(--leaf-amber-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
-        <div>
-          <h3>Apps and artifacts</h3>
-          <p>Describe an app and watch your AI tool build it. It reads your workspace, acts only through what you allowed, and has no internet. Reports and charts your tools publish land in Artifacts.</p>
-        </div>
-      </div>
-      <div class="card feature">
-        <span class="well" style="color:rgb(var(--leaf-teal-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
-        <div>
-          <h3>Tasks, in one list</h3>
-          <p>Issues assigned to you, reviews you owe, messages waiting on a reply, and the to-dos you write yourself — with a reminder on any of them.</p>
-        </div>
-      </div>
-      <div class="card feature">
-        <span class="well" style="color:rgb(var(--leaf-blue-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
-        <div>
-          <h3>Pages, Toolkit and workspaces</h3>
-          <p>Nested, typed pages in a keyboard-first block editor. Write skills once and sync them to every tool. Share a whole workspace with a team — or nothing, until you sign in.</p>
-        </div>
-      </div>
+<section class="feat reveal">
+  <div class="wrap-wide feat-in">
+    <div class="feat-copy">
+      <p class="kicker"><svg width="9" height="9" style="color:rgb(var(--leaf-blue-500))"><use href="#slab-9"/></svg>Agents</p>
+      <h2 class="mid">Agents that work while you don't — inside your rules.</h2>
+      <p>A standup at 7:00. A debrief when a session ends. A plan for every ticket assigned to you. Each agent runs on the AI tool you already have, and writes its report to a thread you can answer.</p>
+      <ul class="ticks">
+        <li><svg><use href="#i-check"/></svg><span><strong>Reading goes ahead. Writing asks you first.</strong> Merging and deleting are refused.</span></li>
+        <li><svg><use href="#i-check"/></svg><span>A held call waits as a card — <strong>Yes, do it</strong> runs it once.</span></li>
+        <li><svg><use href="#i-check"/></svg><span>Start from a template — Standup, Weekly review, Retro — or describe your own.</span></li>
+      </ul>
+      <a class="more" href="tour/#agents">See Agents in the tour <svg width="14" height="14"><use href="#i-arrow"/></svg></a>
     </div>
-  </section>
+    <figure class="shot"><img loading="lazy" src="assets/shots/standup.webp" srcset="assets/shots/standup-1x.webp 1320w, assets/shots/standup.webp 2640w" sizes="(min-width: 1180px) 700px, 100vw" width="1320" height="860" alt="The Standup agent's thread: a report per project for yesterday and today"></figure>
+  </div>
+</section>
 
-  <section class="reveal">
-    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-teal-500))"><use href="#slab-9"/></svg>Connects to your tools</h2>
-    <div class="tools" id="tools">
-      <span class="tool" style="--leaf: var(--leaf-red-500)"><svg class="leaf" width="9" height="9"><use href="#slab-9"/></svg>Claude Code</span>
-      <span class="tool" style="--leaf: var(--leaf-teal-500)"><svg class="leaf" width="9" height="9"><use href="#slab-9"/></svg>Codex</span>
-      <span class="tool" style="--leaf: var(--leaf-blue-500)"><svg class="leaf" width="9" height="9"><use href="#slab-9"/></svg>Gemini</span>
-      <span class="tool" style="--leaf: var(--leaf-amber-500)"><svg class="leaf" width="9" height="9"><use href="#slab-9"/></svg>Cursor</span>
-      <span class="tool" style="--leaf: var(--leaf-green-500)"><svg class="leaf" width="9" height="9"><use href="#slab-9"/></svg>OpenCode</span>
+<section class="feat flip reveal">
+  <div class="wrap-wide feat-in">
+    <div class="feat-copy">
+      <p class="kicker"><svg width="9" height="9" style="color:rgb(var(--leaf-red-500))"><use href="#slab-9"/></svg>Tasks</p>
+      <h2 class="mid">Everything you owe, from every tool, in one list.</h2>
+      <p>Issues assigned to you, reviews you owe, messages waiting on a reply — from GitHub, Linear, Jira, Slack and more — beside the to-dos you write yourself, with a reminder on any of them.</p>
+      <ul class="ticks">
+        <li><svg><use href="#i-check"/></svg><span><strong>Run with AI</strong>: the run plans, stops for your approval, builds, and stops again before it ships.</span></li>
+        <li><svg><use href="#i-check"/></svg><span>Nothing is pushed, posted or sent until you say so.</span></li>
+        <li><svg><use href="#i-check"/></svg><span>Descriptions are read live from the source — never copied into Slate.</span></li>
+      </ul>
+      <a class="more" href="tour/#tasks">See Tasks in the tour <svg width="14" height="14"><use href="#i-arrow"/></svg></a>
     </div>
-    <p class="tools-note">
-      Turn a tool on in setup or in <strong>Connect → AI tools</strong> and Slate installs
-      itself there — as a plugin in Claude Code and Codex, as an MCP server in the rest.
-      It asks before it touches another program's config, and after the first one it keeps
-      tools you install later connected too. Each of them gains the
-      <a href="docs/mcp/">same 24 tools</a> against the same workspace.
-    </p>
-  </section>
+    <figure class="shot"><img loading="lazy" src="assets/shots/tasks.webp" srcset="assets/shots/tasks-1x.webp 1320w, assets/shots/tasks.webp 2640w" sizes="(min-width: 1180px) 700px, 100vw" width="1320" height="860" alt="Tasks: to-dos, review requests and Slack replies that need you, with one to-do open"></figure>
+  </div>
+</section>
 
-  <section class="reveal">
-    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-blue-500))"><use href="#slab-9"/></svg>See it first</h2>
-    <a class="card feature" href="tour/" style="text-decoration:none">
-      <span class="well" style="color:rgb(var(--leaf-blue-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
-      <div>
-        <h3>Take the guided tour →</h3>
-        <p>Every place in Slate, in Slate's own window: setting it up, your sessions, Home, Tasks, memory, agents, apps and more — one step at a time, with example data.</p>
-      </div>
-    </a>
-  </section>
+<section class="feat reveal">
+  <div class="wrap-wide feat-in">
+    <div class="feat-copy">
+      <p class="kicker"><svg width="9" height="9" style="color:rgb(var(--leaf-teal-500))"><use href="#slab-9"/></svg>Artifacts &amp; apps</p>
+      <h2 class="mid">Ask for a dashboard. Get one — with every version kept.</h2>
+      <p>Any connected tool can publish a chart, a report or a page to Slate. Ask for a change in plain words and it becomes a new version. Need more? Describe a small app and watch your AI tool build it.</p>
+      <ul class="ticks">
+        <li><svg><use href="#i-check"/></svg><span>Apps read your workspace and <strong>have no internet</strong> — every release proves it.</span></li>
+        <li><svg><use href="#i-check"/></svg><span>Every action an app takes is one you allowed, once.</span></li>
+        <li><svg><use href="#i-check"/></svg><span>Keep an app in a git folder: each version is a commit.</span></li>
+      </ul>
+      <a class="more" href="tour/#artifacts">See Artifacts in the tour <svg width="14" height="14"><use href="#i-arrow"/></svg></a>
+    </div>
+    <figure class="shot"><img loading="lazy" src="assets/shots/artifacts.webp" srcset="assets/shots/artifacts-1x.webp 1320w, assets/shots/artifacts.webp 2640w" sizes="(min-width: 1180px) 700px, 100vw" width="1320" height="860" alt="An artifact named Checkout funnel: conversion figures and a bar chart an AI tool published"></figure>
+  </div>
+</section>
 
-  <section class="reveal">
-    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-amber-500))"><use href="#slab-9"/></svg>After you install</h2>
-    <ol class="steps">
-      <li>Slate opens, creates your Personal workspace, and starts reading the session transcripts your AI CLIs already keep. Nothing is changed and nothing is sent.</li>
-      <li>A four-step setup runs — <strong>Welcome, AI tool, Connect, Project</strong>. Every step can be skipped.</li>
-      <li><strong>Connect</strong> is what makes memory shared: restart the tools you turned on and they can <code class="inline">recall</code> and <code class="inline">remember</code> against your workspace.</li>
-      <li>Home opens on a <strong>Set up Slate</strong> card: connect an AI tool, start a session, see your first memory.</li>
-      <li>Updates arrive on their own. Slate downloads them quietly and installs when you next quit — the restart is always yours.</li>
+<!-- Three more, smaller: they matter, and they would make the page a manual. -->
+<section class="reveal">
+  <div class="wrap-wide">
+    <div class="trio">
+      <a class="trio-card" href="tour/#projects">
+        <img loading="lazy" src="assets/shots/plan-1x.webp" width="1320" height="860" alt="A Plan page named Checkout redesign under its branch">
+        <h3>Plans next to the code</h3>
+        <p>Typed pages — plan, design, bug report — under the project and branch they belong to, in a real block editor.</p>
+      </a>
+      <a class="trio-card" href="tour/#activity">
+        <img loading="lazy" src="assets/shots/activity-1x.webp" width="1320" height="860" alt="Activity: this week's sessions, time and memories, with a timeline and charts">
+        <h3>Where your time went</h3>
+        <p>Sessions, time and tokens across every tool, by project and branch — and what Slate learned on the way.</p>
+      </a>
+      <a class="trio-card" href="tour/#toolkit">
+        <img loading="lazy" src="assets/shots/toolkit-1x.webp" width="1320" height="860" alt="Toolkit: a project's skills, in sync with every AI tool">
+        <h3>Skills, written once</h3>
+        <p>Write your instructions and skills once and Toolkit keeps every AI tool's own format in sync.</p>
+      </a>
+    </div>
+  </div>
+</section>
+
+</div>
+
+<!-- ══ How it works ═════════════════════════════════════════════════════ -->
+<section class="how reveal">
+  <div class="wrap-wide">
+    <p class="kicker"><svg width="9" height="9" style="color:rgb(var(--leaf-blue-500))"><use href="#slab-9"/></svg>Getting started</p>
+    <h2 class="big">Up and running in two minutes.</h2>
+    <ol class="how-steps">
+      <li>
+        <span class="num">1</span>
+        <h3>Install</h3>
+        <p>One command downloads Slate, checks it and opens it. About thirty seconds — no Homebrew, no Node, nothing to build.</p>
+      </li>
+      <li>
+        <span class="num">2</span>
+        <h3>Connect your tools</h3>
+        <p>A four-step setup picks your AI tool and connects the ones you use. Slate asks before it touches any tool's config.</p>
+      </li>
+      <li>
+        <span class="num">3</span>
+        <h3>Keep working</h3>
+        <p>Use your tools as you always do. Sessions are captured, memory grows, and Home tells you what needs you.</p>
+      </li>
     </ol>
-  </section>
+  </div>
+</section>
 
-  <!-- Hidden until the fetch lands. An empty "What's new" would say the opposite
-       of what this section exists to say. -->
-  <section class="reveal" id="news-sec" hidden>
-    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-amber-500))"><use href="#slab-9"/></svg>What's new</h2>
+<!-- ══ Local-first ══════════════════════════════════════════════════════ -->
+<section class="trust reveal">
+  <div class="wrap-wide">
+    <p class="kicker"><svg width="9" height="9" style="color:rgb(var(--leaf-green-500))"><use href="#slab-9"/></svg>Yours, on your Mac</p>
+    <h2 class="big">Local-first isn't a setting. It's the design.</h2>
+    <div class="trust-grid">
+      <div><h3>Files you own</h3><p>Every workspace is a SQLite file on your machine. Copy it, back it up, open it in any SQLite browser.</p></div>
+      <div><h3>No account</h3><p>Everything works without signing in. Sign in only when you want to share a workspace with a team.</p></div>
+      <div><h3>No API keys</h3><p>Slate drives the AI CLIs you already signed in to. It holds no key and calls no model itself.</p></div>
+      <div><h3>Nothing leaves by surprise</h3><p>Four exceptions, each named in the docs: your AI tool's own calls, sharing you turn on, the update check, and opt-in usage counts.</p></div>
+      <div><h3>Usage counts are opt-in</h3><p>Off until you turn them on — and never your pages, conversations or file paths.</p></div>
+      <div><h3>An open protocol</h3><p>Memory is served over MCP, so any MCP-aware tool can read and write it — not just the five Slate knows.</p></div>
+    </div>
+    <p class="trust-more"><a href="docs/features/privacy-and-security/">Read exactly what stays local and what doesn't →</a></p>
+  </div>
+</section>
+
+<!-- Hidden until the GitHub fetch lands; an empty "What's new" would say the opposite. -->
+<section class="reveal" id="news-sec" hidden>
+  <div class="wrap">
+    <p class="kicker"><svg width="9" height="9" style="color:rgb(var(--leaf-amber-500))"><use href="#slab-9"/></svg>What's new</p>
     <div class="card">
       <span class="news-ver" id="news-ver"></span>
       <div class="news" id="news"></div>
     </div>
-    <p class="tools-note" style="margin-top:12px">
-      <a href="https://github.com/liozelmalem-star/slate-releases/releases">Every release, with full notes</a>
-    </p>
-  </section>
+    <p class="tools-note" style="margin-top:12px"><a href="https://github.com/liozelmalem-star/slate-releases/releases">Every release, with full notes</a></p>
+  </div>
+</section>
 
-  <section class="reveal">
-    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-red-500))"><use href="#slab-9"/></svg>Before you paste that</h2>
+<!-- ══ FAQ ══════════════════════════════════════════════════════════════ -->
+<section class="faq reveal" id="faq">
+  <div class="wrap">
+    <p class="kicker"><svg width="9" height="9" style="color:rgb(var(--leaf-red-500))"><use href="#slab-9"/></svg>Questions</p>
+    <h2 class="big">Before you install.</h2>
 
-    <div class="card note">
-      <strong>Read the script first.</strong> Piping anything to <code class="inline">bash</code> means trusting
-      whoever wrote it and wherever it is hosted. Slate's installer is short, commented,
-      and explains every step it takes — <a href="install.sh">read it</a>.
-    </div>
-
-    <div class="card note">
-      <strong>Why a script and not a .dmg.</strong> Slate is not notarized by Apple yet.
-      macOS quarantines anything a browser downloads, and for an un-notarized app that
-      becomes a "could not verify this app" dialog you can only clear from System
-      Settings. Quarantine is applied by the downloading app, and
-      <code class="inline">curl</code> doesn't set it — so installing this way just works,
-      without asking you to turn off a security control. Updates are cryptographically
-      signed either way.
-    </div>
-
-    <div class="card note">
-      <strong>What is actually verified.</strong> The installer checks the download against
-      the release's <code class="inline">SHASUMS256.txt</code> — but that file and the
-      tarball come from the same host, so it catches a corrupted download rather than a
-      compromised one. Updates are different: Slate ships a
-      <a href="https://jedisct1.github.io/minisign/">minisign</a> signature with every
-      release and verifies it against a public key compiled into the app, so it refuses
-      anything the key doesn't match. Your first install is trust-on-first-use; every
-      update after it is checked against a key already on your machine. Notarization is
-      what would close the first-install gap, and it isn't done yet.
-      <pre class="shell"><span class="c"># check a download yourself, before installing</span>
+    <details>
+      <summary>Does it cost anything?</summary>
+      <p>No. There is no licence, no key and no trial timer in Slate today, and nothing asks you to activate anything. A paid tier is planned for later; when it comes it will never lock the editor or anything you wrote.</p>
+    </details>
+    <details>
+      <summary>What do I need?</summary>
+      <p>A Mac with Apple Silicon, and at least one AI coding CLI — Claude Code, Codex, Gemini, Cursor or OpenCode — already signed in. Intel Macs, Linux and Windows have no build yet; the installer tells you rather than installing something that won't run.</p>
+    </details>
+    <details>
+      <summary>Does Slate send my code or conversations anywhere?</summary>
+      <p>No. Slate reads the transcripts your tools already write and keeps them on your Mac. Your AI tool still talks to its own model under its own sign-in, as it always did. A workspace you choose to share is readable by its members; Personal never is. <a href="docs/features/privacy-and-security/">The four exceptions, precisely.</a></p>
+    </details>
+    <details>
+      <summary>What does it change in my AI tools?</summary>
+      <p>Nothing until you connect one. Connecting installs Slate as a plugin in Claude Code and Codex, and as an MCP server in Gemini, Cursor and OpenCode. Every file is copied aside before it is changed, and turning a tool off takes out what Slate put there.</p>
+    </details>
+    <details>
+      <summary>Why a <code class="inline">curl</code> script and not a .dmg?</summary>
+      <p>Slate is not notarized by Apple yet. macOS quarantines anything a browser downloads, and for an un-notarized app that becomes a "could not verify" dialog you can only clear in System Settings. <code class="inline">curl</code> sets no quarantine flag, so the app simply opens. <a href="install.sh">The script</a> is short and commented — read it first.</p>
+    </details>
+    <details>
+      <summary>What does the installer verify?</summary>
+      <p>The download against the release's <code class="inline">SHASUMS256.txt</code> — which catches a corrupted download, not a compromised host, since both come from the same place. Updates are stronger: each is signed, and Slate checks the signature against a key built into the app before installing.</p>
+      <pre class="shell"><span class="c"># check a download yourself</span>
 shasum -a 256 -c SHASUMS256.txt</pre>
-    </div>
+    </details>
+    <details>
+      <summary>How do updates work?</summary>
+      <p>Slate checks while it is open, downloads a new version in the background and installs it when you next quit. Nothing restarts on its own.</p>
+    </details>
+    <details>
+      <summary>How do I remove it?</summary>
+      <p>One command takes Slate out of every AI tool it was connected to and removes the app. Your workspace is kept unless you ask otherwise, and <code class="inline">--dry-run</code> shows every step first.</p>
+      <pre class="shell">curl -fsSL https://liozelmalem-star.github.io/slate-releases/uninstall.sh | bash -s -- --dry-run</pre>
+    </details>
+    <details>
+      <summary>Can my team use it together?</summary>
+      <p>Yes, optionally. A shared workspace is a separate file that its members read; your Personal workspace never syncs. Each page has one author and opens read-only for everyone else. Sharing is off until you sign in.</p>
+    </details>
+  </div>
+</section>
 
-    <div class="card note">
-      <strong>Apple Silicon only, for now.</strong> The installer checks first and tells
-      you, rather than installing something that won't run.
+<!-- ══ Closing ══════════════════════════════════════════════════════════ -->
+<section class="close reveal">
+  <div class="wrap-wide close-in">
+    <img src="assets/icon.svg" alt="" width="64" height="64">
+    <h2 class="big">Give your AI tools a memory.</h2>
+    <p class="lede">One command. About thirty seconds. Everything stays on your Mac.</p>
+    <div class="install">
+      <div class="cmd">
+        <code id="cmd2">curl -fsSL https://liozelmalem-star.github.io/slate-releases/install.sh | bash</code>
+        <button class="copy" type="button" data-copy="cmd2">Copy</button>
+      </div>
+      <div class="hero-ctas">
+        <a class="btn-ghost" href="tour/">Or take the guided tour first <svg width="15" height="15"><use href="#i-arrow"/></svg></a>
+      </div>
     </div>
-
-    <div class="card note">
-      <strong>You can take it back off in one command.</strong> Slate registers itself with
-      the AI tools you connect, so removing the app by hand would leave those entries
-      behind. The uninstaller undoes them for you — and keeps your workspace, unless you
-      ask it not to. <code class="inline">--dry-run</code> shows you everything first.
-      <pre class="shell"><span class="c"># see what it would do, then do it</span>
-curl -fsSL https://liozelmalem-star.github.io/slate-releases/uninstall.sh | bash -s -- --dry-run
-curl -fsSL https://liozelmalem-star.github.io/slate-releases/uninstall.sh | bash</pre>
-    </div>
-  </section>
-
-</div>
+  </div>
+</section>
 
 <footer>
   <p>
     Slate is in alpha. Your data stays on your machine.<br>
+    <a href="tour/">Tour</a> · <a href="docs/">Docs</a> ·
     <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a> ·
-    <a href="install.sh">install.sh</a> ·
-    <a href="uninstall.sh">uninstall.sh</a>
+    <a href="install.sh">install.sh</a> · <a href="uninstall.sh">uninstall.sh</a> ·
+    <a href="docs/legal/">Legal</a>
   </p>
 </footer>
 
