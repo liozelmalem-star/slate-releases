@@ -1,1 +1,104 @@
-export const tasks = { id: "tasks", title: "Tasks", steps: [{ screen: "home", title: "Coming soon", body: "<p>This chapter is being written.</p>" }] };
+// Tasks: everything waiting on you, from your own to-dos to the issues, reviews and messages
+// your tools report, and the AI runs that carry a task through to a pull request.
+export const tasks = {
+  id: "tasks",
+  title: "Tasks",
+  place: "Tasks",
+  icon: '<path d="M13 5h8"/><path d="M13 12h8"/><path d="M13 19h8"/><path d="m3 17 2 2 4-4"/><rect x="3" y="4" width="6" height="6" rx="1"/>',
+  links: [
+    { match: { text: "Map", exact: true }, step: 2 },
+    { match: { text: "AI runs", exact: true }, step: 11 },
+  ],
+  steps: [
+    {
+      screen: "tasks",
+      spot: { css: "main h1", up: 2 },
+      title: "Everything you owe, in one list",
+      body: "<p><strong>Tasks</strong> collects what is waiting on you: issues assigned to you, pull requests someone asked you to review, messages to answer, and the to-dos you write yourself.</p><p>It opens on <strong>Needs you</strong> whenever something is waiting, so the most urgent things come first.</p>",
+    },
+    {
+      screen: "tasks",
+      spot: { css: "aside nav" },
+      click: { text: "Map", exact: true },
+      title: "Four sections, named for what you do",
+      body: "<p><strong>To-dos</strong> is your own list. <strong>Solve</strong> holds issues, <strong>Review</strong> holds code waiting on you, and <strong>Reply</strong> holds chat and email. Under each section are the tools that feed it, with a count.</p><p>GitHub is read through your own <kbd>gh</kbd> sign-in. <strong>Connect an integration</strong> adds Linear, Jira, Slack and others, and each lands under the right section by itself.</p>",
+      try: "Click <strong>Map</strong> to see the same day as a picture.",
+    },
+    {
+      screen: "tasks-map",
+      spot: { text: "integrations → sections → you → AI tools", up: 3 },
+      spotOpts: { pad: 4 },
+      title: "The Map: your day as a picture",
+      body: "<p>Read it left to right: your tools, the section each one feeds, <strong>You</strong>, and the AI tools and memory working for you. <strong>Slate</strong> is the source of your own to-dos.</p><p>The numbers at the top right are <strong>need you</strong>, <strong>new</strong>, <strong>AI tools at work</strong> and <strong>hidden today</strong>. Click any logo, dot or name to open its list. If you connect a calendar, a <strong>Today</strong> strip with your meetings sits above the Map.</p>",
+      click: { text: "To-dos", exact: true, within: { css: "aside nav" } },
+      try: "Some things no tool reports. Click <strong>To-dos</strong> in the side panel for your own list.",
+    },
+    {
+      screen: "tasks-todos",
+      spot: { text: "Overdue", up: 2 },
+      title: "Grouped by when",
+      body: "<p>To-dos are grouped by their time: <strong>Overdue</strong>, <strong>Today</strong>, <strong>Tomorrow</strong>, <strong>This week</strong>, then the ones with <strong>No time</strong>. <strong>Done today</strong> stays at the bottom, struck through, until tomorrow.</p><p>Tick the box to finish one, and tick it again to bring it back. Double-click a title to fix it. No sync ever touches this list, and no tool can add to it.</p>",
+      click: { text: "New to-do", exact: true },
+      try: "Click <strong>New to-do</strong> at the top of the side panel.",
+    },
+    {
+      screen: "tasks-new-todo",
+      spot: { css: "input[placeholder='Add a to-do…']", up: 2 },
+      type: [{ css: "input[placeholder='Add a to-do…']" }, "Ask Sam for the 0.9 release notes"],
+      click: { text: "Remind me", exact: true },
+      title: "Type it, press Enter",
+      body: "<p>Type the to-do and press <kbd>Enter</kbd>. The box stays open, so three things go in as three lines. <kbd>Esc</kbd> closes it.</p><p>Want it to find you later? Set a reminder before you press Enter.</p>",
+      try: "Click <strong>Remind me</strong>.",
+    },
+    {
+      screen: "tasks-new-todo-remind",
+      spot: { text: "Pick a time…", up: 1 },
+      title: "Reminders",
+      body: "<p>Pick <strong>In an hour</strong>, <strong>This evening</strong>, <strong>Tomorrow morning</strong>, <strong>Next week</strong>, or <strong>Pick a time…</strong>. The menu only offers times that are still ahead.</p><p>When the time comes, Slate rings a notification and the task moves to <strong>Needs you</strong>. Slate has to be running to ring. Your AI tools can set one too: ask Claude Code to remind you after lunch and it lands here.</p>",
+    },
+    {
+      screen: "tasks-bug",
+      spot: { text: "GitHub assigned this to you", up: 3 },
+      title: "Open a task",
+      body: "<p>Click any row to open it beside the list. It says where it came from, and <strong>Slate remembers</strong> shows notes from your memory about it.</p><p><strong>Open in GitHub</strong> opens it in your browser. <strong>Hide from Tasks</strong> takes it off this list only; nothing changes in GitHub. <strong>Remind me…</strong> puts a time on any task, not only your own.</p>",
+    },
+    {
+      screen: "tasks-bug",
+      spot: { text: "Run with AI…", exact: true },
+      click: true,
+      title: "Hand it to an AI run",
+      body: "<p>The line under the buttons says what would run before anything does: <strong>Bug</strong>, and the steps it follows in <strong>acme-web</strong>. <strong>Change</strong> picks another of the project's skills.</p><p><strong>Run with AI…</strong> opens the dialog where the work starts. Nothing starts until you click <strong>Run it</strong>.</p>",
+      try: "Click <strong>Run with AI…</strong>.",
+    },
+    {
+      screen: "tasks-bug-run",
+      spot: { text: "Where", exact: true, up: 1 },
+      title: "Where, and what it is",
+      body: "<p><strong>Where</strong> is the project and the AI tool, filled in for you. <strong>What it is</strong> is the kind of work: <strong>Bug</strong>, <strong>Feature</strong>, <strong>Investigate only</strong> (reports the cause and changes no file), or <strong>Just open a session</strong>.</p><p>Below, the kind's rule shows the steps on one line. The hand marks the two stops: after the plan, and before anything ships.</p>",
+    },
+    {
+      screen: "tasks-bug-run",
+      spot: { text: "What the AI run gets", exact: true, up: 1 },
+      title: "What the AI run gets",
+      body: "<p><strong>The task</strong>, read in GitHub. <strong>What Slate knows</strong>: the memories the run will carry, each with an × to leave it out. <strong>Your note</strong>, if you want to add a file to start from or something to avoid.</p><p><strong>What it can use</strong> folds the tools, check command and Autopilot into one line. The footer says the promise: a branch and a folder of its own, and nothing pushed, posted or sent until you approve.</p>",
+    },
+    {
+      screen: "tasks-review",
+      spot: { text: "Someone else's PR", up: 1 },
+      title: "Review and Reply work the same way",
+      body: "<p>A pull request asked of you is <strong>Someone else's PR</strong>, and here it runs the project's own <strong>review-pr</strong> skill. The run drafts comments; you approve them as <strong>Post comments</strong>, <strong>Request changes</strong> or <strong>Approve</strong>.</p><p>On a Slack message, Run with AI offers <strong>Draft a reply</strong> or <strong>Find the answer, then draft</strong>.</p>",
+    },
+    {
+      screen: "tasks-runs",
+      spot: { text: "AI run T-", up: 2 },
+      title: "AI runs, step by step",
+      body: "<p><strong>AI runs</strong> lists every run from the last 14 days. <strong>Skill per kind of work</strong> sets which of a project's skills runs bugs, features and reviews.</p><p>The strip shows the steps: <strong>Read it</strong>, <strong>Plan</strong>, <strong>Approve plan</strong>, <strong>Build</strong>, <strong>Check</strong>, <strong>Draft</strong>, <strong>Approve to ship</strong>, <strong>Ship</strong>, <strong>Merge</strong>. The run waits for you at both approvals, and shows exactly what will leave your machine before it does. This one shipped and is <strong>Waiting for merge</strong>; it finishes when the pull request merges, or when you press <strong>Mark done</strong>.</p>",
+    },
+    {
+      screen: "tasks",
+      spot: { css: "main h1", up: 2 },
+      title: "Try this: a morning pass",
+      body: "<p>Open Tasks and start at <strong>Needs you</strong>. Answer what you can, <strong>Remind me…</strong> on what has to wait, and <strong>Hide from Tasks</strong> on what is not yours.</p><p>Pick one bug from <strong>Solve</strong> and press <strong>Run with AI…</strong>. Approve its plan when it stops for you, then come back to approve the ship.</p>",
+    },
+  ],
+};
