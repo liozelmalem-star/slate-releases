@@ -7,10 +7,10 @@ export const settings = {
   links: [
     { match: { text: "Account", exact: true }, step: 1 },
     { match: { text: "Workspaces", exact: true }, step: 3 },
-    { match: { text: "Appearance", exact: true }, step: 7 },
-    { match: { text: "Terminal", exact: true }, step: 9 },
-    { match: { text: "Keyboard", exact: true }, step: 10 },
-    { match: { text: "About", exact: true }, step: 11 },
+    { match: { text: "Appearance", exact: true }, step: 8 },
+    { match: { text: "Terminal", exact: true }, step: 10 },
+    { match: { text: "Keyboard", exact: true }, step: 11 },
+    { match: { text: "About", exact: true }, step: 12 },
   ],
   steps: [
     {
@@ -19,7 +19,7 @@ export const settings = {
       spotOpts: { pad: 6 },
       title: "The app, and this computer",
       body:
-        "<p><strong>Settings</strong> opens from the gear at the bottom of the rail. It holds what belongs to the app and this Mac: your account, the workspaces this machine holds, how Slate looks, the terminal, shortcuts and the version.</p>" +
+        "<p><strong>Settings</strong> opens from the gear at the bottom of the rail. It holds what belongs to the app and this computer: your account, the workspaces this machine holds, how Slate looks, the terminal, shortcuts and the version.</p>" +
         "<p>How a workspace reaches AI tools and apps is in Connect instead.</p>",
     },
     {
@@ -43,32 +43,42 @@ export const settings = {
       spot: { text: "A workspace is an audience", up: 1 },
       title: "A workspace is an audience",
       body:
-        "<p>Each workspace is its own file on this Mac. Everything inside a <strong>shared</strong> one — pages, decisions, git activity, sessions — is readable by its members. Everything in an unshared one stays on this machine.</p>" +
+        "<p>Each workspace is its own file on this computer. Everything inside a <strong>shared</strong> one — pages, decisions, git activity, sessions — is readable by its members. Everything in an unshared one stays on this machine.</p>" +
         "<p>So you never mark pages as private. Work you don't want shared goes in a workspace you haven't shared; to share one project, <strong>Move to…</strong> a shared workspace.</p>",
     },
     {
       screen: "settings-workspaces",
-      spot: { text: "Not shared. Nothing in it is in the cloud", up: 2 },
+      spot: { text: "On this machine only", up: 2 },
       title: "Personal, and sharing",
       body:
-        "<p><strong>Personal</strong> is the workspace every window falls back to, and it is not shared. <strong>Share</strong> says exactly how much it would publish before you agree; <strong>Stop sharing</strong> erases what was published, and everything stays on this Mac.</p>" +
-        "<p>Sharing, and <strong>New workspace</strong> for a team, need you signed in — until then they stay off, and Personal works as it is.</p>",
+        "<p><strong>Personal</strong> is the workspace every window falls back to. It is not shared until you turn sharing on. <strong>Share</strong> says exactly how much it would publish before you agree; turning it off withdraws what was published, and everything stays on this computer.</p>" +
+        "<p>Sharing, and <strong>New workspace</strong> for a team, need you signed in. Until then the button is hidden, and Personal works as it is.</p>",
     },
     {
       screen: "settings-workspaces",
-      spot: { text: "Manage", exact: true },
+      spot: { text: "On this machine only", up: 2 },
       click: true,
-      title: "Manage a workspace",
-      body: "<p><strong>Manage</strong> opens its colour, its storage and, for a shared one, its people.</p>",
-      try: "Click <strong>Manage</strong>.",
+      title: "Open a workspace",
+      body: "<p>Click a workspace's row to open its dialog: <strong>General</strong>, <strong>Storage</strong> and, for a shared one, <strong>Members</strong>.</p>",
+      try: "Click <strong>Personal</strong>.",
     },
     {
       screen: "settings-manage",
-      spot: { text: "Storage", exact: true, up: 1 },
-      title: "Colour and storage",
+      spot: { css: "[role=dialog]" },
+      title: "General: sharing and colour",
       body:
-        "<p><strong>Colour</strong> marks the workspace in the switcher. <strong>Storage</strong> is its one SQLite file: <strong>Open</strong> shows it, <strong>Move…</strong> relocates it — to a synced folder, say — and it shows the size and how much space can be reclaimed.</p>" +
-        "<p>Further down you can export it, and restore a backup Slate took before an upgrade.</p>",
+        "<p><strong>General</strong> holds the <strong>Sharing</strong> switch, the same one for every workspace, and its <strong>Colour</strong>, which marks it in your list and the switcher. A workspace you made also has its name here.</p>" +
+        "<p>Personal cannot be removed from this machine: it is the workspace every window falls back to.</p>",
+      try: "Open <strong>Storage</strong>.",
+      click: { text: "Storage", exact: true },
+    },
+    {
+      screen: "settings-storage",
+      spot: { css: "[role=dialog]" },
+      title: "Storage: one file",
+      body:
+        "<p><strong>Storage</strong> is the workspace's one SQLite file: <strong>Open</strong> shows it, <strong>Move…</strong> relocates it — to a synced folder, say — and it shows the size and how much space can be reclaimed.</p>" +
+        "<p><strong>Export</strong> saves a consistent copy, and <strong>Restore a backup</strong> brings back one Slate took before an upgrade.</p>",
     },
     {
       screen: "settings-appearance",

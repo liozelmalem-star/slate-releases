@@ -19,7 +19,7 @@ export const artifacts = {
       spot: { css: "main" },
       spotOpts: { pad: 0 },
       title: "Pages your AI tools made for you",
-      body: "<p>An <strong>artifact</strong> is a page an AI tool made for you to look at: a dashboard, a chart, a report, or a note in Markdown. It is kept in your workspace, on this Mac, with every version.</p><p>You never edit one by hand. You ask, and the tool publishes it again. Above the page: who made it and when (<strong>Codex · 10 hours ago</strong>), its title, and what it is.</p>",
+      body: "<p>An <strong>artifact</strong> is a page an AI tool made for you to look at: a dashboard, a chart, a report, or a note in Markdown. It is kept in your workspace, on this computer, with every version.</p><p>You never edit one by hand. You ask, and the tool publishes it again. Above the page: who made it and when (<strong>Codex · 10 hours ago</strong>), its title, and what it is.</p>",
     },
     {
       screen: "artifacts",

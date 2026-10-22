@@ -37,7 +37,7 @@ export const tasks = {
       screen: "tasks-todos",
       spot: { text: "Overdue", up: 3 },
       title: "Grouped by when",
-      body: "<p>To-dos are grouped by their time: <strong>Overdue</strong>, <strong>Today</strong>, <strong>Tomorrow</strong>, <strong>This week</strong>, then the ones with <strong>No time</strong>. <strong>Done today</strong> stays at the bottom, struck through, until tomorrow.</p><p>Tick the box to finish one, and tick it again to bring it back. Double-click a title to fix it. No sync ever touches this list, and no tool can add to it.</p>",
+      body: "<p>To-dos are grouped by their time: <strong>Overdue</strong>, <strong>Today</strong>, <strong>Tomorrow</strong>, <strong>This week</strong>, <strong>Later</strong>, then the ones with <strong>No time</strong>. <strong>Done today</strong> stays at the bottom, struck through, until tomorrow.</p><p>Tick the box to finish one, and tick it again to bring it back. Double-click a title to fix it. No sync ever touches this list, and no tool can add to it.</p>",
       click: { text: "New to-do", exact: true },
       try: "Click <strong>New to-do</strong> at the top of the side panel.",
     },

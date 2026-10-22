@@ -53,7 +53,7 @@ export const projects = {
     },
     {
       screen: "projects-plan",
-      spot: { text: "Edited 13 hours ago", up: 2 },
+      spot: { text: "Edited ", up: 2 },
       title: "The page header",
       body: "<p>The breadcrumbs show where the page lives: <strong>Acme / acme-web / feat/checkout-redesign</strong>.</p><p>On the right: when it was last edited, find in page (<kbd>⌘F</kbd>), the star that adds it to <strong>Favorites</strong> at the top of the tree, and <strong>⋯</strong> for the rest, such as moving the page or Move to Trash.</p>",
     },

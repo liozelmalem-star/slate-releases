@@ -22,16 +22,16 @@ export const activity = {
     },
     {
       screen: "activity",
-      spot: { text: "This week you ran", up: 1 },
+      spot: { text: "You ran", up: 1 },
       spotOpts: { pad: 8 },
-      title: "This week, in one sentence",
+      title: "The range, in one sentence",
       body:
-        "<p>The top line says what the week came to: sessions, time, the project most of it went to, and your busiest hour. <strong>Look at</strong> under it names the one comparison worth your attention.</p>" +
-        "<p>The four cards compare this week with last week over the same days: <strong>sessions</strong>, <strong>session time</strong>, <strong>memories learned</strong> and <strong>active days</strong>. They always speak of this week, whatever range you pick.</p>",
+        "<p>The top line says what the range you picked came to: sessions, time, the project most of it went to, and your busiest hour. When one comparison stands out, <strong>Look at</strong> under it names it.</p>" +
+        "<p>The four cards compare the range with the same number of days just before it: <strong>sessions</strong>, <strong>session time</strong>, <strong>memories learned</strong> and <strong>active days</strong>. When your history does not reach back that far, they show no change.</p>",
     },
     {
       screen: "activity",
-      spot: { text: "Timeline", exact: true, up: 2 },
+      spot: { text: "Timeline", exact: true, up: 1 },
       title: "The last 7 days, newest first",
       body:
         "<p><strong>Timeline</strong> shows each session as <strong>project · branch</strong> and the tool that ran it, with its tokens and time. Under the sessions are what got made that day — a <strong>Report</strong>, an <strong>AI run</strong> or an <strong>Artifact</strong> — each with <strong>Open</strong>.</p>" +
@@ -61,7 +61,7 @@ export const activity = {
       spotOpts: { pad: 6 },
       title: "The board, for one tool",
       body:
-        "<p>Now every widget counts only Codex sessions: 2 this week, 1h 2m. <strong>Filtered to</strong> shows what is applied; the <strong>×</strong> on the chip clears it.</p>" +
+        "<p>Now every widget counts only Codex sessions: 10 in the last 30 days, 3h 39m. <strong>Filtered to</strong> shows what is applied; the <strong>×</strong> on the chip clears it.</p>" +
         "<p>The same works for a project or a branch, so you can see where one feature's time went.</p>",
     },
     {
@@ -94,11 +94,11 @@ export const activity = {
     },
     {
       screen: "activity-edit",
-      spot: { text: "Customize", exact: true, up: 1 },
+      spot: { text: "Reset layout", exact: true, up: 1 },
       spotOpts: { pad: 4 },
       title: "Add, reorder, hide",
       body:
-        "<p><strong>Customize</strong> lists the widgets that are off: Sessions, Momentum, By model, Memories, Quick stats, Records and four readings of your memory, such as <strong>Is memory used?</strong> Click one to add it.</p>" +
+        "<p><strong>Add widget</strong>, beside <strong>Edit</strong>, puts a card back on the board: one you took off, or a built-in one that is not on it: Sessions, Momentum, By model, Memories, Quick stats and four readings of your memory, such as <strong>Is memory used?</strong></p>" +
         "<p>Drag a widget by its handle or use its arrows to move it; the eye hides it. <strong>Reset layout</strong> puts the default board back, and <strong>Done</strong> finishes.</p>",
     },
     {

@@ -1,4 +1,4 @@
-// Sessions: every live AI session on this Mac, the map, starting one (This Mac, Cloud,
+// Sessions: every live AI session on this computer, the map, starting one (This computer, Cloud,
 // a worktree), and a session opened: its conversation, its rail, and the branch review.
 // Screens: sessions-*.
 export const sessions = {
@@ -15,12 +15,12 @@ export const sessions = {
       spot: { text: "Every live AI session", up: 2 },
       title: "Every AI session on your Mac, live",
       body:
-        "<p>Sessions lists every Claude Code, Codex, Gemini, Cursor and OpenCode session running on this Mac, whether Slate started it or you did in your own terminal. Nothing to register.</p>" +
+        "<p>Sessions lists every Claude Code, Codex, Gemini, Cursor and OpenCode session running on this computer, whether Slate started it or you did in your own terminal. Nothing to register.</p>" +
         "<p>The header counts them: <strong>1 need you</strong>, <strong>1 working</strong>, <strong>1 idle</strong>. <kbd>⌘⇧J</kbd> jumps to the one that has waited longest.</p>",
     },
     {
       screen: "sessions",
-      spot: { text: "ACME", exact: true, up: 1 },
+      spot: { css: "section[data-project-region]" },
       title: "Grouped by project, with a status dot",
       body:
         "<p>Each session sits under its group or project. Its dot says where it stands: amber <strong>Needs you</strong>, green <strong>Working</strong>, grey <strong>Idle</strong>.</p>" +
@@ -31,7 +31,7 @@ export const sessions = {
       spot: { text: "Acme", exact: true },
       title: "The map",
       body:
-        "<p>With nothing open, the main area is a map: this Mac at the centre, then group, project, branch and session. The halo on a node is its most urgent state.</p>" +
+        "<p>With nothing open, the main area is a map: this machine at the centre, then group, project, branch and session. The halo on a node is its most urgent state.</p>" +
         "<p>Click a group or project to zoom into it; <kbd>Esc</kbd> comes back. Pointing at a row lights its node, and the other way round.</p>",
     },
     {
@@ -48,7 +48,7 @@ export const sessions = {
       spot: { text: "Pick where it runs", up: 2 },
       title: "Pick where it runs",
       body:
-        "<p><strong>This Mac</strong> lists your groups, projects and branches. Click one and the session starts there at once. <strong>Runs on</strong> picks the AI tool for this session only.</p>" +
+        "<p><strong>This computer</strong> lists your groups, projects and branches. Click one and the session starts there at once. <strong>Runs on</strong> picks the AI tool for this session only.</p>" +
         "<p>Turn on <strong>On my phone</strong> first to keep going from the Claude app. <strong>Start without a project</strong> is for a quick question or script.</p>",
       try: "Click <strong>Cloud</strong>.",
       click: { text: "Cloud", exact: true },

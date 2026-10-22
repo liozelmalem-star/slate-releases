@@ -26,7 +26,7 @@ export const toolkit = {
       title: "Pick a project",
       body:
         "<p>Toolkit always shows one project. The picker lists every project with a folder, grouped the way your sidebar groups them. Here <strong>acme-web</strong> has 4 skills, <strong>acme-api</strong> 3 and <strong>blog</strong> 2.</p>" +
-        "<p><strong>Your AI tools</strong> is the last kind of place: the skills and setup each tool keeps in your home folder, for every project.</p>",
+        "<p><strong>Your AI tools</strong> comes first: the skills and setup each tool keeps in your home folder, for every project.</p>",
     },
     {
       screen: "toolkit",

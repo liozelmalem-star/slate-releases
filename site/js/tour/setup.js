@@ -13,7 +13,7 @@ export const setup = {
       spotOpts: { pad: 4 },
       title: "Install Slate",
       body:
-        `<p>Slate runs on a Mac with Apple Silicon. Open Terminal and run:</p>` +
+        `<p>Slate runs on a Mac, Apple Silicon or Intel. Open Terminal and run:</p>` +
         `<p><code class="inline" style="white-space:normal;word-break:break-all">${CMD}</code></p>` +
         "<p>It downloads the app, puts it in <strong>Applications</strong> and opens it. Nothing else to install, and no account to make. The first time Slate opens, it shows this short setup.</p>",
     },
@@ -60,7 +60,7 @@ export const setup = {
       spot: { text: "Connect your AI tools", up: 1 },
       title: "Connect your AI tools",
       body:
-        "<p>Connecting lets a tool search and write your Slate memory. Slate adds itself to that tool's own settings file as an MCP server, and copies the file aside first.</p>" +
+        "<p>Connecting lets a tool search and write your Slate memory. Slate installs itself as a plugin in Claude Code, Codex, Gemini and Cursor, and writes a plugin module into OpenCode's own config.</p>" +
         "<p><strong>Connected</strong> tools are done. <strong>Detected</strong> ones are installed but not connected yet.</p>",
     },
     {

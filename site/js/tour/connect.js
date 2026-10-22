@@ -7,7 +7,7 @@ export const connect = {
   links: [
     { match: { text: "AI tools", exact: true }, step: 1 },
     { match: { text: "Integrations", exact: true }, step: 7 },
-    { match: { text: "Background jobs", exact: true }, step: 10 },
+    { match: { text: "Automations", exact: true }, step: 10 },
   ],
   steps: [
     {
@@ -25,7 +25,7 @@ export const connect = {
       title: "Five AI tools, one row each",
       body:
         "<p>Claude Code, Codex, Gemini, Cursor and OpenCode, always in that order. Here Claude Code and Codex are on, and Claude Code is the <strong>default</strong> — the one this workspace reaches for when nothing more specific is named.</p>" +
-        "<p>Each row names the profile and model it runs under, and the config file Slate writes for that tool.</p>",
+        "<p>Each row names the profile and model it runs under. The tool's dialog names the config file Slate writes for it.</p>",
     },
     {
       screen: "connect",
@@ -40,8 +40,8 @@ export const connect = {
       screen: "connect",
       spot: { text: "Claude Code", exact: true },
       click: true,
-      title: "Open a tool's row",
-      body: "<p>The chevron opens a row to show everything else about that tool in this workspace.</p>",
+      title: "Open a tool's dialog",
+      body: "<p>Click a row to open that tool's dialog, which holds everything else about it in this workspace.</p>",
       try: "Click <strong>Claude Code</strong>.",
     },
     {
@@ -49,7 +49,7 @@ export const connect = {
       spot: { text: "Profile", exact: true, up: 1 },
       title: "Profile and model",
       body:
-        "<p>A <strong>Profile</strong> is one login of the tool on this Mac — its config folder, such as <code>~/.claude</code> or <code>~/.claude-work</code>. <strong>Add</strong> names another one, so your work and personal workspaces can sign in differently.</p>" +
+        "<p>A <strong>Profile</strong> is one login of the tool on this computer — its config folder, such as <code>~/.claude</code> or <code>~/.claude-work</code>. <strong>Add</strong> names another one, so your work and personal workspaces can sign in differently.</p>" +
         "<p><strong>Model</strong> left on <strong>Its own default</strong> lets the tool pick.</p>",
     },
     {
@@ -58,7 +58,7 @@ export const connect = {
       title: "Capture",
       body:
         "<p><strong>Capture</strong> decides whether Slate records this tool's sessions. Turn it off and the tool stays connected, but its sessions stop landing in Memory and Activity. Other tools are not affected.</p>" +
-        "<p>Turning Claude Code on also connects Claude Desktop, when it is on this Mac.</p>",
+        "<p>Turning Claude Code on also connects Claude Desktop, when it is on this computer.</p>",
     },
     {
       screen: "connect-open",
@@ -66,10 +66,10 @@ export const connect = {
       title: "The MCP servers it reaches",
       body:
         "<p><strong>MCP servers</strong> lists every server this tool declares under this profile, and how each one stands — <strong>Live</strong>, <strong>Needs sign-in</strong>, and so on. Your Claude account's connectors are one row, since only Claude Code can use them.</p>" +
-        "<p>When something is not answering, this is where you look first. <strong>Refresh</strong> re-reads them all.</p>",
+        "<p>When something is not answering, this is where you look first. <strong>Refresh</strong>, above the list of tools, reads them all again.</p>",
     },
     {
-      screen: "connect-open",
+      screen: "connect",
       spot: { text: "Integrations", exact: true },
       click: true,
       title: "Integrations",
@@ -82,7 +82,7 @@ export const connect = {
       title: "Connect an app, see your work in Tasks",
       body:
         "<p>One tile per app. Press <strong>Connect</strong>, approve Slate on the app's own page in your browser, and what you owe there shows up in Tasks. No AI tool is involved. GitHub here is <strong>Connected</strong> and was read a minute ago.</p>" +
-        "<p>The sign-in stays on this Mac, so restarts and updates never ask again.</p>",
+        "<p>The sign-in stays on this computer, so restarts and updates never ask again.</p>",
     },
     {
       screen: "connect-integrations",
@@ -98,16 +98,16 @@ export const connect = {
       spot: { text: "Gerrit", exact: true, up: 2 },
       title: "Reviews, and what is coming",
       body:
-        "<p>These are the apps that send you code to review. Self-hosted ones such as Gerrit and Gitea connect with a token you paste, kept only on this Mac.</p>" +
+        "<p>These are the apps that send you code to review. Self-hosted ones such as Gerrit and Gitea connect with a token you paste, kept only on this computer.</p>" +
         "<p><strong>Coming soon</strong> lists the apps Slate cannot connect yet, each saying why.</p>",
     },
     {
       screen: "connect-int-review",
-      spot: { text: "Background jobs", exact: true },
+      spot: { text: "Automations", exact: true },
       click: true,
-      title: "Background jobs",
+      title: "Automations",
       body: "<p>The last tab lists everything Slate does when you are not asking it to.</p>",
-      try: "Open <strong>Background jobs</strong>.",
+      try: "Open <strong>Automations</strong>.",
     },
     {
       screen: "connect-jobs",
@@ -120,9 +120,9 @@ export const connect = {
     {
       screen: "connect-jobs-mac",
       spot: { text: "Capturing your AI sessions", up: 2 },
-      title: "What runs for the whole Mac",
+      title: "What runs for the whole computer",
       body:
-        "<p><strong>This Mac</strong> holds the jobs there is only one of on this computer, so turning one off turns it off everywhere. <strong>Capturing your AI sessions</strong> says how many projects it watches and when it last captured.</p>" +
+        "<p><strong>This computer</strong> holds the jobs there is only one of on this machine, so turning one off turns it off everywhere. <strong>Capturing your AI sessions</strong> says how many projects it watches and when it last captured.</p>" +
         "<p><strong>Automatic updates</strong> downloads a new version in the background and installs it when you next quit.</p>",
     },
     {

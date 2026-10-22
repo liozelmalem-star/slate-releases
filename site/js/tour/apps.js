@@ -85,20 +85,20 @@ export const apps = {
       spot: DESCRIBE,
       type: [DESCRIBE, "My to-dos due this week, grouped by project, with a button to mark one done"],
       title: "Describe it in your own words",
-      body: "<p>Write what the app should show and do, then press the arrow or <kbd>Enter</kbd>. You stay here: a card for the new app appears at once, marked <strong>Building</strong>, then <strong>Ready</strong>.</p><p>The work runs in a session Slate keeps in the background, under your own AI tool and account.</p>",
+      body: "<p>Write what the app should show and do, then press the arrow or <kbd>Enter</kbd>. You stay here: a card for the new app appears at once, marked <strong>Building</strong>. When it is done the card shows its age instead, or <strong>Failed</strong>.</p><p>The work runs in a session Slate keeps in the background, under your own AI tool and account.</p>",
     },
     {
       screen: "apps-picker",
       spot: { css: ".menu-pop" },
       title: "Pick the tool that builds it",
-      body: "<p>The box starts on your workspace's tool (set in <strong>Connect</strong>). Click its name to pick another connected tool.</p><p><strong>Keep it in a folder…</strong> puts the next app in a folder you choose, as a git repository where every version is a commit. Otherwise it lives only in Slate.</p>",
+      body: "<p>The box starts on your workspace's tool (set in <strong>Connect</strong>). Click its name to pick another connected tool.</p><p>Once you have opened an app, <strong>Keep it in a folder…</strong> appears beside it. It puts the next app in a folder you choose, as a git repository where every version is a commit. Otherwise it lives only in Slate.</p>",
     },
     {
       screen: "apps",
       spot: { css: 'main button[aria-label^="PR review queue"]' },
       click: true,
       title: "Your apps",
-      body: "<p>Each card shows the app itself, running small. <strong>PR review queue</strong> lists pull requests waiting on you; <strong>Sessions this week</strong> charts your AI sessions.</p><p>An app you leave unopened for 60 days moves to Trash, with a warning on its card first.</p>",
+      body: "<p>Each card shows the app itself, running small. <strong>PR review queue</strong> lists pull requests waiting on you; <strong>Sessions this week</strong> charts your AI sessions.</p><p>An app you have neither opened nor changed for 60 days moves to Trash, with a warning on its card first.</p>",
       try: "Click <strong>PR review queue</strong> to open it.",
     },
     {

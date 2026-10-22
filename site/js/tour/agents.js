@@ -30,7 +30,7 @@ export const agents = {
   steps: [
     {
       screen: "agents",
-      spot: { text: "Latest", up: 2 },
+      spot: { text: "Latest", up: 1 },
       title: "Work that runs without you",
       body: "<p>An <strong>agent</strong> does a job for you on a trigger: a standup at 7:00, a debrief when a coding session ends, a review every Friday. Everything it writes lands here.</p><p>The Overview shows the <strong>Latest</strong> report from each agent, then <strong>History</strong>: every report, grouped by agent. Find one by agent, word or date.</p>",
     },

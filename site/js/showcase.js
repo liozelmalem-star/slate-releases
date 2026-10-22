@@ -17,7 +17,7 @@ const ALTS = {
   artifacts: "An artifact named Checkout funnel: conversion figures and a bar chart an AI tool published",
   toolkit: "Toolkit: a project's skills, in sync with every AI tool",
   home: "Slate's Home: ten things need you, with a session waiting on an answer at the top",
-  sessions: "Sessions: the live list grouped by project beside a map of every session on this Mac",
+  sessions: "Sessions: the live list grouped by project beside a map of every session on this computer",
   memory: "Memory: memories mapped onto the folders they cite, with proposed changes waiting for review",
   standup: "The Standup agent's thread: a report per project for yesterday and today",
   tasks: "Tasks: to-dos, review requests and Slack replies that need you",

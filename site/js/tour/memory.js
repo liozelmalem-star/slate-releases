@@ -24,9 +24,9 @@ export const memory = {
       screen: "memory-m",
       spot: { text: "Click a folder to go into it", up: 1 },
       title: "A map of your code, not a list",
-      body: "<p>Each memory sits on the folder it cites, so the map looks like your project: <strong>acme-api</strong>, <strong>Other</strong>, and <strong>General</strong> for memories that cite no file.</p><p>A solid dot was used this month; a hollow ring never was.</p>",
+      body: "<p>Each memory sits on the folder it cites, so the map looks like your project: <strong>acme-api</strong>, <strong>Other</strong>, and <strong>General</strong> for memories that cite no file.</p><p>A green dot was used in the last 30 days, a blue one was written this week, and a grey one was used before that. A hollow ring was never used.</p>",
       try: "Click a folder to go into it.",
-      click: { text: "Other", up: 1 },
+      click: { css: "main canvas" },
     },
     {
       screen: "memory-card",
