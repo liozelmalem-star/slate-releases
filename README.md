@@ -20,7 +20,7 @@
 curl -fsSL https://liozelmalem-star.github.io/slate-releases/install.sh | bash
 ```
 
-macOS, Apple Silicon. No Homebrew, no Node, no Rust, no build step — the download
+macOS, Apple Silicon or Intel — one universal app. No Homebrew, no Node, no Rust, no build step — the download
 already contains everything.
 
 The script installs `Slate.app` into `/Applications` and opens it.
@@ -103,9 +103,9 @@ Pass a flag through the pipe with `bash -s --`, e.g.
 ## What Slate is
 
 A personal, local-first AI workspace — and the memory layer under every AI tool you use.
-Everything lives in SQLite files on your Mac.
+Everything lives in SQLite files on your computer.
 
-- **On your Mac, not in a cloud.** No account and no subscription. Nothing leaves the
+- **On your computer, not in a cloud.** No account and no subscription. Nothing leaves the
   machine unless you act; usage counts are opt-in and off until you turn them on.
 - **One memory for every AI tool.** Slate is an MCP server with
   [24 tools](https://liozelmalem-star.github.io/slate-releases/docs/mcp/). Claude Code,
@@ -113,7 +113,7 @@ Everything lives in SQLite files on your Mac.
   the end, into the same workspace — so what Claude Code learns on Tuesday, Cursor knows
   on Wednesday.
 - **Sessions, captured and live.** Slate reads the transcripts your AI CLIs already write
-  and keeps each session as a page. **Sessions** shows every one on this Mac — who is
+  and keeps each session as a page. **Sessions** shows every one on this computer — who is
   working, who is waiting on you — and starts new ones locally, in the cloud, or for your
   phone.
 - **Home, on the CLI you already have.** The in-app agent drives Claude Code, Codex,
@@ -149,7 +149,7 @@ release downloads. There is no source code here — Slate's source is private.
 | `site/` | Everything the website is made of: `site/css/` and `site/js/`, split so a page composes modules rather than copying them. [`site/README.md`](site/README.md) says what belongs where. |
 | `assets/shots/` | Real screenshots of Slate used on the landing page, captured at 2× from the running app with example data. |
 | `assets/` | Brand marks, copied from the Slate source repo's `public/assets/` — `icon.svg` (the app tile, used by the pages and the header above), `icon-dark.svg` (the same tile on the app's dark neutral, shown in the dark theme and as the dark-mode tab icon), `mark.svg` (bare, on transparency) and `logo.svg` (the lockup). Edit them there, not here. |
-| Releases | The `.app.tar.gz` the updater consumes, its signature, the `.dmg`, `latest.json`, and `SHASUMS256.txt`. |
+| Releases | The universal `.app.tar.gz` the updater consumes (Apple Silicon and Intel), its signature, the `.dmg`, `latest.json`, and `SHASUMS256.txt`. |
 
 `index.html`, `install.sh` and `uninstall.sh` stay at the root because each is pinned by a
 public URL — Pages serves the first at the site root, and the two scripts are the
@@ -165,7 +165,16 @@ the next release.
 
 ## Status
 
-**Alpha.** macOS on Apple Silicon. Intel and Linux builds don't exist yet; the installer
-tells you rather than installing something that won't run.
+**Alpha.**
+
+| Platform | Status |
+| --- | --- |
+| macOS, Apple Silicon | Available — the primary platform, used every day |
+| macOS, Intel | Available since 0.1.49 — the same universal app |
+| Linux (x86_64, `.deb`) | Comes with the next release. Each release builds it on Ubuntu 22.04, installs it and boots it before attaching it |
+| Windows | Being ported. It boots on Windows 10/11, but no installer is published yet |
+
+The `curl` installer is macOS-only today; it tells you so rather than installing something
+that won't run.
 
 Found a bug? Open an issue here.

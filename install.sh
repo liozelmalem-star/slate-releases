@@ -5,7 +5,7 @@
 #
 # Canonical home: github.com/liozelmalem-star/slate-releases (public). Authored in the
 # private source repo and copied here by CI on every release, because this script and
-# scripts/release/make-updater-manifest.mjs have to agree on the shape of latest.json.
+# `infra updater manifest` (packages/infra/src/updater) have to agree on the shape of latest.json.
 #
 # Downloads a prebuilt Slate.app and installs it to /Applications. No Homebrew, no
 # Node, no Rust, no compile step — the app bundle already contains everything,
@@ -71,14 +71,16 @@ echo "────────────────────────�
 # ── 1. Platform ────────────────────────────────────────────────────────────────
 [[ "$(uname -s)" == "Darwin" ]] || die "Slate's installer is macOS-only right now."
 
-ARCH="$(uname -m)"
-if [[ "$ARCH" != "arm64" ]]; then
-  die "Slate currently ships Apple Silicon builds only (this Mac is $ARCH).
-   An Intel build needs an x86_64 job in release.yml — ask before assuming it exists."
-fi
+# One universal app serves both CPUs; the manifest names it under each Mac key, so a
+# release from before Intel builds says plainly that it has none.
+case "$(uname -m)" in
+  arm64) PLATFORM="darwin-aarch64"; CPU="Apple Silicon" ;;
+  x86_64) PLATFORM="darwin-x86_64"; CPU="Intel" ;;
+  *) die "Slate runs on Apple Silicon and Intel Macs (this Mac is $(uname -m))." ;;
+esac
 
 MACOS_VER="$(sw_vers -productVersion)"
-ok "macOS $MACOS_VER on Apple Silicon"
+ok "macOS $MACOS_VER on $CPU"
 
 # ── 2. Resolve the version to install ──────────────────────────────────────────
 # latest.json is emitted by tauri-action alongside the bundles. Shape:
@@ -99,12 +101,12 @@ MANIFEST="$(curl -fsSL "$MANIFEST_URL" 2>/dev/null)" || die "Could not reach the
 VERSION="$(printf '%s' "$MANIFEST" | grep -o '"version"[[:space:]]*:[[:space:]]*"[^"]*"' | head -1 | sed 's/.*"\([^"]*\)"$/\1/')"
 [[ -n "$VERSION" ]] || die "The manifest at $MANIFEST_URL has no \"version\" field."
 
-# Pull the darwin-aarch64 block, then its url. Kept to grep/sed so the installer has no
+# Pull this Mac's platform block, then its url. Kept to grep/sed so the installer has no
 # dependency beyond what ships with macOS — no jq, no python.
-PLATFORM_BLOCK="$(printf '%s' "$MANIFEST" | tr -d '\n ' | grep -o '"darwin-aarch64":{[^}]*}' || true)"
-[[ -n "$PLATFORM_BLOCK" ]] || die "Release $VERSION has no darwin-aarch64 build."
+PLATFORM_BLOCK="$(printf '%s' "$MANIFEST" | tr -d '\n ' | grep -o "\"$PLATFORM\":{[^}]*}" || true)"
+[[ -n "$PLATFORM_BLOCK" ]] || die "Release $VERSION has no $PLATFORM build."
 TARBALL_URL="$(printf '%s' "$PLATFORM_BLOCK" | grep -o '"url":"[^"]*"' | head -1 | sed 's/.*"\(http[^"]*\)"$/\1/')"
-[[ -n "$TARBALL_URL" ]] || die "Release $VERSION has no download URL for darwin-aarch64."
+[[ -n "$TARBALL_URL" ]] || die "Release $VERSION has no download URL for $PLATFORM."
 
 ok "Slate $VERSION"
 
