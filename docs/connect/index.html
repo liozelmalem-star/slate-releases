@@ -70,16 +70,18 @@
     <h2><svg width="9" height="9" style="color:rgb(var(--leaf-amber-500))"><use href="#slab-9"/></svg>The easy way</h2>
     <p class="t-blurb">
       Setup's <strong>Connect</strong> step, or <strong>Connect → AI tools</strong> any time
-      after it, lists five tools: Claude Code, Codex, Gemini, Cursor and OpenCode. Pick the
+      after it, lists five tools: Claude Code, Codex, Gemini, Cursor and OpenCode. Gemini CLI now needs
+      an API key or a paid Code Assist licence from Google. Pick the
       tool and the profile it runs under, switch it on, and Slate is installed for that
-      config folder — every project on this Mac included.
+      config folder — every project on this computer included.
     </p>
     <div class="card note">
-      <strong>What the switch writes.</strong> In Claude Code and Codex, Slate runs the
-      tool's own plugin install, and the plugin supplies the MCP server. In Gemini, Cursor
-      and OpenCode it adds an MCP entry and its recall hooks to the tool's config. Each row
-      names the file it writes, every write copies the original aside first, and turning the
-      switch off takes out what Slate put there.
+      <strong>What the switch writes.</strong> In Claude Code, Codex, Gemini and Cursor,
+      Slate installs its plugin, and the plugin supplies the MCP server. In OpenCode it adds
+      an MCP entry and one plugin module to <code class="inline">opencode.json</code>.
+      Without Node 24 or newer, Slate writes into the tool's config instead. A tool's dialog
+      names the file Slate writes, every write copies the original aside first, and turning
+      the switch off takes out what Slate put there.
     </div>
     <div class="card note">
       <strong>It asks first, once.</strong> Nothing outside Slate's own folder is touched

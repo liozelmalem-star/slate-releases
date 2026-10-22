@@ -3,8 +3,8 @@
        `tauri icon` wants; the viewBox scales it anywhere else. No wordmark —
        "Slate" is illegible by 32px and a dock icon is never read, only
        recognised. Two copies exist for hosts that cannot reach outside their
-       own root — packages/desktop/public/favicon.svg and
-       public/website/img/favicon.svg. Edit here, then copy to both;
+       own root — packages/desktop/public/favicon.svg and assets/icon.svg in
+       the public slate-releases repo. Edit the master, then copy to both;
        public/README.md says why they are copies rather than links. -->
   <rect width="1024" height="1024" rx="232" fill="#FAFAFA"/>
   <g transform="translate(204.72,147.00) scale(1.697674) translate(-156.5,-39.5)">

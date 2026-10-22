@@ -28,8 +28,8 @@ The script installs `Slate.app` into `/Applications` and opens it.
 
 Then a four-step setup runs — **Welcome, AI tool, Connect, Project** — and every step can
 be skipped. **Connect** installs Slate into the AI tools you pick — Claude Code, Codex,
-Gemini, Cursor, OpenCode — as a plugin in Claude Code and Codex and as an MCP server in
-the rest. It asks first: nothing outside Slate is touched until you connect one, and after
+Gemini, Cursor, OpenCode — as a plugin in Claude Code, Codex, Gemini and Cursor, and through its
+config file in OpenCode. It asks first: nothing outside Slate is touched until you connect one, and after
 that Slate keeps tools you install later connected too.
 Full walkthrough: [Getting Started](https://liozelmalem-star.github.io/slate-releases/docs/overview/getting-started/).
 
@@ -106,7 +106,7 @@ Pass a flag through the pipe with `bash -s --`, e.g.
 A personal, local-first AI workspace — and the memory layer under every AI tool you use.
 Everything lives in SQLite files on your computer.
 
-- **On your computer, not in a cloud.** No account and no subscription. Nothing leaves the
+- **On your computer, not in a cloud.** No account, and free during the alpha. Nothing leaves the
   machine unless you act; usage counts are opt-in and off until you turn them on.
 - **One memory for every AI tool.** Slate is an MCP server with
   [24 tools](https://liozelmalem-star.github.io/slate-releases/docs/mcp/). Claude Code,
@@ -118,7 +118,8 @@ Everything lives in SQLite files on your computer.
   working, who is waiting on you — and starts new ones locally, in the cloud, or for your
   phone.
 - **Home, on the CLI you already have.** The in-app agent drives Claude Code, Codex,
-  Cursor, OpenCode or Gemini under the sign-in you already have. No API keys.
+  Cursor, OpenCode or Gemini under the sign-in you already have. No API keys — except that
+  Gemini CLI itself now needs one, or a paid Code Assist licence, from Google.
 - **Agents.** Work that runs for you on a trigger — a standup at 7:00, a plan for each new
   ticket — inside rules you set: reading goes ahead, writing asks you first, merging and
   deleting are refused.
