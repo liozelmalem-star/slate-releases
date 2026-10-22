@@ -20,7 +20,8 @@
 curl -fsSL https://liozelmalem-star.github.io/slate-releases/install.sh | bash
 ```
 
-macOS, Apple Silicon or Intel — one universal app. No Homebrew, no Node, no Rust, no build step — the download
+This is the command for macOS, Apple Silicon or Intel — one universal app. For Linux and
+Windows, see [Status](#status). No Homebrew, no Node, no Rust, no build step — the download
 already contains everything.
 
 The script installs `Slate.app` into `/Applications` and opens it.
@@ -167,14 +168,18 @@ the next release.
 
 **Alpha.**
 
+<!-- slate:readme-platforms -->
+Latest release: **0.1.49**.
+
 | Platform | Status |
 | --- | --- |
 | macOS, Apple Silicon | Available — the primary platform, used every day |
-| macOS, Intel | Available since 0.1.49 — the same universal app |
-| Linux (x86_64, `.deb`) | Comes with the next release. Each release builds it on Ubuntu 22.04, installs it and boots it before attaching it |
-| Windows | Being ported. It boots on Windows 10/11, but no installer is published yet |
+| macOS, Intel | Available — the same universal app |
+| Linux (x86_64, `.deb`) | Not in the latest release. A release attaches it only when it builds, installs and boots on Ubuntu 22.04 |
+| Windows | Being ported. It boots on Windows 10/11, but the latest release has no installer |
 
-The `curl` installer is macOS-only today; it tells you so rather than installing something
-that won't run.
+The `curl` installer is for macOS; on any other system it says so rather than installing
+something that won't run.
+<!-- /slate:readme-platforms -->
 
 Found a bug? Open an issue here.
