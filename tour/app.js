@@ -84,7 +84,10 @@ export function find(target) {
     if (!best || best.contains(el)) best = el;
   }
   if (best && target.clickable !== false) {
-    const up = best.closest("button,a,[role=button],[role=tab],[role=option],[role=menuitem],label,input,textarea,[tabindex]");
+    // tabindex="-1" only makes a container focusable (a dialog does it), not clickable.
+    const up = best.closest(
+      'button,a,[role=button],[role=tab],[role=option],[role=menuitem],label,input,textarea,[tabindex]:not([tabindex="-1"])',
+    );
     if (up) best = up;
   }
   if (best && target.up) {
@@ -106,7 +109,14 @@ export function spot(target, { dim = true, pad = 6, pulse = true } = {}) {
   if (!el) return null;
   el.scrollIntoView({ block: "nearest", inline: "nearest" });
   const r = el.getBoundingClientRect();
-  const box = { left: r.left - pad, top: r.top - pad, width: r.width + pad * 2, height: r.height + pad * 2 };
+  // Kept inside the window, with room for the ring's glow: an element taller than the
+  // window (a whole editor) would otherwise be ringed on three sides only.
+  const edge = 6;
+  const left = Math.max(edge, r.left - pad);
+  const top = Math.max(edge, r.top - pad);
+  const right = Math.min(window.innerWidth - edge, r.right + pad);
+  const bottom = Math.min(window.innerHeight - edge, r.bottom + pad);
+  const box = { left, top, width: right - left, height: bottom - top };
   ringEl = document.createElement("div");
   ringEl.className = `tour-ring${pulse ? " is-pulse" : ""}${dim ? " is-dim" : ""}`;
   Object.assign(ringEl.style, {

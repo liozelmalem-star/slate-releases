@@ -81,7 +81,7 @@ export const home = {
     },
     {
       screen: "home-slash",
-      spot: { text: "/checkout-qa", up: 2 },
+      spot: { text: "/checkout-qa", up: 1 },
       title: "/ for skills",
       body:
         "<p>Type <kbd>/</kbd> at the start of the box to list the skills the AI tool loads in the scoped project, then the tool's own commands.</p>" +
@@ -116,7 +116,7 @@ export const home = {
       spot: { text: "slate: recall", up: 1 },
       title: "Watch it work",
       body:
-        "<p>A question opens a chat over Home. Each step the AI tool takes shows as it runs: here it recalled your Oct 8 decision from Slate's memory, then read the file. Click a step to see its result.</p>" +
+        "<p>A question opens a chat over Home. Each step the AI tool takes shows as it runs: here it recalled your pinned decision on tax rounding from Slate's memory, then read the file. Click a step to see its result.</p>" +
         "<p><strong>Home</strong>, top left, brings Home back and keeps the chat. <strong>New chat</strong> starts over.</p>",
     },
     {

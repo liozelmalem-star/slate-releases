@@ -46,7 +46,7 @@ export const connect = {
     },
     {
       screen: "connect-open",
-      spot: { text: "Profile", exact: true, up: 1 },
+      spot: { text: "Profile", exact: true, up: 2 },
       title: "Profile and model",
       body:
         "<p>A <strong>Profile</strong> is one login of the tool on this computer — its config folder, such as <code>~/.claude</code> or <code>~/.claude-work</code>. <strong>Add</strong> names another one, so your work and personal workspaces can sign in differently.</p>" +

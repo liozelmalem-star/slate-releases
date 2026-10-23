@@ -45,7 +45,7 @@ export const sessions = {
     },
     {
       screen: "sessions-new",
-      spot: { text: "Pick where it runs", up: 2 },
+      spot: { text: "Pick where it runs", up: 3 },
       title: "Pick where it runs",
       body:
         "<p><strong>This computer</strong> lists your groups, projects and branches. Click one and the session starts there at once. <strong>Runs on</strong> picks the AI tool for this session only.</p>" +
