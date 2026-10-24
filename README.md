@@ -170,7 +170,7 @@ the next release.
 **Alpha.**
 
 <!-- slate:readme-platforms -->
-Latest release: **0.1.49**.
+Latest release: **0.1.50**.
 
 | Platform | Status |
 | --- | --- |
