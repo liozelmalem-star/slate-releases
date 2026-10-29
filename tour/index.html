@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slate — the guided tour</title>
+<meta name="description" content="Walk through Slate, place by place, in its own window: setting it up, sessions, Home, Tasks, projects and pages, shared memory, activity, artifacts, apps, agents, Toolkit, Connect and Settings.">
+<link rel="icon" href="../assets/icon.svg" media="(prefers-color-scheme: light)">
+<link rel="icon" href="../assets/icon-dark.svg" media="(prefers-color-scheme: dark)">
+
+<meta property="og:title" content="Slate — the guided tour">
+<meta property="og:description" content="Every place in Slate, one guided step at a time, in Slate's own window.">
+<meta property="og:type" content="website">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../site/css/tokens.css?v=20261025c">
+<link rel="stylesheet" href="../site/css/base.css?v=20261025c">
+<link rel="stylesheet" href="../site/css/components.css?v=20261025c">
+<link rel="stylesheet" href="../site/css/tour.css?v=20261025c">
+
+<script>
+  // Before first paint, never after — see the same four lines on every page.
+  try {
+    var t = localStorage.getItem("slate-theme");
+    document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
+  } catch (e) {
+    document.documentElement.dataset.theme = "light";
+  }
+</script>
+</head>
+<body class="tour-page">
+
+<div class="tour-top">
+  <a class="back" href="../"><img class="logo-light" src="../assets/icon.svg" alt=""><img class="logo-dark" src="../assets/icon-dark.svg" alt="">Slate</a>
+  <span class="grow"></span>
+  <a class="back" href="../docs/">Docs</a>
+  
+</div>
+
+<main class="tour">
+  <aside class="tour-side">
+    <div class="tour-intro">
+      <h1>The guided tour</h1>
+      <p>Every place in Slate, in Slate's own window. Follow the ringed control, or click any
+        place on the rail to jump there.</p>
+    </div>
+
+    <nav class="card chapters-card" aria-label="Chapters">
+      <ol class="chapters"></ol>
+    </nav>
+
+    <section class="card step-card" aria-live="polite">
+      <div class="step-kicker"><span class="name"></span><span class="count"></span></div>
+      <h2></h2>
+      <div class="step-body"></div>
+      <div class="step-try" hidden></div>
+      <div class="step-dots"></div>
+      <div class="step-nav">
+        <button type="button" id="prev">Back</button>
+        <button type="button" id="next" class="primary">Next</button>
+      </div>
+      <p class="step-keys">← → to move between steps</p>
+    </section>
+  </aside>
+
+  <div class="win-wrap">
+    <div class="win-frame">
+      <div class="win-loading">Opening Slate…</div>
+      <iframe id="win" src="app.html" title="Slate's window, showing the step being explained" tabindex="-1"></iframe>
+    </div>
+    <p class="win-note">Slate's own screens, captured from the app with example data. Nothing here runs, and nothing you type leaves this page.</p>
+  </div>
+</main>
+
+<script type="module" src="../site/js/tour.js?v=20261025c"></script>
+</body>
+</html>

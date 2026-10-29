@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slate — the tools every AI tool gains</title>
+<meta name="description" content="The MCP tools Slate exposes to Claude Code, Codex, Cursor, Gemini and OpenCode — 24 tools over memory, pages, artifacts and apps, your Tasks list, activity, other agents and workspaces, against a workspace that stays on your machine.">
+<link rel="icon" href="../../assets/icon.svg" media="(prefers-color-scheme: light)">
+<link rel="icon" href="../../assets/icon-dark.svg" media="(prefers-color-scheme: dark)">
+
+<meta property="og:title" content="Slate — tool reference">
+<meta property="og:description" content="The 24 MCP tools every AI tool on your machine gains against your workspace.">
+<meta property="og:type" content="website">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../site/css/tokens.css?v=20261025c">
+<link rel="stylesheet" href="../../site/css/base.css?v=20261025c">
+<link rel="stylesheet" href="../../site/css/layout.css?v=20261025c">
+<link rel="stylesheet" href="../../site/css/components.css?v=20261025c">
+<link rel="stylesheet" href="../../site/css/docs.css?v=20261025c">
+
+
+<script>
+  // Identical to index.html's, and identical for the same reason: a theme applied
+  // after first paint is a white flash on every navigation, and this site now has
+  // navigation. The key is shared, so the choice survives moving between pages.
+  try {
+    var t = localStorage.getItem("slate-theme");
+    document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
+  } catch (e) {
+    document.documentElement.dataset.theme = "light";
+  }
+</script>
+</head>
+<body>
+
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="slab-9" viewBox="0 0 9 9">
+      <path d="M 0.655 5.6 L 5.055 3.4 L 8.345 3.4 L 3.945 5.6 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+
+  <header>
+    <a class="back" href="../">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      Documentation
+    </a>
+    <h1>The tools every AI tool gains</h1>
+    <p class="lede">
+      Slate runs an MCP server on your machine. Connect Claude Code, Codex, Cursor, Gemini
+      or OpenCode to it — from setup, or Connect → AI tools — and each of them gains these
+      24 tools against the same workspace. Not a copy each. The same one.
+    </p>
+    <span class="t-count"><b>24</b> tools · five AI tools · one workspace</span>
+  </header>
+
+
+  <section class="reveal">
+    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-teal-500))"><use href="#slab-9"/></svg>Memory</h2>
+    <p class="t-blurb">The two every tool is told to call — <code class="inline">recall</code> at the start of a task, <code class="inline">remember</code> at the end — and the handful that read, correct and tidy what they saved.</p>
+    <div class="card t-group">
+        <div class="t-row">
+          <code class="t-name">recall</code>
+          <p class="t-desc">The one search. On a feature branch it opens with the branch brief, then memories and pages ranked by keyword match, each memory one line with the <code class="inline">ref</code> to cite it by. Marks a memory whose cited code has since changed or gone.</p>
+        </div>
+        <div class="t-row">
+          <code class="t-name">remember</code>
+          <p class="t-desc">Save one typed memory — decision, preference, state, fact or lesson — scoped to the project and deduped against what is known. A near-duplicate strengthens; an update supersedes. Keys and tokens are replaced with <code class="inline">[secret]</code>.</p>
+        </div>
+        <div class="t-row">
+          <code class="t-name">get_memory</code>
+          <p class="t-desc">Read memories in full by ref: the claim, its reason, its citation and whether the cited file changed, who confirmed it, and what it replaced.</p>
+        </div>
+        <div class="t-row">
+          <code class="t-name">list_memories</code>
+          <p class="t-desc">For a tidy you agreed to: the project's memories, oldest first, a hundred at a time.</p>
+        </div>
+        <div class="t-row">
+          <code class="t-name">propose_memory_change</code>
+          <p class="t-desc">Propose a merge, a retirement, a lesson or a skill. Nothing changes until you accept it in Slate, under Memory → Needs review.</p>
+        </div>
+        <div class="t-row">
+          <code class="t-name">record_decision</code>
+          <p class="t-desc">Record a decision with its reasoning, alternatives and confidence. Writes both a memory and a decision page; <code class="inline">recall</code> returns decisions first when a question asks why.</p>
+        </div>
+        <div class="t-row">
+          <code class="t-name">log_mission_progress</code>
+          <p class="t-desc">Append a session summary — decisions, open items — to the branch's Plan page, or the branch page when there is no plan.</p>
+        </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-blue-500))"><use href="#slab-9"/></svg>Pages</h2>
+    <p class="t-blurb">A tool can save a typed document and add to a page. Renaming, moving and trashing are done in the app, where there is an undo.</p>
+    <div class="card t-group">
+        <div class="t-row">
+          <code class="t-name">create_document</code>
+          <p class="t-desc">Create a typed document — plan, design, review, bug report — filled from a template when no Markdown is given. Only after you said yes.</p>
+        </div>
+        <div class="t-row">
+          <code class="t-name">get_page</code>
+          <p class="t-desc">Read one page by id or by target: title, icon, breadcrumb path and body as Markdown.</p>
+        </div>
+        <div class="t-row">
+          <code class="t-name">append_to_page</code>
+          <p class="t-desc">Add Markdown to the end of a page, and say back which page it landed on.</p>
+        </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-amber-500))"><use href="#slab-9"/></svg>Artifacts & apps</h2>
+    <p class="t-blurb">Things a tool makes for you to look at, or to use. Both land in your workspace with every version kept.</p>
+    <div class="card t-group">
+        <div class="t-row">
+          <code class="t-name">publish_artifact</code>
+          <p class="t-desc">Publish an HTML or Markdown page to Slate's Artifacts tab — whole, from a file, or as edits to the newest version. A <code class="inline">live</code> artifact can read its project and still reach no network.</p>
+        </div>
+        <div class="t-row">
+          <code class="t-name">get_artifact</code>
+          <p class="t-desc">Read an artifact before changing it, or list every artifact.</p>
+        </div>
+        <div class="t-row">
+          <code class="t-name">publish_app</code>
+          <p class="t-desc">Build and publish an app — a folder of React files Slate builds and runs in Apps. A build error comes back with file and line; a render failure comes back with what broke.</p>
+        </div>
+        <div class="t-row">
+          <code class="t-name">get_app</code>
+          <p class="t-desc">Read an app before changing it, with the playbook, the SDK it may import and example apps to build from.</p>
+        </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-red-500))"><use href="#slab-9"/></svg>Tasks & activity</h2>
+    <p class="t-blurb">What you owe and what you have been doing, across every tool — assembled from what Slate captured, not from anything you had to log.</p>
+    <div class="card t-group">
+        <div class="t-row">
+          <code class="t-name">my_work</code>
+          <p class="t-desc">Your Tasks list: to-dos overdue or due today, and the open items your tools gave you, each with the key you know it by.</p>
+        </div>
+        <div class="t-row">
+          <code class="t-name">update_my_work</code>
+          <p class="t-desc">Add a to-do, tick one off, rename it, or set a reminder that rings when it comes due.</p>
+        </div>
+        <div class="t-row">
+          <code class="t-name">activity</code>
+          <p class="t-desc">Recent sessions across every tool and project, or the branches you left carrying uncommitted changes and never came back to.</p>
+        </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-teal-500))"><use href="#slab-9"/></svg>Other agents</h2>
+    <p class="t-blurb">When two sessions work in the same project, each one knows about the other.</p>
+    <div class="card t-group">
+        <div class="t-row">
+          <code class="t-name">live_sessions</code>
+          <p class="t-desc">Every AI session running on this computer right now — tool, status, project, branch, what it was asked and the last thing it said.</p>
+        </div>
+        <div class="t-row">
+          <code class="t-name">handoff</code>
+          <p class="t-desc">Leave a note for the other agents in this project, or for one of them. Each sees it once, at the start of its next turn.</p>
+        </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-amber-500))"><use href="#slab-9"/></svg>Workspaces</h2>
+    <p class="t-blurb">The only tools here that read anything other than your own machine. They need a sign-in, they are read-only, and signed out they say so rather than return an empty result that would read as “nobody shared anything”.</p>
+    <div class="card t-group">
+        <div class="t-row">
+          <code class="t-name">recall_workspaces</code>
+          <p class="t-desc">Search what other people published, across every workspace you belong to — their memories and their pages.</p>
+        </div>
+        <div class="t-row">
+          <code class="t-name">workspace_page</code>
+          <p class="t-desc">Read one shared page in full. Read-only — a page belongs to whoever wrote it.</p>
+        </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-blue-500))"><use href="#slab-9"/></svg>AI runs & contract</h2>
+    <p class="t-blurb">The first two only answer inside a session a Slate AI run started; anywhere else they say so.</p>
+    <div class="card t-group">
+        <div class="t-row">
+          <code class="t-name">get_task</code>
+          <p class="t-desc">The AI run's current step, its attempt and the step's instructions — or why it is blocked.</p>
+        </div>
+        <div class="t-row">
+          <code class="t-name">report_task_step</code>
+          <p class="t-desc">Report that step as done, blocked, needing input or failed, with a short summary.</p>
+        </div>
+        <div class="t-row">
+          <code class="t-name">slate_capabilities</code>
+          <p class="t-desc">Handshake the contract: version, supported tools, access levels, approval policies and schema hash.</p>
+        </div>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-teal-500))"><use href="#slab-9"/></svg>Worth knowing</h2>
+
+    <div class="card note">
+      <strong>A tool works in the workspace that owns its folder.</strong> Almost every tool
+      takes an optional <code class="inline">cwd</code>. Slate resolves it to the workspace
+      that owns that folder, so a session in a shared checkout reads and writes
+      <em>that</em> workspace; leave it out and you get Personal.
+    </div>
+
+    <div class="card note">
+      <strong>Pages don't need an id.</strong> <code class="inline">get_page</code> and
+      <code class="inline">append_to_page</code> take a <code class="inline">target</code>
+      instead — a kind, a <code class="inline">cwd</code>, a branch, a doc type — and Slate
+      writes only when it resolves to exactly one page. An ambiguous target is refused.
+    </div>
+
+    <div class="card note">
+      <strong>This is not Slate's only tool list.</strong> These are the tools your own AI
+      tools reach, over MCP. Home and your agents call a second, in-process surface
+      directly, with finer tools of their own. The two differ on purpose —
+      <code class="inline">slate_capabilities</code> means nothing in-process, and
+      renaming, moving and trashing pages are gestures you make in the app.
+    </div>
+
+    <p class="t-blurb" style="margin-top:14px">
+      Every argument and default is in the
+      <a href="../features/mcp-server/tools/">full tool reference</a>, generated from
+      Slate's own docs on every release.
+    </p>
+  </section>
+
+  <section class="reveal">
+    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-green-500))"><use href="#slab-9"/></svg>Try it</h2>
+    <p class="lede" style="font-size:15px; margin-bottom:16px">
+      Install Slate and turn your tools on in its setup. Restart them and every tool above
+      is available — no config file to edit, no path to paste.
+    </p>
+    <a class="cta" href="../../">Install Slate</a>
+  </section>
+
+</div>
+
+<footer>
+  <p>
+    Slate is in alpha. Your data stays on your machine.<br>
+    <a href="../../">Home</a> ·
+    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a> ·
+    <a href="../../install.sh">install.sh</a>
+  </p>
+</footer>
+
+<script type="module" src="../../site/js/docs-page.js?v=20261025c"></script>
+</body>
+</html>

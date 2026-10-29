@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slate — Licensing &amp; Updates</title>
+<meta name="description" content="Free during the alpha, paid soon — and how the Tauri auto-updater installs a new version without interrupting you.">
+<link rel="icon" href="../../../assets/icon.svg" media="(prefers-color-scheme: light)">
+<link rel="icon" href="../../../assets/icon-dark.svg" media="(prefers-color-scheme: dark)">
+
+<meta property="og:title" content="Slate — Licensing &amp; Updates">
+<meta property="og:description" content="Free during the alpha, paid soon — and how the Tauri auto-updater installs a new version without interrupting you.">
+<meta property="og:type" content="article">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../../site/css/tokens.css">
+<link rel="stylesheet" href="../../../site/css/base.css">
+<link rel="stylesheet" href="../../../site/css/layout.css">
+<link rel="stylesheet" href="../../../site/css/components.css">
+<link rel="stylesheet" href="../../../site/css/docs.css">
+<link rel="stylesheet" href="../../../site/css/prose.css">
+
+<script>
+  // Before first paint, never after. See site/README.md — as a module this would run
+  // after the document renders and flash white on every navigation.
+  try {
+    var t = localStorage.getItem("slate-theme");
+    document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
+  } catch (e) {
+    document.documentElement.dataset.theme = "light";
+  }
+</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="slab-9" viewBox="0 0 9 9">
+      <path d="M 0.655 5.6 L 5.055 3.4 L 8.345 3.4 L 3.945 5.6 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="slab-18" viewBox="0 0 18 18">
+      <path d="M 1.31 11.2 L 10.11 6.8 L 16.69 6.8 L 7.89 11.2 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header>
+    <a class="back" href="./">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      Features
+    </a>
+    <h1>Licensing &amp; Updates</h1>
+  </header>
+
+  <article class="prose reveal">
+<h2 id="licensing">Licensing</h2><p>Slate is free during the alpha. There is no licence, no key and no trial timer in it today: nothing in the app asks you to activate anything, and no code in it checks whether you have.</p><p><strong>Slate will become a paid product soon.</strong> Pricing will be announced on the website before it starts, so nobody is charged without warning. Whatever happens to your plan, your workspace stays yours: it is a SQLite file on your machine, and you can always open it and export it.</p><h2 id="auto-updates">Auto-updates</h2><p>Updates run through <strong>Tauri's updater</strong>, wired to <strong>GitHub Releases</strong>.</p><p>Slate checks for a newer version eight seconds after it opens, and again every four hours while it stays open. When it finds one it <strong>downloads it in the background</strong> and tells you it is ready. Nothing is installed at that moment.</p><p>The new version is put in place <strong>when you next quit Slate</strong>, which costs you nothing: the app is closing anyway. If you would rather have it now, the notice has a <strong>Restart now</strong> button. Because Slate hosts running CLI sessions, that button tells you how many are open before you press it. Quitting and <strong>Restart now</strong> treat sessions the same way. A Claude Code session is sent back first: Slate types <code>/bg</code> into it, waits a moment, and it keeps running as a background job. A session from another tool is ended. A session that is already a background job keeps running.</p><p>Nothing restarts on its own, and nothing is installed while you are working.</p><div class="note note-info"><p><strong>About</strong> in Settings shows your version, whether an update is waiting with its full release notes, and a <strong>Check now</strong> button if you don't want to wait for the next automatic check. If a check or an install fails, it says why, with <strong>Try again</strong>. Its Website, Documentation and Source lines are links that open in your browser.</p></div><h3 id="if-slate-wont-start">If Slate won't start</h3><p>If three launches in a row fail to reach a working window, the next one starts in <strong>safe mode</strong>. The server still runs, so the screen can work. Everything else that runs in the background is skipped: startup repairs, the task and agent schedulers, sync, auto-capture, reminders, keep-awake and the check that reconnects your AI tools. You get a single screen that looks for an update at once and installs it. It says &quot;No newer version is published yet.&quot; when there is none, and &quot;Could not check for updates&quot; when the check fails. With Automatic updates off, it keeps showing &quot;Looking for a newer version…&quot;. Your workspace file is never touched by any of this. <strong>Start normally</strong> tries a normal launch, and <strong>Open logs</strong> shows the log folder.</p><h2 id="see-also">See also</h2><ul><li><a href="../platform/">Platform &amp; Availability</a></li><li><a href="../privacy-and-security/">Privacy &amp; Security</a></li></ul>
+  </article>
+</div>
+
+<footer>
+  <p>
+    Slate is in alpha. Your data stays on your machine.<br>
+    <a href="../../../">Home</a> ·
+    <a href="../../../docs/">Docs</a> ·
+    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a>
+  </p>
+</footer>
+
+<script type="module" src="../../../site/js/docs-page.js"></script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slate — AI Tools &amp; Model Providers</title>
+<meta name="description" content="Slate calls its model providers &quot;AI tools&quot; — thin drivers over a locally-installed CLI, so there's no API key to paste and nothing leaks through a raw API.">
+<link rel="icon" href="../../../../assets/icon.svg" media="(prefers-color-scheme: light)">
+<link rel="icon" href="../../../../assets/icon-dark.svg" media="(prefers-color-scheme: dark)">
+
+<meta property="og:title" content="Slate — AI Tools &amp; Model Providers">
+<meta property="og:description" content="Slate calls its model providers &quot;AI tools&quot; — thin drivers over a locally-installed CLI, so there's no API key to paste and nothing leaks through a raw API.">
+<meta property="og:type" content="article">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../../../site/css/tokens.css">
+<link rel="stylesheet" href="../../../../site/css/base.css">
+<link rel="stylesheet" href="../../../../site/css/layout.css">
+<link rel="stylesheet" href="../../../../site/css/components.css">
+<link rel="stylesheet" href="../../../../site/css/docs.css">
+<link rel="stylesheet" href="../../../../site/css/prose.css">
+
+<script>
+  // Before first paint, never after. See site/README.md — as a module this would run
+  // after the document renders and flash white on every navigation.
+  try {
+    var t = localStorage.getItem("slate-theme");
+    document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
+  } catch (e) {
+    document.documentElement.dataset.theme = "light";
+  }
+</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="slab-9" viewBox="0 0 9 9">
+      <path d="M 0.655 5.6 L 5.055 3.4 L 8.345 3.4 L 3.945 5.6 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="slab-18" viewBox="0 0 18 18">
+      <path d="M 1.31 11.2 L 10.11 6.8 L 16.69 6.8 L 7.89 11.2 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header>
+    <a class="back" href="../">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      Back
+    </a>
+    <h1>AI Tools &amp; Model Providers</h1>
+  </header>
+
+  <article class="prose reveal">
+<p>Slate calls its model providers <strong>AI tools</strong>. An AI tool is a thin driver over an AI CLI you already have installed and authenticated on your machine. So there is <strong>no API key to paste into Slate</strong>, and nothing leaves through a raw API endpoint: the AI tool's own CLI makes its model calls, with the auth you already set up for that tool.</p><p>There are five.</p><div class="scroll"><table><thead><tr><th>AI tool</th><th>Label</th><th>Env</th><th>Models</th></tr></thead><tbody><tr><td><code>claude-cli</code></td><td>Claude Code</td><td><code>CLAUDE_CONFIG_DIR</code></td><td><code>claude-sonnet-4-6</code> (default), <code>claude-opus-4-8</code>, <code>claude-haiku-4-5-20251001</code></td></tr><tr><td><code>codex-cli</code></td><td>Codex</td><td><code>CODEX_HOME</code></td><td><code>gpt-5.3-codex</code> (default), <code>gpt-5.2</code> — a fallback only; Slate asks the CLI and lists what the account can actually reach</td></tr><tr><td><code>gemini-cli</code></td><td>Gemini</td><td><code>GEMINI_CLI_HOME</code></td><td><code>gemini-2.5-flash</code> (default), <code>gemini-2.5-pro</code>, <code>gemini-2.0-flash</code> — <strong>needs an API key or a Code Assist licence</strong>, see below</td></tr><tr><td><code>cursor-cli</code></td><td>Cursor</td><td><code>CURSOR_CONFIG_DIR</code></td><td>Whatever your Cursor account offers; <code>cursor-agent --list-models</code> is the live list. When the CLI cannot be asked, <code>auto</code>, <code>gpt-5.3-codex</code> and <code>composer-2.5</code></td></tr><tr><td><code>opencode-cli</code></td><td>OpenCode</td><td>—</td><td>Whatever providers you have logged into; <code>opencode models</code> is the live list</td></tr></tbody></table></div><p>The table is in the order Connect lists the tools.</p><p>Not every AI tool offers the same features. <a href="../tool-features/">Features by AI Tool</a> shows which one has what, and why a gap is there.</p><p>Which AI tools a workspace uses — and the account and default model for each — is set in <a href="../../connect/">Connect → AI tools</a>, and a group, or a project on its own, may override it.</p><p>OpenCode has no documented config-<strong>directory</strong> variable, so it has one account rather than several and the profile picker has nothing to offer it. <code>OPENCODE_CONFIG_DIR</code> only adds agents, commands, modes and plugins onto that one config — it does not relocate the account. Cursor gained <code>CURSOR_CONFIG_DIR</code> on 2026-09-20 and has a profile picker like Claude and Codex now. That is a property of the CLI, not a Slate limit. Slate says so rather than showing a field that would do nothing.</p><p><strong>Gemini needs paid access as of 2026-06-18.</strong> Google stopped serving Gemini CLI for Gemini Code Assist for individuals, Google AI Pro and Google AI Ultra on that date, and directs those users to Antigravity instead. The CLI still works on an API key or a Code Assist Standard/Enterprise licence, and Slate's driver is unchanged — but on a consumer account <code>gemini</code> exits with <code>IneligibleTierError</code> before it reaches Slate, so the Gemini AI tool cannot answer. Verified on this machine 2026-09-02 against Gemini CLI 0.55.1. The other four AI tools are unaffected.</p><h2 id="transport">Transport</h2><p>Model calls are proxied through Rust — <code>src-tauri/src/ai/claude/</code>, <code>ai/gemini_cli.rs</code>, <code>ai/opencode_cli.rs</code>, <code>ai/cursor_cli.rs</code> and <code>ai/codex_cli.rs</code>. Routing through the Rust host dodges the webview's CORS restrictions and keeps auth out of the renderer entirely.</p><p>Every AI tool keeps a warm process across turns in Home. A warm process is sent only your new message; a fresh one — the first turn, after a restart, or after you resume a past conversation — is given the history first. Resuming a conversation always starts a fresh process, so connected tools may sign in again once.</p><p>Claude Code and Codex speak their own protocols. Cursor, OpenCode and Gemini speak the Agent Client Protocol (<code>cursor-agent acp</code>, <code>opencode acp</code>, <code>gemini --acp</code>), in <code>ai/acp/</code>. Through it, Stop ends the turn without killing the process, the model can change mid-conversation, and the approval card appears when the tool asks. Cursor asks for anything outside your own Cursor allowlist. OpenCode normally allows every tool without asking, so Slate starts it with shell commands and edits set to &quot;ask&quot;. Slate answers both by your autonomy setting.</p><p>If a tool does not answer the protocol within 20 seconds, Slate runs it the older way — one process per message — for the rest of that app session. This path is also what runs a agent's unattended turn on Gemini. OpenCode keeps its rule on it: Ask first refuses shell commands and edits, Auto-edit refuses shell commands, and Full auto leaves OpenCode's own default. A one-message process has nobody to answer a card, so an ask there is a refusal. Cursor's one-message process runs pre-approved.</p><p>An agent runs with nobody watching, one process per run. There, Claude and Codex reach the connected MCP tools you set up, and the agent's rules decide each call: reads go on, a call that changes something is held for your answer, and merging, removing and file changes are refused (<a href="../../loop/#what-it-may-do">Agents</a>). Commands and anything that needs more access are still refused.</p><p>Every AI tool's turn is bounded at ten minutes. A CLI that connects and then goes quiet — waiting on an auth callback nobody will complete, or on a model endpoint that will never answer — ends the turn with a timeout you can read, instead of a Home that shows work in flight forever.</p><h2 id="who-runs-the-tool-loop">Who runs the tool loop</h2><p>The AI tool does. When a request is not one of the <a href="../mcp-commands/">curated commands</a>, Slate hands the whole turn to the AI tool's CLI, which loops over its own MCP tools and stops when it is finished. There is <strong>no step cap in Slate for a Home turn</strong>, and none that varies by provider.</p><p>Slate drives no loop of its own. An agent behind Agents makes a fixed set of turns — a pass per place its brief checks, one turn that writes the report, one per prompt step — and the AI tool loops over its own tools inside each of them.</p><p>A run with nobody watching is held to <strong>one spend ceiling of $5 for the whole run</strong>, not one per turn. Slate adds up the cost the AI tool reports and gives each new turn only what is left. When nothing is left, the next turn does not start, and the run stops with a message. The ceiling is a runaway catcher rather than a quota: one turn costs cents, so it never interrupts real work, and what it stops is a turn that keeps re-asking.</p><p>Only Claude Code receives the ceiling as a flag, together with a cap of 30 tool turns for each process it starts and the rest of the Claude catalog as <strong>fallback models</strong>. The fallbacks are tried when the primary model is overloaded, because an agent that fails because a model was busy is an agent that silently did not run. A tool that reports no cost cannot be added up, so Slate counts its turns instead: at most 12 per run. These limits are set when a process starts, so they apply to agents, skill steps and grounding passes, and not to Home, where somebody is looking.</p><p>A step is also bounded by silence rather than age. Every token, tool call, tool result or usage report restarts a 240-second clock, so a step that is still answering keeps going and one that has stopped is ended.</p><p>Generating a skill also hands the AI tool a <strong>JSON schema</strong> rather than only describing the shape in the prompt. Claude Code, Codex and OpenCode enforce it — each through its own one-shot call (<code>--json-schema</code>, <code>turn/start</code>'s <code>outputSchema</code>, <code>opencode serve</code>'s <code>session.prompt</code>); Gemini and Cursor are held to the prose description and their reply is parsed out of the text.</p><h2 id="which-account-an-ai-tool-runs-under">Which account an AI tool runs under</h2><p>An AI tool's CLI keeps its configuration — and its login — in a directory, and you may have several: a work Claude and a personal one. <strong>Which of them an AI tool uses is decided by the workspace it is running in</strong>, not by the machine. Open Connect → AI tools and give each tool the one account it runs under there. A group, or a project on its own, may override the answer for itself.</p><p>That is also what governs sessions you start in a terminal, and what Slate captures. See <a href="../../studio/cli-profiles/">Project environments</a>.</p><h2 id="see-also">See also</h2><ul><li><a href="../">Home</a> — where an AI tool actually gets used.</li><li><a href="../../studio/cli-profiles/">Project environments</a> — which tools a group or project uses, and as whom.</li><li><a href="../../privacy-and-security/">Privacy &amp; Security</a> — why &quot;no API key&quot; also means less to leak.</li></ul>
+  </article>
+</div>
+
+<footer>
+  <p>
+    Slate is in alpha. Your data stays on your machine.<br>
+    <a href="../../../../">Home</a> ·
+    <a href="../../../../docs/">Docs</a> ·
+    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a>
+  </p>
+</footer>
+
+<script type="module" src="../../../../site/js/docs-page.js"></script>
+</body>
+</html>

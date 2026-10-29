@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slate — Curated MCP Commands</title>
+<meta name="description" content="The mechanism behind Home: keyword routing picks one of Slate's own tools, the app prefills known args, and the model fills only the rest.">
+<link rel="icon" href="../../../../assets/icon.svg" media="(prefers-color-scheme: light)">
+<link rel="icon" href="../../../../assets/icon-dark.svg" media="(prefers-color-scheme: dark)">
+
+<meta property="og:title" content="Slate — Curated MCP Commands">
+<meta property="og:description" content="The mechanism behind Home: keyword routing picks one of Slate's own tools, the app prefills known args, and the model fills only the rest.">
+<meta property="og:type" content="article">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../../../site/css/tokens.css">
+<link rel="stylesheet" href="../../../../site/css/base.css">
+<link rel="stylesheet" href="../../../../site/css/layout.css">
+<link rel="stylesheet" href="../../../../site/css/components.css">
+<link rel="stylesheet" href="../../../../site/css/docs.css">
+<link rel="stylesheet" href="../../../../site/css/prose.css">
+
+<script>
+  // Before first paint, never after. See site/README.md — as a module this would run
+  // after the document renders and flash white on every navigation.
+  try {
+    var t = localStorage.getItem("slate-theme");
+    document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
+  } catch (e) {
+    document.documentElement.dataset.theme = "light";
+  }
+</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="slab-9" viewBox="0 0 9 9">
+      <path d="M 0.655 5.6 L 5.055 3.4 L 8.345 3.4 L 3.945 5.6 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="slab-18" viewBox="0 0 18 18">
+      <path d="M 1.31 11.2 L 10.11 6.8 L 16.69 6.8 L 7.89 11.2 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header>
+    <a class="back" href="../">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      Back
+    </a>
+    <h1>Curated MCP Commands</h1>
+  </header>
+
+  <article class="prose reveal">
+<p>A curated command routes a request straight to one of Slate's <strong>own</strong> workspace tools — create a page, search your notes, ask a shared workspace — without the model choosing anything. It is how a small model reliably calls the right tool with the right arguments: by not asking it to do most of that work.</p><h2 id="the-pipeline">The pipeline</h2><pre><code>request
+  → keyword routing      (match the request to a curated command)
+  → resolve the tool     (the workspace tool the command names)
+  → prefill known args   (the app injects everything it already knows)
+  → model fills the rest (structured output — only the unknown fields)
+  → single tool call</code></pre><p>Each step narrows the model's job. By the time the model is invoked it is filling a few blanks in a schema the app already half-completed. &quot;Create a plan about retries&quot; resolves to <code>create_page</code> with <code>doc_type</code> already set, so the only thing left for the model is the title.</p><p>Naming one of your own workspaces outranks the keyword table. &quot;What data do I have in my Apollo workspace&quot; routes to <code>recall_workspaces</code> with the workspace id prefilled.</p><h2 id="structured-output-does-the-constraining">Structured output does the constraining</h2><p>The last step asks the model for JSON matching a schema of the missing fields only, and the app merges what comes back with the arguments it injected. A read-only tool then runs straight away; a tool that writes asks you to approve the call first. Under Auto-edit and Full auto a write runs without asking, except the two that start an agent (create and run), which always ask. See <a href="../#the-ai-tool-asks-before-it-acts">Home</a>.</p><p>The model never has to emit valid tool-call JSON from scratch. It fills a shape.</p><h2 id="the-fallback">The fallback</h2><p>Anything the curated table does not match goes to the AI tool's own CLI, which loops over its own MCP tools and decides when it is done. Slate runs no generic tool loop of its own.</p><h2 id="see-also">See also</h2><ul><li><a href="../">Home</a> — the agent this mechanism powers.</li><li><a href="../connected-tools/">Connected MCP Tools</a> — what the AI tool's CLI reaches when no curated command matches.</li><li><a href="../brains/">AI Tools &amp; Model Providers</a> — the AI tool that runs the tool loop in that case.</li></ul>
+  </article>
+</div>
+
+<footer>
+  <p>
+    Slate is in alpha. Your data stays on your machine.<br>
+    <a href="../../../../">Home</a> ·
+    <a href="../../../../docs/">Docs</a> ·
+    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a>
+  </p>
+</footer>
+
+<script type="module" src="../../../../site/js/docs-page.js"></script>
+</body>
+</html>

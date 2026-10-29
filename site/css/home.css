@@ -1,0 +1,972 @@
+/* The landing page's own furniture, and no other page's: the memory-graph canvas,
+ * the hero, the installer, the feature grid, the connected-tool chips, the loop
+ * demo, and the release strip.
+ *
+ * Requires tokens.css, base.css, layout.css, components.css. */
+
+/* ── The memory graph behind everything ───────────────────────────────
+   Not decoration for its own sake: this is the shape Slate's own memory graph
+   draws — hubs with atoms spoked off them, faint similarity threads between
+   hubs, and a pulse travelling the path a recall takes across projects.
+
+   It draws what the app draws now. A hub is the mark's SLAB, not a circle, and
+   it wears its project's leaf; an atom stays round. That split is ADR 0021's:
+   structural hubs take the logo's shape, atoms are content and stay as they
+   were. */
+#graph {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* The graph is atmosphere and must never win against a sentence. This dims it in the
+   centre band where the text column sits, while leaving it legible out at the edges —
+   cheaper and steadier than trying to tune per-line alpha against unknown content. */
+#veil {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: radial-gradient(
+    ellipse 52% 58% at 50% 46%,
+    rgb(var(--ground) / .92) 0%,
+    rgb(var(--ground) / .74) 42%,
+    rgb(var(--ground) / .30) 68%,
+    transparent 82%
+  );
+}
+
+/* ── Hero ─────────────────────────────────────────────────────────── */
+header { padding: 92px 0 8px; text-align: center; }
+
+.icon-wrap {
+  position: relative;
+  width: 84px;
+  height: 84px;
+  margin: 0 auto 30px;
+  /* 22.6% is the artwork's own corner — icon.svg is a 1024 tile with rx="232".
+     The 4/8/14 scale governs surfaces this page builds; it does not get to
+     re-round the logo. */
+  border-radius: 22.6%;
+  overflow: hidden;
+  box-shadow: var(--tile-shadow);
+  animation: rise .9s var(--ease) both;
+  transition: box-shadow .25s;
+}
+.icon-wrap img { width: 100%; height: 100%; display: block; }
+
+/* No specular sweep here. It used to sit on this tile as a facet catching
+   light, which was the whole idea of the Shard; the mark that replaced it on
+   2026-08-19 has no facets, and a white sweep over an off-white tile is
+   invisible anyway. Both the ::after and its @keyframes were removed. */
+
+h1 {
+  margin: 0 0 14px;
+  font-size: clamp(42px, 8vw, 58px);
+  /* 600 and -0.028em, not 700 and -0.04em: the app sets both on h1 and this is
+     the same headline at a bigger size, not a poster. */
+  font-weight: 600;
+  letter-spacing: -.028em;
+  line-height: 1.12;
+  text-wrap: balance;
+  animation: rise .9s var(--ease) .06s both;
+}
+
+.tagline {
+  margin: 0 auto;
+  max-width: 28ch;
+  font-size: clamp(17px, 3.4vw, 20px);
+  color: rgb(var(--text-muted));
+  letter-spacing: -.01em;
+  text-wrap: balance;
+  animation: rise .9s var(--ease) .13s both;
+}
+
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+
+/* ── Install ──────────────────────────────────────────────────────────
+   Shaped like the app's composer, because it is the same object: the one field
+   on the screen you are meant to use. Panel radius, an alpha edge, and the
+   brand glow as the FOCUS state only — never on at rest, which is the note the
+   composer carries too. */
+.install {
+  margin-top: 44px;
+  animation: rise .9s var(--ease) .2s both;
+}
+
+.cmd {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 8px 8px 4px;
+  background: rgb(var(--surface));
+  border: 1px solid rgb(var(--edge-2));
+  border-radius: var(--r-panel);
+  overflow: hidden;
+  text-align: left;
+  box-shadow: var(--drop);
+  transition: border-color .2s, box-shadow .2s, background-color .25s;
+}
+.cmd:hover,
+.cmd:focus-within {
+  border-color: rgb(var(--brand-500) / .45);
+  box-shadow:
+    0 0 0 1px rgb(var(--brand-400) / .45),
+    0 10px 48px rgb(var(--brand-400) / .28),
+    0 0 100px rgb(var(--brand-400) / .10);
+}
+
+/* A light travelling the top edge — the same "signal moving through" idea as the
+   graph, at the one place on the page that is asking to be used. In the accent
+   now rather than in the text colour: this edge is the app talking, and the app
+   says that in brand. */
+.cmd::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0;
+  height: 1px;
+  width: 38%;
+  background: linear-gradient(90deg, transparent, rgb(var(--trace)), transparent);
+  animation: trace 5.5s linear infinite;
+}
+@keyframes trace {
+  0%   { transform: translateX(-100%); }
+  100% { transform: translateX(360%); }
+}
+
+.cmd code {
+  flex: 1;
+  min-width: 0;
+  padding: 8px 13px;
+  color: rgb(var(--text));
+  font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 13.5px;
+  line-height: 1.5;
+  overflow-x: auto;
+  white-space: nowrap;
+  /* The command is the point of the page — let it scroll rather than wrap into
+     something nobody can copy correctly by eye. The button is the real path.
+     It fades out at that edge rather than being cut: a letter sliced in half
+     reads as a rendering bug, where a fade reads as "there is more". */
+  -webkit-mask-image: linear-gradient(90deg, #000 calc(100% - 28px), transparent);
+  mask-image: linear-gradient(90deg, #000 calc(100% - 28px), transparent);
+}
+.cmd code::-webkit-scrollbar { height: 0; }
+
+/* The app's primary button: brand fill, 4px. The label is white on light and
+   near-black on dark, which is the app's own pair — brand-500 is light enough
+   that white text on it only clears AA once the surrounding ground is dark. */
+.copy {
+  flex: none;
+  height: 32px;
+  padding: 0 14px;
+  border: 0;
+  border-radius: var(--r-ctl);
+  background: rgb(var(--brand-500));
+  color: rgb(var(--btn-fg));
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background .15s, transform .1s;
+}
+.copy:hover  { background: rgb(var(--btn-hover)); }
+.copy:active { transform: scale(.97); }
+/* Done is green because green is the app's "working / went through" leaf, not
+   because a confirmation is conventionally green. */
+.copy.done { background: rgb(var(--leaf-green-500)); color: #fff; }
+
+.under {
+  margin: 15px 2px 0;
+  font-size: 13px;
+  color: rgb(var(--text-faint));
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 13px;
+  justify-content: center;
+}
+.under a { color: rgb(var(--text-muted)); text-decoration-color: rgb(var(--edge-hover)); }
+.under a:hover { color: rgb(var(--text)); }
+
+/* ── Connected tools ──────────────────────────────────────────────────
+   Chips, not pills. `full` is a shape on this scale and not a size, so a
+   pill-shaped control is the one case the radius scale deliberately excludes —
+   the app now fails its own build on one. Kind is carried by a leaf mark at the
+   head rather than by border colour, which is what lets four kinds share one
+   control instead of reading as four different ones. */
+.tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 16px;
+}
+.tool {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 28px;
+  padding: 0 10px;
+  border: 1px solid rgb(var(--edge-2));
+  border-radius: var(--r-ctl);
+  background: rgb(var(--chip-bg));
+  font-size: 12px;
+  color: rgb(var(--text-muted));
+  white-space: nowrap;
+  transition: color .4s, border-color .4s, background-color .25s;
+}
+/* Unregistered, the mark is neutral; registering lights it into the tool's own
+   leaf. The chip does not change shape or gain a colour of its own — only the
+   mark does, which is the point of putting the hue there. */
+.tool .leaf { color: rgb(var(--text-faint)); transition: color .4s; }
+.tool.lit { color: rgb(var(--text)); border-color: rgb(var(--edge-hover)); }
+.tool.lit .leaf { color: rgb(var(--leaf)); }
+
+.tools-note { margin: 0; font-size: 14px; color: rgb(var(--text-muted)); }
+
+
+/* == The loop =========================================================
+   What Slate claims is not a screen. It is an event that happens BETWEEN two
+   tools on two different days, and no frame of the app contains it: a
+   screenshot of the memory list is a list, and the reader still has to be told
+   what put it there and who read it back. So this section does not show the
+   product, it shows the event — what you typed on the left, what Slate holds
+   because of it on the right.
+
+   Nothing below invents a surface. The frame is the one `.card`, the pane heads
+   are the section-label treatment already defined above, and the fact row is the
+   app's own `components/memory/FactRow` — badge, text, then the metaline of real
+   columns (`confidence`, `uses_count`). A demo drawn in a visual language the
+   product does not use is a drawing of a different product. */
+.demo-frame {
+  /* Panes go edge to edge, so the card's own padding is wrong here and the
+     hairline between them is the card's edge showing through a 1px grid gap —
+     one border instead of two that have to agree. */
+  padding: 0;
+  overflow: hidden;
+  display: grid;
+  gap: 1px;
+  background: rgb(var(--edge));
+}
+@media (min-width: 700px) { .demo-frame { grid-template-columns: 1.15fr 1fr; } }
+
+.demo-pane {
+  position: relative;
+  background: rgb(var(--surface));
+  padding: 13px 15px 15px;
+  transition: background-color .25s;
+}
+
+/* The app's SectionLabel again, one step down: this is a landmark inside a card
+   rather than a landmark on the page, and it should not compete with the h2
+   above it. */
+.demo-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 10px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+  color: rgb(var(--text-faint));
+}
+.demo-head svg { flex: none; }
+
+/* -- Left pane: the terminal ---------------------------------------- */
+.demo-term {
+  font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 11.5px;
+  line-height: 1.7;
+  color: rgb(var(--text-muted));
+}
+.demo-term p { margin: 0; }
+
+/* Every line is in the DOM from the first frame and only its opacity moves, so
+   the pane reserves its full height up front. A demo that grows as it plays
+   shoves the rest of the page down mid-sentence. */
+.demo-line {
+  opacity: 0;
+  transform: translateY(3px);
+  transition: opacity .3s var(--ease), transform .3s var(--ease);
+}
+.demo-line.on { opacity: 1; transform: none; }
+
+/* The one thing that DOES change width while it plays is the text being typed,
+   so the lines that wrap are told how tall they will end up. 2 = two lines at
+   this size in the narrowest pane this layout produces. */
+.demo-line[data-lines="2"] { min-height: 40px; }
+
+.demo-sess {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 5px !important;
+  font-family: "Geist", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: .11em;
+  text-transform: uppercase;
+  color: rgb(var(--text-faint));
+}
+/* Each tool keeps the leaf it already wears in the chips further down the page.
+   A tool that is red in one section and blue in another is two tools. */
+.demo-sess svg { flex: none; }
+.demo-when {
+  margin-left: auto;
+  font-weight: 400;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.demo-prompt { color: rgb(var(--text)); }
+.demo-prompt > .demo-chev { color: rgb(var(--text-faint)); }
+
+/* The caret only exists while something is being typed into this line, which is
+   also the only time it is true. */
+[data-type].typing::after {
+  content: "";
+  display: inline-block;
+  width: 6px;
+  height: 1em;
+  margin-left: 1px;
+  vertical-align: text-bottom;
+  background: rgb(var(--brand-500));
+  animation: caret 1s steps(1) infinite;
+}
+@keyframes caret { 50% { opacity: 0; } }
+
+.demo-call { color: rgb(var(--text)); }
+/* The tool-call bullet is brand: a call is the app doing something, and the app
+   says that in the accent — the same reason the recall pulse on the background
+   graph is brand and not neutral. */
+.demo-bullet { color: rgb(var(--brand-500)); }
+.demo-args { color: rgb(var(--text-faint)); }
+
+.demo-res { padding-left: 15px; }
+.demo-ok { color: rgb(var(--ok-fg)); }
+.demo-quote { color: rgb(var(--text)); }
+
+.demo-answer {
+  margin-top: 6px !important;
+  color: rgb(var(--text));
+}
+
+.demo-day {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 13px 0 11px !important;
+  font-family: "Geist", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 11px;
+  color: rgb(var(--text-faint));
+}
+.demo-day::before,
+.demo-day::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: rgb(var(--edge-2));
+}
+
+/* -- Right pane: Slate ----------------------------------------------- */
+.demo-stats {
+  margin: 0 0 8px;
+  font-size: 11.5px;
+  color: rgb(var(--text-faint));
+  font-variant-numeric: tabular-nums;
+}
+
+/* The app's RecentSection: a bordered well with a caption strip on top, then
+   rows. Same caption, because it is the sentence that says what the list is. */
+.demo-list {
+  border: 1px solid rgb(var(--edge));
+  border-radius: var(--r-card);
+  overflow: hidden;
+}
+.demo-list-head {
+  margin: 0;
+  padding: 6px 11px;
+  background: rgb(var(--surface-2));
+  border-bottom: 1px solid rgb(var(--edge));
+  font-size: 11px;
+  line-height: 1.45;
+  color: rgb(var(--text-faint));
+  transition: background-color .25s, border-color .25s;
+}
+
+/* The empty state and the row it becomes occupy the SAME grid cell, so the list
+   does not resize when one replaces the other. The app's own empty copy. */
+.demo-stack { display: grid; }
+.demo-stack > * { grid-area: 1 / 1; }
+.demo-empty {
+  margin: 0;
+  padding: 18px 12px;
+  text-align: center;
+  font-size: 12px;
+  color: rgb(var(--text-faint));
+  transition: opacity .3s var(--ease);
+}
+.demo-empty.gone { opacity: 0; }
+
+/* The LIST is what appears, not the row: the app renders the page-level empty
+   state INSTEAD of the whole RecentSection well, so a bordered well with an
+   empty row inside it is a composite that exists on no screen. Both states sit
+   in the same grid cell, so one replaces the other without resizing. */
+.demo-list {
+  opacity: 0;
+  transform: translateY(3px);
+  transition: opacity .35s var(--ease), transform .35s var(--ease), border-color .25s;
+}
+.demo-list.on { opacity: 1; transform: none; }
+
+.demo-atom {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 10px 11px;
+  transition: box-shadow .35s var(--ease);
+}
+/* A recall that lands on this atom rings it in brand for as long as the read
+   takes. Nothing about the atom itself changes — it is being read, not edited. */
+.demo-atom.hit { box-shadow: inset 0 0 0 1px rgb(var(--brand-500) / .55), 0 0 22px rgb(var(--brand-400) / .18); }
+
+.demo-kind {
+  flex: none;
+  margin-top: 1px;
+  padding: 2px 6px;
+  border-radius: var(--r-ctl);
+  background: rgb(var(--atom-bg));
+  color: rgb(var(--atom-fg));
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: .06em;
+  text-transform: uppercase;
+  transition: background-color .25s, color .25s;
+}
+.demo-atom-text {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.45;
+  color: rgb(var(--text));
+}
+.demo-meta {
+  margin: 3px 0 0;
+  font-size: 10.5px;
+  color: rgb(var(--text-faint));
+  font-variant-numeric: tabular-nums;
+}
+
+/* -- The transfer ----------------------------------------------------- */
+/* One dot, arcing from the call that wrote the memory to the row that now holds
+   it — and back the other way when a different tool reads it. It is positioned
+   from the real geometry of both ends at run time rather than from a hand-drawn
+   path, which is what lets the panes sit side by side on a laptop and stacked on
+   a phone without the animation knowing or caring which. */
+.demo-spark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 7px;
+  height: 7px;
+  margin: -3.5px 0 0 -3.5px;
+  border-radius: 9999px;
+  background: rgb(var(--brand-500));
+  box-shadow: 0 0 12px 3px rgb(var(--brand-400) / .5);
+  opacity: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.demo-caption {
+  margin: 14px 2px 0;
+  font-size: 13.5px;
+  line-height: 1.6;
+  color: rgb(var(--text-muted));
+  text-wrap: pretty;
+}
+.demo-caption strong { color: rgb(var(--text)); font-weight: 600; }
+
+
+/* == Release provenance ================================================
+   The page said nothing about whether anyone still works on this. For an
+   un-notarized alpha installed with `curl | bash`, that silence is the whole
+   ballgame: a visitor cannot tell a project shipping every few days from one
+   abandoned in July. So the version, its date and the release count are read
+   live from the GitHub API at load — never typed into this file, which would
+   be correct on the day it shipped and a lie the week after.
+
+   Everything here is progressive enhancement. The strip and the section are
+   `hidden` in the markup and only ever un-hidden by a successful fetch, so a
+   rate-limited or offline reader sees the page without them rather than
+   seeing an empty box or a spinner that never resolves. */
+.rel {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 13px;
+  padding: 4px 10px 4px 7px;
+  border: 1px solid rgb(var(--edge-2));
+  border-radius: var(--r-ctl);
+  background: rgb(var(--chip-bg));
+  font-size: 12px;
+  color: rgb(var(--text-muted));
+  text-decoration: none;
+  transition: color .15s, border-color .15s, background-color .25s;
+}
+.rel:hover { color: rgb(var(--text)); border-color: rgb(var(--edge-hover)); }
+/* Green is the app's "working / went through" leaf, and a live release is the
+   one place on this page where that is literally what is being reported. It is
+   a dot and not a slab: at 6px the 2:1 offset is under the slab floor, and the
+   rule there is to use a circle rather than shallow the angle. */
+.rel .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background: rgb(var(--leaf-green-500));
+  box-shadow: 0 0 0 3px rgb(var(--leaf-green-500) / .15);
+}
+/* The parts are built as separate spans so the separator can take its own
+   colour, which means the gap has to live on their container — .rel's own gap
+   only reaches its direct children, and all of these are inside one of them. */
+.rel span[id] { display: inline-flex; align-items: center; gap: 7px; }
+.rel .sep { color: rgb(var(--text-faint)); }
+
+/* -- What's new ------------------------------------------------------- */
+/* The changelog is written one bold lead sentence per change — its own header
+   says "write it for the person deciding whether to click". Those leads are
+   therefore already the summary, and this lifts them verbatim rather than
+   paraphrasing a text that was authored for exactly this reader. */
+.news { display: grid; gap: 10px; }
+.news-item { display: flex; gap: 11px; align-items: flex-start; }
+.news-item .tick { flex: none; margin-top: 6px; color: rgb(var(--leaf-amber-500)); }
+.news-item p { margin: 0; font-size: 14px; color: rgb(var(--text-muted)); }
+.news-ver {
+  display: block;
+  margin-bottom: 2px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: rgb(var(--text-faint));
+}
+
+/* -- Integrity -------------------------------------------------------- */
+/* A block of shell in a note card. It is the one place on the page that asks
+   the reader to run something OTHER than the install line, so it is styled as
+   a well rather than as a second composer — the composer shape is reserved for
+   the command this page is actually for. */
+pre.shell {
+  margin: 10px 0 0;
+  padding: 10px 12px;
+  background: rgb(var(--surface-2));
+  border-radius: var(--r-card);
+  font-family: "Geist Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 12px;
+  line-height: 1.6;
+  color: rgb(var(--text-muted));
+  overflow-x: auto;
+  transition: background-color .25s;
+}
+pre.shell .c { color: rgb(var(--text-faint)); }
+
+
+/* -- The feature grid -------------------------------------------------- */
+.features { display: grid; gap: 14px; }
+@media (min-width: 620px) { .features { grid-template-columns: 1fr 1fr; gap: 14px; } }
+
+/* A card leads with its tile, and the hue lives THERE — not on the border. That
+   is the whole reason the surface above can be neutral: a card can say what kind
+   of thing it is without claiming the whole object is an alert. */
+.feature { display: flex; gap: 13px; align-items: flex-start; }
+.well {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: var(--r-card);
+  background: rgb(var(--surface-2));
+  border: 1px solid rgb(var(--edge));
+  transition: background-color .25s, border-color .25s;
+}
+.feature h3 { margin: 0 0 4px; font-size: 15px; font-weight: 600; letter-spacing: -.014em; line-height: 1.3; }
+.feature p  { margin: 0; font-size: 14px; color: rgb(var(--text-muted)); }
+
+
+/* Motion is decoration here — every one of these is safe to simply not happen.
+   The shared half of this (scroll-behavior, .reveal) lives in site.css, because
+   both pages reveal sections; only this page's own animations are listed here. */
+@media (prefers-reduced-motion: reduce) {
+  .icon-wrap, h1, .tagline, .install { animation: none; }
+  .cmd::before { animation: none; opacity: 0; }
+  .demo-line, .demo-list, .demo-atom, .demo-empty { transition: none; }
+  .demo-spark { display: none; }
+}
+
+/* ══ The sales page (2026-10) ═════════════════════════════════════════════
+   The page used to be a single 720px column of text. It now leads with the
+   product: real screens captured from the running app (assets/shots/), a wider
+   measure for the sections that pair copy with a screen, and the install
+   caveats moved down into the FAQ where a reader who wants them finds them. */
+
+.wrap-wide { position: relative; z-index: 1; max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+.home .wrap { padding: 0 24px; }
+
+/* ── Top bar ───────────────────────────────────────────────────────────── */
+.topnav {
+  position: sticky; top: 0; z-index: 10;
+  backdrop-filter: saturate(1.4) blur(12px); -webkit-backdrop-filter: saturate(1.4) blur(12px);
+  background: rgb(var(--ground) / .72);
+  border-bottom: 1px solid rgb(var(--edge));
+}
+.topnav-in { max-width: 1120px; margin: 0 auto; padding: 10px 24px; display: flex; align-items: center; gap: 22px; }
+.topnav a { font-size: 13.5px; color: rgb(var(--text-muted)); text-decoration: none; }
+.topnav a:hover { color: rgb(var(--text)); }
+.topnav .brand { display: inline-flex; align-items: center; gap: 9px; font-weight: 600; font-size: 15px; color: rgb(var(--text)); letter-spacing: -.01em; }
+.topnav .brand img { border-radius: 22.6%; }
+.topnav .grow { flex: 1; }
+.topnav .nav-cta {
+  color: rgb(var(--btn-fg)); background: rgb(var(--brand-600)); padding: 6px 13px; border-radius: var(--r-ctl); font-weight: 500;
+}
+.topnav .nav-cta:hover { color: rgb(var(--btn-fg)); background: rgb(var(--brand-500)); }
+.nav-theme .theme { position: static; }
+@media (max-width: 640px) { .topnav .hide-sm { display: none; } .topnav-in { gap: 14px; padding: 10px 16px; } }
+
+/* ── Hero ──────────────────────────────────────────────────────────────── */
+header.hero { padding: 72px 0 0; text-align: center; }
+.hero-in { display: flex; flex-direction: column; align-items: center; }
+.hero h1 { font-size: clamp(38px, 6.4vw, 66px); line-height: 1.04; letter-spacing: -.034em; margin: 18px 0 18px; font-weight: 650; }
+.grad {
+  background: linear-gradient(92deg, rgb(var(--brand-500)), rgb(var(--leaf-teal-500)) 70%, rgb(var(--leaf-green-500)));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.hero .lede, .close .lede {
+  max-width: 640px; margin: 0 auto; font-size: clamp(16px, 2.2vw, 19px); line-height: 1.55;
+  color: rgb(var(--text-muted)); text-wrap: pretty; animation: rise .9s var(--ease) .13s both;
+}
+.lede strong { color: rgb(var(--text)); font-weight: 600; }
+.hero .install, .close .install { margin-top: 32px; width: 100%; max-width: 720px; }
+.hero .rel { margin: 0; animation: rise .9s var(--ease) both; }
+.hero-ctas { margin-top: 14px; display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; }
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 16px;
+  border-radius: var(--r-card); border: 1px solid rgb(var(--edge-2)); background: rgb(var(--surface));
+  color: rgb(var(--text)); font-size: 14.5px; font-weight: 500; text-decoration: none;
+  box-shadow: inset 0 1px 0 rgb(var(--lit)), var(--drop); transition: border-color .2s, transform .2s;
+}
+.btn-ghost:hover { border-color: rgb(var(--edge-hover)); }
+.btn-ghost svg { transition: transform .2s var(--ease); }
+.btn-ghost:hover svg { transform: translateX(3px); }
+.hero .under { margin-top: 16px; }
+
+/* ── The product, in a window ──────────────────────────────────────────── */
+.showcase { margin-top: 56px; }
+.show-tabs { display: inline-flex; gap: 2px; padding: 3px; border-radius: var(--r-card); background: rgb(var(--surface-2)); margin-bottom: 18px; flex-wrap: wrap; justify-content: center; }
+.show-tabs button {
+  border: 0; background: none; font: inherit; font-size: 13.5px; font-weight: 500; color: rgb(var(--text-muted));
+  padding: 6px 14px; border-radius: var(--r-ctl); cursor: pointer;
+}
+.show-tabs button:hover { color: rgb(var(--text)); }
+.show-tabs button[aria-selected="true"] { background: rgb(var(--surface)); color: rgb(var(--text)); box-shadow: var(--drop); }
+.shot {
+  position: relative; margin: 0; border-radius: 12px; overflow: hidden; background: #0a0c10;
+  box-shadow: 0 30px 80px rgb(10 12 16 / .28), 0 10px 24px rgb(10 12 16 / .16), 0 0 0 1px rgb(10 12 16 / .14);
+}
+:root[data-theme="dark"] .shot { box-shadow: 0 30px 80px rgb(0 0 0 / .6), 0 0 0 1px rgb(255 255 255 / .09); }
+.shot img { display: block; width: 100%; height: auto; transition: opacity .35s var(--ease); }
+.shot img.fading { opacity: .15; }
+.shot .lights { position: absolute; top: 1.7%; left: 1.3%; display: flex; gap: 6px; z-index: 1; }
+.shot .lights i { width: 11px; height: 11px; border-radius: 50%; background: #ff5f57; }
+.shot .lights i:nth-child(2) { background: #febc2e; }
+.shot .lights i:nth-child(3) { background: #28c840; }
+.shot-hero { box-shadow: 0 40px 120px rgb(var(--brand-500) / .22), 0 30px 80px rgb(10 12 16 / .3), 0 0 0 1px rgb(10 12 16 / .14); }
+.show-cap { margin: 16px auto 0; max-width: 620px; font-size: 14px; color: rgb(var(--text-muted)); min-height: 2.9em; }
+
+/* ── Works with ────────────────────────────────────────────────────────── */
+.works { padding-top: 56px; text-align: center; }
+.works-h { margin: 0 0 18px; font-size: 13px; color: rgb(var(--text-faint)); }
+.works-row { display: flex; justify-content: center; flex-wrap: wrap; gap: 12px 34px; }
+.tool-mark { display: inline-flex; align-items: center; gap: 9px; font-size: 16px; font-weight: 600; color: rgb(var(--text)); letter-spacing: -.01em; }
+.tool-mark svg { width: 22px; height: 22px; color: rgb(var(--text)); }
+
+/* ── Shared section type ───────────────────────────────────────────────── */
+.kicker {
+  display: flex; align-items: center; gap: 7px; margin: 0 0 14px;
+  font-size: 11.5px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: rgb(var(--text-faint));
+}
+h2.big, h2.mid {
+  display: block; text-transform: none; letter-spacing: -.028em; color: rgb(var(--text)); font-weight: 650; text-wrap: balance;
+}
+h2.big { font-size: clamp(30px, 4.4vw, 46px); line-height: 1.08; margin: 0 0 22px; }
+h2.mid { font-size: clamp(26px, 3.2vw, 34px); line-height: 1.12; margin: 0 0 16px; }
+.home section { padding-top: 120px; }
+
+/* ── The problem ───────────────────────────────────────────────────────── */
+.pains { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 34px; }
+.pain { padding: 22px; border-radius: var(--r-panel); background: rgb(var(--surface)); border: 1px solid rgb(var(--edge)); box-shadow: inset 0 1px 0 rgb(var(--lit)), var(--drop); }
+.pain h3 { margin: 0 0 8px; font-size: 17px; letter-spacing: -.016em; }
+.pain p { margin: 0; font-size: 14.5px; line-height: 1.55; color: rgb(var(--text-muted)); }
+.answer { margin: 34px 0 0; max-width: 780px; font-size: clamp(18px, 2.3vw, 22px); line-height: 1.5; color: rgb(var(--text-muted)); letter-spacing: -.01em; }
+.answer strong { color: rgb(var(--text)); font-weight: 600; }
+
+/* ── Feature rows ──────────────────────────────────────────────────────── */
+.feat-in { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 56px; align-items: center; }
+.feat.flip .feat-in { grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); }
+.feat.flip .feat-copy { order: 2; }
+.feat-copy > p { margin: 0 0 18px; font-size: 16px; line-height: 1.6; color: rgb(var(--text-muted)); }
+.ticks { list-style: none; margin: 0 0 22px; padding: 0; display: grid; gap: 10px; }
+.ticks li { display: flex; gap: 10px; font-size: 14.5px; line-height: 1.5; color: rgb(var(--text-muted)); }
+.ticks li strong { color: rgb(var(--text)); font-weight: 600; }
+.ticks svg { flex: none; width: 16px; height: 16px; margin-top: 3px; color: rgb(var(--leaf-green-500)); }
+.more { display: inline-flex; align-items: center; gap: 6px; font-size: 14.5px; font-weight: 500; color: rgb(var(--brand-600)); text-decoration: none; }
+:root[data-theme="dark"] .more { color: rgb(var(--brand-400)); }
+.more:hover svg { transform: translateX(3px); }
+.more svg { transition: transform .2s var(--ease); }
+#demo { padding-top: 64px; }
+
+/* ── Three smaller ─────────────────────────────────────────────────────── */
+.trio { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+.trio-card {
+  display: block; text-decoration: none; padding: 12px 12px 18px; border-radius: var(--r-panel);
+  background: rgb(var(--surface)); border: 1px solid rgb(var(--edge)); box-shadow: inset 0 1px 0 rgb(var(--lit)), var(--drop);
+  transition: transform .25s var(--ease), border-color .25s;
+}
+.trio-card:hover { transform: translateY(-3px); border-color: rgb(var(--edge-hover)); }
+.trio-card img { display: block; width: 100%; height: auto; border-radius: 8px; margin-bottom: 14px; background: #0a0c10; }
+.trio-card h3 { margin: 0 6px 6px; font-size: 16px; color: rgb(var(--text)); letter-spacing: -.014em; }
+.trio-card p { margin: 0 6px; font-size: 14px; line-height: 1.5; color: rgb(var(--text-muted)); }
+
+/* ── How it works ──────────────────────────────────────────────────────── */
+.how-steps { list-style: none; margin: 34px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; counter-reset: none; }
+.how-steps li { padding: 24px; border-radius: var(--r-panel); border: 1px solid rgb(var(--edge)); background: rgb(var(--surface)); box-shadow: inset 0 1px 0 rgb(var(--lit)), var(--drop); }
+.how-steps .num {
+  display: inline-grid; place-items: center; width: 30px; height: 30px; border-radius: 50%;
+  background: rgb(var(--brand-500) / .12); color: rgb(var(--brand-600)); font-weight: 600; font-size: 14px; margin-bottom: 14px;
+}
+:root[data-theme="dark"] .how-steps .num { color: rgb(var(--brand-400)); }
+.how-steps h3 { margin: 0 0 6px; font-size: 17px; letter-spacing: -.016em; }
+.how-steps p { margin: 0; font-size: 14.5px; line-height: 1.55; color: rgb(var(--text-muted)); }
+
+/* ── Local-first ───────────────────────────────────────────────────────── */
+.trust-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px 32px; margin-top: 34px; }
+.trust-grid h3 { margin: 0 0 6px; font-size: 16px; letter-spacing: -.014em; padding-top: 14px; border-top: 2px solid rgb(var(--leaf-green-500) / .55); }
+.trust-grid p { margin: 0; font-size: 14.5px; line-height: 1.55; color: rgb(var(--text-muted)); }
+.trust-more { margin: 30px 0 0; font-size: 14.5px; }
+
+/* ── FAQ ───────────────────────────────────────────────────────────────── */
+.faq details { border-top: 1px solid rgb(var(--edge-2)); }
+.faq details:last-of-type { border-bottom: 1px solid rgb(var(--edge-2)); }
+.faq summary {
+  list-style: none; cursor: pointer; padding: 18px 34px 18px 0; position: relative;
+  font-size: 16.5px; font-weight: 600; letter-spacing: -.012em; color: rgb(var(--text));
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after {
+  content: ""; position: absolute; right: 6px; top: 50%; width: 9px; height: 9px; margin-top: -6px;
+  border-right: 2px solid rgb(var(--text-faint)); border-bottom: 2px solid rgb(var(--text-faint));
+  transform: rotate(45deg); transition: transform .25s var(--ease);
+}
+.faq details[open] summary::after { transform: rotate(-135deg); margin-top: -1px; }
+.faq details > p, .faq details > pre { margin: 0 0 18px; font-size: 15px; line-height: 1.6; color: rgb(var(--text-muted)); }
+.faq details > pre { font-size: 12.5px; }
+
+/* ── Closing ───────────────────────────────────────────────────────────── */
+.close { padding-bottom: 20px; }
+.close-in { text-align: center; display: flex; flex-direction: column; align-items: center; }
+.close-in > img { border-radius: 22.6%; box-shadow: var(--tile-shadow); margin-bottom: 26px; }
+.close h2.big { margin-bottom: 14px; }
+
+/* ── Narrow ────────────────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .feat-in, .feat.flip .feat-in { grid-template-columns: minmax(0, 1fr); gap: 28px; }
+  .feat.flip .feat-copy { order: 0; }
+  .pains, .how-steps, .trio { grid-template-columns: minmax(0, 1fr); }
+  .trust-grid { grid-template-columns: repeat(2, 1fr); }
+  .home section { padding-top: 84px; }
+}
+@media (max-width: 560px) {
+  .wrap-wide, .home .wrap { padding: 0 16px; }
+  header.hero { padding-top: 44px; }
+  .trust-grid { grid-template-columns: minmax(0, 1fr); }
+  .shot .lights { display: none; }
+  .show-tabs { flex-wrap: nowrap; overflow-x: auto; max-width: 100%; scrollbar-width: none; }
+  .show-tabs button { padding: 6px 10px; font-size: 13px; white-space: nowrap; }
+}
+
+/* ── The proof: 7% → 76% ───────────────────────────────────────────────── */
+.home .proof { padding-top: 96px; }
+.proof-in {
+  display: grid; grid-template-columns: 1fr auto 1fr; gap: 18px 40px; align-items: center;
+  padding: 40px 44px; border-radius: var(--r-panel);
+  background: rgb(var(--surface)); border: 1px solid rgb(var(--edge));
+  box-shadow: inset 0 1px 0 rgb(var(--lit)), var(--drop);
+}
+.proof-num { display: flex; flex-direction: column; gap: 6px; }
+.proof-num .n { font-size: clamp(56px, 9vw, 96px); font-weight: 650; letter-spacing: -.045em; line-height: .95; font-variant-numeric: tabular-nums; }
+.proof-num .n.dim { color: rgb(var(--text-faint)); }
+.proof-num .l { font-size: 15.5px; line-height: 1.45; color: rgb(var(--text-muted)); max-width: 30ch; }
+.proof-num .l em { font-style: normal; color: rgb(var(--text)); font-weight: 600; }
+.proof-arrow { color: rgb(var(--text-faint)); }
+.proof-note { grid-column: 1 / -1; margin: 10px 0 0; padding-top: 18px; border-top: 1px solid rgb(var(--edge)); font-size: 13.5px; color: rgb(var(--text-faint)); }
+
+/* ── The loop ──────────────────────────────────────────────────────────── */
+.loop { list-style: none; margin: 40px 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; position: relative; }
+.loop li { padding: 22px; border-radius: var(--r-panel); background: rgb(var(--surface)); border: 1px solid rgb(var(--edge)); box-shadow: inset 0 1px 0 rgb(var(--lit)), var(--drop); }
+.loop-n {
+  display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; margin-bottom: 14px;
+  font-size: 13px; font-weight: 650; color: #fff;
+  background: linear-gradient(135deg, rgb(var(--brand-500)), rgb(var(--leaf-teal-500)));
+}
+.loop h3 { margin: 0 0 8px; font-size: 16.5px; letter-spacing: -.016em; }
+.loop p { margin: 0; font-size: 14.5px; line-height: 1.55; color: rgb(var(--text-muted)); }
+.name-note { margin: 26px 0 0; font-size: 14px; color: rgb(var(--text-faint)); font-style: italic; }
+
+@media (max-width: 900px) {
+  .loop { grid-template-columns: repeat(2, 1fr); }
+  .proof-in { grid-template-columns: minmax(0, 1fr); padding: 28px 24px; }
+  .proof-arrow { transform: rotate(90deg); }
+}
+@media (max-width: 560px) { .loop { grid-template-columns: minmax(0, 1fr); } }
+
+/* ══ The mark, one leaf at a time ══════════════════════════════════════════
+   The page's brand device: Slate's five-leaf mark, where each of the five places
+   owns one leaf. A mark lights the leaves named in its data-on and leaves the
+   rest grey. The leaf colours are registered properties so a leaf lighting up
+   fades in instead of snapping. Leaf → place: blue Home, red Sessions, teal
+   Memory, amber Tasks, green Agents. */
+@property --lf-red   { syntax: "<color>"; inherits: true; initial-value: #c8ccd6; }
+@property --lf-amber { syntax: "<color>"; inherits: true; initial-value: #c8ccd6; }
+@property --lf-teal  { syntax: "<color>"; inherits: true; initial-value: #c8ccd6; }
+@property --lf-blue  { syntax: "<color>"; inherits: true; initial-value: #c8ccd6; }
+@property --lf-green { syntax: "<color>"; inherits: true; initial-value: #c8ccd6; }
+.mk {
+  --off: rgb(var(--n-300) / .75);
+  --lf-red: var(--off); --lf-amber: var(--off); --lf-teal: var(--off); --lf-blue: var(--off); --lf-green: var(--off);
+  transition: --lf-red .6s var(--ease), --lf-amber .6s var(--ease), --lf-teal .6s var(--ease), --lf-blue .6s var(--ease), --lf-green .6s var(--ease);
+  flex: none;
+}
+:root[data-theme="dark"] .mk { --off: rgb(var(--n-600)); }
+.mk[data-on~="red"]   { --lf-red: #FE6455; }
+.mk[data-on~="amber"] { --lf-amber: #FEB206; }
+.mk[data-on~="teal"]  { --lf-teal: #28B097; }
+.mk[data-on~="blue"]  { --lf-blue: #3977E4; }
+.mk[data-on~="green"] { --lf-green: #31B17C; }
+#mark5 .lf-red { fill: var(--lf-red); }
+#mark5 .lf-amber { fill: var(--lf-amber); }
+#mark5 .lf-teal { fill: var(--lf-teal); }
+#mark5 .lf-blue { fill: var(--lf-blue); }
+#mark5 .lf-green { fill: var(--lf-green); }
+.mk path { fill: inherit; }
+
+/* The mark's family: each place's own icon, built from the same leaves (the app's
+   public/assets/family). The leaves use the same registered colours, so a family mark
+   lights and greys exactly like the five-leaf mark. */
+[id^="fam-"] .lf-red { fill: var(--lf-red); }
+[id^="fam-"] .lf-amber { fill: var(--lf-amber); }
+[id^="fam-"] .lf-teal { fill: var(--lf-teal); }
+[id^="fam-"] .lf-blue { fill: var(--lf-blue); }
+[id^="fam-"] .lf-green { fill: var(--lf-green); }
+
+/* Tabs carry their place's mark. */
+.show-tabs button { display: inline-flex; align-items: center; gap: 8px; }
+.show-tabs .mk { width: 18px; height: 18px; transition: --lf-red .6s, --lf-amber .6s, --lf-teal .6s, --lf-blue .6s, --lf-green .6s; }
+/* As in the app's rail: grey until it is the one you are on. */
+.show-tabs button:not([aria-selected="true"]):not(:hover) .fam {
+  --lf-red: var(--off); --lf-amber: var(--off); --lf-teal: var(--off); --lf-blue: var(--off); --lf-green: var(--off);
+}
+
+/* Each pillar opens with its mark and its number. */
+.pillar-k { display: flex; align-items: center; gap: 12px; margin: 0 0 16px; }
+.pillar-k span { display: flex; flex-direction: column; line-height: 1.2; }
+.pillar-k b { font-size: 15px; font-weight: 650; letter-spacing: -.01em; color: rgb(var(--text)); }
+.pillar-k i { font-style: normal; font-size: 11.5px; letter-spacing: .12em; text-transform: uppercase; color: rgb(var(--text-faint)); font-weight: 600; }
+.feat-copy kbd { font: 500 12px var(--mono, ui-monospace, monospace); padding: 1px 6px; border-radius: 4px; border: 1px solid rgb(var(--edge-2)); background: rgb(var(--surface)); color: rgb(var(--text)); }
+
+/* The payoff. */
+.one-in { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 64px; align-items: center; }
+.one-mark { display: grid; place-items: center; padding: 30px; border-radius: 28px;
+  background: radial-gradient(60% 60% at 50% 45%, rgb(var(--brand-500) / .12), transparent 70%); }
+.mk-hero { width: min(300px, 70%); height: auto; aspect-ratio: 362 / 430; filter: drop-shadow(0 24px 48px rgb(10 12 16 / .18)); }
+.one-copy > p { margin: 0 0 22px; font-size: 17px; line-height: 1.6; color: rgb(var(--text-muted)); max-width: 56ch; }
+.one-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 12px; }
+.one-list li { display: flex; align-items: center; gap: 12px; font-size: 15px; color: rgb(var(--text-muted)); }
+.one-list .mk { width: 22px; height: 22px; }
+.one-list b { color: rgb(var(--text)); font-weight: 600; min-width: 140px; }
+@media (max-width: 900px) {
+  .one-in { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+  .mk-hero { width: 180px; }
+}
+@media (prefers-reduced-motion: reduce) { .mk, .show-tabs .mk { transition: none; } }
+
+/* ── Hero: five places as cards ────────────────────────────────────────── */
+.show-tabs {
+  display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; width: 100%;
+  padding: 0; background: none; margin-bottom: 22px;
+}
+.show-tabs button {
+  display: flex; align-items: center; gap: 12px; text-align: left; padding: 14px 14px;
+  border-radius: var(--r-panel); border: 1px solid rgb(var(--edge)); background: rgb(var(--surface));
+  box-shadow: inset 0 1px 0 rgb(var(--lit)), var(--drop); transition: border-color .25s, transform .25s var(--ease), box-shadow .25s;
+}
+.show-tabs button:hover { border-color: rgb(var(--edge-hover)); transform: translateY(-2px); }
+.show-tabs button[aria-selected="true"] { border-color: rgb(var(--brand-500) / .55); box-shadow: 0 0 0 3px rgb(var(--brand-500) / .12), var(--drop); }
+.show-tabs .mk { width: 26px; height: 31px; opacity: 1; }
+.show-tabs button:not([aria-selected="true"]) .mk { --lf-red: var(--off); --lf-amber: var(--off); --lf-teal: var(--off); --lf-blue: var(--off); --lf-green: var(--off); }
+.show-tabs button:not([aria-selected="true"]):hover .mk[data-on~="red"] { --lf-red: #FE6455; }
+.show-tabs button:not([aria-selected="true"]):hover .mk[data-on~="amber"] { --lf-amber: #FEB206; }
+.show-tabs button:not([aria-selected="true"]):hover .mk[data-on~="teal"] { --lf-teal: #28B097; }
+.show-tabs button:not([aria-selected="true"]):hover .mk[data-on~="blue"] { --lf-blue: #3977E4; }
+.show-tabs button:not([aria-selected="true"]):hover .mk[data-on~="green"] { --lf-green: #31B17C; }
+.show-tabs b { display: block; font-size: 15px; font-weight: 650; color: rgb(var(--text)); letter-spacing: -.01em; }
+.show-tabs small { display: block; font-size: 12.5px; color: rgb(var(--text-faint)); margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+@media (max-width: 900px) {
+  .show-tabs { display: flex; overflow-x: auto; scrollbar-width: none; padding: 2px 2px 6px; }
+  .show-tabs::-webkit-scrollbar { display: none; }
+  .show-tabs button { flex: none; min-width: 180px; }
+}
+
+/* ── The story: a pinned mark that assembles beside the five places ───── */
+.story { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 64px; padding-top: 120px; }
+.story-mark {
+  position: sticky; top: calc(50vh - 200px); align-self: start; height: 400px;
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px;
+}
+.big-mark { width: 220px; height: auto; overflow: visible; }
+.big-mark .lf {
+  fill: rgb(var(--n-300) / .55); transform-box: fill-box; transform-origin: center;
+  transition: fill .7s var(--ease), transform .9s var(--ease), opacity .7s, filter .7s;
+}
+:root[data-theme="dark"] .big-mark .lf { fill: rgb(var(--n-700)); }
+.big-mark .lf.lit { fill: var(--c); }
+.big-mark .lf.now { filter: drop-shadow(0 0 22px var(--c)); }
+.story-cap { margin: 0; text-align: center; min-height: 3em; }
+.story-cap b { display: block; font-size: 22px; font-weight: 650; letter-spacing: -.02em; color: rgb(var(--text)); }
+.story-cap span { font-size: 12px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: rgb(var(--text-faint)); }
+.story-steps { display: flex; flex-direction: column; gap: 110px; padding-bottom: 40px; }
+.step { min-height: 64vh; display: flex; flex-direction: column; justify-content: center; }
+.step .feat-copy { max-width: 620px; }
+.step .feat-copy > p:not(.pillar-k) { margin: 0 0 18px; font-size: 16.5px; line-height: 1.6; color: rgb(var(--text-muted)); }
+.step .shot { margin-top: 30px; }
+.step { opacity: .35; transition: opacity .6s var(--ease); }
+.step.now, .step.seen { opacity: 1; }
+@media (max-width: 1000px) {
+  .story { grid-template-columns: minmax(0, 1fr); padding-top: 84px; }
+  .story-mark { display: none; }
+  .story-steps { gap: 84px; }
+  .step { min-height: 0; opacity: 1; }
+}
+.proof-how { grid-column: 1 / -1; margin-top: 10px; padding-top: 20px; border-top: 1px solid rgb(var(--edge)); }
+.proof-h { margin: 0 0 12px; font-size: 11.5px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: rgb(var(--text-faint)); }
+.proof-how ul { margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px 28px; }
+.proof-how li { font-size: 14px; line-height: 1.55; color: rgb(var(--text-muted)); padding-left: 14px; position: relative; }
+.proof-how li::before { content: ""; position: absolute; left: 0; top: .6em; width: 5px; height: 5px; border-radius: 50%; background: rgb(var(--brand-500)); }
+.proof-how b { color: rgb(var(--text)); font-weight: 600; }
+.proof-caveat { margin: 16px 0 0; font-size: 13px; color: rgb(var(--text-faint)); font-style: italic; }
+@media (max-width: 900px) { .proof-how ul { grid-template-columns: minmax(0, 1fr); } }

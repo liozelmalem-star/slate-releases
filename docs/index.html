@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slate — documentation</title>
+<meta name="description" content="Install Slate, connect your AI tools, and read the manual: sessions, shared memory, Home, agents, apps, Tasks, Toolkit and workspaces.">
+<link rel="icon" href="../assets/icon.svg" media="(prefers-color-scheme: light)">
+<link rel="icon" href="../assets/icon-dark.svg" media="(prefers-color-scheme: dark)">
+
+<meta property="og:title" content="Slate — documentation">
+<meta property="og:description" content="Install Slate, connect your AI tools, and read the manual: sessions, shared memory, Home, agents, apps, Tasks, Toolkit and workspaces.">
+<meta property="og:type" content="website">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../site/css/tokens.css?v=20261025c">
+<link rel="stylesheet" href="../site/css/base.css?v=20261025c">
+<link rel="stylesheet" href="../site/css/layout.css?v=20261025c">
+<link rel="stylesheet" href="../site/css/components.css?v=20261025c">
+<link rel="stylesheet" href="../site/css/docs.css?v=20261025c">
+
+<script>
+  // Before first paint, never after. Duplicated on every page on purpose: loaded
+  // as a module it would run AFTER the document renders, and a returning
+  // dark-mode reader would get a white flash on every navigation. Four lines is
+  // the cost of not having a build step.
+  try {
+    var t = localStorage.getItem("slate-theme");
+    document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
+  } catch (e) {
+    document.documentElement.dataset.theme = "light";
+  }
+</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="slab-9" viewBox="0 0 9 9">
+      <path d="M 0.655 5.6 L 5.055 3.4 L 8.345 3.4 L 3.945 5.6 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+    </symbol>
+    <!-- 18px: the tile a section card leads with, from inscribedSlab(8). -->
+    <symbol id="slab-18" viewBox="0 0 18 18">
+      <path d="M 1.31 11.2 L 10.11 6.8 L 16.69 6.8 L 7.89 11.2 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header>
+    <a class="back" href="../">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      Slate
+    </a>
+    <h1>Documentation</h1>
+    <p class="lede">
+      Slate is a personal AI workspace that lives on your machine — the sessions your AI
+      tools run, a memory every one of them can read and write, agents that work inside
+      rules you set, and nested pages in a block editor. All of it in SQLite files you own.
+    </p>
+  </header>
+
+  <section class="reveal">
+    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-teal-500))"><use href="#slab-9"/></svg>Start here</h2>
+    <div class="d-grid">
+      <a class="card d-card" href="../tour/">
+        <span class="d-tile" style="color:rgb(var(--leaf-blue-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
+        <span class="d-body">
+          <span class="d-title">The guided tour</span>
+          <span class="d-sub">Every place in Slate, step by step, in Slate's own window — what it is for and how to use it.</span>
+        </span>
+        <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+      </a>
+      <a class="card d-card" href="overview/getting-started/">
+        <span class="d-tile" style="color:rgb(var(--leaf-teal-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
+        <span class="d-body">
+          <span class="d-title">Install and get started</span>
+          <span class="d-sub">One command, then a four-step setup — Welcome, AI tool, Connect, Project — and your first request on Home.</span>
+        </span>
+        <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+      </a>
+      <a class="card d-card" href="overview/">
+        <span class="d-tile" style="color:rgb(var(--leaf-blue-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
+        <span class="d-body">
+          <span class="d-title">Overview</span>
+          <span class="d-sub">What Slate is in one page — the memory layer, the places, and what stays on your computer.</span>
+        </span>
+        <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+      </a>
+      <a class="card d-card" href="overview/concepts/">
+        <span class="d-tile" style="color:rgb(var(--leaf-amber-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
+        <span class="d-body">
+          <span class="d-title">Core concepts</span>
+          <span class="d-sub">The six ideas the rest of the manual assumes: pages, typed documents, shared memory, AI tools, Toolkit and workspaces.</span>
+        </span>
+        <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+      </a>
+      <a class="card d-card" href="connect/">
+        <span class="d-tile" style="color:rgb(var(--leaf-green-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
+        <span class="d-body">
+          <span class="d-title">Connecting your AI tools</span>
+          <span class="d-sub">Claude Code, Codex, Gemini, Cursor and OpenCode — what Slate writes when you turn one on, how to do it by hand, and how to check it is live.</span>
+        </span>
+        <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-blue-500))"><use href="#slab-9"/></svg>The manual</h2>
+    <div class="d-grid">
+      <a class="card d-card" href="features/">
+        <span class="d-tile" style="color:rgb(var(--leaf-blue-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
+        <span class="d-body">
+          <span class="d-title">Features</span>
+          <span class="d-sub">Every part of the shipped product, one page each — Home, Sessions, Memory, Agents, Apps, Tasks, Toolkit, workspaces, privacy.</span>
+        </span>
+        <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+      </a>
+      <a class="card d-card" href="features/memory/">
+        <span class="d-tile" style="color:rgb(var(--leaf-teal-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
+        <span class="d-body">
+          <span class="d-title">Memory</span>
+          <span class="d-sub">How sessions are captured, how recall and remember work, and how to correct and tidy what your tools saved.</span>
+        </span>
+        <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+      </a>
+      <a class="card d-card" href="features/loop/">
+        <span class="d-tile" style="color:rgb(var(--leaf-red-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
+        <span class="d-body">
+          <span class="d-title">Agents</span>
+          <span class="d-sub">Work that runs for you on a trigger, inside rules you set — and the thread where you answer it.</span>
+        </span>
+        <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+      </a>
+      <a class="card d-card" href="mcp/">
+        <span class="d-tile" style="color:rgb(var(--leaf-amber-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
+        <span class="d-body">
+          <span class="d-title">The MCP tool surface</span>
+          <span class="d-sub">All 24 tools your AI tools gain against your workspace — memory, pages, artifacts and apps, Tasks, activity — grouped by what they are for.</span>
+        </span>
+        <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+      </a>
+      <a class="card d-card" href="features/privacy-and-security/">
+        <span class="d-tile" style="color:rgb(var(--leaf-blue-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
+        <span class="d-body">
+          <span class="d-title">Privacy & security</span>
+          <span class="d-sub">What stays on your computer, the four exceptions that can leave it, and which of them you can switch off.</span>
+        </span>
+        <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+      </a>
+      <a class="card d-card" href="legal/">
+        <span class="d-tile" style="color:rgb(var(--leaf-amber-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
+        <span class="d-body">
+          <span class="d-title">Legal</span>
+          <span class="d-sub">Terms of use and the privacy policy.</span>
+        </span>
+        <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-red-500))"><use href="#slab-9"/></svg>Housekeeping</h2>
+    <div class="d-grid">
+      <a class="card d-card" href="features/licensing/">
+        <span class="d-tile" style="color:rgb(var(--leaf-red-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
+        <span class="d-body">
+          <span class="d-title">Updates</span>
+          <span class="d-sub">How a new version downloads in the background and installs when you next quit — and safe mode if a launch fails.</span>
+        </span>
+        <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+      </a>
+      <a class="card d-card" href="overview/uninstalling/">
+        <span class="d-tile" style="color:rgb(var(--leaf-amber-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
+        <span class="d-body">
+          <span class="d-title">Uninstalling</span>
+          <span class="d-sub">One command that removes Slate and takes it back out of your AI tools, keeping your workspace unless you ask.</span>
+        </span>
+        <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+      </a>
+    </div>
+  </section>
+
+  <section class="reveal">
+    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-blue-500))"><use href="#slab-9"/></svg>Don't have it yet</h2>
+    <p class="lede" style="font-size:15px; margin-bottom:16px">
+      One command, about thirty seconds, macOS, Apple Silicon or Intel.
+    </p>
+    <a class="cta" href="../">Install Slate</a>
+  </section>
+</div>
+
+<footer>
+  <p>
+    Slate is in alpha. Your data stays on your machine.<br>
+    <a href="../">Home</a> ·
+    <a href="../docs/">Docs</a> ·
+    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a>
+  </p>
+</footer>
+
+<script type="module" src="../site/js/docs-page.js?v=20261025c"></script>
+</body>
+</html>

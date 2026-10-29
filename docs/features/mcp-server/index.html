@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slate — Slate as an MCP Server</title>
+<meta name="description" content="Slate's second identity — a Node stdio MCP server that exposes your workspace and memory to any AI tool, backed by a shared recall/remember contract.">
+<link rel="icon" href="../../../assets/icon.svg" media="(prefers-color-scheme: light)">
+<link rel="icon" href="../../../assets/icon-dark.svg" media="(prefers-color-scheme: dark)">
+
+<meta property="og:title" content="Slate — Slate as an MCP Server">
+<meta property="og:description" content="Slate's second identity — a Node stdio MCP server that exposes your workspace and memory to any AI tool, backed by a shared recall/remember contract.">
+<meta property="og:type" content="article">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../../site/css/tokens.css">
+<link rel="stylesheet" href="../../../site/css/base.css">
+<link rel="stylesheet" href="../../../site/css/layout.css">
+<link rel="stylesheet" href="../../../site/css/components.css">
+<link rel="stylesheet" href="../../../site/css/docs.css">
+<link rel="stylesheet" href="../../../site/css/prose.css">
+
+<script>
+  // Before first paint, never after. See site/README.md — as a module this would run
+  // after the document renders and flash white on every navigation.
+  try {
+    var t = localStorage.getItem("slate-theme");
+    document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
+  } catch (e) {
+    document.documentElement.dataset.theme = "light";
+  }
+</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="slab-9" viewBox="0 0 9 9">
+      <path d="M 0.655 5.6 L 5.055 3.4 L 8.345 3.4 L 3.945 5.6 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="slab-18" viewBox="0 0 18 18">
+      <path d="M 1.31 11.2 L 10.11 6.8 L 16.69 6.8 L 7.89 11.2 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header>
+    <a class="back" href="./">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      Features
+    </a>
+    <h1>Slate as an MCP Server</h1>
+  </header>
+
+  <article class="prose reveal">
+<p>Slate ships a <strong>Model Context Protocol (MCP) server</strong> that exposes your workspace and memory to <em>any</em> AI tool you use. Claude Code, Cursor, Codex, Gemini, OpenCode — connect them to Slate, and they all read and write the same long-term memory. The notes and decisions one tool writes are recalled by the next.</p><h2 id="what-it-is-technically">What it is, technically</h2><p>The server is the <code>@slate/mcp</code> package. It imports <code>@slate/server</code> directly as a library, so there is no HTTP hop, and it speaks JSON-RPC over stdio, the standard MCP transport. It ships as a <strong>Node SEA sidecar binary</strong>, so the machine using it needs no Node install.</p><h2 id="the-recall-remember-contract">The recall / remember contract</h2><p>The server sends every connected model a standing instruction to follow this rhythm. Claude Code shows a server's instructions only up to 2,048 characters, so the instruction is kept inside that, and each tool's own description carries the detail:</p><ul><li><strong>Start of a task</strong> — when no Slate brief has opened the session and no direct tool answers the request, call <code>recall({ query: &quot;current branch goal and context&quot;, cwd })</code> to load prior decisions, project conventions and other memories, and the active branch brief.</li><li><strong>As it works</strong> — <code>record_decision</code> keeps a decision and its reason, and at a milestone the agent asks whether to save a plan, review, test plan, bug report or design, calling <code>create_document</code> only after a yes. It lists the refs of the memories that shaped its work in <code>used</code>, never in its reply to you. When a memory's <code>citation</code> says <code>changed</code>, it reads the code first and, if the memory is wrong, calls <code>remember</code> with <code>replaces</code> naming it.</li><li><strong>End of a task</strong> — the agent must call <code>log_mission_progress</code> once before its final reply. It saves at most two memories, and only what will change how a future agent acts; most tasks save none. One claim per memory, with its why and any numbers in <code>reason</code>.</li></ul><p>How those two verbs rank, stay silent, and dedupe is <a href="../memory/recall-remember/">Recall &amp; Remember</a>; this page is about the server that carries them.</p><p>Two rules the contract states plainly. A client must never call a mutating tool to discover whether Slate is connected — <code>slate_capabilities</code> is the read-only way to check. And when a write targets an existing page, its id must come from a prior Slate result or from you.</p><h2 id="the-shared-half">The shared half</h2><p><code>recall</code> searches the workspace on this machine that the working folder belongs to, and it never leaves the machine. In a shared workspace that includes what teammates published and your copy already holds. <code>recall_workspaces</code> and <code>workspace_page</code> search the cloud, across every shared <a href="../workspaces/">workspace</a> you belong to, including ones this machine has not added, so a client can answer &quot;has anyone here already solved this?&quot; without anyone being asked in person.</p><p>They are separate verbs rather than a widened <code>recall</code>: private and shared knowledge have different trust and different blast radius, and a tool that quietly mixed them would make it impossible to tell which you got. Both are read-only, and Row Level Security in Postgres — not this server — decides what they can see.</p><h2 id="capability-discovery">Capability discovery</h2><p>The contract is versioned. Each contract carries an id of the form <code>slate-mcp-contract/DATE</code>; the current one is <code>slate-mcp-contract/2026-10-12</code>. A client calls <code>slate_capabilities</code> to inspect the contract version, supported tools, access levels, approval policies and schema hash before doing anything.</p><h2 id="see-also">See also</h2><ul><li><a href="tools/">Tool Reference</a> — all 26 tools, grouped, with their arguments.</li><li><a href="connecting/">Connecting Your AI Tools</a> — wiring Claude Code, Cursor, Codex, Gemini and OpenCode to Slate.</li><li><a href="../workspaces/">Workspaces</a> — what <code>recall_workspaces</code> reads, and how pages get there.</li><li><a href="../agent/connected-tools/">Connected MCP Tools</a> — the reverse direction, where Slate's Home is the client.</li></ul>
+  </article>
+</div>
+
+<footer>
+  <p>
+    Slate is in alpha. Your data stays on your machine.<br>
+    <a href="../../../">Home</a> ·
+    <a href="../../../docs/">Docs</a> ·
+    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a>
+  </p>
+</footer>
+
+<script type="module" src="../../../site/js/docs-page.js"></script>
+</body>
+</html>

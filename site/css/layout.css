@@ -1,0 +1,52 @@
+/* Layout — the page skeleton: the measure, the section rhythm, the section label,
+ * the scroll reveal, and the footer.
+ *
+ * A page composes these; it does not restate them. Requires tokens.css. */
+
+.wrap {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+/* ── Sections ─────────────────────────────────────────────────────────
+   The app's SectionLabel, to the digit: 11px, 600, uppercase, 0.14em, on the
+   neutral's faint tone — and carrying a small slab in the section's leaf. A
+   section header is a structural landmark, which is where a quiet brand mark
+   belongs; at 9px across four sections it stays punctuation rather than paint. */
+section { padding-top: 66px; }
+
+h2 {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 22px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: rgb(var(--text-faint));
+}
+h2 svg { flex: none; }
+
+/* Revealed on scroll by IntersectionObserver; the class is added, never removed,
+   so nothing re-animates when you scroll back up. */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity .7s var(--ease), transform .7s var(--ease);
+}
+.reveal.in { opacity: 1; transform: none; }
+
+footer {
+  position: relative;
+  z-index: 1;
+  padding-top: 68px;
+  text-align: center;
+  font-size: 12.5px;
+  color: rgb(var(--text-faint));
+  line-height: 1.9;
+}
+footer a { color: rgb(var(--text-faint)); }
+footer a:hover { color: rgb(var(--text-muted)); }

@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slate — Activity &amp; Analytics</title>
+<meta name="description" content="A view of your AI work over time — sessions, per-project activity, and the charts and stats built from them.">
+<link rel="icon" href="../../../assets/icon.svg" media="(prefers-color-scheme: light)">
+<link rel="icon" href="../../../assets/icon-dark.svg" media="(prefers-color-scheme: dark)">
+
+<meta property="og:title" content="Slate — Activity &amp; Analytics">
+<meta property="og:description" content="A view of your AI work over time — sessions, per-project activity, and the charts and stats built from them.">
+<meta property="og:type" content="article">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../../site/css/tokens.css">
+<link rel="stylesheet" href="../../../site/css/base.css">
+<link rel="stylesheet" href="../../../site/css/layout.css">
+<link rel="stylesheet" href="../../../site/css/components.css">
+<link rel="stylesheet" href="../../../site/css/docs.css">
+<link rel="stylesheet" href="../../../site/css/prose.css">
+
+<script>
+  // Before first paint, never after. See site/README.md — as a module this would run
+  // after the document renders and flash white on every navigation.
+  try {
+    var t = localStorage.getItem("slate-theme");
+    document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
+  } catch (e) {
+    document.documentElement.dataset.theme = "light";
+  }
+</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="slab-9" viewBox="0 0 9 9">
+      <path d="M 0.655 5.6 L 5.055 3.4 L 8.345 3.4 L 3.945 5.6 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="slab-18" viewBox="0 0 18 18">
+      <path d="M 1.31 11.2 L 10.11 6.8 L 16.69 6.8 L 7.89 11.2 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header>
+    <a class="back" href="./">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      Features
+    </a>
+    <h1>Activity &amp; Analytics</h1>
+  </header>
+
+  <article class="prose reveal">
+<p>Slate captures your AI sessions as you work. The <strong>Activity</strong> page is where that history becomes something you can read: what you did today, which projects you touched, and how your work is trending. Everything here is derived from data already on your machine.</p><h2 id="the-dashboard">The dashboard</h2><p>The page opens on the range you picked in the side panel. One sentence says what those days came to — &quot;You ran 12 sessions over 6h, mostly in slate (8 of 12). Busiest at 14:00.&quot; — and a second line names the one comparison worth a look, such as &quot;Look at: more sessions than the 30 days before (21), and 1h 5m more time in them.&quot; The &quot;mostly in&quot; part shows only when one project has half the sessions or more. Under it, four cards compare the range with the same number of days just before it: <strong>sessions</strong>, <strong>session time</strong>, <strong>memories learned</strong> and <strong>active days</strong>. On 30d, &quot;−9 vs the 30 days before&quot; compares the last 30 days with the 30 before them. <strong>All</strong> has no days before it, so its cards show no change. A card also shows no change when the history does not reach back to the days before (see below).</p><p>Below them is a board of widgets. These are on it out of the box:</p><div class="scroll"><table><thead><tr><th>Widget</th><th>What it tells you</th></tr></thead><tbody><tr><td>Timeline</td><td>The last 7 days, newest first: sessions, memories learned, finished AI runs, agent reports and artifacts. A day with nothing in it is left out. Today and yesterday are open; older days are one line each. An open day lists up to 6 sessions and 4 memories, with &quot;+N more&quot; for the rest. A session sits under the day it was last active, so one started last week and worked in today is under today. It moves on at midnight even if the page stays open. Click a day in <strong>Last 13 weeks</strong> to see that day instead (grouped by the day each session started, as the heatmap counts)</td></tr><tr><td>Sessions over time</td><td>The trend, over the range you picked</td></tr><tr><td>Last 13 weeks</td><td>A calendar grid of activity density. Its caption counts sessions this week and last week. It always shows the last 13 weeks and ignores the range</td></tr><tr><td>Time of day · Weekday</td><td>When during the day and the week you work. <strong>Peak</strong> names the busiest hour, such as 14:00</td></tr><tr><td>By tool, By project, By branch</td><td>Sessions ranked by the tool that ran them and the project and branch they ran in. Project and branch show the top 8</td></tr></tbody></table></div><p><strong>Show records</strong>, under the timeline, adds Records: your busiest day, best week (the best 7 days in the last year), longest focus (your longest single session), favourite tool and top model. <strong>Hide records</strong> takes them away again.</p><p><strong>Momentum</strong> is not on the board at first. Add it from <strong>Add widget</strong>. It lists up to 6 projects with their session count in the range and the change against the same number of days before it, such as &quot;+3&quot;. It shows nothing on <strong>All</strong>. Its rows are not clickable.</p><p>Your <a href="../apps/#widgets">widgets</a>, cards you described in Apps → <strong>Widgets</strong> for Activity, are on the board as soon as they are built. A widget sits at the top of the side column and shows what the board shows: the range and the project picked in the side panel. Its <strong>⋯</strong> menu opens it in Apps, where you change it, or takes it off the board. A widget that has not drawn within 10 seconds says so instead, with a link to Apps.</p><p><strong>Add widget</strong> puts a card back on the board: a widget you took off, or one of the built-in cards not on the board: Sessions (the full list), Momentum, By model, Memories, Quick stats, and four readings of the memory layer — Do sessions save memory?, Is memory used?, Does memory help? and <a href="../memory/decisions-and-facts/#is-the-corpus-still-worth-trusting">Are memories reachable?</a>.</p><p><strong>Edit</strong>, on the page, reorders widgets and hides the ones you don't want; while it is on, <strong>Reset layout</strong> puts the board back as it came. The side panel holds what the board is about: the <strong>project picker</strong> (All projects, or one project), the <strong>range</strong> (7d, 30d, 90d, 1y, All) and <strong>saved views</strong>, where the current range, filter and project can be kept under a name. The view the board is showing is marked. <strong>Remove view</strong> takes one off the list and offers <strong>Undo</strong>. Drag across the trend chart to zoom into a narrower window. Clicking a row in any breakdown filters the whole board to it.</p><h2 id="where-the-numbers-come-from">Where the numbers come from</h2><p>From each AI tool's own files, read by Slate's watcher: Claude Code's, Codex's, Gemini's and Cursor's session transcripts, and OpenCode's database. A session is one conversation the tool gave an id, counted once however many files or branches it touched. It counts when you typed into it and the model answered. Runs nobody typed into (<code>claude -p</code>, <code>codex exec</code>), Slate's own runs and subagent files are not sessions. Days are your local calendar days. Session time is the time between your turns, with any pause over 15 minutes left out.</p><p>Slate keeps what it reads in <code>machine.db</code> on this computer, and keeps it after the tool removes its own files — Claude Code removes transcripts after 30 days — so the history here outlasts the tool's. Nothing from it is ever shared, even from a shared workspace.</p><p>Slate's in-app agent and the <code>activity</code> tool over the MCP server read the same sessions, so all three agree.</p><h3 id="history-from-before-slate-kept-it">History from before Slate kept it</h3><p>Codex and OpenCode keep their sessions for good, so their history is exact from the first session they recorded. Claude Code removes transcripts after 30 days, but keeps every prompt you typed in its prompt history. For a Claude Code session whose transcript is already gone, Slate reads that history: the session, its day, its folder and its prompts — within about 8% of the transcript count, measured where both exist — and nothing about tokens, cost or active time, which the history does not hold.</p><p>So a range reaching back before an account's first transcript shows its sessions and active days. A session known only from the prompt history shows &quot;not recorded&quot; for its tokens. The session-time card compares with the days before only when both stretches have exact records; otherwise it shows no change. The other cards compare as long as any record reaches back that far.</p><p><code>yarn usage:verify</code> recounts every AI tool file still on disk, independently of the reader that filled the history, and checks the history holds the same numbers per account.</p><h2 id="see-also">See also</h2><ul><li><a href="../memory/session-capture/">Session Capture</a></li><li><a href="../memory/">Memory</a></li><li><a href="../loop/">Agents</a></li></ul>
+  </article>
+</div>
+
+<footer>
+  <p>
+    Slate is in alpha. Your data stays on your machine.<br>
+    <a href="../../../">Home</a> ·
+    <a href="../../../docs/">Docs</a> ·
+    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a>
+  </p>
+</footer>
+
+<script type="module" src="../../../site/js/docs-page.js"></script>
+</body>
+</html>

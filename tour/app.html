@@ -1,0 +1,41 @@
+<!doctype html>
+<!-- The window inside the tour. The class and the custom properties on <html> are the ones
+     the running app sets on its own root (dark mode, the neutral and brand ramps), copied by
+     the capture so the screens below read them exactly as Slate does. -->
+<html lang="en" class="dark" style="--n-50: 244 246 250; --n-100: 233 235 239; --n-200: 213 216 224; --n-300: 171 177 190; --n-400: 127 132 145; --n-500: 88 93 105; --n-600: 62 66 77; --n-700: 43 47 57; --n-800: 28 31 39; --n-900: 18 21 27; --n-950: 10 12 16; --brand-50: 241 244 249; --brand-100: 224 232 245; --brand-200: 188 207 241; --brand-300: 136 172 236; --brand-400: 89 141 232; --brand-500: 44 110 226; --brand-600: 27 89 197; --brand-700: 26 74 158; --brand-800: 24 62 129; --brand-900: 23 52 105;">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1320">
+<meta name="robots" content="noindex">
+<title>Slate</title>
+<link rel="stylesheet" href="app.css?v=20261025c">
+<style>
+  /* The tour's own furniture, and nothing of the app's. */
+  html, body { overflow: hidden; width: 1320px; height: 860px; }
+  #screen { position: absolute; inset: 0; }
+  #overlay { position: fixed; inset: 0; pointer-events: none; z-index: 2147483000; }
+  .tour-ring {
+    position: absolute; border-radius: 10px;
+    border: 2px solid rgb(var(--brand-400));
+    box-shadow: 0 0 0 4px rgb(var(--brand-400) / .22);
+    transition: left .35s, top .35s, width .35s, height .35s;
+  }
+  .tour-ring.is-dim { box-shadow: 0 0 0 4px rgb(var(--brand-400) / .22), 0 0 0 200vmax rgb(0 0 0 / .42); }
+  .tour-ring.is-pulse::after {
+    content: ""; position: absolute; inset: -2px; border-radius: inherit;
+    border: 2px solid rgb(var(--brand-400)); animation: tour-pulse 1.6s ease-out infinite;
+  }
+  @keyframes tour-pulse { from { opacity: .9; transform: scale(1); } to { opacity: 0; transform: scale(1.08); } }
+  @media (prefers-reduced-motion: reduce) { .tour-ring.is-pulse::after { animation: none; } .tour-ring { transition: none; } }
+  /* Nothing in a picture of a control should look draggable or selectable by accident. */
+  #screen * { cursor: default; }
+  #screen button, #screen a, #screen [role=button], #screen [role=tab] { cursor: pointer; }
+  #screen input, #screen textarea { cursor: text; }
+</style>
+</head>
+<body>
+<div id="screen"></div>
+<div id="overlay"></div>
+<script type="module" src="app.js?v=20261025c"></script>
+</body>
+</html>

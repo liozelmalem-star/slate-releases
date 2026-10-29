@@ -1,0 +1,66 @@
+/* Base — the document itself: reset, typography, the canvas aura, the focus ring,
+ * scrollbars, and the shared half of the reduced-motion contract.
+ *
+ * Everything here applies to every page and belongs to no component. Requires
+ * tokens.css. */
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+/* Every transition on the page inherits the one curve, so a `transition` that
+   forgets to name a timing function is correct instead of accidental. */
+* { transition-timing-function: var(--ease); }
+
+body {
+  margin: 0;
+  padding: 0 24px 96px;
+  background: rgb(var(--ground));
+  color: rgb(var(--text));
+  font-family: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  font-feature-settings: "kern", "liga", "calt";
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  /* The switch itself is instant on the text and a beat slower on the ground,
+     which is what stops it reading as a flash. */
+  transition: background-color .25s, color .25s;
+}
+
+/* The app's canvas aura: a faint brand wash falling from the top edge, so the
+   ground reads as computational rather than as flat paint. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background-image: radial-gradient(120% 70% at 50% -10%, rgb(var(--brand-400) / var(--aura)), transparent 60%);
+}
+
+::selection { background: rgb(var(--brand-500) / .25); }
+
+/* The app's keyboard focus ring. The page had none at all, which is the kind of
+   thing a design system is for. */
+a:focus-visible,
+button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 2px rgb(var(--brand-500) / .5), 0 0 0 3px rgb(var(--ring-offset));
+  border-radius: var(--r-ctl);
+}
+
+* { scrollbar-width: thin; scrollbar-color: rgb(var(--scroll-thumb)) transparent; }
+*::-webkit-scrollbar { width: 10px; height: 10px; }
+*::-webkit-scrollbar-thumb {
+  background: rgb(var(--scroll-thumb));
+  border: 4px solid transparent;
+  background-clip: padding-box;
+  border-radius: 9999px;
+}
+
+/* Motion is decoration on this site — everything animated is safe to simply not
+   happen. Only the SHARED animations are listed here; a page's own belong to it. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .reveal { opacity: 1; transform: none; transition: none; }

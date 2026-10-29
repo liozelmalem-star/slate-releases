@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slate — Themes</title>
+<meta name="description" content="Slate's four themes — a coloured pair and a monochrome pair — the blue accent, how big the interface is, and where colour shows up across it.">
+<link rel="icon" href="../../../assets/icon.svg" media="(prefers-color-scheme: light)">
+<link rel="icon" href="../../../assets/icon-dark.svg" media="(prefers-color-scheme: dark)">
+
+<meta property="og:title" content="Slate — Themes">
+<meta property="og:description" content="Slate's four themes — a coloured pair and a monochrome pair — the blue accent, how big the interface is, and where colour shows up across it.">
+<meta property="og:type" content="article">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../../site/css/tokens.css">
+<link rel="stylesheet" href="../../../site/css/base.css">
+<link rel="stylesheet" href="../../../site/css/layout.css">
+<link rel="stylesheet" href="../../../site/css/components.css">
+<link rel="stylesheet" href="../../../site/css/docs.css">
+<link rel="stylesheet" href="../../../site/css/prose.css">
+
+<script>
+  // Before first paint, never after. See site/README.md — as a module this would run
+  // after the document renders and flash white on every navigation.
+  try {
+    var t = localStorage.getItem("slate-theme");
+    document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
+  } catch (e) {
+    document.documentElement.dataset.theme = "light";
+  }
+</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="slab-9" viewBox="0 0 9 9">
+      <path d="M 0.655 5.6 L 5.055 3.4 L 8.345 3.4 L 3.945 5.6 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="slab-18" viewBox="0 0 18 18">
+      <path d="M 1.31 11.2 L 10.11 6.8 L 16.69 6.8 L 7.89 11.2 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header>
+    <a class="back" href="./">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      Features
+    </a>
+    <h1>Themes</h1>
+  </header>
+
+  <article class="prose reveal">
+<p>Slate ships four themes, two dark and two light, chosen in <strong>Settings → Appearance</strong>. Picking one sets both the light/dark mode and the whole surface palette, and the change applies across the app immediately.</p><div class="scroll"><table><thead><tr><th>Theme</th><th>Mode</th><th>Look</th></tr></thead><tbody><tr><td><strong>Strata</strong></td><td>Dark</td><td>The default. A near-black ground carrying the wordmark's hue at low chroma</td></tr><tr><td><strong>Chalk</strong></td><td>Light</td><td>Strata's counterpart — the same hue, on the light curve</td></tr><tr><td><strong>Onyx</strong></td><td>Dark</td><td>Monochrome. A true black background, everything above it in grey</td></tr><tr><td><strong>Graphite</strong></td><td>Light</td><td>Monochrome. Off-white paper, near-black ink</td></tr></tbody></table></div><p>Strata and Chalk are the coloured pair: alongside the surface they carry the five colours of Slate's mark, which are what tell doc types, memory kinds, memory-map atoms and page covers apart.</p><p><strong>Onyx and Graphite take the colour out.</strong> They are the same two themes with every hue removed, the five of the mark included. The categorical distinction survives as five steps of grey, and Slate's own logo follows the theme rather than staying the one coloured object on the screen. So does the rail's icon for where you are, the only one in colour on the other themes.</p><p>Three things are worth knowing before you pick one:</p><ul><li>Five greys are harder to tell apart at a glance than five colours. Every one of these marks sits beside its own label, so the label identifies it and the grey is a second cue — but a monochrome memory graph is a flatter picture than a coloured one.</li><li><strong>The green running light stays green.</strong> The small dot that says a session or an agent is working right now keeps its colour under Onyx and Graphite. That dot has nothing written beside it, so in grey it was still drawn and could no longer be seen.</li><li><strong>Terminal output stays in colour.</strong> A CLI's red means the build failed, and no shade of grey means that. The terminal takes its surface from the theme and keeps its sixteen ANSI colours under all four.</li></ul><h2 id="light-and-dark-with-l">Light and dark with ⌘⇧L</h2><p><strong>⌘⇧L</strong> flips between light and dark. The command palette has the same command, <strong>Toggle light / dark theme</strong>. On Onyx it switches to Graphite, and on Graphite to Onyx, so the monochrome look stays. On Strata and Chalk it flips only the mode and keeps the theme you picked, so the card marked <strong>Active</strong> in Settings → Appearance does not change. To change the pair, pick the other theme there.</p><h2 id="accent">Accent</h2><p>Buttons, links and focus rings are the mark's blue on Strata and Chalk, and grey on Onyx and Graphite. It is not a setting: blue is the only one of the mark's five colours that reads clearly as a button on both a light and a dark ground.</p><div class="note note-info"><p>Appearance is a choice among designed themes. There is no per-element colour picker and no custom theme file.</p></div><h2 id="size">Size</h2><p><strong>⌘+ and ⌘− make the whole app bigger or smaller</strong>, in ten-percent steps between 80% and 140%. It starts at 110%. It is a real zoom, so everything moves together — text, icons, spacing, the memory graph — and it is remembered on this computer, not in your workspace.</p><p>Inside a terminal the same two keys resize that terminal's font first, and leave the rest of the app alone. Click outside it and they go back to the whole app.</p><h2 id="see-also">See also</h2><ul><li><a href="../memory/map/">Memory Graph and Map</a> — the map whose atoms carry the five colours</li><li><a href="../pages/typed-documents/">Typed Documents &amp; Hierarchy</a> — the doc types they tell apart</li><li><a href="../sessions/">Sessions — the Live Tracker</a> — where the running light appears</li></ul>
+  </article>
+</div>
+
+<footer>
+  <p>
+    Slate is in alpha. Your data stays on your machine.<br>
+    <a href="../../../">Home</a> ·
+    <a href="../../../docs/">Docs</a> ·
+    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a>
+  </p>
+</footer>
+
+<script type="module" src="../../../site/js/docs-page.js"></script>
+</body>
+</html>
