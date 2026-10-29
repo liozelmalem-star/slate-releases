@@ -24,9 +24,8 @@
 #
 # The tradeoff is honest and worth stating: piping a script to bash means trusting this
 # script and the host serving it. Read it first — that is the point of a plain-text
-# installer. The checksum step below covers a corrupted or swapped tarball, but both the
-# script and the tarball come from the same origin, so it is integrity, not third-party
-# authenticity. Notarization is what buys authenticity, and that is a later step.
+# installer. The download must match its published checksum, and the app must carry
+# Slate's own code signature (pinned below). Both checks fail closed: no install.
 #
 # Options:
 #   --no-launch          install but don't open Slate
@@ -41,6 +40,15 @@ set -euo pipefail
 # the updater can never disagree about what the current version is.
 RELEASES_REPO="${SLATE_RELEASES_REPO:-liozelmalem-star/slate-releases}"
 RELEASES_BASE="https://github.com/${RELEASES_REPO}/releases"
+
+# ── The signature every Slate.app must carry ──────────────────────────────────
+# The designated requirement of a genuine Slate.app: its bundle identifier, signed by the
+# "Slate Self-Signed" certificate with exactly this SHA-1. The private key behind that
+# certificate lives only in the owner's Mac keychain, never on GitHub, so a bundle that
+# satisfies this was signed on that Mac — whoever controls the release host cannot fake it.
+# The release refuses to publish a bundle whose requirement differs from this line
+# (packages/infra/src/release/signature.ts), so a new certificate cannot break installs.
+SLATE_DESIGNATED_REQUIREMENT='identifier "app.slate.workspace" and certificate leaf = H"b6d21f5a5ec6c4645267e47735de935f53d6b9c3"'
 
 # ── Output ─────────────────────────────────────────────────────────────────────
 RED='\033[0;31m'; GREEN='\033[0;32m'; YELLOW='\033[1;33m'; DIM='\033[2m'; BOLD='\033[1m'; RESET='\033[0m'
@@ -107,6 +115,13 @@ PLATFORM_BLOCK="$(printf '%s' "$MANIFEST" | tr -d '\n ' | grep -o "\"$PLATFORM\"
 [[ -n "$PLATFORM_BLOCK" ]] || die "Release $VERSION has no $PLATFORM build."
 TARBALL_URL="$(printf '%s' "$PLATFORM_BLOCK" | grep -o '"url":"[^"]*"' | head -1 | sed 's/.*"\(http[^"]*\)"$/\1/')"
 [[ -n "$TARBALL_URL" ]] || die "Release $VERSION has no download URL for $PLATFORM."
+# The manifest names the URL, so it could point anywhere. Download only from this repo's
+# own release assets.
+case "$TARBALL_URL" in
+  "${RELEASES_BASE}/download/"*) ;;
+  *) die "The manifest points the download outside ${RELEASES_BASE}/download/ — refusing to install.
+   $TARBALL_URL" ;;
+esac
 
 ok "Slate $VERSION"
 
@@ -124,30 +139,43 @@ BYTES="$(stat -f%z "$TARBALL")"
 ok "Downloaded $(( BYTES / 1024 / 1024 )) MB"
 
 # ── 4. Verify ──────────────────────────────────────────────────────────────────
-# Guards against a truncated or corrupted transfer. Not a substitute for notarization:
-# the checksum file and the tarball share an origin, so a compromised origin defeats it.
+# What is checked, and each check refuses to install when it fails:
+#   - the tarball comes from this repo's own release assets (step 2);
+#   - its SHA-256 matches SHASUMS256.txt — this catches a truncated or corrupted transfer,
+#     but the checksum file shares the tarball's origin, so it proves nothing about who
+#     built it;
+#   - the unpacked app satisfies SLATE_DESIGNATED_REQUIREMENT (step 5) — this is the
+#     authenticity check: only the owner's Mac holds the key that can sign it.
+# What is not checked: this script itself is served from that same origin, so a
+# compromised origin could serve a script with the checks removed. Read it before piping
+# it to bash. Apple notarization would cover that; Slate is not notarized yet.
 SHASUMS_URL="${TARBALL_URL%/*}/SHASUMS256.txt"
-if SHASUMS="$(curl -fsSL "$SHASUMS_URL" 2>/dev/null)"; then
-  ASSET_NAME="${TARBALL_URL##*/}"
-  EXPECTED="$(printf '%s' "$SHASUMS" | grep -F " $ASSET_NAME" | awk '{print $1}' | head -1)"
-  if [[ -n "$EXPECTED" ]]; then
-    ACTUAL="$(shasum -a 256 "$TARBALL" | awk '{print $1}')"
-    [[ "$ACTUAL" == "$EXPECTED" ]] || die "Checksum mismatch — refusing to install.
+SHASUMS="$(curl -fsSL "$SHASUMS_URL" 2>/dev/null)" \
+  || die "No SHASUMS256.txt published for this release — refusing to install an unverified download.
+   $SHASUMS_URL"
+ASSET_NAME="${TARBALL_URL##*/}"
+EXPECTED="$(printf '%s' "$SHASUMS" | grep -F " $ASSET_NAME" | awk '{print $1}' | head -1 || true)"
+[[ -n "$EXPECTED" ]] \
+  || die "SHASUMS256.txt has no entry for $ASSET_NAME — refusing to install an unverified download."
+ACTUAL="$(shasum -a 256 "$TARBALL" | awk '{print $1}')"
+[[ "$ACTUAL" == "$EXPECTED" ]] || die "Checksum mismatch — refusing to install.
    expected $EXPECTED
    actual   $ACTUAL"
-    ok "Checksum verified"
-  else
-    warn "SHASUMS256.txt has no entry for $ASSET_NAME — skipping verification."
-  fi
-else
-  warn "No SHASUMS256.txt published for this release — skipping verification."
-fi
+ok "Checksum verified"
 
 # ── 5. Unpack ──────────────────────────────────────────────────────────────────
 info "Unpacking…"
 tar -xzf "$TARBALL" -C "$TMP" || die "Could not unpack the archive."
 NEW_APP="$(find "$TMP" -maxdepth 2 -name 'Slate.app' -type d | head -1)"
 [[ -n "$NEW_APP" ]] || die "No Slate.app inside the archive."
+
+# Slate's own signature, checked before anything on this Mac changes.
+verify_signature() {
+  codesign --verify --deep --strict -R="$SLATE_DESIGNATED_REQUIREMENT" "$1" 2>&1
+}
+SIG_ERR="$(verify_signature "$NEW_APP")" || die "This Slate.app is not signed by Slate — refusing to install.
+   $SIG_ERR"
+ok "Signature verified"
 
 # ── 6. Quit a running Slate ────────────────────────────────────────────────────
 # Replacing the bundle underneath a running app leaves it in a half-updated state where
@@ -188,20 +216,23 @@ rm -rf "$DEST"
 # plain copy can silently drop from a .app.
 ditto "$NEW_APP" "$DEST" || die "Could not copy the app into $PREFIX."
 
-# ── 8. Make sure it can actually launch ────────────────────────────────────────
+# ── 8. Make sure the installed copy is the one that was verified ───────────────
+# The copy is checked again against the same pinned signature. A copy that fails is
+# removed, so a bundle that is not Slate's is never left in place to be opened. There is
+# no re-signing fallback: signing a bundle here would bless whatever is in it.
+if ! SIG_ERR="$(verify_signature "$DEST")"; then
+  rm -rf "$DEST"
+  die "The installed copy failed the signature check and was removed.
+   $SIG_ERR"
+fi
+
 # curl does not set com.apple.quarantine, so this is normally a no-op — it matters when
 # someone downloads the tarball in a browser and runs the installer against it by hand.
+# Removing it skips Gatekeeper, which would otherwise reject an app Apple has not
+# notarized. That is acceptable only because the pinned-certificate check above has
+# already proved the bundle was signed on the owner's Mac; it stays until Slate is
+# notarized.
 xattr -dr com.apple.quarantine "$DEST" 2>/dev/null || true
-
-# Apple Silicon refuses to execute a Mach-O with no signature at all. Release builds are
-# ad-hoc signed by the linker, but re-signing the assembled bundle is free and removes a
-# whole class of "damaged and can't be opened" reports caused by a stale signature over
-# freshly copied contents.
-if ! codesign --verify --deep "$DEST" 2>/dev/null; then
-  info "Ad-hoc signing the bundle…"
-  codesign --force --deep --sign - "$DEST" 2>/dev/null \
-    || warn "Ad-hoc signing failed. If Slate won't open, install Xcode Command Line Tools: xcode-select --install"
-fi
 
 ok "Installed Slate $VERSION"
 
