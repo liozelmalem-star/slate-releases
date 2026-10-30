@@ -5,7 +5,7 @@
 #
 # Canonical home: github.com/liozelmalem-star/slate-releases (public). Authored in the
 # private source repo and copied here by CI on every release, because this script and
-# `infra updater manifest` (packages/infra/src/updater) have to agree on the shape of latest.json.
+# `infra updater manifest` (packages/infra/src/jobs/updater) have to agree on the shape of latest.json.
 #
 # Downloads a prebuilt Slate.app and installs it to /Applications. No Homebrew, no
 # Node, no Rust, no compile step — the app bundle already contains everything,
@@ -47,7 +47,7 @@ RELEASES_BASE="https://github.com/${RELEASES_REPO}/releases"
 # certificate lives only in the owner's Mac keychain, never on GitHub, so a bundle that
 # satisfies this was signed on that Mac — whoever controls the release host cannot fake it.
 # The release refuses to publish a bundle whose requirement differs from this line
-# (packages/infra/src/release/signature.ts), so a new certificate cannot break installs.
+# (packages/infra/src/composers/release/signature.ts), so a new certificate cannot break installs.
 SLATE_DESIGNATED_REQUIREMENT='identifier "app.slate.workspace" and certificate leaf = H"b6d21f5a5ec6c4645267e47735de935f53d6b9c3"'
 
 # ── Output ─────────────────────────────────────────────────────────────────────
