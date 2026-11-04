@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slate — What Slate Costs Your Machine</title>
+<meta name="description" content="How much CPU, memory and disk Slate may use on your Mac when you are not using it, how those limits are measured, and how to check them yourself.">
+<link rel="icon" href="../../../assets/icon.svg" media="(prefers-color-scheme: light)">
+<link rel="icon" href="../../../assets/icon-dark.svg" media="(prefers-color-scheme: dark)">
+
+<meta property="og:title" content="Slate — What Slate Costs Your Machine">
+<meta property="og:description" content="How much CPU, memory and disk Slate may use on your Mac when you are not using it, how those limits are measured, and how to check them yourself.">
+<meta property="og:type" content="article">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../../site/css/tokens.css">
+<link rel="stylesheet" href="../../../site/css/base.css">
+<link rel="stylesheet" href="../../../site/css/layout.css">
+<link rel="stylesheet" href="../../../site/css/components.css">
+<link rel="stylesheet" href="../../../site/css/docs.css">
+<link rel="stylesheet" href="../../../site/css/prose.css">
+
+<script>
+  // Before first paint, never after. See site/README.md — as a module this would run
+  // after the document renders and flash white on every navigation.
+  try {
+    var t = localStorage.getItem("slate-theme");
+    document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
+  } catch (e) {
+    document.documentElement.dataset.theme = "light";
+  }
+</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="slab-9" viewBox="0 0 9 9">
+      <path d="M 0.655 5.6 L 5.055 3.4 L 8.345 3.4 L 3.945 5.6 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="slab-18" viewBox="0 0 18 18">
+      <path d="M 1.31 11.2 L 10.11 6.8 L 16.69 6.8 L 7.89 11.2 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header>
+    <a class="back" href="./">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      Features
+    </a>
+    <h1>What Slate Costs Your Machine</h1>
+  </header>
+
+  <article class="prose reveal">
+<p><strong>When nothing changes, Slate does nothing.</strong> If you are not typing, no file changed and no AI session is writing, Slate should use almost no CPU, and it should wake your Mac as little as it can. Slate's own tests measure it against the limits on this page, and a change that goes over one fails them.</p><p>The limits only go down. When a change makes Slate cheaper, its limit is lowered in the same change. No limit is ever raised.</p><hr><h2 id="the-limits">The limits</h2><p>Each number below is the most Slate may use. Slate usually uses less: each limit was set from the middle value of five measured runs, with room added for a busy machine (twice the measured CPU; 10% more memory, size and wake-ups). The tables are written from the limits file the tests read, so this page cannot disagree with them.</p><p>&quot;% of one core&quot; means the share of one processor core. 100% is one core fully busy, and your Mac has several.</p><p>&lt;!-- footprint:begin — written by scripts/gate/footprint-doc.mjs from scripts/gate/footprint-budget.json. Edit the budget, then run it. --&gt;</p><h3 id="with-the-window-open-and-idle">With the window open and idle</h3><div class="scroll"><table><thead><tr><th>Screen open</th><th>At most, % of one core</th></tr></thead><tbody><tr><td>Sessions</td><td>1.5%</td></tr><tr><td>Home</td><td>0.4%</td></tr><tr><td>Projects</td><td>1.5%</td></tr><tr><td>Tasks</td><td>0.6%</td></tr><tr><td>Memory</td><td>1%</td></tr><tr><td>Activity</td><td>0.6%</td></tr><tr><td>Artifacts</td><td>4.5%</td></tr><tr><td>Apps</td><td>3.5%</td></tr><tr><td>Agents</td><td>1.5%</td></tr><tr><td>Toolkit</td><td>0.4%</td></tr><tr><td>Connect</td><td>2%</td></tr><tr><td>Trash</td><td>0.6%</td></tr><tr><td>Settings</td><td>1.5%</td></tr><tr><td>Window hidden</td><td>3%</td></tr></tbody></table></div><h3 id="slates-server-idle">Slate's server, idle</h3><div class="scroll"><table><thead><tr><th>Store</th><th>CPU, % of one core</th><th>Wake-ups per second</th><th>Memory</th></tr></thead><tbody><tr><td>A new user</td><td>0.05%</td><td>0.2</td><td>154 MB</td></tr><tr><td>Six months of use</td><td>0.05%</td><td>0.2</td><td>230 MB</td></tr><tr><td>A heavy user</td><td>0.05%</td><td>0.2</td><td>274 MB</td></tr></tbody></table></div><p>In use, on the heavy store with an AI tool's sessions captured and Tasks, Sessions and Memory opened, the memory the server's code still uses two minutes after launch is at most 51 MB. It counts what the code keeps, not what macOS has not taken back yet, so it is smaller than the table above.</p><h3 id="slates-server-while-ai-sessions-work">Slate's server, while AI sessions work</h3><p>Two sessions working, one of them writing every 2 seconds, on the six-months store.</p><div class="scroll"><table><thead><tr><th>What</th><th>At most</th></tr></thead><tbody><tr><td>CPU, % of one core</td><td>2%</td></tr><tr><td>Programs it starts on its own, per second</td><td>0</td></tr></tbody></table></div><h3 id="download-and-disk">Download and disk</h3><div class="scroll"><table><thead><tr><th>What</th><th>At most</th></tr></thead><tbody><tr><td>Download (.dmg)</td><td>132 MB</td></tr><tr><td>Installed app (.app)</td><td>403 MB</td></tr></tbody></table></div><p>The one download runs on both kinds of Mac. Each Mac runs only its own half of it:</p><div class="scroll"><table><thead><tr><th>Chip</th><th>The app</th><th>Its server</th></tr></thead><tbody><tr><td>Apple Silicon</td><td>28 MB</td><td>156 MB</td></tr><tr><td>Intel</td><td>29 MB</td><td>161 MB</td></tr></tbody></table></div><p>Measured on a MacBook Pro with an Apple M4 Pro (14 cores, 48 GB of memory) on macOS 26. MB is 1,024 × 1,024 bytes. &lt;!-- footprint:end --&gt;</p><hr><h2 id="how-they-are-measured">How they are measured</h2><p>The tests measure Slate in four parts. None of them uses your data or your machine: the test makes its own stores and launches its own copy of the app.</p><ul><li><strong>The server.</strong> Slate's server runs on three made-up stores: one for a new user, one for six months of use, and one for a heavy user. They are built from a fixed seed, so they are the same store on every machine. The server is started, left to settle, and then watched for a fixed time while nothing happens. The test records the CPU it used, how often it woke up to run code, and its memory at the end: the memory it has written to, as Activity Monitor shows it, not pages macOS can take back at any time.</li><li><strong>The server while AI sessions work.</strong> The same server, on the six-months store, with two made-up AI sessions in a made-up home folder: one in a project folder, one in a plain folder, and one of them writing every 2 seconds. The test records the CPU the server used, and counts every program it started on its own (such as <code>git</code>), through stand-ins that log each start. While nothing but the sessions' own writing changes, that count must be zero. Your real sessions are never read.</li><li><strong>The server in use.</strong> The heavy store, with 600 MB of made-up AI sessions captured (three still running), and Tasks, Sessions and Memory opened. Two minutes after launch the test reads the memory the server's code still holds once everything it no longer uses is cleared.</li><li><strong>The app.</strong> A test copy of Slate opens each screen in turn and stays on it, idle. The test adds up the CPU of every process that copy owns: the app itself, its server and the web view helpers macOS starts for it. Then the window is hidden and measured once more.</li><li><strong>The size.</strong> The download (<code>.dmg</code>), the installed app (<code>.app</code>), and the part of the app and its server built for each kind of chip.</li></ul><p>A number that is over its limit is measured a second time, and counts only when both runs are over. This keeps a short spike on a busy machine from failing a change.</p><p>The limits are measured on one Mac, named under the tables. A slower Mac takes longer to do the same work, so it may show a higher percentage for the same idle Slate.</p><hr><h2 id="check-it-yourself">Check it yourself</h2><p>You can see what Slate uses on your own Mac with Activity Monitor (in Applications → Utilities).</p><ol><li>Leave Slate open on any screen and do not touch it for a minute.</li><li>In the <strong>CPU</strong> tab, search for <code>Slate</code>. You will see the app and its server (<code>slate-mcp</code>). Add their <strong>% CPU</strong> values. The tables also count the web view helpers macOS runs for Slate's window, so Slate's real total is a little higher than this sum.</li><li>In the <strong>Energy</strong> tab, look at Slate's <strong>Energy Impact</strong> and <strong>Avg Energy Impact</strong>. An idle Slate should sit near zero. A high average while you were not using it is worth reporting.</li><li>Hide the window (⌘H) and look again. That is the &quot;Window hidden&quot; row.</li></ol><p>Your numbers can be higher than the idle limits for a good reason: while an AI session is writing, Slate reads it as it happens, and that is work you asked for. The &quot;while AI sessions work&quot; row is the limit for that. Slate reads what a session wrote, and does not start programs on a timer to check on it.</p><p>A session that keeps working is not a reason for the screen to keep moving. Its dot on the rail and in Sessions moves when the session starts working or starts waiting on you, then holds still. Slate's own tests reject any animation that never ends, except while something finishes on its own, such as a page loading or an app being built.</p><hr><h2 id="see-also">See also</h2><ul><li><a href="../platform/">Platform &amp; Availability</a></li><li><a href="../privacy-and-security/">Privacy &amp; Security</a></li></ul>
+  </article>
+</div>
+
+<footer>
+  <p>
+    Slate is in alpha. Your data stays on your machine.<br>
+    <a href="../../../">Home</a> ·
+    <a href="../../../docs/">Docs</a> ·
+    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a>
+  </p>
+</footer>
+
+<script type="module" src="../../../site/js/docs-page.js"></script>
+</body>
+</html>

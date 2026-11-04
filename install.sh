@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Slate installer — macOS, Apple Silicon.
+# Slate installer — macOS, Apple Silicon and Intel.
 #
 #   curl -fsSL https://liozelmalem-star.github.io/slate-releases/install.sh | bash
 #
@@ -79,8 +79,8 @@ echo "────────────────────────�
 # ── 1. Platform ────────────────────────────────────────────────────────────────
 [[ "$(uname -s)" == "Darwin" ]] || die "Slate's installer is macOS-only right now."
 
-# One universal app serves both CPUs; the manifest names it under each Mac key, so a
-# release from before Intel builds says plainly that it has none.
+# Each CPU has its own app, under its own manifest key (releases up to 0.1.54 named one
+# universal app under both), so a release without this CPU's build says so plainly.
 case "$(uname -m)" in
   arm64) PLATFORM="darwin-aarch64"; CPU="Apple Silicon" ;;
   x86_64) PLATFORM="darwin-x86_64"; CPU="Intel" ;;
