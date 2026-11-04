@@ -1,4 +1,4 @@
-// Connect: which AI tools this workspace runs, the apps it reads, and what runs on its own.
+// Connect: which AI tools this workspace runs, and the apps it reads.
 export const connect = {
   id: "connect",
   title: "Connect",
@@ -7,7 +7,6 @@ export const connect = {
   links: [
     { match: { text: "AI tools", exact: true }, step: 1 },
     { match: { text: "Integrations", exact: true }, step: 7 },
-    { match: { text: "Automations", exact: true }, step: 10 },
   ],
   steps: [
     {
@@ -22,9 +21,9 @@ export const connect = {
     {
       screen: "connect",
       spot: { text: "Claude Code", exact: true, up: 3 },
-      title: "Five AI tools, one row each",
+      title: "Six AI tools, one row each",
       body:
-        "<p>Claude Code, Codex, Gemini, Cursor and OpenCode, always in that order. Here Claude Code and Codex are on, and Claude Code is the <strong>default</strong> — the one this workspace reaches for when nothing more specific is named.</p>" +
+        "<p>Claude Code, Codex, Gemini, Cursor, OpenCode and GitHub Copilot, always in that order. Here Claude Code and Codex are on, and Claude Code is the <strong>default</strong> — the one this workspace reaches for when nothing more specific is named.</p>" +
         "<p>Each row names the profile and model it runs under. The tool's dialog names the config file Slate writes for it.</p>",
     },
     {
@@ -86,12 +85,12 @@ export const connect = {
     },
     {
       screen: "connect-integrations",
-      spot: { text: "Review 6" },
+      spot: { text: "Reviews 6" },
       click: true,
       title: "Find the app you need",
       body:
-        "<p><strong>Solve</strong>, <strong>Review</strong> and <strong>Reply</strong> narrow the grid to the apps whose work shows in that group of Tasks. <strong>Find an integration</strong> searches by name.</p>",
-      try: "Click <strong>Review</strong>.",
+        "<p><strong>Issues</strong>, <strong>Reviews</strong> and <strong>Messages</strong> narrow the grid to the apps whose work shows in that section of Tasks. <strong>Find an integration</strong> searches by name.</p>",
+      try: "Click <strong>Reviews</strong>.",
     },
     {
       screen: "connect-int-review",
@@ -100,30 +99,6 @@ export const connect = {
       body:
         "<p>These are the apps that send you code to review. Self-hosted ones such as Gerrit and Gitea connect with a token you paste, kept only on this computer.</p>" +
         "<p><strong>Coming soon</strong> lists the apps Slate cannot connect yet, each saying why.</p>",
-    },
-    {
-      screen: "connect-int-review",
-      spot: { text: "Automations", exact: true },
-      click: true,
-      title: "Automations",
-      body: "<p>The last tab lists everything Slate does when you are not asking it to.</p>",
-      try: "Open <strong>Automations</strong>.",
-    },
-    {
-      screen: "connect-jobs",
-      spot: { within: { css: "main" }, text: "Scheduled agents", exact: true, up: 3 },
-      title: "What runs for this workspace",
-      body:
-        "<p>Each job has a switch and says what it does. Under <strong>This workspace</strong> are the ones that act on this workspace alone: <strong>Scheduled agents</strong>, <strong>Shared workspace sync</strong>, <strong>Reminders</strong> and more.</p>" +
-        "<p>Turn one off and Slate says, in amber, what that costs. The side panel counts how many are <strong>off</strong>.</p>",
-    },
-    {
-      screen: "connect-jobs-mac",
-      spot: { text: "Capturing your AI sessions", up: 2 },
-      title: "What runs for the whole computer",
-      body:
-        "<p><strong>This computer</strong> holds the jobs there is only one of on this machine, so turning one off turns it off everywhere. <strong>Capturing your AI sessions</strong> says how many projects it watches and when it last captured.</p>" +
-        "<p><strong>Automatic updates</strong> downloads a new version in the background and installs it when you next quit.</p>",
     },
     {
       screen: "connect",

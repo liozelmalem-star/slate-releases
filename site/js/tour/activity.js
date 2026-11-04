@@ -85,12 +85,12 @@ export const activity = {
     },
     {
       screen: "activity",
-      spot: { text: "Edit", exact: true },
+      spot: { css: 'button[aria-label="Add widget"]' },
       click: true,
       title: "Make the board yours",
       body:
-        "<p><strong>Edit</strong> lets you reorder the widgets, hide the ones you don't use, and add more.</p>",
-      try: "Click <strong>Edit</strong>.",
+        "<p><strong>+</strong>, at the top of the side panel, opens the board for editing: reorder the widgets, hide the ones you don't use, and add more.</p>",
+      try: "Click <strong>+</strong>.",
     },
     {
       screen: "activity-edit",
@@ -98,7 +98,7 @@ export const activity = {
       spotOpts: { pad: 4 },
       title: "Add, reorder, hide",
       body:
-        "<p><strong>Add widget</strong>, beside <strong>Edit</strong>, puts a card back on the board: one you took off, or a built-in one that is not on it: Sessions, Momentum, By model, Memories, Quick stats and four readings of your memory, such as <strong>Is memory used?</strong></p>" +
+        "<p>The row of names at the top puts a card back on the board: one you took off, or a built-in one that is not on it, such as <strong>Records</strong>, <strong>Sessions</strong> and four readings of your memory, like <strong>Is memory used?</strong></p>" +
         "<p>Drag a widget by its handle or use its arrows to move it; the eye hides it. <strong>Reset layout</strong> puts the default board back, and <strong>Done</strong> finishes.</p>",
     },
     {

@@ -42,17 +42,17 @@ export const agents = {
     },
     {
       screen: "agents",
-      spot: { text: "New agent", exact: true, within: { css: "aside" } },
+      spot: { css: 'button[aria-label="New agent"]' },
       click: true,
       title: "Make a new agent",
-      body: "<p><strong>New agent</strong> opens a gallery of templates. The sparkle button beside it, <strong>Generate an agent</strong>, goes straight to describing one.</p>",
-      try: "Click <strong>New agent</strong>.",
+      body: "<p><strong>+</strong>, at the top of the side panel, makes a new agent.</p>",
+      try: "Click <strong>+</strong>.",
     },
     {
       screen: "agents-new",
-      spot: { text: "Describe it", exact: true, up: 2 },
-      title: "Start from a template, or describe it",
-      body: "<p><strong>Describe it</strong>: say what it should do, like <em>“Every Friday at 4 PM, draft a status update from my week”</em>, and the editor opens with a draft.</p><p>Or pick a template: <strong>Dev session debrief</strong>, <strong>Feature brief</strong>, <strong>PR review prep</strong>, <strong>Memory pass</strong>. Ones you already have say <strong>Set up</strong>. Nothing is saved until you save it.</p>",
+      spot: { css: '[role="menu"]' },
+      title: "A template, by hand, or described",
+      body: "<p><strong>From a template</strong> starts from one Slate ships, such as a dev session debrief or a PR review prep. <strong>Set it up yourself</strong> opens an empty editor.</p><p><strong>Describe it to AI…</strong>: say what it should do, like <em>“Every Friday at 4 PM, draft a status update from my week”</em>, and the editor opens with a draft. Nothing is saved until you save it.</p>",
     },
     {
       screen: "agents",

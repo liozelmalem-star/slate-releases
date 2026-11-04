@@ -1,5 +1,5 @@
-// Setup: installing Slate, its first-run wizard (Welcome, AI tool, Connect, Project), and
-// the Set up Slate card Home opens with. Screens: setup-*.
+// Setup: installing Slate, its first-run wizard (Welcome, Plan, AI tools, Integrations,
+// Project), and the Set up Slate card Home opens with. Screens: setup-*.
 const CMD = "curl -fsSL https://liozelmalem-star.github.io/slate-releases/install.sh | bash";
 
 export const setup = {
@@ -19,74 +19,85 @@ export const setup = {
     },
     {
       screen: "setup-welcome",
-      spot: { text: "Already watching" , up: 2 },
+      spot: { text: "Take the full tour", up: 2 },
       title: "Welcome to Slate",
       body:
-        "<p>Slate keeps your pages, notes and captured AI sessions in one file on your Mac. Claude Code, Codex, Gemini, Cursor and OpenCode all read and write that same memory.</p>" +
-        "<p>If one of those tools is already on your Mac, Slate says so here: it is <strong>Already watching</strong> them, and nothing was changed or sent anywhere.</p>",
+        "<p>Slate keeps your pages, notes and captured AI sessions in one file on your Mac. Claude Code, Codex, Gemini, Cursor, OpenCode and GitHub Copilot all read and write that same memory.</p>" +
+        "<p>The welcome screen flips through what you are about to see. <strong>Take the full tour</strong> opens this guide.</p>",
     },
     {
       screen: "setup-welcome",
       spot: { text: "Continue", exact: true },
-      title: "Four short steps, each one skippable",
+      title: "Five short steps",
       body:
-        "<p>The dots at the top are the steps: <strong>Welcome</strong>, <strong>AI tool</strong>, <strong>Connect</strong> and <strong>Project</strong>. <strong>Skip</strong> moves on, and the <strong>×</strong> leaves setup.</p>" +
-        "<p>Whichever way you leave, setup is marked done and does not come back. Everything here can be changed later in Connect and Projects.</p>",
+        "<p>The dots at the top are the steps: <strong>Welcome</strong>, <strong>Plan</strong>, <strong>AI tools</strong>, <strong>Integrations</strong> and <strong>Project</strong>. <strong>Back</strong> goes to the one before.</p>" +
+        "<p>Everything you choose here can be changed later, in Settings, Connect and Projects.</p>",
       try: "Click <strong>Continue</strong>.",
       click: true,
     },
     {
-      screen: "setup-aitool",
-      spot: { text: "Claude Code", exact: true, within: { text: "Pick your AI tool", up: 2 } },
-      title: "Pick your AI tool",
+      screen: "setup-plan",
+      spot: { text: "How will you use Slate?", up: 1 },
+      title: "Just me, or with my team",
       body:
-        "<p>Slate has no API keys and calls no model itself. Its AI runs on a tool you already have installed, under your own login.</p>" +
-        "<p>Pick the one you use. Slate checks that its command line is really there and signed in.</p>",
-      try: "Click <strong>Claude Code</strong>.",
-      click: true,
-    },
-    {
-      screen: "setup-aitool-ready",
-      spot: { text: "Ready", exact: true },
-      title: "Ready means it answered",
-      body:
-        "<p><strong>Ready</strong> appears only after Slate asked the tool and got an answer. That tool is now this workspace's AI tool.</p>" +
-        "<p>If a tool is missing it says <strong>Not installed</strong> and where to get it. Everything else in Slate still works without one.</p>",
+        "<p><strong>Just me</strong> is free: everything Slate does, on this Mac, with as many private workspaces as you want.</p>" +
+        "<p><strong>With my team</strong> is coming soon. Choosing it puts you on the Team list, and setup carries on with Free. You can change it later in Settings.</p>",
       try: "Click <strong>Continue</strong>.",
       click: { text: "Continue", exact: true },
     },
     {
-      screen: "setup-connect",
+      screen: "setup-aitool",
       spot: { text: "Connect your AI tools", up: 1 },
       title: "Connect your AI tools",
       body:
-        "<p>Connecting lets a tool search and write your Slate memory. Slate installs itself as a plugin in Claude Code, Codex, Gemini and Cursor, and writes a plugin module into OpenCode's own config.</p>" +
-        "<p><strong>Connected</strong> tools are done. <strong>Detected</strong> ones are installed but not connected yet.</p>",
+        "<p>Connecting lets a tool search and write your Slate memory. Slate installs itself into each tool, as a plugin where the tool takes one.</p>" +
+        "<p>A tool Slate found on your Mac says <strong>Detected</strong>. <strong>Connect all</strong> turns on every detected tool at once.</p>",
     },
     {
-      screen: "setup-connect",
-      spot: { text: "Connect all", exact: true },
-      title: "Connect them all at once",
+      screen: "setup-aitool",
+      spot: { css: 'button[aria-label="Connect Claude Code"]' },
+      spotOpts: { pad: 8 },
+      title: "One switch per tool",
       body:
-        "<p><strong>Connect all</strong> connects every detected tool in one go. The green note then names the tools that can now reach your workspace.</p>" +
-        "<p>You can disconnect any of them later from Connect.</p>",
+        "<p>Each switch connects one tool. Setup turns on only what you choose, even for a tool that already has Slate.</p>" +
+        "<p>No tool installed yet? <strong>I'll connect one later</strong> lets you carry on, and Connect offers it any time.</p>",
+      try: "Turn on <strong>Claude Code</strong>.",
+      click: true,
+    },
+    {
+      screen: "setup-aitool-ready",
+      spot: { text: "Claude Code", exact: true, up: 2 },
+      title: "Connected, and running Slate's AI",
+      body:
+        "<p><strong>Connected</strong> appears once the tool's config really holds Slate.</p>" +
+        "<p>Slate has no API keys and calls no model itself. <strong>Runs Slate's AI</strong> picks the tool its own AI runs on, under your login. Slate checks that its command line is really there; if it is not, it says where to get it.</p>",
+      try: "Click <strong>Continue</strong>.",
+      click: { text: "Continue", exact: true },
+    },
+    {
+      screen: "setup-integrations",
+      spot: { text: "Connect your integrations", up: 1 },
+      title: "Connect your integrations",
+      body:
+        "<p>Integrations bring what is waiting on you into Tasks: GitHub, Linear, Jira, Notion, GitLab and more. Nothing connects until you press <strong>Connect</strong>.</p>" +
+        "<p>Nothing here is required. The same list is in Connect, any time.</p>",
       try: "Click <strong>Continue</strong>.",
       click: { text: "Continue", exact: true },
     },
     {
       screen: "setup-project",
-      spot: { text: "Choose a folder" },
-      title: "Add your first project",
+      spot: { text: "Choose your projects", up: 1 },
+      title: "Choose your projects",
       body:
         "<p>A project is a code folder Slate knows. Slate watches the branch you are on and files what your AI sessions produce under that project, so every tool can find it again.</p>" +
-        "<p>Nothing is copied or uploaded: Slate stores the path and reads git metadata. This is the one step worth not skipping.</p>",
+        "<p>The folders your AI sessions already ran in come first. <strong>Or choose another folder</strong> adds any other. Nothing is copied or uploaded: Slate stores the path and reads git metadata.</p>",
     },
     {
       screen: "setup-project",
       spot: { text: "Open Slate", exact: true },
       title: "Open Slate",
       body:
-        "<p>After you pick a folder, a green box confirms Slate is watching it. More projects can be added any time from the project picker at the top of Projects.</p>" +
+        "<p>More projects can be added any time from the project picker at the top of Projects.</p>" +
         "<p><strong>Open Slate</strong> finishes setup and takes you to Home.</p>",
       try: "Click <strong>Open Slate</strong>.",
       click: true,

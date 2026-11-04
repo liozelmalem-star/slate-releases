@@ -36,12 +36,14 @@ export const memory = {
     },
     {
       screen: "memory-m",
-      spot: { text: "Needs review", up: 3 },
+      spot: { text: "2 to review" },
       title: "Nothing changes behind your back",
-      body: "<p>AI tools can propose to tidy memory — merge two that say the same thing, retire one that is wrong — but nothing changes until you accept it here, under <strong>Needs review</strong>.</p>",
+      body: "<p>AI tools can propose to tidy memory — merge two that say the same thing, retire one that is wrong — but nothing changes until you accept it. What waits for you is counted here: <strong>2 to review</strong>.</p>",
+      try: "Click <strong>2 to review</strong>.",
+      click: true,
     },
     {
-      screen: "memory-m",
+      screen: "memory-review",
       spot: { text: "Claude Code proposes to merge 2 memories", up: 1 },
       title: "A merge, proposed by Claude Code",
       body: "<p>The two old sentences are struck through, the merged one is under <strong>Into</strong>, and <strong>Why</strong> says what made Claude Code propose it.</p>",
@@ -54,7 +56,7 @@ export const memory = {
       },
     },
     {
-      screen: "memory-m",
+      screen: "memory-review",
       spot: { text: "Gemini disagreed with a surer memory", up: 1 },
       title: "When two tools disagree",
       body: "<p>Gemini wrote that rate limits use a sliding window; Slate already holds, more surely, that they use a token bucket. A claim that contradicts a firmer memory is held, not saved.</p><p><strong>Keep existing</strong>, <strong>Replace it</strong> or <strong>Keep both</strong> — your call.</p>",
@@ -67,10 +69,10 @@ export const memory = {
     },
     {
       screen: "memory-m",
-      spot: { text: "decisions" },
+      spot: { text: "Kind", exact: true },
       title: "Filter by kind",
-      body: "<p>The counts under the search are filters too: <strong>facts</strong>, <strong>preferences</strong>, <strong>decisions</strong>, <strong>lessons</strong>, <strong>status notes</strong>.</p>",
-      try: "Click <strong>decisions</strong>.",
+      body: "<p><strong>Kind</strong>, above the graph, narrows everything to one kind: <strong>facts</strong>, <strong>preferences</strong>, <strong>decisions</strong>, <strong>lessons</strong> or <strong>status notes</strong>, each with its count.</p>",
+      try: "Pick <strong>decisions</strong> under <strong>Kind</strong>.",
       click: true,
     },
     {

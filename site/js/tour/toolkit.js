@@ -8,7 +8,6 @@ export const toolkit = {
     { match: { text: "write-tests", exact: true }, step: 4 },
     { match: { text: "review-pr", exact: true }, step: 4 },
     { match: { text: "AI tools", exact: true }, step: 8 },
-    { match: { text: "Changes", exact: true }, step: 9 },
   ],
   steps: [
     {
@@ -99,22 +98,13 @@ export const toolkit = {
         "<p><code>AGENTS.md</code> is the rules file the tools read on their own, and <code>CLAUDE.md</code> is a link to it.</p>",
     },
     {
-      screen: "toolkit-changes",
-      spot: { text: "Changed files", up: 1 },
-      title: "Commit what you changed",
-      body:
-        "<p><strong>Changes</strong> lists edits to skill files and the rules file that are not committed yet, each with its diff. Here one line was added to <strong>review-pr</strong>.</p>" +
-        "<p>Tick the files, say what changed, then <strong>Commit</strong> or <strong>Commit and push</strong>. <strong>Discard ticked changes</strong> puts them back; <strong>Pull</strong> brings in your team's.</p>",
-      type: [{ css: "textarea" }, "review-pr: flag float price math"],
-    },
-    {
       screen: "toolkit",
-      spot: { text: "New skill", exact: true },
+      spot: { css: 'button[aria-label="Add to this setup"]' },
       click: true,
       title: "Add a skill",
       body:
-        "<p>The header's <strong>New …</strong> button adds whatever kind is open — <strong>New skill</strong> here, <strong>New rule</strong> on Rules, <strong>New MCP server</strong> on MCP servers.</p>",
-      try: "Click <strong>New skill</strong>.",
+        "<p><strong>+</strong>, at the top of the side panel, adds any kind of thing the setup holds: a skill, a command, a subagent, a rule, an MCP server, a hook and more.</p>",
+      try: "Click <strong>+</strong>, then <strong>Skills</strong>.",
     },
     {
       screen: "toolkit-new",
@@ -130,8 +120,8 @@ export const toolkit = {
       spotOpts: { dim: false, pad: -4 },
       title: "Try it: one rule, every tool",
       body:
-        "<p>Your team keeps forgetting to update the changelog. Open <strong>New skill</strong>, name it <code>changelog</code>, and write \"Add a line to CHANGELOG.md for every user-facing change.\"</p>" +
-        "<p>Slate syncs it to all five tools within a moment. Check <strong>AI tools</strong> says <strong>In sync</strong>, then <strong>Commit and push</strong> from <strong>Changes</strong> so everyone on the project gets it too.</p>",
+        "<p>Your team keeps forgetting to update the changelog. Add a skill with <strong>+</strong>, name it <code>changelog</code>, and write \"Add a line to CHANGELOG.md for every user-facing change.\"</p>" +
+        "<p>Slate syncs it to all five tools within a moment. Check <strong>AI tools</strong> says <strong>In sync</strong>, then commit <code>.slate/</code> so everyone on the project gets it too.</p>",
     },
   ],
 };

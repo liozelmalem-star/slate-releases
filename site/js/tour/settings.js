@@ -8,8 +8,9 @@ export const settings = {
     { match: { text: "Account", exact: true }, step: 1 },
     { match: { text: "Workspaces", exact: true }, step: 3 },
     { match: { text: "Appearance", exact: true }, step: 8 },
-    { match: { text: "Terminal", exact: true }, step: 10 },
-    { match: { text: "Keyboard", exact: true }, step: 11 },
+    { match: { text: "Terminal", exact: true }, step: 9 },
+    { match: { text: "Keyboard", exact: true }, step: 10 },
+    { match: { text: "Automations", exact: true }, step: 11 },
     { match: { text: "About", exact: true }, step: 12 },
   ],
   steps: [
@@ -89,13 +90,6 @@ export const settings = {
         "<p><kbd>⇧⌘L</kbd> flips between light and dark. <kbd>⌘+</kbd> and <kbd>⌘−</kbd> make the whole app bigger or smaller.</p>",
     },
     {
-      screen: "settings-appearance",
-      spot: { text: "Which of the mark", up: 1 },
-      title: "Accent",
-      body:
-        "<p><strong>Accent</strong> picks which of the five colours leads buttons, links and focus rings. It stays when you switch between light and dark. A monochrome theme has no accent, but keeps your choice for when you switch back.</p>",
-    },
-    {
       screen: "settings-terminal",
       spot: { text: "Type", exact: true, up: 1 },
       title: "Terminal",
@@ -109,6 +103,14 @@ export const settings = {
       body:
         "<p>Every shortcut, in one list. Click a key to record a new one; <kbd>Esc</kbd> cancels. If another command already had that key, it moves here and Slate tells you which one lost it.</p>" +
         "<p><kbd>?</kbd> shows the cheatsheet anywhere in the app.</p>",
+    },
+    {
+      screen: "settings-automations",
+      spot: { text: "Capturing your AI sessions", up: 2 },
+      title: "Automations: what runs on its own",
+      body:
+        "<p><strong>Automations</strong> lists everything Slate does when you are not asking it to, for every workspace on this computer. Turning one off stops it everywhere.</p>" +
+        "<p><strong>Capturing your AI sessions</strong> says how many projects it watches and when it last captured. <strong>Scheduled agents</strong>, <strong>Automatic updates</strong> and the menu bar icon each have their own switch.</p>",
     },
     {
       screen: "settings-about",

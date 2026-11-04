@@ -7,7 +7,7 @@ export const sessions = {
   place: "Sessions",
   icon: '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/>',
   links: [
-    { match: { text: "Add a dashboard" }, step: 9 },
+    { match: { css: 'button[title="Watch this session live (feat/rate-limits)"]' }, step: 9 },
   ],
   steps: [
     {
@@ -36,11 +36,11 @@ export const sessions = {
     },
     {
       screen: "sessions",
-      spot: { text: "New session", exact: true },
+      spot: { css: 'button[aria-label^="Start a session"]' },
       title: "Start a session",
       body:
-        "<p>Point at any project, branch or row and a <strong>+</strong> starts a session right there. <strong>New session</strong> is for everything else, and for picking a different tool.</p>",
-      try: "Click <strong>New session</strong>.",
+        "<p>Point at any project or branch and a <strong>+</strong> starts a session right there. The <strong>+</strong> at the top of the list is for everything else, and for picking a different tool.</p>",
+      try: "Click <strong>+</strong> at the top of the list.",
       click: true,
     },
     {
@@ -80,19 +80,19 @@ export const sessions = {
     },
     {
       screen: "sessions",
-      spot: { text: "Add a dashboard" },
+      spot: { css: 'button[title="Watch this session live (feat/rate-limits)"]' },
       title: "Open a session",
       body:
-        "<p>The acme-api session is waiting on you. Click its row to open it.</p>",
-      try: "Click <strong>Add a dashboard query…</strong>",
+        "<p>Each row is named for its branch, with the latest line under it. The acme-api session on <strong>feat/rate-limits</strong> is waiting on you. Click its row to open it.</p>",
+      try: "Click <strong>feat/rate-limits</strong>.",
       click: true,
     },
     {
       screen: "sessions-open",
-      spot: { text: "Add a dashboard", up: 2 },
-      title: "The row opens up",
+      spot: { css: 'button[title="Watch this session live (feat/rate-limits)"]' },
+      title: "The row, and its tab",
       body:
-        "<p>The selected row adds its branch line and its meta line: the tool, how long it has waited, an eye for a session running in your own terminal, how full its context is, and how far its plan has got.</p>" +
+        "<p>The row's meta line shows the tool, how long it has waited, how much it changed, and how far its plan has got. The session opens as a tab above the stage, so several can stay open.</p>" +
         "<p>Arrow keys or <kbd>j</kbd> and <kbd>k</kbd> move through the list, and <kbd>Enter</kbd> opens a row.</p>",
     },
     {
@@ -101,40 +101,39 @@ export const sessions = {
       title: "Its conversation, live",
       body:
         "<p>A session from your own terminal shows its conversation as the tool writes it. <strong>Continue in a copy</strong> picks it up in Slate without touching your terminal. <strong>Its page</strong> opens what Slate recorded about it.</p>" +
-        "<p>A session Slate started runs in a real terminal here, with a <strong>Terminal</strong> | <strong>Conversation</strong> switch above it.</p>",
+        "<p>A session Slate started runs in a real terminal here.</p>",
     },
     {
       screen: "sessions-open",
-      spot: { text: "See changes", up: 2 },
-      title: "The Session panel",
+      spot: { text: "Environment", exact: true, up: 2 },
+      title: "Details, on the right",
       body:
-        "<p>The rail on the right holds <strong>Session</strong>, <strong>Changes</strong>, <strong>Turns</strong> and <strong>About</strong>. Session answers what a glance needs: its state and since when, its whole latest message, the branch checklist, and how full the context is.</p>" +
-        "<p>Its buttons keep their places: <strong>See changes</strong>, then <strong>Open PR</strong>, then <strong>⋯</strong> for the rest.</p>",
-      try: "Click <strong>See changes</strong>.",
-      click: { text: "See changes", exact: true },
+        "<p>The details rail says where the session runs (tool, project, branch, folder), how full its context is, its pull request and its page in Slate. <strong>Draft a skill</strong> turns the session's steps into a skill for the project.</p>" +
+        "<p>The button with a number in the header counts the files the session changed.</p>",
+      try: "Click the <strong>2</strong> in the header.",
+      click: { css: 'button[aria-label^="Changes"]' },
     },
     {
       screen: "sessions-review",
-      spot: { text: "Revert hunk", up: 1 },
-      title: "Review what the branch changed",
+      spot: { text: "committed on this branch", up: 3 },
+      title: "What the branch changed",
       body:
-        "<p>The whole branch against <strong>main</strong>, file by file. Tick <strong>Viewed</strong> as you go. <strong>Revert hunk</strong> and <strong>Revert file</strong> undo one piece without touching the rest.</p>" +
-        "<p>When the agent is done, a finished worktree branch offers <strong>Merge into main</strong>, <strong>Keep</strong> or <strong>Discard</strong> here.</p>",
+        "<p><strong>Changes</strong> opens beside the conversation: what is committed on this branch, and what is not published yet. <strong>Publish branch</strong> pushes it.</p>",
     },
     {
       screen: "sessions-rowmenu",
       spot: { text: "Open beside", up: 2 },
       title: "Everything a row can do",
       body:
-        "<p>Point at a row for <strong>⋯</strong> and <strong>Stop</strong>. The menu opens it beside the one you are in, opens a pull request, starts a <strong>Chat</strong> or a <strong>Second session here</strong>, runs the dev server with <strong>Run preview</strong>, or copies the resume command.</p>" +
+        "<p>Point at a row for <strong>⋯</strong> and <strong>Stop</strong>. The menu opens it beside the one you are in, opens a pull request, starts a <strong>Chat</strong>, a <strong>New worktree</strong> or a <strong>Second session here</strong>, runs the dev server with <strong>Run preview</strong>, or copies the resume command.</p>" +
         "<p><strong>Stop</strong> asks for a second click before it ends a session.</p>",
     },
     {
       screen: "sessions-changes",
-      spot: { css: '[data-session-pane="changes"]' },
+      spot: { text: "Commit & Push", up: 2 },
       title: "Try it: check a working session",
       body:
-        "<p><strong>Changes</strong> lists every file the branch touched, with <strong>Push</strong> and <strong>Open PR</strong>. <strong>Turns</strong> lets you rewind to before a prompt, and <strong>About</strong> shows the page it works on.</p>" +
+        "<p>A session still working has files not yet committed. Tick the ones to keep, write a message, then <strong>Commit</strong>, <strong>Commit & Push</strong> or <strong>Open PR</strong>.</p>" +
         "<p>Each morning: open Sessions, answer the amber rows first, glance at the green ones' Changes, and review a branch before you merge it.</p>",
       try: "Next, <strong>Home</strong>: the same waiting sessions, one card at a time.",
     },

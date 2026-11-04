@@ -11,15 +11,16 @@ export const projects = {
   steps: [
     {
       screen: "projects",
-      spot: { text: "All pages", exact: true, up: 3 },
+      spot: { css: "main" },
+      spotOpts: { pad: 0 },
       title: "Your work, as pages",
-      body: "<p><strong>Projects</strong> holds everything you and your AI tools write about your work: plans, designs, bug reports, meeting notes, and what each branch is up to. It is one tree of pages, stored in a single file on your machine.</p><p>You do not build the outline by hand. Slate makes it from your folders and the sessions it captures.</p>",
+      body: "<p><strong>Projects</strong> holds everything you and your AI tools write about your work: plans, designs, bug reports, meeting notes, and what each branch is up to. It is one tree of pages, stored in a single file on your machine.</p><p>It opens on an <strong>Overview</strong>: a card for each project, under its group, with the branch it is on and when it was last active.</p>",
     },
     {
       screen: "projects",
-      spot: { text: "All pages", exact: true, up: 2 },
+      spot: { css: "aside" },
       title: "Groups, projects, branches",
-      body: "<p>A <strong>project</strong> is a folder you open, usually a git repository: <strong>acme-web</strong>. A <strong>group</strong> collects related projects: <strong>Acme</strong>. Under a project are its <strong>branches</strong>, and under a branch the pages written on it: a Plan, a Design, a Bug Report.</p><p>A branch page appears once something lands on it, a session, a document or a decision. When git removes the branch, its page moves to <strong>Past branches</strong>; nothing is lost.</p>",
+      body: "<p>A <strong>project</strong> is a folder you open, usually a git repository: <strong>acme-web</strong>. A <strong>group</strong> collects related projects: <strong>Acme</strong>. Under a project are its <strong>branches</strong>, and under a branch the pages written on it: a Plan, a Design, a Bug Report.</p><p>A branch page appears once something lands on it, a session, a document or a decision. When git removes the branch, its page moves to <strong>Past branches</strong>; nothing is lost.</p><p><strong>Docs</strong> | <strong>Code</strong>, above the tree, switches the side panel between these pages and the project's own files. You do not build the outline by hand: Slate makes it from your folders and the sessions it captures.</p>",
     },
     {
       screen: "projects",
@@ -37,10 +38,10 @@ export const projects = {
     },
     {
       screen: "projects",
-      spot: { text: "Add a short description", up: 1 },
-      click: { text: "feat/checkout-redesign", exact: true, within: { text: "All pages", exact: true, up: 2 } },
+      spot: { css: 'main [aria-label="acme-web"]' },
+      click: { text: "feat/checkout-redesign", exact: true, within: { css: "aside" } },
       title: "A project's page",
-      body: "<p>A group, project or branch opens on a page of its own: the name, one line of description, and tabs that each count what they hold. A project has <strong>Branches</strong>, <strong>Documents</strong>, <strong>Sessions</strong> and <strong>Memory</strong>.</p><p><strong>Start session</strong>, in the header, starts an AI tool in the project's folder, under the project's account.</p>",
+      body: "<p>A card opens its project. A group, project or branch opens on a page of its own: the name, one line of description, and tabs that each count what they hold. A project has <strong>Branches</strong>, <strong>Documents</strong>, <strong>Sessions</strong> and <strong>Memory</strong>.</p><p><strong>Start session</strong>, in the header, starts an AI tool in the project's folder, under the project's account.</p>",
       try: "Click the <strong>feat/checkout-redesign</strong> branch in the tree.",
     },
     {
