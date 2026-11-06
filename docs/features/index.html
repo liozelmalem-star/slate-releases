@@ -61,27 +61,27 @@
   <article class="prose reveal">
     <p class="lede">Every part of the shipped product, one page each.</p>
     <div class="d-grid">
-      <a class="card d-card" href="pages/">
+      <a class="card d-card" href="docs/">
         <span class="d-tile" style="color:rgb(var(--leaf-teal-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
         <span class="d-body">
-          <span class="d-title">Pages &amp; the Block Editor</span>
-          <span class="d-sub">Everything in Slate is a page — nested, typed, and edited in a keyboard-first block editor backed by a single SQLite table.</span>
+          <span class="d-title">Docs &amp; the Block Editor</span>
+          <span class="d-sub">Everything in Slate is a doc: nested, typed, and edited in a keyboard-first block editor. Covers the editor, the doc tree, Code, Trash, and the group, project and branch docs.</span>
         </span>
         <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
       </a>
-      <a class="card d-card" href="pages/typed-documents/">
+      <a class="card d-card" href="docs/typed-docs/">
         <span class="d-tile" style="color:rgb(var(--leaf-teal-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
         <span class="d-body">
-          <span class="d-title">Typed Documents &amp; Hierarchy</span>
-          <span class="d-sub">A page's doc_type pre-fills a template, tracks a status, and slots it into the group → project → branch hierarchy that lets memory tools resolve targets.</span>
+          <span class="d-title">Typed Docs &amp; Hierarchy</span>
+          <span class="d-sub">A doc's doc_type pre-fills a template. Its status tracks progress. Both place it in the group, project, branch hierarchy that lets memory tools resolve targets.</span>
         </span>
         <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
       </a>
-      <a class="card d-card" href="pages/missions/">
+      <a class="card d-card" href="docs/missions/">
         <span class="d-tile" style="color:rgb(var(--leaf-teal-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
         <span class="d-body">
           <span class="d-title">Missions</span>
-          <span class="d-sub">The `mission` page is a legacy type that the branch page replaced. This page also says how AI tools log progress on a branch, and how Slate offers a page at each milestone.</span>
+          <span class="d-sub">The `mission` doc is a legacy type that the branch doc replaced. Also covers how agents log progress on a branch and how Slate offers a doc at each milestone.</span>
         </span>
         <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
       </a>
@@ -89,7 +89,7 @@
         <span class="d-tile" style="color:rgb(var(--leaf-teal-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
         <span class="d-body">
           <span class="d-title">Search &amp; Command Palette</span>
-          <span class="d-sub">One keystroke to run any action, jump to any page, or full-text search your whole workspace — plus a cheatsheet and rebindable shortcuts.</span>
+          <span class="d-sub">Press ⌘K to run an action, jump to a doc or search your workspace. Also the cheatsheet, rebindable shortcuts, the sidebar, the rail and tabs.</span>
         </span>
         <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
       </a>
@@ -97,7 +97,7 @@
         <span class="d-tile" style="color:rgb(var(--leaf-teal-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
         <span class="d-body">
           <span class="d-title">Memory</span>
-          <span class="d-sub">Slate's memory is a shared, cross-tool layer — an MCP server every AI tool can read and write, populated automatically, and readable by hand as pages.</span>
+          <span class="d-sub">Slate's memory is shared by every agent through an MCP server, filled in automatically, and stored as docs you can read and fix.</span>
         </span>
         <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
       </a>
@@ -105,7 +105,7 @@
         <span class="d-tile" style="color:rgb(var(--leaf-teal-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
         <span class="d-body">
           <span class="d-title">Session Capture</span>
-          <span class="d-sub">Slate auto-captures your AI sessions from Claude, Codex, Gemini, Cursor, OpenCode and GitHub Copilot — a filesystem watcher for the tools that write transcripts, a database reader for the one that doesn't. No hooks, no manual logging.</span>
+          <span class="d-sub">Slate captures your AI sessions from 16 agents, by watching transcript files or reading a tool's own database.</span>
         </span>
         <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
       </a>
@@ -113,7 +113,7 @@
         <span class="d-tile" style="color:rgb(var(--leaf-teal-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
         <span class="d-body">
           <span class="d-title">Recall &amp; Remember</span>
-          <span class="d-sub">How memory reaches an AI session — an index at the start, a search the agent runs, and a lesson on the tool call it is about — and how the session saves, cites and corrects what it learned.</span>
+          <span class="d-sub">How memory reaches an AI session (an index at the start, a search, a lesson on the tool call) and how the session saves, cites and corrects what it learned.</span>
         </span>
         <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
       </a>
@@ -121,7 +121,7 @@
         <span class="d-tile" style="color:rgb(var(--leaf-teal-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
         <span class="d-body">
           <span class="d-title">Decisions &amp; Memories</span>
-          <span class="d-sub">Two kinds of durable memory — decisions are logged choices with rationale, other memories are persistent pieces of knowledge ranked for recall.</span>
+          <span class="d-sub">Two kinds of durable memory: decisions are logged choices with their reasoning, other memories are lasting knowledge ranked for recall.</span>
         </span>
         <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
       </a>
@@ -129,7 +129,7 @@
         <span class="d-tile" style="color:rgb(var(--leaf-teal-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
         <span class="d-body">
           <span class="d-title">Memory Graph</span>
-          <span class="d-sub">See what Slate remembers: a map of your memories on the files they are about, coloured by whether your sessions use them.</span>
+          <span class="d-sub">A map of your memories on the files they are about, coloured by whether your sessions use them, with a list to read, search, correct and retire them.</span>
         </span>
         <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
       </a>
@@ -137,23 +137,23 @@
         <span class="d-tile" style="color:rgb(var(--leaf-teal-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
         <span class="d-body">
           <span class="d-title">Home</span>
-          <span class="d-sub">Slate's in-app AI agent — Home. It reads and writes your workspace and reaches the MCP tools you connect, with the intelligence pushed into code.</span>
+          <span class="d-sub">Home, Slate's in-app AI agent: it reads and writes your workspace, reaches the MCP tools you connect, and does its routing in code so a light model works.</span>
         </span>
         <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
       </a>
       <a class="card d-card" href="agent/brains/">
         <span class="d-tile" style="color:rgb(var(--leaf-teal-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
         <span class="d-body">
-          <span class="d-title">AI Tools &amp; Model Providers</span>
-          <span class="d-sub">Slate calls its model providers &quot;AI tools&quot; — thin drivers over a locally-installed CLI, so there's no API key to paste and nothing leaks through a raw API.</span>
+          <span class="d-title">Agents &amp; Model Providers</span>
+          <span class="d-sub">The 16 agents Slate drives, each a thin driver over a CLI you already have installed and signed in to, so there is no API key to paste.</span>
         </span>
         <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
       </a>
       <a class="card d-card" href="agent/tool-features/">
         <span class="d-tile" style="color:rgb(var(--leaf-teal-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
         <span class="d-body">
-          <span class="d-title">Features by AI Tool</span>
-          <span class="d-sub">Which AI tool has which feature in Slate, and why a gap is there — the one table every per-tool control reads.</span>
+          <span class="d-title">Features by Agent</span>
+          <span class="d-sub">Which agent has which feature in Slate, and why a gap is there. Every per-tool control reads this one table.</span>
         </span>
         <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
       </a>
@@ -161,7 +161,7 @@
         <span class="d-tile" style="color:rgb(var(--leaf-teal-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
         <span class="d-body">
           <span class="d-title">Curated MCP Commands</span>
-          <span class="d-sub">The mechanism behind Home: keyword routing picks one of Slate's own tools, the app prefills known args, and the model fills only the rest.</span>
+          <span class="d-sub">How Home works on a light model: keyword routing picks one of Slate's own tools, the app prefills known args, and the model fills only the rest.</span>
         </span>
         <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
       </a>
@@ -169,7 +169,7 @@
         <span class="d-tile" style="color:rgb(var(--leaf-teal-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
         <span class="d-body">
           <span class="d-title">Connected MCP Tools</span>
-          <span class="d-sub">Home reaches every MCP server the AI tool's own CLI declares. Not to be confused with Slate as an MCP server.</span>
+          <span class="d-sub">Home reaches every MCP server the agent's own CLI declares. Not the same as Slate as an MCP server.</span>
         </span>
         <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
       </a>
@@ -177,7 +177,7 @@
         <span class="d-tile" style="color:rgb(var(--leaf-teal-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
         <span class="d-body">
           <span class="d-title">Slate as an MCP Server</span>
-          <span class="d-sub">Slate's second identity — an MCP server that exposes your workspace and memory to any AI tool, backed by a shared recall/remember contract.</span>
+          <span class="d-sub">Slate as an MCP server: one local server that gives every agent the same workspace and memory, under a recall / remember contract.</span>
         </span>
         <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
       </a>
@@ -185,15 +185,15 @@
         <span class="d-tile" style="color:rgb(var(--leaf-teal-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
         <span class="d-body">
           <span class="d-title">Tool Reference</span>
-          <span class="d-sub">Every tool Slate's MCP server exposes — memory, pages, your Tasks list, activity, other agents, decisions, AI runs and capability discovery — with their arguments and defaults.</span>
+          <span class="d-sub">Every tool Slate's MCP server exposes, with arguments and defaults: docs, memory, workspaces, activity, your Tasks list, connected apps, other agents, decisions, artifacts, apps, setup, agent runs and capability discovery.</span>
         </span>
         <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
       </a>
       <a class="card d-card" href="mcp-server/connecting/">
         <span class="d-tile" style="color:rgb(var(--leaf-teal-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
         <span class="d-body">
-          <span class="d-title">Connecting Your AI Tools</span>
-          <span class="d-sub">Wire Claude Code, Cursor, Codex, Gemini, OpenCode or GitHub Copilot to Slate's MCP server so every tool shares the same memory — from the app in three clicks, or by hand.</span>
+          <span class="d-title">Connecting Your Agents</span>
+          <span class="d-sub">Connect any of 16 agents to Slate's MCP server: from the app, or by hand.</span>
         </span>
         <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
       </a>
@@ -201,7 +201,7 @@
         <span class="d-tile" style="color:rgb(var(--leaf-teal-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
         <span class="d-body">
           <span class="d-title">Workspaces</span>
-          <span class="d-sub">A workspace is a whole store, shared or private. Switch into one from the top of the rail and the entire app is in it — pages, memory, activity, artifacts, search.</span>
+          <span class="d-sub">A workspace is one store, shared or private. Switch into one from the top of the rail and the whole app works inside it.</span>
         </span>
         <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
       </a>
@@ -209,7 +209,7 @@
         <span class="d-tile" style="color:rgb(var(--leaf-teal-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
         <span class="d-body">
           <span class="d-title">Working in a Shared Workspace</span>
-          <span class="d-sub">Inside a shared workspace, everything is shared — that is what the container means. Moving work in, what read-only protects, and how memory travels.</span>
+          <span class="d-sub">Inside a shared workspace everything is shared. How to move work in, what read-only means, and how memory and artifacts travel.</span>
         </span>
         <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
       </a>
@@ -217,7 +217,7 @@
         <span class="d-tile" style="color:rgb(var(--leaf-teal-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
         <span class="d-body">
           <span class="d-title">Workspaces &amp; Invites</span>
-          <span class="d-sub">Accounts, workspaces, roles and the invitation that gets somebody in — plus what a role actually controls, on the server and on your machine.</span>
+          <span class="d-sub">Accounts, workspaces, roles and invitations, and what a role controls on the server and on your machine.</span>
         </span>
         <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
       </a>
@@ -225,7 +225,7 @@
         <span class="d-tile" style="color:rgb(var(--leaf-teal-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
         <span class="d-body">
           <span class="d-title">Toolkit</span>
-          <span class="d-sub">Write your instructions and skills once, then sync them to every AI tool you use — Claude Code, Cursor, Codex, Gemini, OpenCode and GitHub Copilot — from one source of truth.</span>
+          <span class="d-sub">Write your instructions and skills once, then sync them to your agents from one source.</span>
         </span>
         <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
       </a>
@@ -233,15 +233,23 @@
         <span class="d-tile" style="color:rgb(var(--leaf-teal-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
         <span class="d-body">
           <span class="d-title">Project environments</span>
-          <span class="d-sub">Which AI tools a workspace runs and the account each one runs under — so work stays on the work login and personal work stays personal, including sessions you start yourself in a terminal.</span>
+          <span class="d-sub">Which account each agent runs under, per workspace and per group or project, so work stays on the work login. Covers sessions you start yourself in a terminal.</span>
         </span>
         <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
       </a>
       <a class="card d-card" href="loop/">
         <span class="d-tile" style="color:rgb(var(--leaf-teal-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
         <span class="d-body">
-          <span class="d-title">Agents</span>
-          <span class="d-sub">Agents — something that works for you on a trigger, inside rules you set. Give one a job, answer it in its thread, and say yes or no before it changes anything.</span>
+          <span class="d-title">Automations</span>
+          <span class="d-sub">Automations work for you on a trigger, inside rules you set. Give one a job, reply in its thread, and say yes or no before it changes anything.</span>
+        </span>
+        <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+      </a>
+      <a class="card d-card" href="automations/">
+        <span class="d-tile" style="color:rgb(var(--leaf-teal-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
+        <span class="d-body">
+          <span class="d-title">Built-in automations</span>
+          <span class="d-sub">The thirteen things Slate does on its own, what each is for, and how to switch them off.</span>
         </span>
         <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
       </a>
@@ -249,15 +257,15 @@
         <span class="d-tile" style="color:rgb(var(--leaf-teal-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
         <span class="d-body">
           <span class="d-title">Sessions — the Live Tracker</span>
-          <span class="d-sub">Every AI-CLI session on your machine, live — who's working, who's blocked on you, and where each one runs.</span>
+          <span class="d-sub">Every AI-CLI session on this machine, live. Who is working, who needs you, where each runs, and what each changed.</span>
         </span>
         <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
       </a>
-      <a class="card d-card" href="work/">
+      <a class="card d-card" href="tasks/">
         <span class="d-tile" style="color:rgb(var(--leaf-teal-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
         <span class="d-body">
           <span class="d-title">Tasks</span>
-          <span class="d-sub">Tasks — everything waiting on you, in four sections: To-dos, Issues, Reviews and Messages. What your tools report, the lines you write yourself, and a reminder on any of them.</span>
+          <span class="d-sub">Tasks — what waits on you, in four sections (To-dos, Issues, Reviews, Messages), plus today's meetings, reminders, agent runs and receipts.</span>
         </span>
         <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
       </a>
@@ -265,7 +273,7 @@
         <span class="d-tile" style="color:rgb(var(--leaf-teal-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
         <span class="d-body">
           <span class="d-title">Artifacts</span>
-          <span class="d-sub">Pages your AI tools publish for you to look at — an HTML page, a chart, a report or a Markdown note — kept in your workspace with every version.</span>
+          <span class="d-sub">Web pages your agents publish for you: an HTML page, chart, report or Markdown note, kept in your workspace with every version.</span>
         </span>
         <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
       </a>
@@ -273,7 +281,7 @@
         <span class="d-tile" style="color:rgb(var(--leaf-teal-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
         <span class="d-body">
           <span class="d-title">Apps</span>
-          <span class="d-sub">Small apps you build inside Slate, by asking your AI tool or by editing their files. They read your workspace, act only through what you allowed, and have no internet.</span>
+          <span class="d-sub">Apps are small programs your agent builds inside Slate. They read your workspace, act only through permissions you allow, and have no internet. Build, change, restore and trash them here.</span>
         </span>
         <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
       </a>
@@ -289,7 +297,15 @@
         <span class="d-tile" style="color:rgb(var(--leaf-teal-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
         <span class="d-body">
           <span class="d-title">Activity &amp; Analytics</span>
-          <span class="d-sub">A view of your AI work over time — sessions, per-project activity, and the charts and stats built from them.</span>
+          <span class="d-sub">Your AI sessions over time: the dashboard, where its numbers come from, and how far back it reaches.</span>
+        </span>
+        <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
+      </a>
+      <a class="card d-card" href="trash/">
+        <span class="d-tile" style="color:rgb(var(--leaf-teal-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
+        <span class="d-body">
+          <span class="d-title">Trash</span>
+          <span class="d-sub">Docs and apps you move to Trash stay there until you restore them or delete them forever.</span>
         </span>
         <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
       </a>
@@ -297,15 +313,15 @@
         <span class="d-tile" style="color:rgb(var(--leaf-teal-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
         <span class="d-body">
           <span class="d-title">Connect</span>
-          <span class="d-sub">One place for everything this workspace reaches outside itself — which AI tools it runs, and which apps it connects.</span>
+          <span class="d-sub">The screen for how a workspace reaches outside itself: which agents it runs, and which apps it connects.</span>
         </span>
         <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
       </a>
-      <a class="card d-card" href="automations/">
+      <a class="card d-card" href="settings/">
         <span class="d-tile" style="color:rgb(var(--leaf-teal-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
         <span class="d-body">
-          <span class="d-title">Automations</span>
-          <span class="d-sub">Everything Slate does when you are not asking it to — what each one is for, and how to switch any of them off.</span>
+          <span class="d-title">Settings</span>
+          <span class="d-sub">What each Settings tab holds. Every tab is about this computer; what one workspace allows is in Connect.</span>
         </span>
         <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
       </a>
@@ -313,7 +329,7 @@
         <span class="d-tile" style="color:rgb(var(--leaf-teal-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
         <span class="d-body">
           <span class="d-title">Themes</span>
-          <span class="d-sub">Slate's four themes — a coloured pair and a monochrome pair — the blue accent, how big the interface is, and where colour shows up across it.</span>
+          <span class="d-sub">Slate's four themes (a coloured pair and a monochrome pair), the accent, and the interface zoom.</span>
         </span>
         <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
       </a>
@@ -321,7 +337,7 @@
         <span class="d-tile" style="color:rgb(var(--leaf-teal-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
         <span class="d-body">
           <span class="d-title">Privacy &amp; Security</span>
-          <span class="d-sub">Slate keeps your workspace on your machine. Nothing leaves without an explicit action — and there are four exceptions, plus the connections you set up yourself.</span>
+          <span class="d-sub">Slate keeps your workspace on your machine. Four things can send data out, plus the connections you set up yourself. Each is listed below with how to turn it off.</span>
         </span>
         <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
       </a>
@@ -337,7 +353,7 @@
         <span class="d-tile" style="color:rgb(var(--leaf-teal-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
         <span class="d-body">
           <span class="d-title">Licensing &amp; Updates</span>
-          <span class="d-sub">Free during the alpha, paid soon — and how the Tauri auto-updater installs a new version without interrupting you.</span>
+          <span class="d-sub">Free during the alpha, paid soon. How updates arrive in steps, install when you quit, and what safe mode does.</span>
         </span>
         <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
       </a>
@@ -345,7 +361,7 @@
         <span class="d-tile" style="color:rgb(var(--leaf-teal-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
         <span class="d-body">
           <span class="d-title">Platform &amp; Availability</span>
-          <span class="d-sub">Which platforms Slate runs on today, which are built but not yet published, and which have never been built.</span>
+          <span class="d-sub">Which platforms Slate runs on today, which are built but not yet published, and how you install and remove it.</span>
         </span>
         <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
       </a>
@@ -353,7 +369,7 @@
         <span class="d-tile" style="color:rgb(var(--leaf-teal-500))"><svg width="18" height="18"><use href="#slab-18"/></svg></span>
         <span class="d-body">
           <span class="d-title">What Slate Costs Your Machine</span>
-          <span class="d-sub">How much CPU, memory and disk Slate may use on your Mac when you are not using it, how those limits are measured, and how to check them yourself.</span>
+          <span class="d-sub">The most CPU, memory and disk Slate may use on your Mac, how the tests measure it, and how to check it yourself.</span>
         </span>
         <svg class="d-go" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"/></svg>
       </a>

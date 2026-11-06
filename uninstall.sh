@@ -38,11 +38,11 @@
 # Piped to bash, this script IS stdin, so there is nothing left to read an answer from —
 # a prompt here would either hang or silently take the next line of the script as your
 # reply. So the destructive half is opt-in on the command line instead: the default run
-# cannot delete your pages, and --dry-run shows you everything first.
+# cannot delete your docs, and --dry-run shows you everything first.
 #
 # Options:
 #   --dry-run            print every step and change nothing
-#   --delete-workspace   also delete your pages, your memory and the backups
+#   --delete-workspace   also delete your docs, your memory and the backups
 #   --prefix <dir>       look for Slate.app somewhere other than /Applications
 #   --keep-connections   leave Slate's entries in your AI tools alone
 
@@ -190,8 +190,8 @@ ok "Removed logs, cache and webview state"
 
 # ── 6. The workspace ───────────────────────────────────────────────────────────
 # Off by default and deliberately hard to do by accident. This directory is the product:
-# every page, the whole memory graph, and the pre-migration backups. Nothing else on the
-# machine holds a copy, and no cloud has one — a shared workspace syncs pages, not this
+# every doc, the whole memory graph, and the pre-migration backups. Nothing else on the
+# machine holds a copy, and no cloud has one — a shared workspace syncs docs, not this
 # file. Deleting it is not recoverable.
 if $DELETE_WORKSPACE; then
   if [[ -e "$SUPPORT" ]]; then

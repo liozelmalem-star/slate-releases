@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Slate — Settings</title>
+<meta name="description" content="What each Settings tab holds. Every tab is about this computer; what one workspace allows is in Connect.">
+<link rel="icon" href="../../../assets/icon.svg" media="(prefers-color-scheme: light)">
+<link rel="icon" href="../../../assets/icon-dark.svg" media="(prefers-color-scheme: dark)">
+
+<meta property="og:title" content="Slate — Settings">
+<meta property="og:description" content="What each Settings tab holds. Every tab is about this computer; what one workspace allows is in Connect.">
+<meta property="og:type" content="article">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="../../../site/css/tokens.css">
+<link rel="stylesheet" href="../../../site/css/base.css">
+<link rel="stylesheet" href="../../../site/css/layout.css">
+<link rel="stylesheet" href="../../../site/css/components.css">
+<link rel="stylesheet" href="../../../site/css/docs.css">
+<link rel="stylesheet" href="../../../site/css/prose.css">
+
+<script>
+  // Before first paint, never after. See site/README.md — as a module this would run
+  // after the document renders and flash white on every navigation.
+  try {
+    var t = localStorage.getItem("slate-theme");
+    document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
+  } catch (e) {
+    document.documentElement.dataset.theme = "light";
+  }
+</script>
+</head>
+<body>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="slab-9" viewBox="0 0 9 9">
+      <path d="M 0.655 5.6 L 5.055 3.4 L 8.345 3.4 L 3.945 5.6 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="slab-18" viewBox="0 0 18 18">
+      <path d="M 1.31 11.2 L 10.11 6.8 L 16.69 6.8 L 7.89 11.2 Z"
+            fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+    </symbol>
+  </defs>
+</svg>
+
+<div class="wrap">
+  <header>
+    <a class="back" href="./">
+      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
+      Features
+    </a>
+    <h1>Settings</h1>
+  </header>
+
+  <article class="prose reveal">
+<p><strong>Settings</strong> is the last item in the left rail. Every tab is about this computer. Which AI tool a workspace runs, under which account, and what it can reach are in <a href="../connect/">Connect</a>.</p><div class="scroll"><table><thead><tr><th>Tab</th><th>What it holds</th></tr></thead><tbody><tr><td><strong>Account</strong></td><td>Who you are signed in as, and your plan. See <a href="../licensing/">Licensing &amp; Updates</a>.</td></tr><tr><td><strong>Workspaces</strong></td><td>Every workspace on this computer: who can see it, where its file lives, how big it is. Open one to share, rename or manage it. See <a href="../workspaces/">Workspaces</a>.</td></tr><tr><td><strong>Appearance</strong></td><td>Light or dark, in colour or in grey. See <a href="../theming/">Themes</a>.</td></tr><tr><td><strong>Terminal</strong></td><td>Font size, line height, cursor shape and blink, scrollback, copy on select. See <a href="../sessions/">Sessions</a>.</td></tr><tr><td><strong>Keyboard</strong></td><td>Every shortcut in one list. The one place to change or remove one.</td></tr><tr><td><strong>About</strong></td><td>Version, updates, logs, links, and what Slate may send. See <a href="../licensing/">Licensing &amp; Updates</a> and <a href="../privacy-and-security/">Privacy &amp; Security</a>.</td></tr></tbody></table></div><p>What Slate runs on its own is no longer a Settings tab. Since 2026-11-06 it is the <strong>Built-in</strong> section of the <a href="../loop/">Automations</a> place. See <a href="../automations/">Automations</a>.</p>
+  </article>
+</div>
+
+<footer>
+  <p>
+    Slate is in alpha. Your data stays on your machine.<br>
+    <a href="../../../">Home</a> ·
+    <a href="../../../docs/">Docs</a> ·
+    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a>
+  </p>
+</footer>
+
+<script type="module" src="../../../site/js/docs-page.js"></script>
+</body>
+</html>
