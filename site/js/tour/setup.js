@@ -1,5 +1,5 @@
-// Setup: installing Slate, signing in, its first-run wizard (Welcome, Plan, Agents,
-// Integrations, Project), and the Set up Slate card Home opens with. Screens: setup-*.
+// Setup: installing Slate, signing in, its first-run wizard (Welcome, Agents, Integrations,
+// Project), and the Set up Slate card Home keeps for what setup skipped. Screens: setup-*.
 const CMD = "curl -fsSL https://liozelmalem-star.github.io/slate-releases/install.sh | bash";
 
 export const setup = {
@@ -28,22 +28,12 @@ export const setup = {
     {
       screen: "setup-welcome",
       spot: { text: "Continue", exact: true },
-      title: "Five short steps",
+      title: "Four short steps",
       body:
-        "<p>The dots at the top are the steps: <strong>Welcome</strong>, <strong>Plan</strong>, <strong>Agents</strong>, <strong>Integrations</strong> and <strong>Project</strong>. None can be skipped. <strong>Back</strong> goes to the one before.</p>" +
+        "<p>The dots at the top are the steps: <strong>Welcome</strong>, <strong>Agents</strong>, <strong>Integrations</strong> and <strong>Project</strong>. <strong>Back</strong> goes to the one before, and <strong>Skip setup</strong> leaves from any step. Every account is on Free.</p>" +
         "<p>Everything you choose here can be changed later, in Settings, Connect and Projects.</p>",
       try: "Click <strong>Continue</strong>.",
       click: true,
-    },
-    {
-      screen: "setup-plan",
-      spot: { text: "How will you use Slate?", up: 1 },
-      title: "Just me, or with my team",
-      body:
-        "<p><strong>Just me</strong> is free for individuals: everything Slate does, on this Mac, with as many private workspaces as you want.</p>" +
-        "<p><strong>With my team</strong> is coming soon. Choosing it puts you on the Team list, and setup carries on with Free. You can change it later in Settings.</p>",
-      try: "Click <strong>Continue</strong>.",
-      click: { text: "Continue", exact: true },
     },
     {
       screen: "setup-aitool",
@@ -51,7 +41,7 @@ export const setup = {
       title: "Connect your AI tools",
       body:
         "<p>Connecting lets a tool search and write your Slate memory. Slate installs itself into each tool, as a plugin where the tool takes one.</p>" +
-        "<p>A tool Slate found on your Mac says <strong>Detected</strong>. <strong>Connect all</strong> turns on every detected tool at once.</p>",
+        "<p>A tool Slate found on your Mac says <strong>Detected</strong>. <strong>Connect all</strong> turns on every detected tool at once. Ten newer tools read <strong>Beta</strong>: Slate works with them, but nobody has run a session on them yet to check every part.</p>",
     },
     {
       screen: "setup-aitool",
@@ -98,7 +88,7 @@ export const setup = {
       title: "Open Slate",
       body:
         "<p>More projects can be added any time from the project picker at the top of Projects.</p>" +
-        "<p><strong>Open Slate</strong> finishes setup and takes you to Home.</p>",
+        "<p><strong>Open Slate</strong> finishes setup and takes you to Sessions, where every AI session on this Mac shows live. <strong>Skip setup</strong> goes there too.</p>",
       try: "Click <strong>Open Slate</strong>.",
       click: true,
     },
@@ -108,7 +98,7 @@ export const setup = {
       spotOpts: { pad: 4 },
       title: "Set up Slate, on Home",
       body:
-        "<p>Home opens with a <strong>Set up Slate</strong> card: three steps, each ticked from what is really in your workspace, not from clicks. A step you did somewhere else ticks itself.</p>" +
+        "<p>Home keeps a <strong>Set up Slate</strong> card for whatever setup skipped: three steps, each ticked from what is really in your workspace, not from clicks. A step you did somewhere else ticks itself.</p>" +
         "<p>The header counts them (<strong>2 of 3 done</strong>). <strong>Skip setup</strong> hides the card for good.</p>",
     },
     {

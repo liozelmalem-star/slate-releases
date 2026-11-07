@@ -27,8 +27,9 @@ already contains everything.
 
 The script installs `Slate.app` into `/Applications` and opens it.
 
-On first launch you sign in once, with Google or GitHub. Then a 5-step setup runs —
-**Welcome, Plan, Agents, Integrations, Project**. The **Agents** step installs Slate into the
+On first launch you sign in once, with Google or GitHub. Then a 4-step setup runs —
+**Welcome, Agents, Integrations, Project** — that you can skip from any step, and Slate
+opens on Sessions. The **Agents** step installs Slate into the
 AI tools you pick, out of the 16 it supports: as a plugin where the tool takes one, such as
 Claude Code, Codex, Gemini and Cursor, and through its config file otherwise, such as
 OpenCode. It asks first: nothing outside Slate is touched until you connect one, and after
