@@ -15,7 +15,7 @@ export const sessions = {
       spot: { text: "Every live AI session", up: 2 },
       title: "Every AI session on your Mac, live",
       body:
-        "<p>Sessions lists every Claude Code, Codex, Gemini, Cursor and OpenCode session running on this computer, whether Slate started it or you did in your own terminal. Nothing to register.</p>" +
+        "<p>Sessions lists every AI coding session running on this computer, from any of the 16 tools Slate supports,, whether Slate started it or you did in your own terminal. Nothing to register.</p>" +
         "<p>The header counts them: <strong>1 need you</strong>, <strong>1 working</strong>, <strong>1 idle</strong>. <kbd>⌘⇧J</kbd> jumps to the one that has waited longest.</p>",
     },
     {

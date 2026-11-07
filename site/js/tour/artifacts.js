@@ -34,7 +34,7 @@ export const artifacts = {
       screen: "artifacts",
       spot: { css: "aside" },
       title: "How one gets here",
-      body: "<p>In any session, ask a connected tool (Claude Code, Codex, Cursor, Gemini, OpenCode) to <strong>publish this as an artifact</strong>. It sends the page through Slate's <code>publish_artifact</code> MCP tool, and it lands at the top of this list.</p><p>Tools also publish a chart, a table or a report this way on their own. The list is newest first. <strong>Filter artifacts</strong> narrows it; <kbd>⌘K</kbd> finds one from anywhere.</p>",
+      body: "<p>In any session, ask any connected AI tool to <strong>publish this as an artifact</strong>. It sends the page through Slate's <code>publish_artifact</code> MCP tool, and it lands at the top of this list.</p><p>Tools also publish a chart, a table or a report this way on their own. The list is newest first. <strong>Filter artifacts</strong> narrows it; <kbd>⌘K</kbd> finds one from anywhere.</p>",
     },
     {
       screen: "artifacts",

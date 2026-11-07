@@ -118,7 +118,7 @@ export const apps = {
       click: { text: "Allow", exact: true },
       after: (root) => root.querySelector('[data-tour="contract"]')?.remove(),
       title: "It asks before it does more",
-      body: "<p>Reading its project is free. Anything more needs a permission: reading your GitHub or Tasks, changing Tasks, saving memories, writing pages, running agents.</p><p>A new app asks once, on a card that lists each permission and the app's reason. <strong>Allow</strong> grants exactly that. <strong>Not now</strong> means it asks the first time it uses one.</p>",
+      body: "<p>Reading its project is free. Anything more needs a permission: reading your GitHub or Tasks, changing Tasks, saving memories, writing pages, running automations.</p><p>A new app asks once, on a card that lists each permission and the app's reason. <strong>Allow</strong> grants exactly that. <strong>Not now</strong> means it asks the first time it uses one.</p>",
       try: "Click <strong>Allow</strong>.",
     },
     {

@@ -92,7 +92,7 @@ export const memory = {
       screen: "memory-m",
       spot: { text: "What Slate remembers, learned from your sessions", up: 2 },
       title: "Try it",
-      body: "<p>In any connected tool — Claude Code, Codex, Cursor, Gemini or OpenCode — make a decision and say why. When the session ends it lands here.</p><p>Then open a <em>different</em> tool and ask what was decided. It recalls the same memory, without you pasting anything.</p>",
+      body: "<p>In any connected tool, such as Claude Code, Codex or Cursor, make a decision and say why. When the session ends it lands here.</p><p>Then open a <em>different</em> tool and ask what was decided. It recalls the same memory, without you pasting anything.</p>",
     },
   ],
 };

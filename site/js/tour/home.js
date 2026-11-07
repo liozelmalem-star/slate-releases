@@ -29,10 +29,10 @@ export const home = {
     {
       screen: "home-later",
       spot: { text: "Standup's rules held a call", up: 2 },
-      title: "An agent asks first",
+      title: "An automation asks first",
       body:
-        "<p>The count went down by one and the next card came up. This one is from an agent: its rules held a call it wanted to make, here posting the standup to #acme-dev.</p>" +
-        "<p><strong>Yes, do it</strong> runs exactly that call. <strong>No</strong> drops it, and <strong>Open the thread</strong> shows the agent's run.</p>",
+        "<p>The count went down by one and the next card came up. This one is from an automation: its rules held a call it wanted to make, here posting the standup to #acme-dev.</p>" +
+        "<p><strong>Yes, do it</strong> runs exactly that call. <strong>No</strong> drops it, and <strong>Open the thread</strong> shows the automation's run.</p>",
     },
     {
       screen: "home",
@@ -92,7 +92,7 @@ export const home = {
       spot: { text: "Checkout redesign", exact: true },
       title: "@ to mention anything",
       body:
-        "<p>Type <kbd>@</kbd> anywhere to name a page, session, memory, task, agent or report. The menu groups matches by kind, most recent first.</p>" +
+        "<p>Type <kbd>@</kbd> anywhere to name a page, session, memory, task, automation or report. The menu groups matches by kind, most recent first.</p>" +
         "<p>Each pick becomes a chip, and its content is sent ahead of your message, so the AI tool reads exactly what you pointed at.</p>",
     },
     {

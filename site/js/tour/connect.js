@@ -21,9 +21,9 @@ export const connect = {
     {
       screen: "connect",
       spot: { text: "Claude Code", exact: true, up: 3 },
-      title: "Six AI tools, one row each",
+      title: "Every AI tool, one row each",
       body:
-        "<p>Claude Code, Codex, Gemini, Cursor, OpenCode and GitHub Copilot, always in that order. Here Claude Code and Codex are on, and Claude Code is the <strong>default</strong> — the one this workspace reaches for when nothing more specific is named.</p>" +
+        "<p>One row for each of the 16 AI tools Slate supports. This screen is from before 0.1.59 and shows the first six. Here Claude Code and Codex are on, and Claude Code is the <strong>default</strong> — the one this workspace reaches for when nothing more specific is named.</p>" +
         "<p>Each row names the profile and model it runs under. The tool's dialog names the config file Slate writes for it.</p>",
     },
     {
@@ -32,7 +32,7 @@ export const connect = {
       spotOpts: { pad: 8 },
       title: "The switch installs Slate into the tool",
       body:
-        "<p>Turning a tool on does two things. It installs Slate into that tool, so its sessions are captured and it can read and write your workspace. And it lets this workspace run on it — Home, agents and skills need a tool to run on.</p>" +
+        "<p>Turning a tool on does two things. It installs Slate into that tool, so its sessions are captured and it can read and write your workspace. And it lets this workspace run on it — Home, automations and skills need a tool to run on.</p>" +
         "<p>Turning it off takes Slate back out. A file only Slate changed goes back to exactly what it was.</p>",
     },
     {

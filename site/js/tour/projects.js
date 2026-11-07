@@ -27,7 +27,7 @@ export const projects = {
       spot: { text: "All projects", exact: true },
       click: true,
       title: "Narrow to one project",
-      body: "<p>The project picker at the top of the side panel narrows the tree to one project. Projects keeps its own choice; Agents, Activity, Artifacts and Memory each have their own.</p>",
+      body: "<p>The project picker at the top of the side panel narrows the tree to one project. Projects keeps its own choice; Automations, Activity, Artifacts and Memory each have their own.</p>",
       try: "Open the picker: click <strong>All projects</strong>.",
     },
     {

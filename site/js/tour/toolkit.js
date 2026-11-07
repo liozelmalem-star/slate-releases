@@ -16,7 +16,7 @@ export const toolkit = {
       spotOpts: { dim: false, pad: -4 },
       title: "One setup for every AI tool",
       body:
-        "<p>Claude Code, Codex, Cursor, Gemini and OpenCode each want their skills, rules and MCP servers in their own folder and their own format. Kept by hand, five copies drift apart.</p>" +
+        "<p>Claude Code, Codex, Cursor and every other AI tool want their skills, rules and MCP servers in their own folder and their own format. Kept by hand, the copies drift apart.</p>" +
         "<p><strong>Toolkit</strong> keeps one copy and publishes it to all of them. You write it once, in the project's <code>.slate/</code> folder and its <code>AGENTS.md</code>, and Slate writes each tool's version for you.</p>",
     },
     {
@@ -112,7 +112,7 @@ export const toolkit = {
       title: "Write it once",
       body:
         "<p>Give it a folder name and say what it does and when a tool should use it — that sentence is how a tool decides to load it.</p>" +
-        "<p><strong>.slate/skills</strong> publishes to all five tools, so the tool folders below are already covered. Pick a group, start from a blank <code>SKILL.md</code> or a copy, and <strong>Create skill</strong>.</p>",
+        "<p><strong>.slate/skills</strong> publishes to every connected tool, so the tool folders below are already covered. Pick a group, start from a blank <code>SKILL.md</code> or a copy, and <strong>Create skill</strong>.</p>",
     },
     {
       screen: "toolkit",
@@ -121,7 +121,7 @@ export const toolkit = {
       title: "Try it: one rule, every tool",
       body:
         "<p>Your team keeps forgetting to update the changelog. Add a skill with <strong>+</strong>, name it <code>changelog</code>, and write \"Add a line to CHANGELOG.md for every user-facing change.\"</p>" +
-        "<p>Slate syncs it to all five tools within a moment. Check <strong>AI tools</strong> says <strong>In sync</strong>, then commit <code>.slate/</code> so everyone on the project gets it too.</p>",
+        "<p>Slate syncs it to every connected tool within a moment. Check <strong>AI tools</strong> says <strong>In sync</strong>, then commit <code>.slate/</code> so everyone on the project gets it too.</p>",
     },
   ],
 };

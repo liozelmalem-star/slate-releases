@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Slate — the tools every AI tool gains</title>
-<meta name="description" content="The MCP tools Slate exposes to Claude Code, Codex, Cursor, Gemini and OpenCode — 24 tools over memory, pages, artifacts and apps, your Tasks list, activity, other agents and workspaces, against a workspace that stays on your machine.">
+<meta name="description" content="The MCP tools Slate exposes to every AI tool you connect — 27 tools over memory, docs, artifacts and apps, your Tasks list, connected apps, activity, other agents, project setup and workspaces, against a workspace that stays on your machine.">
 <link rel="icon" href="../../assets/icon.svg" media="(prefers-color-scheme: light)">
 <link rel="icon" href="../../assets/icon-dark.svg" media="(prefers-color-scheme: dark)">
 
 <meta property="og:title" content="Slate — tool reference">
-<meta property="og:description" content="The 24 MCP tools every AI tool on your machine gains against your workspace.">
+<meta property="og:description" content="The 27 MCP tools every AI tool on your machine gains against your workspace.">
 <meta property="og:type" content="website">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -56,11 +56,11 @@
     </a>
     <h1>The tools every AI tool gains</h1>
     <p class="lede">
-      Slate runs an MCP server on your machine. Connect Claude Code, Codex, Cursor, Gemini
-      or OpenCode to it — from setup, or Connect → AI tools — and each of them gains these
-      24 tools against the same workspace. Not a copy each. The same one.
+      Slate runs an MCP server on your machine. Connect any of the 16 AI tools Slate
+      supports — from setup, or Connect → AI tools — and each of them gains these 27 tools
+      against the same workspace. Not a copy each. The same one.
     </p>
-    <span class="t-count"><b>24</b> tools · five AI tools · one workspace</span>
+    <span class="t-count"><b>27</b> tools · 16 AI tools · one workspace</span>
   </header>
 
 
@@ -100,20 +100,20 @@
   </section>
 
   <section class="reveal">
-    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-blue-500))"><use href="#slab-9"/></svg>Pages</h2>
-    <p class="t-blurb">A tool can save a typed document and add to a page. Renaming, moving and trashing are done in the app, where there is an undo.</p>
+    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-blue-500))"><use href="#slab-9"/></svg>Docs</h2>
+    <p class="t-blurb">A tool can save a typed document and add to a doc. Renaming, moving and trashing are done in the app, where there is an undo.</p>
     <div class="card t-group">
         <div class="t-row">
-          <code class="t-name">create_document</code>
+          <code class="t-name">create_doc</code>
           <p class="t-desc">Create a typed document — plan, design, review, bug report — filled from a template when no Markdown is given. Only after you said yes.</p>
         </div>
         <div class="t-row">
-          <code class="t-name">get_page</code>
-          <p class="t-desc">Read one page by id or by target: title, icon, breadcrumb path and body as Markdown.</p>
+          <code class="t-name">get_doc</code>
+          <p class="t-desc">Read one doc by id or by target: title, icon, breadcrumb path and body as Markdown.</p>
         </div>
         <div class="t-row">
-          <code class="t-name">append_to_page</code>
-          <p class="t-desc">Add Markdown to the end of a page, and say back which page it landed on.</p>
+          <code class="t-name">append_to_doc</code>
+          <p class="t-desc">Add Markdown to the end of a doc, and say back which doc it landed on.</p>
         </div>
     </div>
   </section>
@@ -142,20 +142,28 @@
   </section>
 
   <section class="reveal">
-    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-red-500))"><use href="#slab-9"/></svg>Tasks & activity</h2>
-    <p class="t-blurb">What you owe and what you have been doing, across every tool — assembled from what Slate captured, not from anything you had to log.</p>
+    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-red-500))"><use href="#slab-9"/></svg>Tasks, apps & activity</h2>
+    <p class="t-blurb">What you owe, what your connected apps hold, and what you have been doing, across every tool — assembled from what Slate captured, not from anything you had to log.</p>
     <div class="card t-group">
         <div class="t-row">
-          <code class="t-name">my_work</code>
+          <code class="t-name">my_tasks</code>
           <p class="t-desc">Your Tasks list: to-dos overdue or due today, and the open items your tools gave you, each with the key you know it by.</p>
         </div>
         <div class="t-row">
-          <code class="t-name">update_my_work</code>
+          <code class="t-name">update_my_task</code>
           <p class="t-desc">Add a to-do, tick one off, rename it, or set a reminder that rings when it comes due.</p>
         </div>
         <div class="t-row">
           <code class="t-name">activity</code>
           <p class="t-desc">Recent sessions across every tool and project, or the branches you left carrying uncommitted changes and never came back to.</p>
+        </div>
+        <div class="t-row">
+          <code class="t-name">connected_tools</code>
+          <p class="t-desc">The apps this workspace connected in Connect → Integrations, such as Linear, Notion and Jira, and which of their tools only read.</p>
+        </div>
+        <div class="t-row">
+          <code class="t-name">read_connected</code>
+          <p class="t-desc">Read through one of those apps with the sign-in Slate holds, so your AI tool needs no MCP server of its own for it. Reads only; a tool that writes is refused.</p>
         </div>
     </div>
   </section>
@@ -184,22 +192,26 @@
           <p class="t-desc">Search what other people published, across every workspace you belong to — their memories and their pages.</p>
         </div>
         <div class="t-row">
-          <code class="t-name">workspace_page</code>
-          <p class="t-desc">Read one shared page in full. Read-only — a page belongs to whoever wrote it.</p>
+          <code class="t-name">workspace_doc</code>
+          <p class="t-desc">Read one shared doc in full. Read-only — a doc belongs to whoever wrote it.</p>
         </div>
     </div>
   </section>
 
   <section class="reveal">
-    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-blue-500))"><use href="#slab-9"/></svg>AI runs & contract</h2>
-    <p class="t-blurb">The first two only answer inside a session a Slate AI run started; anywhere else they say so.</p>
+    <h2><svg width="9" height="9" style="color:rgb(var(--leaf-blue-500))"><use href="#slab-9"/></svg>Project setup, runs & contract</h2>
+    <p class="t-blurb"><code class="inline">get_agent_run</code> and <code class="inline">report_agent_run_step</code> only answer inside a session a Slate run started; anywhere else they say so.</p>
     <div class="card t-group">
         <div class="t-row">
-          <code class="t-name">get_task</code>
+          <code class="t-name">propose_setup_change</code>
+          <p class="t-desc">Suggest a fix, copy, new item, improvement or removal for the project's skills, commands, subagents or MCP servers. It waits in Toolkit › Suggestions and writes nothing until you accept it.</p>
+        </div>
+        <div class="t-row">
+          <code class="t-name">get_agent_run</code>
           <p class="t-desc">The AI run's current step, its attempt and the step's instructions — or why it is blocked.</p>
         </div>
         <div class="t-row">
-          <code class="t-name">report_task_step</code>
+          <code class="t-name">report_agent_run_step</code>
           <p class="t-desc">Report that step as done, blocked, needing input or failed, with a short summary.</p>
         </div>
         <div class="t-row">
@@ -220,15 +232,15 @@
     </div>
 
     <div class="card note">
-      <strong>Pages don't need an id.</strong> <code class="inline">get_page</code> and
-      <code class="inline">append_to_page</code> take a <code class="inline">target</code>
+      <strong>Docs don't need an id.</strong> <code class="inline">get_doc</code> and
+      <code class="inline">append_to_doc</code> take a <code class="inline">target</code>
       instead — a kind, a <code class="inline">cwd</code>, a branch, a doc type — and Slate
-      writes only when it resolves to exactly one page. An ambiguous target is refused.
+      writes only when it resolves to exactly one doc. An ambiguous target is refused.
     </div>
 
     <div class="card note">
       <strong>This is not Slate's only tool list.</strong> These are the tools your own AI
-      tools reach, over MCP. Home and your agents call a second, in-process surface
+      tools reach, over MCP. Home and your automations call a second, in-process surface
       directly, with finer tools of their own. The two differ on purpose —
       <code class="inline">slate_capabilities</code> means nothing in-process, and
       renaming, moving and trashing pages are gestures you make in the app.

@@ -4,12 +4,12 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Slate — connecting your AI tools</title>
-<meta name="description" content="How Slate connects to Claude Code, Codex, Gemini, Cursor and OpenCode from its own Connect screen — and how to point any MCP-aware tool at it by hand.">
+<meta name="description" content="How Slate connects to the 16 AI tools it supports from its own Connect screen — and how to point any MCP-aware tool at it by hand.">
 <link rel="icon" href="../../assets/icon.svg" media="(prefers-color-scheme: light)">
 <link rel="icon" href="../../assets/icon-dark.svg" media="(prefers-color-scheme: dark)">
 
 <meta property="og:title" content="Slate — connecting your AI tools">
-<meta property="og:description" content="How Slate connects to Claude Code, Codex, Gemini, Cursor and OpenCode — and how to do it by hand.">
+<meta property="og:description" content="How Slate connects to the 16 AI tools it supports — and how to do it by hand.">
 <meta property="og:type" content="website">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -69,16 +69,19 @@
   <section class="reveal">
     <h2><svg width="9" height="9" style="color:rgb(var(--leaf-amber-500))"><use href="#slab-9"/></svg>The easy way</h2>
     <p class="t-blurb">
-      Setup's <strong>Connect</strong> step, or <strong>Connect → AI tools</strong> any time
-      after it, lists five tools: Claude Code, Codex, Gemini, Cursor and OpenCode. Gemini CLI now needs
-      an API key or a paid Code Assist licence from Google. Pick the
+      Setup's <strong>Agents</strong> step, or <strong>Connect → AI tools</strong> any time
+      after it, lists 16 tools. Six are verified: Claude Code, Codex, Gemini, Cursor, OpenCode
+      and GitHub Copilot. Ten more arrived in 0.1.59 and are not verified yet: Antigravity,
+      Grok Build, Kiro, Droid, Auggie, Cline, Qwen Code, Kilo Code, Hermes Agent and Goose.
+      Gemini CLI now needs an API key or a paid Code Assist licence from Google. Pick the
       tool and the profile it runs under, switch it on, and Slate is installed for that
       config folder — every project on this computer included.
     </p>
     <div class="card note">
-      <strong>What the switch writes.</strong> In Claude Code, Codex, Gemini and Cursor,
-      Slate installs its plugin, and the plugin supplies the MCP server. In OpenCode it adds
-      an MCP entry and one plugin module to <code class="inline">opencode.json</code>.
+      <strong>What the switch writes.</strong> In a tool that takes a plugin, such as Claude
+      Code, Codex, Gemini and Cursor, Slate installs its plugin, and the plugin supplies the
+      MCP server. In OpenCode it adds an MCP entry and one plugin module to
+      <code class="inline">opencode.json</code>.
       Without Node 24 or newer, Slate writes into the tool's config instead. A tool's dialog
       names the file Slate writes, every write copies the original aside first, and turning
       the switch off takes out what Slate put there.
@@ -168,7 +171,7 @@
     <p class="lede" style="font-size:15px; margin-bottom:16px">
       Connected, every one of these tools now works against your workspace.
     </p>
-    <a class="cta" href="../mcp/">The 24 tools →</a>
+    <a class="cta" href="../mcp/">The 27 tools →</a>
   </section>
 </div>
 

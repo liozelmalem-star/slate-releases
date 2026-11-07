@@ -17,7 +17,7 @@ export const activity = {
       spotOpts: { dim: false, pad: -4 },
       title: "What your AI work came to",
       body:
-        "<p><strong>Activity</strong> reads the session files Claude Code, Codex, Gemini, Cursor and OpenCode already keep on your machine, and turns them into one board: what you did today, where the time went, and how your weeks are trending.</p>" +
+        "<p><strong>Activity</strong> reads the session files your AI tools already keep on your machine, and turns them into one board: what you did today, where the time went, and how your weeks are trending.</p>" +
         "<p>Nothing to set up. Everything here comes from data already on your computer.</p>",
     },
     {

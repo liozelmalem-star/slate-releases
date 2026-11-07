@@ -26,9 +26,9 @@ export const settings = {
     {
       screen: "settings-account",
       spot: { text: "Sign in with GitHub", exact: true },
-      title: "Account: optional",
+      title: "Account",
       body:
-        "<p>Slate works entirely offline, with no account. Signing in is only for sharing: it lets you share a whole workspace with the people in it, and read the ones they share with you.</p>" +
+        "<p>Sign in once. Your work never leaves your Mac. Every person signs in on first launch, with Google or GitHub. The account holds your name, email and plan; your docs, sessions and memory stay on this computer. Signing in also lets you share a whole workspace with the people in it, and read the ones they share with you.</p>" +
         "<p><strong>Sign in with GitHub</strong> opens your browser to approve it. Once signed in, you set the display name people see on what you publish.</p>",
     },
     {
@@ -107,10 +107,10 @@ export const settings = {
     {
       screen: "settings-automations",
       spot: { text: "Capturing your AI sessions", up: 2 },
-      title: "Automations: what runs on its own",
+      title: "What runs on its own moved to Automations",
       body:
-        "<p><strong>Automations</strong> lists everything Slate does when you are not asking it to, for every workspace on this computer. Turning one off stops it everywhere.</p>" +
-        "<p><strong>Capturing your AI sessions</strong> says how many projects it watches and when it last captured. <strong>Scheduled agents</strong>, <strong>Automatic updates</strong> and the menu bar icon each have their own switch.</p>",
+        "<p>Since 0.1.59 this list is the <strong>Built-in</strong> section of <strong>Automations</strong>, not a tab of Settings. It holds everything Slate does when you are not asking it to, for every workspace on this computer. Turning one off stops it everywhere.</p>" +
+        "<p><strong>Capturing your AI sessions</strong> says how many projects it watches and when it last captured. Scheduled automations, <strong>Automatic updates</strong> and the menu bar icon each have their own switch. This screen is from before the move.</p>",
     },
     {
       screen: "settings-about",

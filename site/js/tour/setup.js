@@ -1,5 +1,5 @@
-// Setup: installing Slate, its first-run wizard (Welcome, Plan, AI tools, Integrations,
-// Project), and the Set up Slate card Home opens with. Screens: setup-*.
+// Setup: installing Slate, signing in, its first-run wizard (Welcome, Plan, Agents,
+// Integrations, Project), and the Set up Slate card Home opens with. Screens: setup-*.
 const CMD = "curl -fsSL https://liozelmalem-star.github.io/slate-releases/install.sh | bash";
 
 export const setup = {
@@ -15,14 +15,14 @@ export const setup = {
       body:
         `<p>Slate runs on a Mac, Apple Silicon or Intel. Open Terminal and run:</p>` +
         `<p><code class="inline" style="white-space:normal;word-break:break-all">${CMD}</code></p>` +
-        "<p>It downloads the app, puts it in <strong>Applications</strong> and opens it. Nothing else to install, and no account to make. The first time Slate opens, it shows this short setup.</p>",
+        "<p>It downloads the app, puts it in <strong>Applications</strong> and opens it. Nothing else to install. The first time Slate opens, you sign in once, with Google or GitHub. Your work never leaves your Mac. Then Slate shows this short setup.</p>",
     },
     {
       screen: "setup-welcome",
       spot: { text: "Take the full tour", up: 2 },
       title: "Welcome to Slate",
       body:
-        "<p>Slate keeps your pages, notes and captured AI sessions in one file on your Mac. Claude Code, Codex, Gemini, Cursor, OpenCode and GitHub Copilot all read and write that same memory.</p>" +
+        "<p>Slate keeps your pages, notes and captured AI sessions in one file on your Mac. Every AI tool you connect, out of the 16 Slate supports, reads and writes that same memory.</p>" +
         "<p>The welcome screen flips through what you are about to see. <strong>Take the full tour</strong> opens this guide.</p>",
     },
     {
@@ -30,7 +30,7 @@ export const setup = {
       spot: { text: "Continue", exact: true },
       title: "Five short steps",
       body:
-        "<p>The dots at the top are the steps: <strong>Welcome</strong>, <strong>Plan</strong>, <strong>AI tools</strong>, <strong>Integrations</strong> and <strong>Project</strong>. <strong>Back</strong> goes to the one before.</p>" +
+        "<p>The dots at the top are the steps: <strong>Welcome</strong>, <strong>Plan</strong>, <strong>Agents</strong>, <strong>Integrations</strong> and <strong>Project</strong>. None can be skipped. <strong>Back</strong> goes to the one before.</p>" +
         "<p>Everything you choose here can be changed later, in Settings, Connect and Projects.</p>",
       try: "Click <strong>Continue</strong>.",
       click: true,
@@ -40,7 +40,7 @@ export const setup = {
       spot: { text: "How will you use Slate?", up: 1 },
       title: "Just me, or with my team",
       body:
-        "<p><strong>Just me</strong> is free: everything Slate does, on this Mac, with as many private workspaces as you want.</p>" +
+        "<p><strong>Just me</strong> is free for individuals: everything Slate does, on this Mac, with as many private workspaces as you want.</p>" +
         "<p><strong>With my team</strong> is coming soon. Choosing it puts you on the Team list, and setup carries on with Free. You can change it later in Settings.</p>",
       try: "Click <strong>Continue</strong>.",
       click: { text: "Continue", exact: true },

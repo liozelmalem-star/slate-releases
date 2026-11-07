@@ -7,7 +7,7 @@ installer pin to the repository root.
 index.html                 the landing page       → /
 docs/index.html            the docs hub           → /docs/
 docs/connect/index.html    connecting your tools  → /docs/connect/
-docs/mcp/index.html        the 24-tool overview   → /docs/mcp/
+docs/mcp/index.html        the 27-tool overview   → /docs/mcp/
 docs/overview/  ]
 docs/features/  ]  GENERATED — do not edit. See "The guide is generated".
 docs/legal/     ]
@@ -157,7 +157,8 @@ each step's ring by opening `/tour/#<chapter>/<step>`.
 ## The landing page's brand device
 
 Each of the five places on the landing page owns one leaf of the mark — red Sessions,
-teal Memory, green Agents & Tasks, amber Apps & Artifacts, blue Toolkit. The hero's cards
+teal Memory, blue Toolkit, green Automations & Tasks, amber Widgets & Artifacts, in that
+order down the page. The hero's cards
 and each feature section light only their leaf (`.mk[data-on]`, the `#mark5` symbol), and
 `site/js/assemble.js` lights the pinned mark leaf by leaf as the five sections scroll past.
 
