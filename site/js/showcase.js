@@ -2,7 +2,7 @@ import { reduced } from "./motion.js";
 
 /* The screenshots' version: bump it with the site's cache version whenever the shots are
    recaptured, or a browser keeps showing the old ones it already has. */
-const SHOTS = "202611081403";
+const SHOTS = "202611081426";
 
 /* The hero's window: five real screens of Slate behind five tabs. It moves on by
  * itself every few seconds until the reader picks a tab, and then it stays put —

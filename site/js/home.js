@@ -4,7 +4,7 @@ import { initCopy } from "./copy.js";
 import { initReleases } from "./releases.js";
 import { initDemo } from "./demo.js";
 import { initGraph } from "./graph.js";
-import { initShowcase } from "./showcase.js?v=202611081403";
+import { initShowcase } from "./showcase.js?v=202611081426";
 import { initAssemble } from "./assemble.js";
 
 /* The landing page's entry point. Every module no-ops when its element is absent,
