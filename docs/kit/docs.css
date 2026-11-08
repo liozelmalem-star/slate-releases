@@ -774,7 +774,7 @@ h3 {
     padding: 0 12px;
   }
 
-  .top-links a:not(.download),
+  .top-links a:not(.download):not(.tour-link),
   .brand-docs {
     display: none;
   }

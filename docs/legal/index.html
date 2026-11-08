@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -14,10 +14,11 @@
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Manrope:wght@800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../kit/docs.css">
 <script>
-  try {
-    document.documentElement.dataset.theme =
-      localStorage.getItem("slate-theme") === "light" ? "light" : "dark";
-  } catch (e) {}
+  // A reader's own pick wins; until they pick, the page follows the system, as the home page and tour do.
+  var t = null;
+  try { t = localStorage.getItem("slate-theme"); } catch (e) {}
+  if (t !== "light" && t !== "dark") t = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  document.documentElement.dataset.theme = t;
 </script>
 </head>
 <body data-docs-root="../">
@@ -26,6 +27,7 @@
   <a class="brand" href="../"><svg class="mark" width="18" height="22" viewBox="30 18 268 332" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M30 140C30 85 90 60 230 22C278 8 298 35 298 72L298 174C298 219 281 244 232 259L232 331C232 350 223 354 209 344L125 287C117 281 110 281 103 288L49 334C37 345 30 340 30 328Z M276 106L173 149C135 165 139 184 169 198C202 213 224 219 231 245C263 232 276 212 276 177Z"/></svg><span>Slate</span><span class="brand-docs">Docs</span></a>
   <div class="top-links">
     <a href="../">Docs</a>
+    <a class="tour-link" href="https://liozelmalem-star.github.io/slate-releases/tour/">Tour</a>
     <a href="https://github.com/liozelmalem-star/slate-releases/releases">Changelog</a>
     <a class="download" href="https://github.com/liozelmalem-star/slate-releases/releases/latest">Download</a>
     <button class="icon-btn" type="button" aria-label="Search" data-search><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
