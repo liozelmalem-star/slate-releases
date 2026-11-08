@@ -1,77 +1,79 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Slate — Project environments</title>
+<title>Project environments — Slate docs</title>
 <meta name="description" content="Which account each agent runs under, per workspace and per group or project, so work stays on the work login. Covers sessions you start yourself in a terminal.">
-<link rel="icon" href="../../../../assets/icon.svg" media="(prefers-color-scheme: light)">
-<link rel="icon" href="../../../../assets/icon-dark.svg" media="(prefers-color-scheme: dark)">
-
-<meta property="og:title" content="Slate — Project environments">
 <meta property="og:description" content="Which account each agent runs under, per workspace and per group or project, so work stays on the work login. Covers sessions you start yourself in a terminal.">
+<meta property="og:title" content="Project environments — Slate docs">
 <meta property="og:type" content="article">
-
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%2230%2018%20268%20332%22%3E%3Cpath%20fill%3D%22%23163D34%22%20fill-rule%3D%22evenodd%22%20d%3D%22M30%20140C30%2085%2090%2060%20230%2022C278%208%20298%2035%20298%2072L298%20174C298%20219%20281%20244%20232%20259L232%20331C232%20350%20223%20354%20209%20344L125%20287C117%20281%20110%20281%20103%20288L49%20334C37%20345%2030%20340%2030%20328Z%20M276%20106L173%20149C135%20165%20139%20184%20169%20198C202%20213%20224%20219%20231%20245C263%20232%20276%20212%20276%20177Z%22%2F%3E%3C%2Fsvg%3E">
+<link rel="alternate" type="text/markdown" href="../cli-profiles.md">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
-
-<link rel="stylesheet" href="../../../../site/css/tokens.css">
-<link rel="stylesheet" href="../../../../site/css/base.css">
-<link rel="stylesheet" href="../../../../site/css/layout.css">
-<link rel="stylesheet" href="../../../../site/css/components.css">
-<link rel="stylesheet" href="../../../../site/css/docs.css">
-<link rel="stylesheet" href="../../../../site/css/prose.css">
-
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Manrope:wght@800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../kit/docs.css">
 <script>
-  // Before first paint, never after. See site/README.md — as a module this would run
-  // after the document renders and flash white on every navigation.
   try {
-    var t = localStorage.getItem("slate-theme");
-    document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
-  } catch (e) {
-    document.documentElement.dataset.theme = "light";
-  }
+    document.documentElement.dataset.theme =
+      localStorage.getItem("slate-theme") === "light" ? "light" : "dark";
+  } catch (e) {}
 </script>
 </head>
-<body>
-
-<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-  <defs>
-    <symbol id="slab-9" viewBox="0 0 9 9">
-      <path d="M 0.655 5.6 L 5.055 3.4 L 8.345 3.4 L 3.945 5.6 Z"
-            fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
-    </symbol>
-    <symbol id="slab-18" viewBox="0 0 18 18">
-      <path d="M 1.31 11.2 L 10.11 6.8 L 16.69 6.8 L 7.89 11.2 Z"
-            fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
-    </symbol>
-  </defs>
-</svg>
-
-<div class="wrap">
-  <header>
-    <a class="back" href="../">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
-      Back
-    </a>
-    <h1>Project environments</h1>
-  </header>
-
-  <article class="prose reveal">
-<p>Each agent keeps a config directory (auth, settings, history). A work login and a personal login are different directories, and the one a session uses decides whose account touched the code.</p><p>Slate sets the account per <strong>workspace</strong>, with an override on a group or on a project that stands on its own. A project inside a group uses its group's. A project that joins a group drops its own and takes the group's. A project that leaves a group keeps a copy of the group's, so it runs under the same account. A new group takes the settings of its first project that has its own.</p><h2 id="how-it-works">How it works</h2><p>Open <strong>Connect → Agents</strong> and choose, for each tool, the account this workspace runs it under. A group or project can override it for itself. Most never need to.</p><p>There is one account per tool per group or project. Anything that runs picks a tool, and the group or project it runs in supplies the account. An automation, a Home turn or a skill step never stores a login, and moving a skill between projects re-points it.</p><p>The same switch installs Slate into that account, which is what gets its sessions captured. A config directory exists once on the machine, so every workspace naming it shares the sign-in.</p><h2 id="which-folders-it-covers">Which folders it covers</h2><p>A group or project covers its own folder and the folder of every project in it. A session is judged by the <strong>deepest</strong> folder containing it. The list comes from your docs, so a project Slate discovered a minute ago is covered a minute ago.</p><h2 id="what-it-governs">What it governs</h2><ul><li><strong>Sessions started from Slate.</strong> A session runs as the workspace its place belongs to, whichever workspace the window shows. A work project started from Personal runs on the work account.</li><li><strong>Home</strong>, when scoped to the group or project.</li><li><strong>Automations and skills</strong> that belong to it, including scheduled runs nobody watches.</li><li><strong>Sessions you start in a terminal.</strong> Slate installs hooks into each account, through the tool's own plugin or config file. They refuse the first prompt of a session running under an account the group or project does not use.</li></ul><p>A group or project with no tools of its own (most of them) is judged by its workspace's accounts, in the terminal and in Slate. One limit: only an account that another workspace or project on this computer uses is refused. A Personal login in a work folder is stopped. A third login no workspace names still runs. A tool the workspace does not list is never refused.</p><p>A model is a starting point, not a limit. A group or project can set a default model per tool, and any model may still be used.</p><h2 id="what-it-cannot-govern">What it cannot govern</h2><ul><li><strong>OpenCode.</strong> It has no documented config-directory variable, so it cannot be pinned. <code>CLAUDE_CONFIG_DIR</code>, <code>GEMINI_CLI_HOME</code>, <code>CODEX_HOME</code> and <code>CURSOR_CONFIG_DIR</code> are the four that exist. OpenCode is captured, not governed, and its row says so.</li><li><strong>A group or project with no folder.</strong> A terminal session is matched by working directory.</li><li><strong>A broken Slate.</strong> Enforcement fails open: an unreadable setting or a crashed hook lets the prompt through. Failing closed would make your agent unusable with no fix from inside it.</li></ul><h2 id="how-you-know-its-working">How you know it's working</h2><p>A group's doc, and the doc of a standalone project, shows one line above its tabs: &quot;3 captured sessions ran under the accounts this project assigns.&quot; When some did not: &quot;1 of 3 captured sessions ran under an account this project does not assign.&quot; <strong>Review</strong> lists up to five, each with the account it ran under and the one expected. The line appears once the group or project has an environment and one captured session. Without it, &quot;nothing was refused&quot; and &quot;nothing was enforced&quot; would look the same.</p><h2 id="see-also">See also</h2><ul><li><a href="../../agent/brains/">Agents &amp; Model Providers</a>: the tools these environments configure.</li><li><a href="../../connect/">Connect</a>: the screen this is set on.</li><li><a href="../">Toolkit</a>: the wider &quot;configure once, use everywhere&quot; story.</li></ul>
-  </article>
+<body data-docs-root="../../../">
+<header class="top">
+  <button class="icon-btn menu-btn" type="button" aria-label="Pages" data-menu><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+  <a class="brand" href="../../../"><svg class="mark" width="18" height="22" viewBox="30 18 268 332" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M30 140C30 85 90 60 230 22C278 8 298 35 298 72L298 174C298 219 281 244 232 259L232 331C232 350 223 354 209 344L125 287C117 281 110 281 103 288L49 334C37 345 30 340 30 328Z M276 106L173 149C135 165 139 184 169 198C202 213 224 219 231 245C263 232 276 212 276 177Z"/></svg><span>Slate</span><span class="brand-docs">Docs</span></a>
+  <div class="top-links">
+    <a href="../../../">Docs</a>
+    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Changelog</a>
+    <a class="download" href="https://github.com/liozelmalem-star/slate-releases/releases/latest">Download</a>
+    <button class="icon-btn" type="button" aria-label="Search" data-search><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+    <button class="icon-btn" type="button" aria-label="Switch theme" data-theme-toggle><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+  </div>
+</header>
+<nav class="tabs" aria-label="Sections"><a href="../../../start/">Get started</a><a aria-current="page" href="../../../use/">Use Slate</a><a href="../../../reference/">Reference</a><a href="../../../trust/">Privacy &amp; trust</a></nav>
+<div class="layout">
+  <aside class="sidebar">
+    <button class="search-open" type="button" data-search><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span>Search</span><kbd>⌘K</kbd></button>
+    <nav class="side" aria-label="Pages"><a class="d0" href="../../sessions/">Sessions</a><a class="d1" href="../../sessions/list/">The map and the list</a><a class="d1" href="../../sessions/start/">Start a session</a><a class="d1" href="../../sessions/worktrees/">Worktrees</a><a class="d1" href="../../sessions/cloud/">Cloud sessions and phone</a><a class="d1" href="../../sessions/terminal/">The terminal and the side panel</a><a class="d1" href="../../sessions/tabs/">Tabs, columns and names</a><a class="d1" href="../../sessions/review/">Review the branch</a><a class="d1" href="../../sessions/files/">Files, memories and editing</a><a class="d1" href="../../sessions/flow/">Session flow</a><a class="d1" href="../../sessions/status/">How status works</a><a class="d0" href="../../memory/">Memory</a><a class="d1" href="../../memory/session-capture/">Session capture</a><a class="d1" href="../../memory/recall-remember/">Recall and remember</a><a class="d2" href="../../memory/session-start-brief/">What a session is given at the start</a><a class="d2" href="../../memory/lessons/">Lessons</a><a class="d2" href="../../memory/remember/">Remember</a><a class="d2" href="../../memory/tidy-and-measure/">Tidying and measuring memory</a><a class="d1" href="../../memory/decisions-and-facts/">Decisions and memories</a><a class="d1" href="../../memory/map/">Memory graph</a><a class="d0" href="../">Toolkit</a><a class="d1" href="../adding/">Adding items</a><a class="d1" href="../editing-and-agents/">Editing, removing and your agents</a><a class="d1" href="../usage-and-sync/">Usage, changes and sync</a><a class="d1" href="../suggestions/">Suggestions</a><a class="d1" href="../start-using-slate/">Start using .slate</a><a class="d1" aria-current="page" href="./">Project environments</a><a class="d0" href="../../agent/">Home</a><a class="d1" href="../../agent/approvals/">Approvals, Stop and agent differences</a><a class="d0" href="../../tasks/">Tasks</a><a class="d1" href="../../tasks/sources/">Where tasks come from</a><a class="d1" href="../../tasks/learning/">How Slate learns an app</a><a class="d1" href="../../tasks/agent-runs/">Agent runs</a><a class="d1" href="../../tasks/workflow/">Agent runs: Workflow</a><a class="d1" href="../../tasks/receipts/">Receipts</a><a class="d0" href="../../docs/">Docs and the block editor</a><a class="d1" href="../../docs/tree/">The doc tree</a><a class="d1" href="../../docs/code/">Files and changes</a><a class="d1" href="../../docs/typed-docs/">Typed docs and hierarchy</a><a class="d1" href="../../docs/missions/">Missions</a><a class="d0" href="../../loop/">Automations</a><a class="d1" href="../../loop/recent-tasks/">Recent tasks</a><a class="d1" href="../../automations/">Built-in automations</a><a class="d0" href="../../artifacts/">Artifacts</a><a class="d1" href="../../widgets/">Widgets</a><a class="d1" href="../../widgets-api/">Widget API</a><a class="d0" href="../../activity/">Activity and analytics</a><a class="d0" href="../../connect/">Connect</a><a class="d1" href="../../import/">Import</a><a class="d1" href="../../connect/dialog/">A tool's dialog</a><a class="d1" href="../../connect/how-slate-installs/">How Slate installs into a tool</a><a class="d1" href="../../connect/integrations/">Integrations</a><a class="d1" href="../../agent/connected-tools/">Connected MCP tools</a><a class="d0" href="../../workspaces/">Workspaces</a><a class="d1" href="../../workspaces/sharing/">Working in a shared workspace</a><a class="d1" href="../../workspaces/workspaces-and-invites/">Workspaces and invites</a><a class="d0" href="../../search/">Search and command palette</a><a class="d0" href="../../trash/">Trash</a><a class="d0" href="../../theming/">Themes</a></nav>
+  </aside>
+  <main class="main">
+    <article class="article">
+      <header class="article-head">
+        <a class="crumb" href="../../../use/">Use Slate</a>
+        <div class="title-row"><h1>Project environments</h1><div class="copy-page" data-md="../cli-profiles.md" data-md-url="https://liozelmalem-star.github.io/slate-releases/docs/features/studio/cli-profiles.md">
+        <button class="copy-page-main" type="button" data-copy-md><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>Copy page</button><button class="copy-page-more" type="button" aria-haspopup="menu" aria-expanded="false" aria-label="More ways to use this page">▾</button>
+        <div class="copy-page-menu" role="menu" hidden>
+          <button role="menuitem" type="button" data-copy-md><b>Copy as markdown</b><span>The page as plain text, for an AI tool</span></button>
+          <button role="menuitem" type="button" data-open="Claude Code"><b>Open in Claude Code</b><span>Copies a prompt with this page's address</span></button>
+          <button role="menuitem" type="button" data-open="Cursor"><b>Open in Cursor</b><span>Copies a prompt with this page's address</span></button>
+          <a role="menuitem" href="../cli-profiles.md"><b>View as markdown</b><span>Open the .md copy of this page</span></a>
+        </div>
+      </div></div>
+      </header>
+      <div class="prose">
+<p>Each agent keeps a config directory (auth, settings, history). The one a session uses decides whose account touched the code. Slate sets the account per <strong>workspace</strong>, with an override on a group or on a project that stands on its own.</p><ul><li>A project inside a group uses its group's.</li><li>A project that joins a group drops its own and takes the group's.</li><li>A project that leaves a group keeps a copy of the group's, so it runs under the same account.</li><li>A new group takes the settings of its first project that has its own.</li></ul><h2 id="how-it-works">How it works<a class="anchor" href="#how-it-works" aria-label="Link to this section">#</a></h2><p>In <strong>Connect → Agents</strong> choose, per tool, the account this workspace runs it under. A group or project can override it (most never need to). There is one account per tool per group or project; what runs picks a tool and its place supplies the account. Automations, Home turns and skill steps store no login, and moving a skill re-points it.</p><p>The same switch installs Slate into that account, which gets its sessions captured. A config directory exists once per machine, so workspaces naming it share the sign-in.</p><h2 id="which-folders-it-covers">Which folders it covers<a class="anchor" href="#which-folders-it-covers" aria-label="Link to this section">#</a></h2><p>A group or project covers its own folder and the folder of every project in it. A session is judged by the <strong>deepest</strong> folder containing it.</p><h2 id="what-it-governs">What it governs<a class="anchor" href="#what-it-governs" aria-label="Link to this section">#</a></h2><ul><li><strong>Sessions started from Slate.</strong> A session runs as the workspace its place belongs to, whichever workspace the window shows. A work project started from Personal runs on the work account.</li><li><strong>Home</strong>, when scoped to the group or project.</li><li><strong>Automations and skills</strong> that belong to it, including scheduled runs nobody watches.</li><li><strong>Sessions you start in a terminal.</strong> Slate installs hooks into each account, through the tool's own plugin or config file. They refuse the first prompt of a session running under an account the group or project does not use.</li></ul><p>A group or project with no tools of its own (most of them) is judged by its workspace's accounts, in the terminal and in Slate. One limit: only an account that another workspace or project on this computer uses is refused. A Personal login in a work folder is stopped. A third login no workspace names still runs. A tool the workspace does not list is never refused.</p><p>A model is a starting point, not a limit. A group or project can set a default model per tool, and any model may still be used.</p><h2 id="what-it-cannot-govern">What it cannot govern<a class="anchor" href="#what-it-cannot-govern" aria-label="Link to this section">#</a></h2><ul><li><strong>OpenCode.</strong> It has no documented config-directory variable, so it cannot be pinned. <code>CLAUDE_CONFIG_DIR</code>, <code>GEMINI_CLI_HOME</code>, <code>CODEX_HOME</code> and <code>CURSOR_CONFIG_DIR</code> are the four that exist. OpenCode is captured, not governed, and its row says so.</li><li><strong>A group or project with no folder.</strong> A terminal session is matched by working directory.</li><li><strong>A broken Slate.</strong> Enforcement fails open: an unreadable setting or a crashed hook lets the prompt through.</li></ul><h2 id="how-you-know-its-working">How you know it's working<a class="anchor" href="#how-you-know-its-working" aria-label="Link to this section">#</a></h2><p>A group's doc, and the doc of a standalone project, shows one line above its tabs: &quot;3 captured sessions ran under the accounts this project assigns.&quot; When some did not: &quot;1 of 3 captured sessions ran under an account this project does not assign.&quot; <strong>Review</strong> lists up to five, each with the account it ran under and the one expected. The line appears once the group or project has an environment and one captured session.</p><h2 id="see-also">See also<a class="anchor" href="#see-also" aria-label="Link to this section">#</a></h2><ul><li><a href="../../agent/brains/">Agents &amp; Model Providers</a>: the tools these environments configure.</li><li><a href="../../connect/">Connect</a>: the screen this is set on.</li><li><a href="../">Toolkit</a>: the wider &quot;configure once, use everywhere&quot; story.</li></ul>
+      </div>
+      <nav class="pager" aria-label="Previous and next"><a class="prev" href="../start-using-slate/"><span>Previous</span>Start using .slate</a><a class="next" href="../../agent/"><span>Next</span>Home</a></nav>
+      <p class="updated">Last updated <time datetime="2026-11-08">8 November 2026</time></p>
+    </article>
+  </main>
+  <aside class="toc-wrap"><nav class="toc" aria-label="On this page"><p>On this page</p><a class="toc-2" href="#how-it-works">How it works</a><a class="toc-2" href="#which-folders-it-covers">Which folders it covers</a><a class="toc-2" href="#what-it-governs">What it governs</a><a class="toc-2" href="#what-it-cannot-govern">What it cannot govern</a><a class="toc-2" href="#how-you-know-its-working">How you know it's working</a><a class="toc-2" href="#see-also">See also</a></nav></aside>
 </div>
-
-<footer>
-  <p>
-    Slate is in alpha. Your data stays on your machine.<br>
-    <a href="../../../../">Home</a> ·
-    <a href="../../../../docs/">Docs</a> ·
-    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a>
-  </p>
+<footer class="foot">
+  <span>Slate keeps your data on your Mac.</span>
+  <a href="../../../">Docs</a>
+  <a href="../../../legal/">Legal</a>
+  <a href="../../../llms.txt">llms.txt</a>
+  <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a>
 </footer>
-
-<script type="module" src="../../../../site/js/docs-page.js"></script>
+<dialog class="search" aria-label="Search the docs">
+  <div class="search-box"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="search" placeholder="Search the docs" aria-label="Search the docs" autocomplete="off"><kbd>Esc</kbd></div>
+  <div class="search-results" role="listbox"></div>
+</dialog>
+<div class="toast" role="status" aria-live="polite" hidden></div>
+<script type="module" src="../../../kit/docs.js"></script>
 </body>
 </html>

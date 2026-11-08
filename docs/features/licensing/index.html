@@ -1,77 +1,79 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Slate — Licensing &amp; Updates</title>
+<title>Licensing and updates — Slate docs</title>
 <meta name="description" content="Free for individuals, Team plans coming. How updates arrive in steps, install when you quit, and what safe mode does.">
-<link rel="icon" href="../../../assets/icon.svg" media="(prefers-color-scheme: light)">
-<link rel="icon" href="../../../assets/icon-dark.svg" media="(prefers-color-scheme: dark)">
-
-<meta property="og:title" content="Slate — Licensing &amp; Updates">
 <meta property="og:description" content="Free for individuals, Team plans coming. How updates arrive in steps, install when you quit, and what safe mode does.">
+<meta property="og:title" content="Licensing and updates — Slate docs">
 <meta property="og:type" content="article">
-
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%2230%2018%20268%20332%22%3E%3Cpath%20fill%3D%22%23163D34%22%20fill-rule%3D%22evenodd%22%20d%3D%22M30%20140C30%2085%2090%2060%20230%2022C278%208%20298%2035%20298%2072L298%20174C298%20219%20281%20244%20232%20259L232%20331C232%20350%20223%20354%20209%20344L125%20287C117%20281%20110%20281%20103%20288L49%20334C37%20345%2030%20340%2030%20328Z%20M276%20106L173%20149C135%20165%20139%20184%20169%20198C202%20213%20224%20219%20231%20245C263%20232%20276%20212%20276%20177Z%22%2F%3E%3C%2Fsvg%3E">
+<link rel="alternate" type="text/markdown" href="../licensing.md">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
-
-<link rel="stylesheet" href="../../../site/css/tokens.css">
-<link rel="stylesheet" href="../../../site/css/base.css">
-<link rel="stylesheet" href="../../../site/css/layout.css">
-<link rel="stylesheet" href="../../../site/css/components.css">
-<link rel="stylesheet" href="../../../site/css/docs.css">
-<link rel="stylesheet" href="../../../site/css/prose.css">
-
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Manrope:wght@800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../kit/docs.css">
 <script>
-  // Before first paint, never after. See site/README.md — as a module this would run
-  // after the document renders and flash white on every navigation.
   try {
-    var t = localStorage.getItem("slate-theme");
-    document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
-  } catch (e) {
-    document.documentElement.dataset.theme = "light";
-  }
+    document.documentElement.dataset.theme =
+      localStorage.getItem("slate-theme") === "light" ? "light" : "dark";
+  } catch (e) {}
 </script>
 </head>
-<body>
-
-<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-  <defs>
-    <symbol id="slab-9" viewBox="0 0 9 9">
-      <path d="M 0.655 5.6 L 5.055 3.4 L 8.345 3.4 L 3.945 5.6 Z"
-            fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
-    </symbol>
-    <symbol id="slab-18" viewBox="0 0 18 18">
-      <path d="M 1.31 11.2 L 10.11 6.8 L 16.69 6.8 L 7.89 11.2 Z"
-            fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
-    </symbol>
-  </defs>
-</svg>
-
-<div class="wrap">
-  <header>
-    <a class="back" href="./">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
-      Features
-    </a>
-    <h1>Licensing &amp; Updates</h1>
-  </header>
-
-  <article class="prose reveal">
-<h2 id="licensing">Licensing</h2><p><strong>Free for individuals. Team plans are coming.</strong> The Free plan is everything Slate does on this Mac, with no card and no time limit. There is no licence key or trial timer, and nothing in the app asks you to activate anything. Team is for shared workspaces. It is coming soon and has no price yet.</p><p><strong>Settings → Account</strong> shows who is signed in and your plan. On the Team card, <strong>Tell me when it's ready</strong> records that you want it, and we email you when it is.</p><p>Slate is proprietary software, licensed under the <a href="../../legal/terms-of-use/">Terms of Use</a>. Your workspace stays yours on every plan: it is a SQLite file on your machine, and you can always open and export it.</p><h2 id="auto-updates">Auto-updates</h2><p>Updates use <strong>Tauri's updater</strong>. It asks Slate's update service first (the <code>update</code> Edge Function in Slate's Supabase project), and the release manifest on <strong>GitHub Releases</strong> if the service does not answer. Each check sends your app version, target (the system), CPU, channel (release or prerelease) and a random install id. The files always come from GitHub Releases.</p><p><strong>A release reaches people in steps.</strong> The service can offer a release to part of the installed copies first, and stop offering one that turns out bad. If Slate already downloaded a stopped version, it does not install it when you quit. The install id places your copy in a group (see <a href="../privacy-and-security/">Privacy</a>). A prerelease build also gets the next prerelease. A release build gets releases only.</p><p>Slate checks eight seconds after it opens, then every four hours while it stays open. It <strong>downloads in the background</strong> and tells you the update is ready. Nothing is installed yet.</p><p><strong>On a Mac, an update usually downloads only what changed.</strong> A release carries a small patch from the version before it, about 5% of the full download (6 MB instead of 126 MB from 0.1.53 to 0.1.54). Slate rebuilds the new version from the patch and a kept copy of your current version, and installs it only if the result is exactly the published release and its signature checks out. Otherwise it downloads the whole version. The kept copy is about 50 MB in Slate's cache folder. If macOS clears it, the next update is a full download.</p><p>The update installs <strong>when you next quit Slate</strong>. The notice also has <strong>Restart now</strong>, which tells you first how many CLI sessions are open. Quitting and <strong>Restart now</strong> treat sessions the same way. A Claude Code session is sent to the background: Slate types <code>/bg</code> into it, waits a moment, and it keeps running as a background job. A session from another tool is ended. A session that is already a background job keeps running.</p><p>Nothing restarts on its own, and nothing is installed while you work.</p><div class="note note-info"><p><strong>About</strong> in Settings shows your version, any waiting update with its full release notes, and <strong>Check now</strong>. If a check or install fails, it says why, with <strong>Try again</strong>. Its Website, Documentation and Source lines open in your browser.</p></div><h3 id="if-slate-wont-start">If Slate won't start</h3><p>After three launches in a row fail to reach a working window, the next one starts in <strong>safe mode</strong>. The server still runs. Everything else in the background is skipped: startup repairs, the task and automation schedulers, sync, auto-capture, reminders, keep-awake and the agent reconnect. One screen looks for an update at once and installs it. It says &quot;No newer version is published yet.&quot; when there is none and &quot;Could not check for updates&quot; when the check fails. With Automatic updates off, it keeps showing &quot;Looking for a newer version…&quot;. Your workspace file is never touched. <strong>Start normally</strong> tries a normal launch. <strong>Open logs</strong> shows the log folder.</p><h2 id="see-also">See also</h2><ul><li><a href="../platform/">Platform &amp; Availability</a></li><li><a href="../privacy-and-security/">Privacy &amp; Security</a></li></ul>
-  </article>
+<body data-docs-root="../../">
+<header class="top">
+  <button class="icon-btn menu-btn" type="button" aria-label="Pages" data-menu><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+  <a class="brand" href="../../"><svg class="mark" width="18" height="22" viewBox="30 18 268 332" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M30 140C30 85 90 60 230 22C278 8 298 35 298 72L298 174C298 219 281 244 232 259L232 331C232 350 223 354 209 344L125 287C117 281 110 281 103 288L49 334C37 345 30 340 30 328Z M276 106L173 149C135 165 139 184 169 198C202 213 224 219 231 245C263 232 276 212 276 177Z"/></svg><span>Slate</span><span class="brand-docs">Docs</span></a>
+  <div class="top-links">
+    <a href="../../">Docs</a>
+    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Changelog</a>
+    <a class="download" href="https://github.com/liozelmalem-star/slate-releases/releases/latest">Download</a>
+    <button class="icon-btn" type="button" aria-label="Search" data-search><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+    <button class="icon-btn" type="button" aria-label="Switch theme" data-theme-toggle><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+  </div>
+</header>
+<nav class="tabs" aria-label="Sections"><a href="../../start/">Get started</a><a href="../../use/">Use Slate</a><a href="../../reference/">Reference</a><a aria-current="page" href="../../trust/">Privacy &amp; trust</a></nav>
+<div class="layout">
+  <aside class="sidebar">
+    <button class="search-open" type="button" data-search><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span>Search</span><kbd>⌘K</kbd></button>
+    <nav class="side" aria-label="Pages"><a class="d0" href="../privacy-and-security/">Privacy and security</a><a class="d1" href="../privacy-and-security/where-data-lives/">Where each piece of data lives</a><a class="d1" href="../privacy-and-security/sharing/">Workspace sharing, precisely</a><a class="d1" href="../privacy-and-security/security-details/">Security details</a><a class="d0" href="../data-and-export/">Your data and export</a><a class="d0" aria-current="page" href="./">Licensing and updates</a><a class="d0" href="../platform/">Platform and availability</a><a class="d0" href="../footprint/">What Slate costs your machine</a></nav>
+  </aside>
+  <main class="main">
+    <article class="article">
+      <header class="article-head">
+        <a class="crumb" href="../../trust/">Privacy &amp; trust</a>
+        <div class="title-row"><h1>Licensing and updates</h1><div class="copy-page" data-md="../licensing.md" data-md-url="https://liozelmalem-star.github.io/slate-releases/docs/features/licensing.md">
+        <button class="copy-page-main" type="button" data-copy-md><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>Copy page</button><button class="copy-page-more" type="button" aria-haspopup="menu" aria-expanded="false" aria-label="More ways to use this page">▾</button>
+        <div class="copy-page-menu" role="menu" hidden>
+          <button role="menuitem" type="button" data-copy-md><b>Copy as markdown</b><span>The page as plain text, for an AI tool</span></button>
+          <button role="menuitem" type="button" data-open="Claude Code"><b>Open in Claude Code</b><span>Copies a prompt with this page's address</span></button>
+          <button role="menuitem" type="button" data-open="Cursor"><b>Open in Cursor</b><span>Copies a prompt with this page's address</span></button>
+          <a role="menuitem" href="../licensing.md"><b>View as markdown</b><span>Open the .md copy of this page</span></a>
+        </div>
+      </div></div>
+      </header>
+      <div class="prose">
+<h2 id="licensing">Licensing<a class="anchor" href="#licensing" aria-label="Link to this section">#</a></h2><p><strong>Free for individuals. Team plans are coming.</strong> The Free plan is everything Slate does on this Mac, with no card, no time limit, no licence key and no trial timer. Team is for shared workspaces. It has no price yet.</p><p><strong>Settings → Account</strong> shows who is signed in and your plan. On the Team card, <strong>Tell me when it's ready</strong> records that you want it, and we email you when it is.</p><p>Slate is proprietary software, licensed under the <a href="../../legal/terms-of-use/">Terms of Use</a>. Your workspace stays yours on every plan: it is a SQLite file on your machine, and you can always open and export it.</p><h2 id="auto-updates">Auto-updates<a class="anchor" href="#auto-updates" aria-label="Link to this section">#</a></h2><p>Tauri's updater asks Slate's update service (the <code>update</code> Edge Function in its Supabase project) first, then the release manifest on <strong>GitHub Releases</strong>. A check sends app version, system, CPU, channel (release or prerelease) and a random install id. Files always come from GitHub Releases.</p><p><strong>Releases roll out in steps.</strong> The service can offer a release to part of the copies first and stop offering a bad one; a stopped version already downloaded is not installed on quit. The install id places your copy in a group (<a href="../privacy-and-security/">Privacy</a>). A prerelease build also gets the next prerelease; a release build gets releases only.</p><p>Slate checks 8 seconds after opening, then every 4 hours, <strong>downloads in the background</strong> and tells you when ready.</p><p><strong>On a Mac, updates usually download only what changed</strong>: a patch from the previous version, about 5% of the full download (6 MB instead of 126 MB from 0.1.53 to 0.1.54). Slate rebuilds the new version from the patch and a kept copy of the current one (about 50 MB in its cache folder), installing only if the result is exactly the published release and its signature checks out; otherwise it downloads the whole version. If macOS clears the kept copy, the next update is full.</p><p>The update installs <strong>when you next quit</strong>, never while you work or by restarting itself. <strong>Restart now</strong> in the notice first says how many CLI sessions are open. Quit and <strong>Restart now</strong> treat sessions alike: a Claude Code session goes to the background (Slate types <code>/bg</code> and it keeps running as a background job), a session from another tool is ended, and a session already in the background keeps running.</p><div class="note note-info"><p><strong>About</strong> in Settings shows your version, any waiting update with full release notes, and <strong>Check now</strong>. A failed check or install says why, with <strong>Try again</strong>. Website, Documentation and Source lines open in your browser.</p></div><h3 id="if-slate-wont-start">If Slate won't start<a class="anchor" href="#if-slate-wont-start" aria-label="Link to this section">#</a></h3><p>After three launches in a row fail to reach a working window, the next starts in <strong>safe mode</strong>: the server runs, and the rest of the background is skipped (startup repairs, task and automation schedulers, sync, auto-capture, reminders, keep-awake, agent reconnect). One screen checks for an update at once and installs it. It says &quot;No newer version is published yet.&quot; when there is none, &quot;Could not check for updates&quot; on failure, and with Automatic updates off keeps showing &quot;Looking for a newer version…&quot;. Your workspace file is never touched. <strong>Start normally</strong> retries a normal launch; <strong>Open logs</strong> shows the log folder.</p><h2 id="see-also">See also<a class="anchor" href="#see-also" aria-label="Link to this section">#</a></h2><ul><li><a href="../platform/">Platform &amp; Availability</a></li><li><a href="../privacy-and-security/">Privacy &amp; Security</a></li></ul>
+      </div>
+      <nav class="pager" aria-label="Previous and next"><a class="prev" href="../data-and-export/"><span>Previous</span>Your data and export</a><a class="next" href="../platform/"><span>Next</span>Platform and availability</a></nav>
+      <p class="updated">Last updated <time datetime="2026-11-08">8 November 2026</time></p>
+    </article>
+  </main>
+  <aside class="toc-wrap"><nav class="toc" aria-label="On this page"><p>On this page</p><a class="toc-2" href="#licensing">Licensing</a><a class="toc-2" href="#auto-updates">Auto-updates</a><a class="toc-3" href="#if-slate-wont-start">If Slate won't start</a><a class="toc-2" href="#see-also">See also</a></nav></aside>
 </div>
-
-<footer>
-  <p>
-    Slate is in alpha. Your data stays on your machine.<br>
-    <a href="../../../">Home</a> ·
-    <a href="../../../docs/">Docs</a> ·
-    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a>
-  </p>
+<footer class="foot">
+  <span>Slate keeps your data on your Mac.</span>
+  <a href="../../">Docs</a>
+  <a href="../../legal/">Legal</a>
+  <a href="../../llms.txt">llms.txt</a>
+  <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a>
 </footer>
-
-<script type="module" src="../../../site/js/docs-page.js"></script>
+<dialog class="search" aria-label="Search the docs">
+  <div class="search-box"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="search" placeholder="Search the docs" aria-label="Search the docs" autocomplete="off"><kbd>Esc</kbd></div>
+  <div class="search-results" role="listbox"></div>
+</dialog>
+<div class="toast" role="status" aria-live="polite" hidden></div>
+<script type="module" src="../../kit/docs.js"></script>
 </body>
 </html>

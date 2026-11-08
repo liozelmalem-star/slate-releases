@@ -1,65 +1,60 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Slate — Uninstalling</title>
+<title>Uninstalling — Slate docs</title>
 <meta name="description" content="How to take Slate off a Mac, what it puts back, and why your workspace is kept unless you ask for it to go.">
-<link rel="icon" href="../../../assets/icon.svg" media="(prefers-color-scheme: light)">
-<link rel="icon" href="../../../assets/icon-dark.svg" media="(prefers-color-scheme: dark)">
-
-<meta property="og:title" content="Slate — Uninstalling">
 <meta property="og:description" content="How to take Slate off a Mac, what it puts back, and why your workspace is kept unless you ask for it to go.">
+<meta property="og:title" content="Uninstalling — Slate docs">
 <meta property="og:type" content="article">
-
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%2230%2018%20268%20332%22%3E%3Cpath%20fill%3D%22%23163D34%22%20fill-rule%3D%22evenodd%22%20d%3D%22M30%20140C30%2085%2090%2060%20230%2022C278%208%20298%2035%20298%2072L298%20174C298%20219%20281%20244%20232%20259L232%20331C232%20350%20223%20354%20209%20344L125%20287C117%20281%20110%20281%20103%20288L49%20334C37%20345%2030%20340%2030%20328Z%20M276%20106L173%20149C135%20165%20139%20184%20169%20198C202%20213%20224%20219%20231%20245C263%20232%20276%20212%20276%20177Z%22%2F%3E%3C%2Fsvg%3E">
+<link rel="alternate" type="text/markdown" href="../uninstalling.md">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
-
-<link rel="stylesheet" href="../../../site/css/tokens.css">
-<link rel="stylesheet" href="../../../site/css/base.css">
-<link rel="stylesheet" href="../../../site/css/layout.css">
-<link rel="stylesheet" href="../../../site/css/components.css">
-<link rel="stylesheet" href="../../../site/css/docs.css">
-<link rel="stylesheet" href="../../../site/css/prose.css">
-
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Manrope:wght@800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../kit/docs.css">
 <script>
-  // Before first paint, never after. See site/README.md — as a module this would run
-  // after the document renders and flash white on every navigation.
   try {
-    var t = localStorage.getItem("slate-theme");
-    document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
-  } catch (e) {
-    document.documentElement.dataset.theme = "light";
-  }
+    document.documentElement.dataset.theme =
+      localStorage.getItem("slate-theme") === "light" ? "light" : "dark";
+  } catch (e) {}
 </script>
 </head>
-<body>
-
-<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-  <defs>
-    <symbol id="slab-9" viewBox="0 0 9 9">
-      <path d="M 0.655 5.6 L 5.055 3.4 L 8.345 3.4 L 3.945 5.6 Z"
-            fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
-    </symbol>
-    <symbol id="slab-18" viewBox="0 0 18 18">
-      <path d="M 1.31 11.2 L 10.11 6.8 L 16.69 6.8 L 7.89 11.2 Z"
-            fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
-    </symbol>
-  </defs>
-</svg>
-
-<div class="wrap">
-  <header>
-    <a class="back" href="./">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
-      Overview
-    </a>
-    <h1>Uninstalling</h1>
-  </header>
-
-  <article class="prose reveal">
-<p>One command removes Slate and puts back what it changed:</p><pre><code>curl -fsSL https://liozelmalem-star.github.io/slate-releases/uninstall.sh | bash</code></pre><p><strong>Your workspace is kept.</strong> Removing it takes a second, explicit flag.</p><hr><h2 id="contents">Contents</h2><ul><li><a href="#see-it-first">See it first</a></li><li><a href="#what-it-removes">What it removes</a></li><li><a href="#what-it-keeps">What it keeps</a></li><li><a href="#removing-the-workspace-too">Removing the workspace too</a></li><li><a href="#options">Options</a></li><li><a href="#if-you-already-removed-the-app">If you already removed the app</a></li><li><a href="#doing-it-by-hand">Doing it by hand</a></li><li><a href="#see-also">See also</a></li></ul><h2 id="see-it-first">See it first</h2><p><code>--dry-run</code> prints every step, lists the accounts it would clean up, and changes nothing:</p><pre><code>curl -fsSL https://liozelmalem-star.github.io/slate-releases/uninstall.sh | bash -s -- --dry-run</code></pre><p>Read the line that names your workspace and its size.</p><h2 id="what-it-removes">What it removes</h2><div class="scroll"><table><thead><tr><th></th><th></th></tr></thead><tbody><tr><td><strong>Slate's entries in your agents</strong></td><td>The plugin trees, the capture hooks and the MCP registrations, in exactly the accounts Slate wrote to</td></tr><tr><td><strong><code>/Applications/Slate.app</code></strong></td><td>The app itself</td></tr><tr><td><strong>Logs, cache and webview state</strong></td><td>Three rebuildable directories under <code>~/Library</code></td></tr></tbody></table></div><p>The first row is what a manual removal misses. Slate installs itself into up to eighteen other products (the 16 agents, Claude Desktop and VS Code), each with its own config format. Drag Slate to the Trash and every entry stays behind, pointing at an app that is gone.</p><p>So the app undoes its own work, from a record of the accounts it wrote to. <strong>An MCP server you registered yourself is never touched</strong>, and neither is a plugin marketplace that only shares a name. This step needs the app, so it runs before the bundle is removed.</p><h2 id="what-it-keeps">What it keeps</h2><p>Your data folder, <code>~/Library/Application Support/app.slate.workspace/</code>:</p><ul><li><code>workspace.db</code>, your Personal docs and memory</li><li>one file for each shared workspace</li><li><code>machine.db</code> (settings that describe this computer, the telemetry id and your choices about it)</li><li>your cloud sign-in file</li><li>the backups</li></ul><p>It is plain SQLite. <code>workspace.db</code> opens in any SQLite browser with or without Slate, and reinstalling picks the same file up where you left it.</p><p>It also leaves what Toolkit wrote into your own project folders, such as skill folders and instruction files. Those belong to the project.</p><h2 id="removing-the-workspace-too">Removing the workspace too</h2><pre><code>curl -fsSL https://liozelmalem-star.github.io/slate-releases/uninstall.sh | bash -s -- --delete-workspace</code></pre><p><strong>This cannot be undone.</strong> It removes the whole data folder above. No other copy of these files exists, locally or in the cloud. A workspace you shared keeps the rows you published, for its members, until you withdraw them (<strong>Stop sharing</strong>) or remove them for good (<strong>Erase my work</strong>). Do that first, and export what you want to keep: Settings → Workspaces, then the workspace, then Storage. A Personal workspace you moved to another folder is not in the data folder and stays where you put it.</p><h2 id="options">Options</h2><div class="scroll"><table><thead><tr><th>Flag</th><th>What it does</th></tr></thead><tbody><tr><td><code>--dry-run</code></td><td>Print every step and change nothing</td></tr><tr><td><code>--delete-workspace</code></td><td>Also remove the whole data folder: workspaces, <code>machine.db</code>, sign-in file and backups</td></tr><tr><td><code>--keep-connections</code></td><td>Leave Slate's entries in your agents alone</td></tr><tr><td><code>--prefix &lt;dir&gt;</code></td><td>Look for <code>Slate.app</code> somewhere other than <code>/Applications</code></td></tr></tbody></table></div><p>The script never asks a question. Piped to <code>bash</code>, it has no input to read an answer from, so the destructive half is a flag you type.</p><h2 id="if-you-already-removed-the-app">If you already removed the app</h2><p>The script still cleans the logs, cache and webview state, and reports that it could not remove the agent entries. They are inert, because they point at an app that is gone. To remove them, reinstall Slate and run the uninstaller again.</p><h2 id="doing-it-by-hand">Doing it by hand</h2><pre><code># 1. Quit Slate, so the running copy cannot write back what the next step removes.
+<body data-docs-root="../../">
+<header class="top">
+  <button class="icon-btn menu-btn" type="button" aria-label="Pages" data-menu><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+  <a class="brand" href="../../"><svg class="mark" width="18" height="22" viewBox="30 18 268 332" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M30 140C30 85 90 60 230 22C278 8 298 35 298 72L298 174C298 219 281 244 232 259L232 331C232 350 223 354 209 344L125 287C117 281 110 281 103 288L49 334C37 345 30 340 30 328Z M276 106L173 149C135 165 139 184 169 198C202 213 224 219 231 245C263 232 276 212 276 177Z"/></svg><span>Slate</span><span class="brand-docs">Docs</span></a>
+  <div class="top-links">
+    <a href="../../">Docs</a>
+    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Changelog</a>
+    <a class="download" href="https://github.com/liozelmalem-star/slate-releases/releases/latest">Download</a>
+    <button class="icon-btn" type="button" aria-label="Search" data-search><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+    <button class="icon-btn" type="button" aria-label="Switch theme" data-theme-toggle><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+  </div>
+</header>
+<nav class="tabs" aria-label="Sections"><a aria-current="page" href="../../start/">Get started</a><a href="../../use/">Use Slate</a><a href="../../reference/">Reference</a><a href="../../trust/">Privacy &amp; trust</a></nav>
+<div class="layout">
+  <aside class="sidebar">
+    <button class="search-open" type="button" data-search><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span>Search</span><kbd>⌘K</kbd></button>
+    <nav class="side" aria-label="Pages"><a class="d0" href="../../">Welcome to Slate</a><a class="d0" href="../getting-started/">Install and first ten minutes</a><a class="d0" href="../concepts/">Core concepts</a><a class="d0" aria-current="page" href="./">Uninstalling</a></nav>
+  </aside>
+  <main class="main">
+    <article class="article">
+      <header class="article-head">
+        <a class="crumb" href="../../start/">Get started</a>
+        <div class="title-row"><h1>Uninstalling</h1><div class="copy-page" data-md="../uninstalling.md" data-md-url="https://liozelmalem-star.github.io/slate-releases/docs/overview/uninstalling.md">
+        <button class="copy-page-main" type="button" data-copy-md><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>Copy page</button><button class="copy-page-more" type="button" aria-haspopup="menu" aria-expanded="false" aria-label="More ways to use this page">▾</button>
+        <div class="copy-page-menu" role="menu" hidden>
+          <button role="menuitem" type="button" data-copy-md><b>Copy as markdown</b><span>The page as plain text, for an AI tool</span></button>
+          <button role="menuitem" type="button" data-open="Claude Code"><b>Open in Claude Code</b><span>Copies a prompt with this page's address</span></button>
+          <button role="menuitem" type="button" data-open="Cursor"><b>Open in Cursor</b><span>Copies a prompt with this page's address</span></button>
+          <a role="menuitem" href="../uninstalling.md"><b>View as markdown</b><span>Open the .md copy of this page</span></a>
+        </div>
+      </div></div>
+      </header>
+      <div class="prose">
+<p>One command removes Slate and puts back what it changed:</p><div class="code"><button class="copy-code" type="button" aria-label="Copy code">Copy</button><pre><code>curl -fsSL https://liozelmalem-star.github.io/slate-releases/uninstall.sh | bash</code></pre></div><p><strong>Your workspace is kept.</strong> Removing it takes a second, explicit flag.</p><h2 id="see-it-first">See it first<a class="anchor" href="#see-it-first" aria-label="Link to this section">#</a></h2><p><code>--dry-run</code> prints every step, lists the accounts it would clean, and changes nothing:</p><div class="code"><button class="copy-code" type="button" aria-label="Copy code">Copy</button><pre><code>curl -fsSL https://liozelmalem-star.github.io/slate-releases/uninstall.sh | bash -s -- --dry-run</code></pre></div><p>Check the line that names your workspace and its size.</p><h2 id="what-it-removes">What it removes<a class="anchor" href="#what-it-removes" aria-label="Link to this section">#</a></h2><div class="scroll"><table><thead><tr><th></th><th></th></tr></thead><tbody><tr><td><strong>Slate's entries in your agents</strong></td><td>The plugin trees, the capture hooks and the MCP registrations, in exactly the accounts Slate wrote to</td></tr><tr><td><strong><code>/Applications/Slate.app</code></strong></td><td>The app itself</td></tr><tr><td><strong>Logs, cache and webview state</strong></td><td>Three rebuildable directories under <code>~/Library</code></td></tr></tbody></table></div><p>Slate installs itself into up to eighteen other products (the 16 agents, Claude Desktop and VS Code). Dragging Slate to the Trash leaves every entry behind, pointing at an app that is gone. So the app undoes its own work first, from a record of the accounts it wrote to. <strong>An MCP server you registered yourself is never touched</strong>, and neither is a plugin marketplace that only shares a name.</p><h2 id="what-it-keeps">What it keeps<a class="anchor" href="#what-it-keeps" aria-label="Link to this section">#</a></h2><p>Your data folder, <code>~/Library/Application Support/app.slate.workspace/</code>:</p><ul><li><code>workspace.db</code>, your Personal docs and memory</li><li>one file for each shared workspace</li><li><code>machine.db</code> (settings that describe this computer, the telemetry id and your choices about it)</li><li>your cloud sign-in file</li><li>the backups</li></ul><p>It is plain SQLite, and reinstalling picks the same file up. Slate also leaves what Toolkit wrote into your own project folders (skill folders, instruction files): those belong to the project.</p><h2 id="removing-the-workspace-too">Removing the workspace too<a class="anchor" href="#removing-the-workspace-too" aria-label="Link to this section">#</a></h2><div class="code"><button class="copy-code" type="button" aria-label="Copy code">Copy</button><pre><code>curl -fsSL https://liozelmalem-star.github.io/slate-releases/uninstall.sh | bash -s -- --delete-workspace</code></pre></div><p><strong>This cannot be undone.</strong> It removes the whole data folder; no other copy exists, locally or in the cloud. A shared workspace keeps the rows you published, for its members, until you withdraw them (<strong>Stop sharing</strong>) or remove them with <strong>Erase my work</strong>. Do that first, and export what you want to keep (Settings → Workspaces → the workspace → Storage). A Personal workspace you moved elsewhere stays where you put it.</p><h2 id="options">Options<a class="anchor" href="#options" aria-label="Link to this section">#</a></h2><div class="scroll"><table><thead><tr><th>Flag</th><th>What it does</th></tr></thead><tbody><tr><td><code>--dry-run</code></td><td>Print every step and change nothing</td></tr><tr><td><code>--delete-workspace</code></td><td>Also remove the whole data folder: workspaces, <code>machine.db</code>, sign-in file and backups</td></tr><tr><td><code>--keep-connections</code></td><td>Leave Slate's entries in your agents alone</td></tr><tr><td><code>--prefix &lt;dir&gt;</code></td><td>Look for <code>Slate.app</code> somewhere other than <code>/Applications</code></td></tr></tbody></table></div><p>The script never asks a question, so the destructive half is a flag you type.</p><h2 id="if-you-already-removed-the-app">If you already removed the app<a class="anchor" href="#if-you-already-removed-the-app" aria-label="Link to this section">#</a></h2><p>The script still cleans the logs, cache and webview state, and reports that it could not remove the agent entries. They are inert. To remove them, reinstall Slate and run the uninstaller again.</p><h2 id="doing-it-by-hand">Doing it by hand<a class="anchor" href="#doing-it-by-hand" aria-label="Link to this section">#</a></h2><div class="code"><button class="copy-code" type="button" aria-label="Copy code">Copy</button><pre><code># 1. Quit Slate, so the running copy cannot write back what the next step removes.
 osascript -e 'tell application &quot;Slate&quot; to quit'
 
 # 2. The agent entries — this is the step that needs the app.
@@ -73,19 +68,26 @@ rm -rf ~/Library/Caches/app.slate.workspace
 rm -rf ~/Library/WebKit/app.slate.workspace
 
 # 4. Your workspace — only if you mean it.
-rm -rf ~/Library/Application\ Support/app.slate.workspace</code></pre><h2 id="see-also">See also</h2><ul><li><a href="../getting-started/">Getting Started</a></li><li><a href="../../features/platform/">Platform &amp; Availability</a></li><li><a href="../../features/data-and-export/">Your Data &amp; Export</a>: get your docs out before you go</li><li><a href="../../features/connect/">Connect</a>: what Slate writes into your agents, and when</li></ul>
-  </article>
+rm -rf ~/Library/Application\ Support/app.slate.workspace</code></pre></div><h2 id="see-also">See also<a class="anchor" href="#see-also" aria-label="Link to this section">#</a></h2><ul><li><a href="../getting-started/">Getting Started</a></li><li><a href="../../features/platform/">Platform &amp; Availability</a></li><li><a href="../../features/data-and-export/">Your Data &amp; Export</a>: get your docs out before you go</li><li><a href="../../features/connect/">Connect</a>: what Slate writes into your agents, and when</li></ul>
+      </div>
+      <nav class="pager" aria-label="Previous and next"><a class="prev" href="../concepts/"><span>Previous</span>Core concepts</a><a class="next" href="../../features/sessions/"><span>Next</span>Sessions</a></nav>
+      <p class="updated">Last updated <time datetime="2026-11-08">8 November 2026</time></p>
+    </article>
+  </main>
+  <aside class="toc-wrap"><nav class="toc" aria-label="On this page"><p>On this page</p><a class="toc-2" href="#see-it-first">See it first</a><a class="toc-2" href="#what-it-removes">What it removes</a><a class="toc-2" href="#what-it-keeps">What it keeps</a><a class="toc-2" href="#removing-the-workspace-too">Removing the workspace too</a><a class="toc-2" href="#options">Options</a><a class="toc-2" href="#if-you-already-removed-the-app">If you already removed the app</a><a class="toc-2" href="#doing-it-by-hand">Doing it by hand</a><a class="toc-2" href="#see-also">See also</a></nav></aside>
 </div>
-
-<footer>
-  <p>
-    Slate is in alpha. Your data stays on your machine.<br>
-    <a href="../../../">Home</a> ·
-    <a href="../../../docs/">Docs</a> ·
-    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a>
-  </p>
+<footer class="foot">
+  <span>Slate keeps your data on your Mac.</span>
+  <a href="../../">Docs</a>
+  <a href="../../legal/">Legal</a>
+  <a href="../../llms.txt">llms.txt</a>
+  <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a>
 </footer>
-
-<script type="module" src="../../../site/js/docs-page.js"></script>
+<dialog class="search" aria-label="Search the docs">
+  <div class="search-box"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="search" placeholder="Search the docs" aria-label="Search the docs" autocomplete="off"><kbd>Esc</kbd></div>
+  <div class="search-results" role="listbox"></div>
+</dialog>
+<div class="toast" role="status" aria-live="polite" hidden></div>
+<script type="module" src="../../kit/docs.js"></script>
 </body>
 </html>

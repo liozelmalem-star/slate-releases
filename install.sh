@@ -206,6 +206,9 @@ DEST="$PREFIX/Slate.app"
 # then aborts the install on a variable nobody wrote — after the download, before the copy.
 info "Installing to ${DEST}…"
 
+# A fresh account has no ~/Applications yet; create it so --prefix "$HOME/Applications" works.
+mkdir -p "$PREFIX" 2>/dev/null || true
+
 if [[ ! -w "$PREFIX" ]]; then
   die "$PREFIX is not writable by $(whoami).
    Re-run with --prefix \"\$HOME/Applications\", or with sudo if you meant to install system-wide."
@@ -241,7 +244,7 @@ echo ""
 echo -e "${BOLD}Slate $VERSION is installed.${RESET}"
 echo ""
 dim "  Your workspace is one SQLite file on this Mac. Nothing is uploaded unless you"
-dim "  sign in and explicitly share a doc."
+dim "  share a workspace."
 echo ""
 dim "  Slate can register itself as an MCP server with the AI tools it finds — Claude"
 dim "  Code, Cursor, Codex, Gemini. It asks first: connect one from the setup screen"

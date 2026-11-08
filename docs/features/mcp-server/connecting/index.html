@@ -1,65 +1,60 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Slate — Connecting Your Agents</title>
+<title>Connecting your agents — Slate docs</title>
 <meta name="description" content="Connect any of 16 agents to Slate's MCP server: from the app, or by hand.">
-<link rel="icon" href="../../../../assets/icon.svg" media="(prefers-color-scheme: light)">
-<link rel="icon" href="../../../../assets/icon-dark.svg" media="(prefers-color-scheme: dark)">
-
-<meta property="og:title" content="Slate — Connecting Your Agents">
 <meta property="og:description" content="Connect any of 16 agents to Slate's MCP server: from the app, or by hand.">
+<meta property="og:title" content="Connecting your agents — Slate docs">
 <meta property="og:type" content="article">
-
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%2230%2018%20268%20332%22%3E%3Cpath%20fill%3D%22%23163D34%22%20fill-rule%3D%22evenodd%22%20d%3D%22M30%20140C30%2085%2090%2060%20230%2022C278%208%20298%2035%20298%2072L298%20174C298%20219%20281%20244%20232%20259L232%20331C232%20350%20223%20354%20209%20344L125%20287C117%20281%20110%20281%20103%20288L49%20334C37%20345%2030%20340%2030%20328Z%20M276%20106L173%20149C135%20165%20139%20184%20169%20198C202%20213%20224%20219%20231%20245C263%20232%20276%20212%20276%20177Z%22%2F%3E%3C%2Fsvg%3E">
+<link rel="alternate" type="text/markdown" href="../connecting.md">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
-
-<link rel="stylesheet" href="../../../../site/css/tokens.css">
-<link rel="stylesheet" href="../../../../site/css/base.css">
-<link rel="stylesheet" href="../../../../site/css/layout.css">
-<link rel="stylesheet" href="../../../../site/css/components.css">
-<link rel="stylesheet" href="../../../../site/css/docs.css">
-<link rel="stylesheet" href="../../../../site/css/prose.css">
-
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Manrope:wght@800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../../kit/docs.css">
 <script>
-  // Before first paint, never after. See site/README.md — as a module this would run
-  // after the document renders and flash white on every navigation.
   try {
-    var t = localStorage.getItem("slate-theme");
-    document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
-  } catch (e) {
-    document.documentElement.dataset.theme = "light";
-  }
+    document.documentElement.dataset.theme =
+      localStorage.getItem("slate-theme") === "light" ? "light" : "dark";
+  } catch (e) {}
 </script>
 </head>
-<body>
-
-<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-  <defs>
-    <symbol id="slab-9" viewBox="0 0 9 9">
-      <path d="M 0.655 5.6 L 5.055 3.4 L 8.345 3.4 L 3.945 5.6 Z"
-            fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
-    </symbol>
-    <symbol id="slab-18" viewBox="0 0 18 18">
-      <path d="M 1.31 11.2 L 10.11 6.8 L 16.69 6.8 L 7.89 11.2 Z"
-            fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
-    </symbol>
-  </defs>
-</svg>
-
-<div class="wrap">
-  <header>
-    <a class="back" href="../">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
-      Back
-    </a>
-    <h1>Connecting Your Agents</h1>
-  </header>
-
-  <article class="prose reveal">
-<p>Any MCP-capable tool can connect to Slate and share its memory. What the tool can then do is in the <a href="../tools/">Tool Reference</a>.</p><h2 id="from-the-app-connect-agents">From the app: Connect → Agents</h2><p><strong><a href="../../connect/">Connect → Agents</a></strong> lists the 16 tools. Pick the tool and the account, then switch Slate on. Slate registers itself for that config directory, so it holds for every project on this machine. <a href="../../studio/">Toolkit</a> can also project MCP configs to every tool at once.</p><p>Every session talks over HTTP to the Slate app that is already running (<code>http://127.0.0.1:47366/mcp</code>). The entry carries a private key in a header, so Slate writes it into the tool's config file and makes the file readable by you only. Existing setups switch over on the next launch of Slate.</p><p><strong>Slate must be running.</strong> With Slate closed, the tool lists the <code>slate</code> server as failed, and Slate's session-start hook says so. Open Slate and start a new session. In Claude Code, <code>/mcp</code> also reconnects.</p><h2 id="by-hand">By hand</h2><p>The app's entry is the supported way. To write it yourself, read the key from <code>slate-server-token</code>, the file beside your workspace database, and keep the config file private (<code>chmod 600</code>). In Claude Code's <code>~/.claude.json</code>:</p><pre><code>{
+<body data-docs-root="../../../">
+<header class="top">
+  <button class="icon-btn menu-btn" type="button" aria-label="Pages" data-menu><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+  <a class="brand" href="../../../"><svg class="mark" width="18" height="22" viewBox="30 18 268 332" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M30 140C30 85 90 60 230 22C278 8 298 35 298 72L298 174C298 219 281 244 232 259L232 331C232 350 223 354 209 344L125 287C117 281 110 281 103 288L49 334C37 345 30 340 30 328Z M276 106L173 149C135 165 139 184 169 198C202 213 224 219 231 245C263 232 276 212 276 177Z"/></svg><span>Slate</span><span class="brand-docs">Docs</span></a>
+  <div class="top-links">
+    <a href="../../../">Docs</a>
+    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Changelog</a>
+    <a class="download" href="https://github.com/liozelmalem-star/slate-releases/releases/latest">Download</a>
+    <button class="icon-btn" type="button" aria-label="Search" data-search><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+    <button class="icon-btn" type="button" aria-label="Switch theme" data-theme-toggle><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+  </div>
+</header>
+<nav class="tabs" aria-label="Sections"><a href="../../../start/">Get started</a><a href="../../../use/">Use Slate</a><a aria-current="page" href="../../../reference/">Reference</a><a href="../../../trust/">Privacy &amp; trust</a></nav>
+<div class="layout">
+  <aside class="sidebar">
+    <button class="search-open" type="button" data-search><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span>Search</span><kbd>⌘K</kbd></button>
+    <nav class="side" aria-label="Pages"><a class="d0" href="../">Slate as an MCP server</a><a class="d1" aria-current="page" href="./">Connecting your agents</a><a class="d0" href="../tools/">MCP tool reference</a><a class="d1" href="../tool-rules/">Tool rules</a><a class="d0" href="../../agent/mcp-commands/">Curated MCP commands</a><a class="d0" href="../../agent/brains/">Agents and model providers</a><a class="d0" href="../../agent/tool-features/">Features by agent</a><a class="d0" href="../../settings/">Settings</a><a class="d0" href="../../shortcuts/">Keyboard shortcuts</a></nav>
+  </aside>
+  <main class="main">
+    <article class="article">
+      <header class="article-head">
+        <a class="crumb" href="../../../reference/">Reference</a>
+        <div class="title-row"><h1>Connecting your agents</h1><div class="copy-page" data-md="../connecting.md" data-md-url="https://liozelmalem-star.github.io/slate-releases/docs/features/mcp-server/connecting.md">
+        <button class="copy-page-main" type="button" data-copy-md><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>Copy page</button><button class="copy-page-more" type="button" aria-haspopup="menu" aria-expanded="false" aria-label="More ways to use this page">▾</button>
+        <div class="copy-page-menu" role="menu" hidden>
+          <button role="menuitem" type="button" data-copy-md><b>Copy as markdown</b><span>The page as plain text, for an AI tool</span></button>
+          <button role="menuitem" type="button" data-open="Claude Code"><b>Open in Claude Code</b><span>Copies a prompt with this page's address</span></button>
+          <button role="menuitem" type="button" data-open="Cursor"><b>Open in Cursor</b><span>Copies a prompt with this page's address</span></button>
+          <a role="menuitem" href="../connecting.md"><b>View as markdown</b><span>Open the .md copy of this page</span></a>
+        </div>
+      </div></div>
+      </header>
+      <div class="prose">
+<p>Any MCP-capable tool can connect and share Slate's memory. What it can then do: <a href="../tools/">Tool Reference</a>.</p><h2 id="from-the-app-connect-agents">From the app: Connect → Agents<a class="anchor" href="#from-the-app-connect-agents" aria-label="Link to this section">#</a></h2><p>In <strong><a href="../../connect/">Connect → Agents</a></strong>, pick the tool and account and switch Slate on. It registers for that config directory, so it holds for every project here. <a href="../../studio/">Toolkit</a> can also project MCP configs to every tool.</p><p>Every session talks over HTTP to the running Slate app (<code>http://127.0.0.1:47366/mcp</code>). The entry carries a private key in a header, so Slate writes it into the tool's config file and makes the file readable by you only. Existing setups switch over on the next launch of Slate. The key opens Slate's MCP server and nothing else. Slate does not write it into a config file that is a link (for example into a dotfiles folder): connecting that tool shows an error, and you replace the link with a plain file.</p><p><strong>Another program on port 47366.</strong> If something else holds the port when Slate starts, Slate shows a red line at the top of the window: agents cannot reach Slate. Quit that program, then restart Slate.</p><p><strong>Slate must be running.</strong> With it closed, the tool lists <code>slate</code> as failed and the session-start hook says so. Open Slate and start a new session (Claude Code: <code>/mcp</code> also reconnects).</p><h2 id="by-hand">By hand<a class="anchor" href="#by-hand" aria-label="Link to this section">#</a></h2><p>The app's entry is the supported way. To write it yourself, read the key from <code>slate-mcp-token</code> beside your workspace database and <code>chmod 600</code> the config. Claude Code, <code>~/.claude.json</code>:</p><div class="code"><button class="copy-code" type="button" aria-label="Copy code">Copy</button><pre><code>{
   &quot;mcpServers&quot;: {
     &quot;slate&quot;: {
       &quot;type&quot;: &quot;http&quot;,
@@ -67,20 +62,27 @@
       &quot;headers&quot;: { &quot;x-slate-token&quot;: &quot;&lt;the key&gt;&quot; }
     }
   }
-}</code></pre><p>Other tools spell it their own way: Cursor <code>{url, headers}</code>, Gemini <code>{httpUrl, headers}</code>, OpenCode <code>{type: &quot;remote&quot;, url, headers}</code>, Codex <code>url</code> and <code>http_headers</code> under <code>[mcp_servers.slate]</code>.</p><h3 id="claude-desktop-and-other-stdio-only-clients">Claude Desktop and other stdio-only clients</h3><p>Run the binary inside the app bundle, with no args:</p><pre><code>command: /Applications/Slate.app/Contents/MacOS/slate-mcp
-args:    []</code></pre><p>That is one process per client, which is why the agents use the HTTP entry.</p><h2 id="verify-it-works">Verify it works</h2><p>Ask your agent:</p><blockquote>&quot;Use the slate_capabilities tool to check the Slate contract, then use recall with query 'test' to check if Slate is connected.&quot;</blockquote><p>An answer that mentions your workspace means it works. Empty results are fine: no matching content exists yet.</p><h2 id="the-contract">The contract</h2><p>Generated from the MCP tool registry and checked by <code>packages/mcp/test/tools/contract.test.ts</code>.</p><p>&lt;!-- slate-contract:start --&gt;</p><div class="scroll"><table><thead><tr><th>Tool</th><th>Access</th><th>Write target</th></tr></thead><tbody><tr><td><code>slate_capabilities</code></td><td>read</td><td>—</td></tr><tr><td><code>create_doc</code></td><td>write</td><td>—</td></tr><tr><td><code>get_doc</code></td><td>read</td><td>—</td></tr><tr><td><code>append_to_doc</code></td><td>write</td><td>id, target.kind:branch, target.kind:knowledge_doc; ambiguity=refuse</td></tr><tr><td><code>remember</code></td><td>write</td><td>—</td></tr><tr><td><code>recall</code></td><td>read</td><td>—</td></tr><tr><td><code>get_memory</code></td><td>read</td><td>—</td></tr><tr><td><code>log_mission_progress</code></td><td>write</td><td>—</td></tr><tr><td><code>list_memories</code></td><td>read</td><td>—</td></tr><tr><td><code>propose_memory_change</code></td><td>write</td><td>—</td></tr><tr><td><code>record_decision</code></td><td>write</td><td>—</td></tr><tr><td><code>get_artifact</code></td><td>read</td><td>—</td></tr><tr><td><code>publish_artifact</code></td><td>write</td><td>—</td></tr><tr><td><code>get_app</code></td><td>read</td><td>—</td></tr><tr><td><code>publish_app</code></td><td>write</td><td>—</td></tr><tr><td><code>activity</code></td><td>read</td><td>—</td></tr><tr><td><code>handoff</code></td><td>write</td><td>—</td></tr><tr><td><code>live_sessions</code></td><td>read</td><td>—</td></tr><tr><td><code>propose_setup_change</code></td><td>write</td><td>—</td></tr><tr><td><code>get_agent_run</code></td><td>read</td><td>—</td></tr><tr><td><code>report_agent_run_step</code></td><td>write</td><td>—</td></tr><tr><td><code>my_tasks</code></td><td>read</td><td>—</td></tr><tr><td><code>update_my_task</code></td><td>write</td><td>—</td></tr><tr><td><code>connected_tools</code></td><td>read</td><td>—</td></tr><tr><td><code>read_connected</code></td><td>read</td><td>—</td></tr><tr><td><code>recall_workspaces</code></td><td>read</td><td>—</td></tr><tr><td><code>workspace_doc</code></td><td>read</td><td>—</td></tr></tbody></table></div><p>&lt;!-- slate-contract:end --&gt;</p><p>A tool can save a typed document and add to a doc, and nothing else. Renaming, moving and removing are done in the app. Saving a document of a type the project already has on that branch rewrites that doc. Every tool carries the standard MCP labels (reads only, a write can replace, never reaches outside Slate), so a client can skip asking before a read.</p><p>A failed call answers JSON with <code>error.code</code> and <code>error.message</code>:</p><ul><li><code>approval_required</code> — <code>create_doc</code> without <code>user_approved:true</code>.</li><li><code>content_required</code> — <code>create_doc</code> for a typed doc with no <code>markdown</code>.</li><li><code>target_not_found</code>, <code>target_archived</code>, <code>ambiguous_target</code> — a doc, or a project and branch label, that does not resolve to exactly one live doc.</li><li><code>invalid_request</code>, <code>not_found</code> — a bad <code>update_my_task</code> call, or an item that is not there.</li><li><code>proposal_refused</code> — a <code>propose_memory_change</code> the project's memories cannot take.</li><li><code>not_a_project</code>, <code>invalid_proposal</code>, <code>already_offered</code> — a <code>propose_setup_change</code> for a folder that is not there, a change that could never apply, or one the project already had.</li><li><code>artifact_not_found</code>, <code>invalid_artifact</code>, <code>is_an_app</code> — the artifact tools.</li><li><code>app_not_found</code>, <code>invalid_app</code>, <code>build_failed</code>, <code>not_an_app</code> — the app tools.</li><li><code>wrong_workspace</code> — the <code>cwd</code> belongs to another workspace than the session's (<a href="../tools/">Tools</a>).</li><li><code>no_task</code> (<code>get_agent_run</code> outside an agent run); <code>stale</code>, <code>closed</code>, <code>invalid</code> — a refused <code>report_agent_run_step</code>.</li><li><code>slate_not_running</code> — <code>connected_tools</code> or <code>read_connected</code> while Slate is closed.</li><li><code>store_unavailable</code> — the workspace file is behind this build, so this process cannot change it.</li><li><code>internal_error</code> — anything else, with its message.</li></ul><p>A refused <code>remember</code> or <code>record_decision</code> is not an error. The answer says <code>saved: false</code> with the reason.</p><p>Memory lands in the workspace the call's <code>cwd</code> belongs to: your Personal workspace unless the folder belongs to a shared one. Read, edit or retire entries under <strong>Memory</strong>.</p><h2 id="troubleshooting">Troubleshooting</h2><p><strong>&quot;command not found&quot; or &quot;no such file&quot;.</strong> Slate is not in <code>/Applications</code>. Install it with the command in <a href="../../../overview/getting-started/#1-install">Getting Started</a>. From source, <code>bash scripts/install.sh</code> does it.</p><p><strong>Tools appear but calls fail.</strong> The workspace database may not exist yet. Open the Slate app once. It creates <code>~/Library/Application Support/app.slate.workspace/workspace.db</code> on first launch. If you moved Personal, the MCP server opens the moved file.</p><p><strong>Running from a cloned git repository.</strong> Use <code>node</code> with <code>packages/mcp/dist/index.js</code>, built by <code>yarn workspace @slate/mcp build</code>.</p><h2 id="see-also">See also</h2><ul><li><a href="../">Slate as an MCP Server</a></li><li><a href="../tools/">Tool Reference</a></li><li><a href="../../connect/">Connect</a> — the screen that installs Slate, and what it writes.</li><li><a href="../../studio/">Toolkit</a></li></ul>
-  </article>
+}</code></pre></div><p>Other tools spell it their own way: Cursor <code>{url, headers}</code>, Gemini <code>{httpUrl, headers}</code>, OpenCode <code>{type: &quot;remote&quot;, url, headers}</code>, Codex <code>url</code> and <code>http_headers</code> under <code>[mcp_servers.slate]</code>.</p><h3 id="claude-desktop-and-other-stdio-only-clients">Claude Desktop and other stdio-only clients<a class="anchor" href="#claude-desktop-and-other-stdio-only-clients" aria-label="Link to this section">#</a></h3><p>Run the binary inside the app bundle, with no args:</p><div class="code"><button class="copy-code" type="button" aria-label="Copy code">Copy</button><pre><code>command: /Applications/Slate.app/Contents/MacOS/slate-mcp
+args:    []</code></pre></div><p>That is one process per client, so the agents use the HTTP entry.</p><h2 id="verify-it-works">Verify it works<a class="anchor" href="#verify-it-works" aria-label="Link to this section">#</a></h2><p>Ask your agent:</p><blockquote>&quot;Use the slate_capabilities tool to check the Slate contract, then use recall with query 'test' to check if Slate is connected.&quot;</blockquote><p>An answer mentioning your workspace means it works; empty results are fine.</p><h2 id="the-contract">The contract<a class="anchor" href="#the-contract" aria-label="Link to this section">#</a></h2><p>Generated from the MCP tool registry and checked by <code>packages/mcp/test/tools/contract.test.ts</code>.</p><p>&lt;!-- slate-contract:start --&gt;</p><div class="scroll"><table><thead><tr><th>Tool</th><th>Access</th><th>Write target</th></tr></thead><tbody><tr><td><code>slate_capabilities</code></td><td>read</td><td>—</td></tr><tr><td><code>create_doc</code></td><td>write</td><td>—</td></tr><tr><td><code>get_doc</code></td><td>read</td><td>—</td></tr><tr><td><code>append_to_doc</code></td><td>write</td><td>id, target.kind:branch, target.kind:knowledge_doc; ambiguity=refuse</td></tr><tr><td><code>remember</code></td><td>write</td><td>—</td></tr><tr><td><code>recall</code></td><td>read</td><td>—</td></tr><tr><td><code>get_memory</code></td><td>read</td><td>—</td></tr><tr><td><code>log_mission_progress</code></td><td>write</td><td>—</td></tr><tr><td><code>list_memories</code></td><td>read</td><td>—</td></tr><tr><td><code>propose_memory_change</code></td><td>write</td><td>—</td></tr><tr><td><code>record_decision</code></td><td>write</td><td>—</td></tr><tr><td><code>get_artifact</code></td><td>read</td><td>—</td></tr><tr><td><code>publish_artifact</code></td><td>write</td><td>—</td></tr><tr><td><code>get_widget</code></td><td>read</td><td>—</td></tr><tr><td><code>publish_widget</code></td><td>write</td><td>—</td></tr><tr><td><code>activity</code></td><td>read</td><td>—</td></tr><tr><td><code>handoff</code></td><td>write</td><td>—</td></tr><tr><td><code>live_sessions</code></td><td>read</td><td>—</td></tr><tr><td><code>propose_setup_change</code></td><td>write</td><td>—</td></tr><tr><td><code>get_agent_run</code></td><td>read</td><td>—</td></tr><tr><td><code>report_agent_run_step</code></td><td>write</td><td>—</td></tr><tr><td><code>my_tasks</code></td><td>read</td><td>—</td></tr><tr><td><code>update_my_task</code></td><td>write</td><td>—</td></tr><tr><td><code>connected_tools</code></td><td>read</td><td>—</td></tr><tr><td><code>read_connected</code></td><td>read</td><td>—</td></tr><tr><td><code>recall_workspaces</code></td><td>read</td><td>—</td></tr><tr><td><code>workspace_doc</code></td><td>read</td><td>—</td></tr></tbody></table></div><p>&lt;!-- slate-contract:end --&gt;</p><p>A tool can save a typed document and add to a doc, and nothing else. Saving a document of a type the project already has on that branch rewrites that doc. Every tool carries the standard MCP labels, so a client can skip asking before a read. See <a href="../tool-rules/">Tool Rules</a>.</p><p>A failed call answers JSON with <code>error.code</code> and <code>error.message</code>:</p><ul><li><code>approval_required</code> — <code>create_doc</code> without <code>user_approved:true</code>.</li><li><code>content_required</code> — <code>create_doc</code> for a typed doc with no <code>markdown</code>.</li><li><code>target_not_found</code>, <code>target_archived</code>, <code>ambiguous_target</code> — a doc, or a project and branch label, that does not resolve to exactly one live doc.</li><li><code>invalid_request</code>, <code>not_found</code> — a bad <code>update_my_task</code> call, or an item that is not there.</li><li><code>proposal_refused</code> — a <code>propose_memory_change</code> the project's memories cannot take.</li><li><code>not_a_project</code>, <code>invalid_proposal</code>, <code>already_offered</code> — a <code>propose_setup_change</code> for a folder that is not there, a change that could never apply, or one the project already had.</li><li><code>artifact_not_found</code>, <code>invalid_artifact</code>, <code>is_a_widget</code> — the artifact tools.</li><li><code>widget_not_found</code>, <code>invalid_widget</code>, <code>build_failed</code>, <code>not_a_widget</code> — the widget tools.</li><li><code>wrong_workspace</code> — the <code>cwd</code> belongs to another workspace than the session's (<a href="../tool-rules/#which-workspace-a-call-reaches">Tool Rules</a>).</li><li><code>no_task</code> (<code>get_agent_run</code> outside an agent run); <code>stale</code>, <code>closed</code>, <code>invalid</code> — a refused <code>report_agent_run_step</code>.</li><li><code>slate_not_running</code> — <code>connected_tools</code> or <code>read_connected</code> while Slate is closed.</li><li><code>store_unavailable</code> — the workspace file is behind this build, so this process cannot change it.</li><li><code>internal_error</code> — anything else, with its message.</li></ul><p>A refused <code>remember</code> or <code>record_decision</code> is not an error. The answer says <code>saved: false</code> with the reason.</p><p>Memory lands in the workspace the call's <code>cwd</code> belongs to (Personal unless the folder belongs to a shared one). Read, edit or retire entries under <strong>Memory</strong>.</p><h2 id="troubleshooting">Troubleshooting<a class="anchor" href="#troubleshooting" aria-label="Link to this section">#</a></h2><ul><li><strong>&quot;command not found&quot; / &quot;no such file&quot;.</strong> Slate is not in <code>/Applications</code>: install per <a href="../../../overview/getting-started/#1-install">Getting Started</a>, or from source <code>bash scripts/install.sh</code>.</li><li><strong>Tools appear but calls fail.</strong> The workspace database may not exist yet: open the app once; it creates <code>~/Library/Application Support/app.slate.workspace/workspace.db</code>. If you moved Personal, the server opens the moved file.</li><li><strong>From a git clone.</strong> Run <code>node packages/mcp/dist/index.js</code>, built by <code>yarn workspace @slate/mcp build</code>.</li></ul><h2 id="see-also">See also<a class="anchor" href="#see-also" aria-label="Link to this section">#</a></h2><ul><li><a href="../">Slate as an MCP Server</a></li><li><a href="../tools/">Tool Reference</a></li><li><a href="../../connect/">Connect</a> — the screen that installs Slate, and what it writes.</li><li><a href="../../studio/">Toolkit</a></li></ul>
+      </div>
+      <nav class="pager" aria-label="Previous and next"><a class="prev" href="../"><span>Previous</span>Slate as an MCP server</a><a class="next" href="../tools/"><span>Next</span>MCP tool reference</a></nav>
+      <p class="updated">Last updated <time datetime="2026-11-08">8 November 2026</time></p>
+    </article>
+  </main>
+  <aside class="toc-wrap"><nav class="toc" aria-label="On this page"><p>On this page</p><a class="toc-2" href="#from-the-app-connect-agents">From the app: Connect → Agents</a><a class="toc-2" href="#by-hand">By hand</a><a class="toc-3" href="#claude-desktop-and-other-stdio-only-clients">Claude Desktop and other stdio-only clients</a><a class="toc-2" href="#verify-it-works">Verify it works</a><a class="toc-2" href="#the-contract">The contract</a><a class="toc-2" href="#troubleshooting">Troubleshooting</a><a class="toc-2" href="#see-also">See also</a></nav></aside>
 </div>
-
-<footer>
-  <p>
-    Slate is in alpha. Your data stays on your machine.<br>
-    <a href="../../../../">Home</a> ·
-    <a href="../../../../docs/">Docs</a> ·
-    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a>
-  </p>
+<footer class="foot">
+  <span>Slate keeps your data on your Mac.</span>
+  <a href="../../../">Docs</a>
+  <a href="../../../legal/">Legal</a>
+  <a href="../../../llms.txt">llms.txt</a>
+  <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a>
 </footer>
-
-<script type="module" src="../../../../site/js/docs-page.js"></script>
+<dialog class="search" aria-label="Search the docs">
+  <div class="search-box"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="search" placeholder="Search the docs" aria-label="Search the docs" autocomplete="off"><kbd>Esc</kbd></div>
+  <div class="search-results" role="listbox"></div>
+</dialog>
+<div class="toast" role="status" aria-live="polite" hidden></div>
+<script type="module" src="../../../kit/docs.js"></script>
 </body>
 </html>

@@ -1,77 +1,79 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Slate — Platform &amp; Availability</title>
+<title>Platform and availability — Slate docs</title>
 <meta name="description" content="Which platforms Slate runs on today, which have early builds, and how you install and remove it.">
-<link rel="icon" href="../../../assets/icon.svg" media="(prefers-color-scheme: light)">
-<link rel="icon" href="../../../assets/icon-dark.svg" media="(prefers-color-scheme: dark)">
-
-<meta property="og:title" content="Slate — Platform &amp; Availability">
 <meta property="og:description" content="Which platforms Slate runs on today, which have early builds, and how you install and remove it.">
+<meta property="og:title" content="Platform and availability — Slate docs">
 <meta property="og:type" content="article">
-
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%2230%2018%20268%20332%22%3E%3Cpath%20fill%3D%22%23163D34%22%20fill-rule%3D%22evenodd%22%20d%3D%22M30%20140C30%2085%2090%2060%20230%2022C278%208%20298%2035%20298%2072L298%20174C298%20219%20281%20244%20232%20259L232%20331C232%20350%20223%20354%20209%20344L125%20287C117%20281%20110%20281%20103%20288L49%20334C37%20345%2030%20340%2030%20328Z%20M276%20106L173%20149C135%20165%20139%20184%20169%20198C202%20213%20224%20219%20231%20245C263%20232%20276%20212%20276%20177Z%22%2F%3E%3C%2Fsvg%3E">
+<link rel="alternate" type="text/markdown" href="../platform.md">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
-
-<link rel="stylesheet" href="../../../site/css/tokens.css">
-<link rel="stylesheet" href="../../../site/css/base.css">
-<link rel="stylesheet" href="../../../site/css/layout.css">
-<link rel="stylesheet" href="../../../site/css/components.css">
-<link rel="stylesheet" href="../../../site/css/docs.css">
-<link rel="stylesheet" href="../../../site/css/prose.css">
-
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&family=Manrope:wght@800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../../kit/docs.css">
 <script>
-  // Before first paint, never after. See site/README.md — as a module this would run
-  // after the document renders and flash white on every navigation.
   try {
-    var t = localStorage.getItem("slate-theme");
-    document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
-  } catch (e) {
-    document.documentElement.dataset.theme = "light";
-  }
+    document.documentElement.dataset.theme =
+      localStorage.getItem("slate-theme") === "light" ? "light" : "dark";
+  } catch (e) {}
 </script>
 </head>
-<body>
-
-<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-  <defs>
-    <symbol id="slab-9" viewBox="0 0 9 9">
-      <path d="M 0.655 5.6 L 5.055 3.4 L 8.345 3.4 L 3.945 5.6 Z"
-            fill="currentColor" stroke="currentColor" stroke-width="1" stroke-linejoin="round"/>
-    </symbol>
-    <symbol id="slab-18" viewBox="0 0 18 18">
-      <path d="M 1.31 11.2 L 10.11 6.8 L 16.69 6.8 L 7.89 11.2 Z"
-            fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
-    </symbol>
-  </defs>
-</svg>
-
-<div class="wrap">
-  <header>
-    <a class="back" href="./">
-      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"/></svg>
-      Features
-    </a>
-    <h1>Platform &amp; Availability</h1>
-  </header>
-
-  <article class="prose reveal">
-<p>Slate is a native desktop app: Tauri 2, a Rust host and a React 19 webview. <strong>Each Mac CPU has its own app</strong>, one for Apple Silicon and one for Intel. Releases up to 0.1.54 shipped one universal app, and an installed universal copy updates to its own CPU's app. Each release also builds a Linux <code>.deb</code> and a Windows installer on GitHub's runners, and attaches each only when its build passes. Linux and Windows are <strong>early builds</strong>: they boot and pass their tests, but nobody uses them day to day, and finishing the Windows port is still open (issue #138). The table is written from the latest release's files each time the guide is published.</p><hr><h2 id="platform-support-today">Platform support today</h2><div class="scroll"><table><thead><tr><th>Platform</th><th>Can you download it?</th><th>Status</th></tr></thead><tbody><tr><td>macOS, Apple Silicon</td><td><strong>Yes</strong> — the <code>curl</code> installer</td><td>Primary platform, smoke-tested</td></tr><tr><td>macOS, Intel</td><td><strong>Yes</strong> — the <code>curl</code> installer</td><td>Its own app, built on the release Mac for Intel. Before each release it boots, and its sidecar builds an app, through Rosetta</td></tr><tr><td>Linux (x86_64, <code>.deb</code>)</td><td><strong>Yes</strong> — <code>Slate_0.1.58_amd64.deb</code> from <a href="https://github.com/liozelmalem-star/slate-releases/releases/latest" target="_blank" rel="noreferrer">the latest release</a>, then <code>sudo apt install ./Slate_0.1.58_amd64.deb</code></td><td>Built, installed and booted on Ubuntu 22.04 before each release</td></tr><tr><td>Windows 10/11</td><td><strong>Yes</strong> — <code>Slate_0.1.58_x64-setup.exe</code> from <a href="https://github.com/liozelmalem-star/slate-releases/releases/latest" target="_blank" rel="noreferrer">the latest release</a></td><td>Built and booted on Windows before each release. Not signed with a Windows certificate, so SmartScreen warns on first install</td></tr></tbody></table></div><p>Slate needs <strong>macOS 13.5 (Ventura) or later</strong>. Its bundled server is Node 24, and <code>LSMinimumSystemVersion</code> in <code>Info.plist</code> makes an older Mac refuse to open the app instead of showing a window with no server.</p><p>Slate is developed and tested daily on macOS, Apple Silicon. For Linux, each release's platform build runs the Rust tests on a GitHub Ubuntu 22.04 runner, builds the <code>.deb</code>, installs it and waits up to 60 seconds for the app to log that it started. On Linux:</p><ul><li>shortcuts read Ctrl instead of ⌘</li><li>closing the window minimizes it</li><li>the tray icon has a menu (Open Slate, Quit Slate), because a Linux tray reports no clicks</li><li>Slate watches a project and your agents' transcript folders one folder at a time, never inside build output such as <code>node_modules</code> or <code>dist</code>. It uses at most a quarter of <code>fs.inotify.max_user_watches</code>, and no more than 8,192. At the cap it says so once in its log and stops adding folders. Git and the periodic checks still see changes there.</li></ul><p>Releases are cut by hand on an Apple Silicon Mac, which also builds the Intel app. It signs the Linux <code>.deb</code> and the Windows installer with the same updater key.</p><hr><h2 id="how-you-install-it">How you install it</h2><p>Run the <code>curl</code> command in <a href="../../overview/getting-started/">Getting Started</a>. It downloads the prebuilt app, checks its checksum and code signature, and puts it in <code>/Applications</code>. A missing or wrong checksum, or a signature other than Slate's own certificate, stops the install. There is no Homebrew cask, App Store listing or AppImage. A <code>.deb</code> or Windows installer is downloaded from the GitHub release when it carries one. The site's README says which the latest release has.</p><p>Each release also carries one <code>.dmg</code> per CPU (<code>Slate_&lt;version&gt;_aarch64.dmg</code>, <code>Slate_&lt;version&gt;_x64.dmg</code>). It is <strong>not</strong> the supported path. Slate is signed with its own self-signed certificate and is not notarized by Apple, and macOS quarantines whatever a browser downloads, so the image opens with &quot;Apple could not verify Slate is free of malware&quot;. On macOS 15 and later only System Settings → Privacy &amp; Security clears that. <code>curl</code> sets no quarantine flag, which is why the installer is a script. Use the <code>.dmg</code> only if you know what you are clearing.</p><hr><h2 id="how-you-remove-it">How you remove it</h2><p>Run the matching <code>curl</code> command in <a href="../../overview/uninstalling/">Uninstalling</a>. It takes Slate out of the agents it installed itself into, removes the app, and keeps your workspace unless you ask otherwise.</p><hr><h2 id="see-also">See also</h2><ul><li><a href="../licensing/">Licensing &amp; Updates</a></li><li><a href="../../overview/uninstalling/">Uninstalling</a></li><li><a href="../privacy-and-security/">Privacy &amp; Security</a></li></ul>
-  </article>
+<body data-docs-root="../../">
+<header class="top">
+  <button class="icon-btn menu-btn" type="button" aria-label="Pages" data-menu><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+  <a class="brand" href="../../"><svg class="mark" width="18" height="22" viewBox="30 18 268 332" aria-hidden="true" focusable="false"><path fill-rule="evenodd" d="M30 140C30 85 90 60 230 22C278 8 298 35 298 72L298 174C298 219 281 244 232 259L232 331C232 350 223 354 209 344L125 287C117 281 110 281 103 288L49 334C37 345 30 340 30 328Z M276 106L173 149C135 165 139 184 169 198C202 213 224 219 231 245C263 232 276 212 276 177Z"/></svg><span>Slate</span><span class="brand-docs">Docs</span></a>
+  <div class="top-links">
+    <a href="../../">Docs</a>
+    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Changelog</a>
+    <a class="download" href="https://github.com/liozelmalem-star/slate-releases/releases/latest">Download</a>
+    <button class="icon-btn" type="button" aria-label="Search" data-search><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg></button>
+    <button class="icon-btn" type="button" aria-label="Switch theme" data-theme-toggle><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button>
+  </div>
+</header>
+<nav class="tabs" aria-label="Sections"><a href="../../start/">Get started</a><a href="../../use/">Use Slate</a><a href="../../reference/">Reference</a><a aria-current="page" href="../../trust/">Privacy &amp; trust</a></nav>
+<div class="layout">
+  <aside class="sidebar">
+    <button class="search-open" type="button" data-search><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><span>Search</span><kbd>⌘K</kbd></button>
+    <nav class="side" aria-label="Pages"><a class="d0" href="../privacy-and-security/">Privacy and security</a><a class="d1" href="../privacy-and-security/where-data-lives/">Where each piece of data lives</a><a class="d1" href="../privacy-and-security/sharing/">Workspace sharing, precisely</a><a class="d1" href="../privacy-and-security/security-details/">Security details</a><a class="d0" href="../data-and-export/">Your data and export</a><a class="d0" href="../licensing/">Licensing and updates</a><a class="d0" aria-current="page" href="./">Platform and availability</a><a class="d0" href="../footprint/">What Slate costs your machine</a></nav>
+  </aside>
+  <main class="main">
+    <article class="article">
+      <header class="article-head">
+        <a class="crumb" href="../../trust/">Privacy &amp; trust</a>
+        <div class="title-row"><h1>Platform and availability</h1><div class="copy-page" data-md="../platform.md" data-md-url="https://liozelmalem-star.github.io/slate-releases/docs/features/platform.md">
+        <button class="copy-page-main" type="button" data-copy-md><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>Copy page</button><button class="copy-page-more" type="button" aria-haspopup="menu" aria-expanded="false" aria-label="More ways to use this page">▾</button>
+        <div class="copy-page-menu" role="menu" hidden>
+          <button role="menuitem" type="button" data-copy-md><b>Copy as markdown</b><span>The page as plain text, for an AI tool</span></button>
+          <button role="menuitem" type="button" data-open="Claude Code"><b>Open in Claude Code</b><span>Copies a prompt with this page's address</span></button>
+          <button role="menuitem" type="button" data-open="Cursor"><b>Open in Cursor</b><span>Copies a prompt with this page's address</span></button>
+          <a role="menuitem" href="../platform.md"><b>View as markdown</b><span>Open the .md copy of this page</span></a>
+        </div>
+      </div></div>
+      </header>
+      <div class="prose">
+<p>Slate is a native macOS app: Tauri 2, a Rust host and a React 19 webview. Linux and Windows are <strong>early builds</strong>.</p><p><strong>Each Mac CPU has its own app</strong> (Apple Silicon, Intel). An installed universal copy (releases up to 0.1.54) updates to its own CPU's app. Each release also builds a Linux <code>.deb</code> and a Windows installer on GitHub's runners, attached only when the build passes. The early builds boot and pass tests but are not used day to day, and the Windows port is unfinished (issue #138).</p><h2 id="platform-support-today">Platform support today<a class="anchor" href="#platform-support-today" aria-label="Link to this section">#</a></h2><div class="scroll"><table><thead><tr><th>Platform</th><th>Can you download it?</th><th>Status</th></tr></thead><tbody><tr><td>macOS, Apple Silicon</td><td><strong>Yes</strong> — the <code>curl</code> installer</td><td>Primary platform, smoke-tested</td></tr><tr><td>macOS, Intel</td><td><strong>Yes</strong> — the <code>curl</code> installer</td><td>Its own app, built on the release Mac for Intel. Before each release it boots, and its sidecar builds an app, through Rosetta</td></tr><tr><td>Linux (x86_64, <code>.deb</code>)</td><td><strong>Yes</strong> — <code>Slate_0.1.58_amd64.deb</code> from <a href="https://github.com/liozelmalem-star/slate-releases/releases/latest" target="_blank" rel="noreferrer">the latest release</a>, then <code>sudo apt install ./Slate_0.1.58_amd64.deb</code></td><td>Built, installed and booted on Ubuntu 22.04 before each release</td></tr><tr><td>Windows 10/11</td><td><strong>Yes</strong> — <code>Slate_0.1.58_x64-setup.exe</code> from <a href="https://github.com/liozelmalem-star/slate-releases/releases/latest" target="_blank" rel="noreferrer">the latest release</a></td><td>Built and booted on Windows before each release. Not signed with a Windows certificate, so SmartScreen warns on first install</td></tr></tbody></table></div><p>Slate needs <strong>macOS 13.5 (Ventura) or later</strong> (bundled server: Node 24). <code>LSMinimumSystemVersion</code> in <code>Info.plist</code> makes an older Mac refuse to open the app rather than show a window with no server.</p><p>For Linux, each release's platform build runs the Rust tests on a GitHub Ubuntu 22.04 runner, builds the <code>.deb</code>, installs it and waits up to 60 seconds for the app to log that it started. On Linux:</p><ul><li>shortcuts read Ctrl instead of ⌘</li><li>closing the window minimizes it</li><li>the tray icon has a menu (Open Slate, Quit Slate), because a Linux tray reports no clicks</li><li>Slate watches a project and your agents' transcript folders one folder at a time, never inside build output such as <code>node_modules</code> or <code>dist</code>. It uses at most a quarter of <code>fs.inotify.max_user_watches</code>, and no more than 8,192. At the cap it says so once in its log and stops adding folders. Git and the periodic checks still see changes there.</li></ul><p>Releases are cut by hand on an Apple Silicon Mac, which also builds the Intel app and signs the Linux <code>.deb</code> and the Windows installer with the same updater key.</p><h2 id="how-you-install-it">How you install it<a class="anchor" href="#how-you-install-it" aria-label="Link to this section">#</a></h2><p>Run the <code>curl</code> command in <a href="../../overview/getting-started/">Getting Started</a>. It downloads the prebuilt app, checks checksum and code signature, and installs to <code>/Applications</code>; a missing or wrong checksum, or a signature other than Slate's own certificate, stops it. There is no Homebrew cask, App Store listing or AppImage. A <code>.deb</code> or Windows installer comes from the GitHub release when it carries one (the site's README says which).</p><p>Each release also carries one <code>.dmg</code> per CPU (<code>Slate_&lt;version&gt;_aarch64.dmg</code>, <code>Slate_&lt;version&gt;_x64.dmg</code>). It is <strong>not</strong> the supported path. Slate is signed with its own self-signed certificate and is not notarized by Apple, and macOS quarantines whatever a browser downloads, so the image opens with &quot;Apple could not verify Slate is free of malware&quot;. On macOS 15 and later only System Settings → Privacy &amp; Security clears that. <code>curl</code> sets no quarantine flag, which is why the installer is a script.</p><h2 id="how-you-remove-it">How you remove it<a class="anchor" href="#how-you-remove-it" aria-label="Link to this section">#</a></h2><p>Run the <code>curl</code> command in <a href="../../overview/uninstalling/">Uninstalling</a>: it removes Slate's entries from agents and the app, and keeps your workspace unless you ask otherwise.</p><h2 id="see-also">See also<a class="anchor" href="#see-also" aria-label="Link to this section">#</a></h2><ul><li><a href="../licensing/">Licensing &amp; Updates</a></li><li><a href="../../overview/uninstalling/">Uninstalling</a></li><li><a href="../privacy-and-security/">Privacy &amp; Security</a></li></ul>
+      </div>
+      <nav class="pager" aria-label="Previous and next"><a class="prev" href="../licensing/"><span>Previous</span>Licensing and updates</a><a class="next" href="../footprint/"><span>Next</span>What Slate costs your machine</a></nav>
+      <p class="updated">Last updated <time datetime="2026-11-08">8 November 2026</time></p>
+    </article>
+  </main>
+  <aside class="toc-wrap"><nav class="toc" aria-label="On this page"><p>On this page</p><a class="toc-2" href="#platform-support-today">Platform support today</a><a class="toc-2" href="#how-you-install-it">How you install it</a><a class="toc-2" href="#how-you-remove-it">How you remove it</a><a class="toc-2" href="#see-also">See also</a></nav></aside>
 </div>
-
-<footer>
-  <p>
-    Slate is in alpha. Your data stays on your machine.<br>
-    <a href="../../../">Home</a> ·
-    <a href="../../../docs/">Docs</a> ·
-    <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a>
-  </p>
+<footer class="foot">
+  <span>Slate keeps your data on your Mac.</span>
+  <a href="../../">Docs</a>
+  <a href="../../legal/">Legal</a>
+  <a href="../../llms.txt">llms.txt</a>
+  <a href="https://github.com/liozelmalem-star/slate-releases/releases">Releases</a>
 </footer>
-
-<script type="module" src="../../../site/js/docs-page.js"></script>
+<dialog class="search" aria-label="Search the docs">
+  <div class="search-box"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input type="search" placeholder="Search the docs" aria-label="Search the docs" autocomplete="off"><kbd>Esc</kbd></div>
+  <div class="search-results" role="listbox"></div>
+</dialog>
+<div class="toast" role="status" aria-live="polite" hidden></div>
+<script type="module" src="../../kit/docs.js"></script>
 </body>
 </html>
