@@ -1,6 +1,6 @@
-// Artifacts: pages your AI tools publish for you to look at, with every version kept.
+// Artifacts: docs your agents publish for you to look at, with every version kept.
 // Screens: artifacts-overview, artifacts, artifacts-code, artifacts-old, artifacts-menu, artifacts-md, artifacts-live
-// (each artifact's page is captured into its iframe as srcdoc).
+// (each artifact's doc is captured into its iframe as srcdoc).
 
 const ASK = { css: 'input[placeholder^="Ask for a change"]' };
 
@@ -19,7 +19,7 @@ export const artifacts = {
       spot: { css: "main" },
       spotOpts: { pad: 0 },
       title: "Every artifact at a glance",
-      body: "<p>Artifacts opens on its <strong>Overview</strong>: a card for each artifact, newest first, with a preview of the page.</p><p>Click a card, or a name in the side panel, to open it.</p>",
+      body: "<p>Artifacts opens on its <strong>Overview</strong>: a card for each artifact, newest first, with a preview of the doc.</p><p>Click a card, or a name in the side panel, to open it.</p>",
       click: { text: "Checkout funnel", exact: true, within: { css: "aside" } },
       try: "Click <strong>Checkout funnel</strong> in the side panel.",
     },
@@ -27,21 +27,21 @@ export const artifacts = {
       screen: "artifacts",
       spot: { css: "main" },
       spotOpts: { pad: 0 },
-      title: "Pages your AI tools made for you",
-      body: "<p>An <strong>artifact</strong> is a page an AI tool made for you to look at: a dashboard, a chart, a report, or a note in Markdown. It is kept in your workspace, on this computer, with every version.</p><p>You never edit one by hand. You ask, and the tool publishes it again. Above the page: who made it and when (<strong>Codex · 10 hours ago</strong>), its title, and what it is.</p>",
+      title: "Docs your agents made for you",
+      body: "<p>An <strong>artifact</strong> is a doc an agent made for you to look at: a dashboard, a chart, a report, or a note in Markdown. It is kept in your workspace, on this computer, with every version.</p><p>You never edit one by hand. You ask, and the tool publishes it again. Above the doc: who made it and when (<strong>Codex · 10 hours ago</strong>), its title, and what it is.</p>",
     },
     {
       screen: "artifacts",
       spot: { css: "aside" },
       title: "How one gets here",
-      body: "<p>In any session, ask any connected AI tool to <strong>publish this as an artifact</strong>. It sends the page through Slate's <code>publish_artifact</code> MCP tool, and it lands at the top of this list.</p><p>Tools also publish a chart, a table or a report this way on their own. The list is newest first. <strong>Filter artifacts</strong> narrows it; <kbd>⌘K</kbd> finds one from anywhere.</p>",
+      body: "<p>In any session, ask any connected agent to <strong>publish this as an artifact</strong>. It sends the doc through Slate's <code>publish_artifact</code> MCP tool, and it lands at the top of this list.</p><p>Tools also publish a chart, a table or a report this way on their own. The list is newest first. <strong>Filter artifacts</strong> narrows it; <kbd>⌘K</kbd> finds one from anywhere.</p>",
     },
     {
       screen: "artifacts",
       spot: { text: "Code", exact: true },
       click: true,
       title: "Preview or Code",
-      body: "<p><strong>Preview</strong> shows the page. <strong>Code</strong> shows its source, read-only and laid out one block per line.</p>",
+      body: "<p><strong>Preview</strong> shows the doc. <strong>Code</strong> shows its source, read-only and laid out one block per line.</p>",
       try: "Click <strong>Code</strong>.",
     },
     {
@@ -49,7 +49,7 @@ export const artifacts = {
       spot: { css: "main .cm-editor" },
       spotOpts: { pad: 2 },
       title: "The source, as published",
-      body: "<p>Only the spacing is changed to make it readable. <strong>Copy HTML</strong> in the <strong>⋯</strong> menu still copies the page exactly as the tool sent it.</p>",
+      body: "<p>Only the spacing is changed to make it readable. <strong>Copy HTML</strong> in the <strong>⋯</strong> menu still copies the doc exactly as the tool sent it.</p>",
     },
     {
       screen: "artifacts",
@@ -63,14 +63,14 @@ export const artifacts = {
       screen: "artifacts-old",
       spot: { text: "Restore this version", up: 1 },
       title: "Look back, or bring one back",
-      body: "<p>An older version says so: <strong>You are looking at v2. The newest is v3.</strong></p><p><strong>Restore this version</strong> publishes that page again as a new version, v4, so nothing in between is lost. A change asked for here starts from v2, and the box says so.</p>",
+      body: "<p>An older version says so: <strong>You are looking at v2. The newest is v3.</strong></p><p><strong>Restore this version</strong> publishes that doc again as a new version, v4, so nothing in between is lost. A change asked for here starts from v2, and the box says so.</p>",
     },
     {
       screen: "artifacts",
       spot: ASK,
       type: [ASK, "Make the bars blue and add the v2 funnel next to the old one"],
       title: "Ask for a change",
-      body: "<p>Type what you want in plain words and press <strong>Change</strong>. Slate starts a session in the project the artifact was made in, on that project's tool (here <strong>Claude Code in acme-web</strong>), and opens it.</p><p>The tool reads the page, sends only what changes, and a new version appears here.</p>",
+      body: "<p>Type what you want in plain words and press <strong>Change</strong>. Slate starts a session in the project the artifact was made in, on that project's tool (here <strong>Claude Code in atlas</strong>), and opens it.</p><p>The tool reads the doc, sends only what changes, and a new version appears here.</p>",
     },
     {
       screen: "artifacts",
@@ -84,19 +84,19 @@ export const artifacts = {
       screen: "artifacts-menu",
       spot: { css: '[role="menu"]' },
       title: "The ⋯ menu",
-      body: "<p><strong>Copy HTML</strong> (or <strong>Copy Markdown</strong>), <strong>Open in browser</strong> for an HTML page, and <strong>Rename</strong>.</p><p><strong>Delete forever</strong> asks once more, then removes every version.</p>",
+      body: "<p><strong>Copy HTML</strong> (or <strong>Copy Markdown</strong>), <strong>Open in browser</strong> for an HTML doc, and <strong>Rename</strong>.</p><p><strong>Delete forever</strong> asks once more, then removes every version.</p>",
     },
     {
       screen: "artifacts-md",
       spot: { text: "Release notes 0.9", exact: true },
       title: "Markdown artifacts",
-      body: "<p>Not every artifact is a web page. <strong>Release notes 0.9</strong> is Markdown, shown as formatted text. It has versions and <strong>Ask for a change</strong> like any other.</p><p>Search with <kbd>⌘K</kbd> finds a Markdown artifact by its text, too.</p>",
+      body: "<p>Not every artifact is a web doc. <strong>Release notes 0.9</strong> is Markdown, shown as formatted text. It has versions and <strong>Ask for a change</strong> like any other.</p><p>Search with <kbd>⌘K</kbd> finds a Markdown artifact by its text, too.</p>",
     },
     {
       screen: "artifacts-live",
       spot: { text: "Reads your workspace · no internet" },
       title: "Live artifacts stay current",
-      body: "<p>A tool can publish an artifact <strong>live</strong>. It reads your workspace while you look at it, so this chart of sessions by tool stays true without being published again.</p><p>It can read the pages, memories and sessions of its project, and change nothing. It has no internet: <strong>Reads your workspace · no internet</strong>.</p>",
+      body: "<p>A tool can publish an artifact <strong>live</strong>. It reads your workspace while you look at it, so this chart of sessions by tool stays true without being published again.</p><p>It can read the docs, memories and sessions of its project, and change nothing. It has no internet: <strong>Reads your workspace · no internet</strong>.</p>",
     },
     {
       screen: "artifacts",

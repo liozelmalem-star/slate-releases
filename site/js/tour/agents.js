@@ -1,8 +1,7 @@
-// Automations: work that runs for you on a trigger, inside rules you set. Screens: agents,
-// agents-new, agents-standup, agents-ask, agents-setup, agents-steps, agents-knows,
-// agents-edit, agents-debrief. The place was called Agents when these screens were
-// captured, so `place` keeps that rail label until they are recaptured; `id` keeps the
-// published #agents address.
+// Automations: work that runs for you on a trigger, inside rules you set. Screens:
+// automations, automations-new, automations-standup, automations-ask, automations-setup,
+// automations-steps, automations-knows, automations-edit, automations-debrief. `id` keeps
+// the published #agents address.
 
 const ASK_CARD = { css: 'section[aria-label="Ask first"]' };
 const side = (name) => ({ text: name, exact: true, within: { css: "aside" } });
@@ -23,7 +22,7 @@ function answered(root) {
 export const agents = {
   id: "agents",
   title: "Automations",
-  place: "Agents",
+  place: "Automations",
   icon: '<path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/>',
   links: [
     { match: side("Standup"), step: 5 },
@@ -31,33 +30,33 @@ export const agents = {
   ],
   steps: [
     {
-      screen: "agents",
+      screen: "automations",
       spot: { text: "Latest", up: 1 },
       title: "Work that runs without you",
-      body: "<p>An <strong>automation</strong> does a job for you on a trigger: a standup at 7:00, a debrief when a coding session ends, a review every Friday. Everything it writes lands here.</p><p>The Overview shows the <strong>Latest</strong> report from each automation, then <strong>History</strong>: every report, grouped by automation. Find one by automation, word or date.</p><p>Its <strong>Built-in</strong> section lists what Slate itself runs, with a switch each. Before 0.1.59 that list was in Settings. These screens were captured before the rename, so the rail still says <strong>Agents</strong>.</p>",
+      body: "<p>An <strong>automation</strong> does a job for you on a trigger: a standup at 7:00, a debrief when a coding session ends, a review every Friday. Everything it writes lands here.</p><p>The Overview shows the <strong>Latest</strong> report from each automation, then <strong>History</strong>: every report, grouped by automation. Find one by automation, word or date.</p><p>Its <strong>Built-in</strong> section lists what Slate itself runs, with a switch each.</p>",
     },
     {
-      screen: "agents",
+      screen: "automations",
       spot: { css: "aside nav, aside" },
       title: "Your automations, by what starts them",
       body: "<p>Below <strong>Overview</strong>, your automations are grouped by trigger: <strong>On a schedule</strong>, <strong>When a session ends</strong>, <strong>When a task arrives</strong> and <strong>By hand</strong>. A scheduled one shows its time, like <strong>Weekdays 7 AM</strong>.</p><p>Slate comes with six ceremonies (Standup, Shutdown, Planning, Weekly review, Retro, Monthly review), switched off until you turn them on.</p>",
     },
     {
-      screen: "agents",
-      spot: { css: 'button[aria-label="New agent"]' },
+      screen: "automations",
+      spot: { css: 'button[title="New automation"]' },
       click: true,
       title: "Make a new automation",
       body: "<p><strong>+</strong>, at the top of the side panel, makes a new automation.</p>",
       try: "Click <strong>+</strong>.",
     },
     {
-      screen: "agents-new",
+      screen: "automations-new",
       spot: { css: '[role="menu"]' },
       title: "A template, by hand, or described",
       body: "<p><strong>From a template</strong> starts from one Slate ships, such as a dev session debrief or a PR review prep. <strong>Set it up yourself</strong> opens an empty editor.</p><p><strong>Describe it to AI…</strong>: say what it should do, like <em>“Every Friday at 4 PM, draft a status update from my week”</em>, and the editor opens with a draft. Nothing is saved until you save it.</p>",
     },
     {
-      screen: "agents",
+      screen: "automations",
       spot: side("Standup"),
       click: true,
       title: "Open an automation",
@@ -65,13 +64,13 @@ export const agents = {
       try: "Click <strong>Standup</strong> in the list.",
     },
     {
-      screen: "agents-standup",
+      screen: "automations-standup",
       spot: { text: "Run now", exact: true, up: 1 },
       title: "Run it, edit it, switch it off",
       body: "<p><strong>Run now</strong> runs its steps right away, whatever its trigger. <strong>Edit</strong> opens the editor. <strong>Turn off</strong> stops it running on its own; you can still run it by hand.</p><p>Below, the <strong>Thread</strong> holds every run, oldest first, like a conversation. The box at the bottom replies to the last run: it runs again with your words.</p>",
     },
     {
-      screen: "agents-ask",
+      screen: "automations-ask",
       spot: ASK_CARD,
       click: { text: "Yes, do it", exact: true },
       after: answered,
@@ -80,13 +79,13 @@ export const agents = {
       try: "Click <strong>Yes, do it</strong>.",
     },
     {
-      screen: "agents-ask",
+      screen: "automations-ask",
       spot: ASK_CARD,
       title: "The card says how it went",
       body: "<p>A short run made the one call, and the card now reads <strong>Done: Posted to #acme-dev.</strong> If it fails, it says <strong>Not made</strong> and why.</p><p>Each held call is answered once.</p>",
     },
     {
-      screen: "agents-standup",
+      screen: "automations-standup",
       spot: { text: "Setup", exact: true, within: { css: "main" } },
       click: true,
       title: "Setup: what it does",
@@ -94,31 +93,31 @@ export const agents = {
       try: "Click <strong>Setup</strong>.",
     },
     {
-      screen: "agents-setup",
+      screen: "automations-setup",
       spot: { text: "Runs", exact: true, up: 1 },
       title: "Job and runs",
-      body: "<p><strong>Job</strong> is what it is for, in your words. Every step reads it first.</p><p><strong>Runs</strong> says what starts it (<strong>Weekdays · 7:00 AM</strong>), when it runs next, the project it <strong>Works in</strong>, and the <strong>AI tool</strong> it runs on. An automation runs in that project's folder, so the project's MCP servers load.</p>",
+      body: "<p><strong>Job</strong> is what it is for, in your words. Every step reads it first.</p><p><strong>Runs</strong> says what starts it (<strong>Weekdays · 7:00 AM</strong>), when it runs next, the project it <strong>Works in</strong>, and the <strong>agent</strong> it runs on. An automation runs in that project's folder, so the project's MCP servers load.</p>",
     },
     {
-      screen: "agents-steps",
+      screen: "automations-steps",
       spot: { text: "May do", up: 1 },
       title: "What it may do, and its steps",
-      body: "<p><strong>May do</strong> holds three lists: <strong>Allowed</strong> runs without asking, <strong>Asks first</strong> waits for you, <strong>Denied</strong> is refused. One call per line; <code>mcp__slack__*</code> covers a whole server.</p><p><strong>Steps</strong> run in order. A first <strong>Recent work</strong> step gathers your sessions, memories and pages, and checks them against your live tools.</p>",
+      body: "<p><strong>May do</strong> holds three lists: <strong>Allowed</strong> runs without asking, <strong>Asks first</strong> waits for you, <strong>Denied</strong> is refused. One call per line; <code>mcp__slack__*</code> covers a whole server.</p><p><strong>Steps</strong> run in order. A first <strong>Recent work</strong> step gathers your sessions, memories and docs, and checks them against your live tools.</p>",
     },
     {
-      screen: "agents-knows",
+      screen: "automations-knows",
       spot: { text: "What each run reads", up: 1 },
       title: "What it knows",
       body: "<p><strong>What it knows</strong> lists the memories the automation wrote and what every run reads: recent sessions, the project's memories, its own last three reports, and your replies.</p><p>An automation writes memories only when its first step has <strong>Write decisions back to memory</strong> on.</p>",
     },
     {
-      screen: "agents-debrief",
+      screen: "automations-debrief",
       spot: { text: "Session ended:", up: 1 },
       title: "Triggered by your work",
       body: "<p><strong>Dev session debrief</strong> runs when a session ends: after Slate captures an AI coding session, it writes what shipped, the decisions made and what is next.</p><p>Its three steps each read the one before (<code>@prev</code>). An automation can also start <strong>When a task arrives</strong>, from a new ticket in Tasks.</p>",
     },
     {
-      screen: "agents-edit",
+      screen: "automations-edit",
       spot: { text: "When a task arrives", exact: true, up: 2 },
       title: "Try it: change when it runs",
       body: "<p>Press <strong>Edit</strong> on any automation. Under <strong>Starts</strong>, pick <strong>By hand</strong>, <strong>On a schedule</strong>, <strong>When a session ends</strong> or <strong>When a task arrives</strong>, and set <strong>Runs on its own</strong>.</p><p>Try it now: open <strong>Weekly review</strong>, set it to Fridays at 4 PM, save, and press <strong>Run now</strong> to read this week's report right away.</p>",

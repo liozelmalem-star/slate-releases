@@ -1,11 +1,11 @@
-// Connect: which AI tools this workspace runs, and the apps it reads.
+// Connect: which agents this workspace runs, and the apps it reads.
 export const connect = {
   id: "connect",
   title: "Connect",
   place: "Connect",
   icon: '<path d="M12 22v-5"/><path d="M15 8V2"/><path d="M17 8a1 1 0 0 1 1 1v4a4 4 0 0 1-4 4h-4a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1z"/><path d="M9 8V2"/>',
   links: [
-    { match: { text: "AI tools", exact: true }, step: 1 },
+    { match: { text: "Agents", exact: true }, step: 1 },
     { match: { text: "Integrations", exact: true }, step: 7 },
   ],
   steps: [
@@ -15,20 +15,20 @@ export const connect = {
       spotOpts: { dim: false, pad: -4 },
       title: "How this workspace reaches outside itself",
       body:
-        "<p><strong>Connect</strong> is where setup lives after onboarding: which AI tools this workspace runs, which apps it reads your work from, and what Slate does on its own. It sits at the bottom of the rail, beside Trash and Settings.</p>" +
+        "<p><strong>Connect</strong> is where setup lives after onboarding: which agents this workspace runs, which apps it reads your work from, and what Slate does on its own. It sits at the bottom of the rail, beside Trash and Settings.</p>" +
         "<p>It is per workspace. Open it in Personal and it describes Personal.</p>",
     },
     {
       screen: "connect",
       spot: { text: "Claude Code", exact: true, up: 3 },
-      title: "Every AI tool, one row each",
+      title: "Every agent, one row each",
       body:
-        "<p>One row for each of the 16 AI tools Slate supports. This screen is from before 0.1.59 and shows the first six. Here Claude Code and Codex are on, and Claude Code is the <strong>default</strong> — the one this workspace reaches for when nothing more specific is named.</p>" +
+        "<p>One row for each of the 16 agents Slate supports. This screen is from before 0.1.59 and shows the first six. Here Claude Code and Codex are on, and Claude Code is the <strong>default</strong> — the one this workspace reaches for when nothing more specific is named.</p>" +
         "<p>Each row names the profile and model it runs under. The tool's dialog names the config file Slate writes for it.</p>",
     },
     {
       screen: "connect",
-      spot: { css: 'button[aria-label="Connect Gemini"]' },
+      spot: { text: "Gemini", exact: true, up: 1 },
       spotOpts: { pad: 8 },
       title: "The switch installs Slate into the tool",
       body:
@@ -80,7 +80,7 @@ export const connect = {
       spot: { text: "GitHub", exact: true, up: 1 },
       title: "Connect an app, see your work in Tasks",
       body:
-        "<p>One tile per app. Press <strong>Connect</strong>, approve Slate on the app's own page in your browser, and what you owe there shows up in Tasks. No AI tool is involved. GitHub here is <strong>Connected</strong> and was read a minute ago.</p>" +
+        "<p>One tile per app. Press <strong>Connect</strong>, approve Slate on the app's own doc in your browser, and what you owe there shows up in Tasks. No agent is involved. GitHub here is <strong>Connected</strong> and was read a minute ago.</p>" +
         "<p>The sign-in stays on this computer, so restarts and updates never ask again.</p>",
     },
     {
@@ -102,7 +102,7 @@ export const connect = {
     },
     {
       screen: "connect",
-      spot: { css: 'button[aria-label="Connect Cursor"]' },
+      spot: { text: "Cursor", exact: true, up: 1 },
       spotOpts: { pad: 8 },
       title: "Try it: add a second tool",
       body:

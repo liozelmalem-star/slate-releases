@@ -10,8 +10,7 @@ export const settings = {
     { match: { text: "Appearance", exact: true }, step: 8 },
     { match: { text: "Terminal", exact: true }, step: 9 },
     { match: { text: "Keyboard", exact: true }, step: 10 },
-    { match: { text: "Automations", exact: true }, step: 11 },
-    { match: { text: "About", exact: true }, step: 12 },
+    { match: { text: "About", exact: true }, step: 11 },
   ],
   steps: [
     {
@@ -21,15 +20,15 @@ export const settings = {
       title: "The app, and this computer",
       body:
         "<p><strong>Settings</strong> opens from its icon, the sliders at the bottom of the rail. It holds what belongs to the app and this computer: your account, the workspaces this machine holds, how Slate looks, the terminal, shortcuts and the version.</p>" +
-        "<p>How a workspace reaches AI tools and apps is in Connect instead.</p>",
+        "<p>How a workspace reaches agents and apps is in Connect instead.</p>",
     },
     {
       screen: "settings-account",
-      spot: { text: "Sign in with GitHub", exact: true },
+      spot: { text: "Continue with GitHub", exact: true },
       title: "Account",
       body:
         "<p>Sign in once. Your work never leaves your Mac. Every person signs in on first launch, with Google or GitHub. The account holds your name, email and plan; your docs, sessions and memory stay on this computer. Signing in also lets you share a whole workspace with the people in it, and read the ones they share with you.</p>" +
-        "<p><strong>Sign in with GitHub</strong> opens your browser to approve it. Once signed in, you set the display name people see on what you publish.</p>",
+        "<p><strong>Continue with GitHub</strong> or <strong>Continue with Google</strong> opens your browser to approve it. Once signed in, you set the display name people see on what you publish.</p>",
     },
     {
       screen: "settings-account",
@@ -44,8 +43,8 @@ export const settings = {
       spot: { text: "A workspace is an audience", up: 1 },
       title: "A workspace is an audience",
       body:
-        "<p>Each workspace is its own file on this computer. Everything inside a <strong>shared</strong> one — pages, decisions, git activity, sessions — is readable by its members. Everything in an unshared one stays on this machine.</p>" +
-        "<p>So you never mark pages as private. Work you don't want shared goes in a workspace you haven't shared; to share one project, <strong>Move to…</strong> a shared workspace.</p>",
+        "<p>Each workspace is its own file on this computer. Everything inside a <strong>shared</strong> one — docs, decisions, git activity, sessions — is readable by its members. Everything in an unshared one stays on this machine.</p>" +
+        "<p>So you never mark docs as private. Work you don't want shared goes in a workspace you haven't shared; to share one project, <strong>Move to…</strong> a shared workspace.</p>",
     },
     {
       screen: "settings-workspaces",
@@ -83,10 +82,10 @@ export const settings = {
     },
     {
       screen: "settings-appearance",
-      spot: { text: "Strata", exact: true, up: 3 },
-      title: "Appearance: four themes",
+      spot: { text: "Mint", exact: true, up: 3 },
+      title: "Appearance: two themes",
       body:
-        "<p><strong>Strata</strong> (the default) and <strong>Onyx</strong> are dark; <strong>Chalk</strong> and <strong>Graphite</strong> are light. Strata and Chalk carry Slate's five colours; Onyx and Graphite are monochrome.</p>" +
+        "<p><strong>Mint</strong> (the default) is dark; <strong>Forest</strong> is light.</p>" +
         "<p><kbd>⇧⌘L</kbd> flips between light and dark. <kbd>⌘+</kbd> and <kbd>⌘−</kbd> make the whole app bigger or smaller.</p>",
     },
     {
@@ -105,14 +104,6 @@ export const settings = {
         "<p><kbd>?</kbd> shows the cheatsheet anywhere in the app.</p>",
     },
     {
-      screen: "settings-automations",
-      spot: { text: "Capturing your AI sessions", up: 2 },
-      title: "What runs on its own moved to Automations",
-      body:
-        "<p>Since 0.1.59 this list is the <strong>Built-in</strong> section of <strong>Automations</strong>, not a tab of Settings. It holds everything Slate does when you are not asking it to, for every workspace on this computer. Turning one off stops it everywhere.</p>" +
-        "<p><strong>Capturing your AI sessions</strong> says how many projects it watches and when it last captured. Scheduled automations, <strong>Automatic updates</strong> and the menu bar icon each have their own switch. This screen is from before the move.</p>",
-    },
-    {
       screen: "settings-about",
       spot: { text: "Check for updates", up: 2 },
       title: "About: version and updates",
@@ -125,15 +116,15 @@ export const settings = {
       spot: { text: "Help improve Slate", up: 2 },
       title: "Help improve Slate: off by default",
       body:
-        "<p>Two switches, both off until you turn one on. <strong>Anonymous usage counts</strong> sends four events — Slate opened, a session captured, a memory used, an app opened — and which AI tool. <strong>Crash reports</strong> send the error and where in Slate's code it happened.</p>" +
-        "<p>Neither ever includes your pages, your conversations or a file path. <strong>New id</strong> replaces the random id they are sent under.</p>",
+        "<p>Two switches, both off until you turn one on. <strong>Anonymous usage counts</strong> sends four events — Slate opened, a session captured, a memory used, an app opened — and which agent. <strong>Crash reports</strong> send the error and where in Slate's code it happened.</p>" +
+        "<p>Neither ever includes your docs, your conversations or a file path. <strong>New id</strong> replaces the random id they are sent under.</p>",
     },
     {
       screen: "settings-appearance",
-      spot: { text: "Graphite", exact: true, up: 2 },
+      spot: { text: "Forest", exact: true, up: 2 },
       title: "Try it: make Slate yours",
       body:
-        "<p>Working in daylight? Pick <strong>Graphite</strong> for off-white paper and near-black ink. Then open <strong>Keyboard</strong> and give <strong>Go to Memory</strong> a key of its own, so the place you visit most is one press away.</p>",
+        "<p>Working in daylight? Pick <strong>Forest</strong>, the light theme. Then open <strong>Keyboard</strong> and give <strong>Go to Memory</strong> a key of its own, so the place you visit most is one press away.</p>",
     },
   ],
 };

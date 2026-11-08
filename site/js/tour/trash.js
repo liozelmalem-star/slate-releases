@@ -1,4 +1,4 @@
-// Trash: pages and apps you removed, until you restore them or delete them forever.
+// Trash: docs and apps you removed, until you restore them or delete them forever.
 export const trash = {
   id: "trash",
   title: "Trash",
@@ -11,15 +11,15 @@ export const trash = {
       spotOpts: { dim: false, pad: -4 },
       title: "Nothing is gone until you say so",
       body:
-        "<p>Pages and apps you move to Trash wait here until you restore them or delete them forever. It sits at the bottom of the rail, beside Connect.</p>" +
-        "<p>A page goes with every page inside it: restoring it, or deleting it forever, affects them all.</p>",
+        "<p>Docs and apps you move to Trash wait here until you restore them or delete them forever. It sits at the bottom of the rail, beside Connect.</p>" +
+        "<p>A doc goes with every doc inside it: restoring it, or deleting it forever, affects them all.</p>",
     },
     {
       screen: "trash",
       spot: { text: "Scratch — endpoint naming", up: 1 },
       title: "What was trashed, when, and from where",
       body:
-        "<p>Each row says when it was moved and which page it came from — this scratch page was in <strong>acme-api</strong> until yesterday. Click a row to open it and read it before you decide.</p>" +
+        "<p>Each row says when it was moved and which doc it came from — this scratch doc was in <strong>acme-api</strong> until yesterday. Click a row to open it and read it before you decide.</p>" +
         "<p>With a long Trash, <strong>Filter by title</strong> narrows the list.</p>",
     },
     {
@@ -27,7 +27,7 @@ export const trash = {
       spot: { text: "Restore", exact: true },
       title: "Restore",
       body:
-        "<p><strong>Restore</strong> puts the page back, with everything that was inside it, and takes it off this list.</p>",
+        "<p><strong>Restore</strong> puts the doc back, with everything that was inside it, and takes it off this list.</p>",
     },
     {
       screen: "trash",
@@ -51,7 +51,7 @@ export const trash = {
       spotOpts: { pad: 8 },
       click: true,
       title: "Delete one forever",
-      body: "<p>The bin at the end of a row deletes that page forever. Slate asks first.</p>",
+      body: "<p>The bin at the end of a row deletes that doc forever. Slate asks first.</p>",
       try: "Click the bin on the first row.",
     },
     {
@@ -59,7 +59,7 @@ export const trash = {
       spot: { css: "[role=dialog]" },
       title: "This one can't be undone",
       body:
-        "<p>Deleting forever also deletes the pages nested inside. Past branches inside are kept, so a branch's history is never lost with a scratch page.</p>" +
+        "<p>Deleting forever also deletes the docs nested inside. Past branches inside are kept, so a branch's history is never lost with a scratch doc.</p>" +
         "<p>An app deleted forever takes every version of it and the data it kept.</p>",
     },
     {
@@ -80,10 +80,10 @@ export const trash = {
     {
       screen: "trash",
       spot: { text: "Checkout wireframes v1 (old)", up: 1 },
-      title: "Try it: get an old page back",
+      title: "Try it: get an old doc back",
       body:
         "<p>Someone asks what the first checkout wireframes looked like. Click <strong>Checkout wireframes v1 (old)</strong> to read it here, then <strong>Restore</strong> it.</p>" +
-        "<p>It goes back into <strong>acme-web</strong>, where search and your AI tools can find it again.</p>",
+        "<p>It goes back into <strong>atlas</strong>, where search and your agents can find it again.</p>",
     },
   ],
 };

@@ -1,4 +1,4 @@
-// Home: the deck of what needs you, the composer, the AI tool's chat, ⌘K and ⌘J.
+// Home: the deck of what needs you, the composer, the agent's chat, ⌘K and ⌘J.
 // Screens: home-*.
 const ASK = "Why is the cart total off by one cent?";
 
@@ -39,16 +39,16 @@ export const home = {
       spot: { css: "textarea", up: 3 },
       title: "Ask, find, or make anything",
       body:
-        "<p>The box at the bottom talks to your AI tool, with your Slate memory and pages to work from. Ask a question, find something, or have it make a page or a change.</p>" +
+        "<p>The box at the bottom talks to your agent, with your Slate memory and docs to work from. Ask a question, find something, or have it make a doc or a change.</p>" +
         "<p><kbd>Enter</kbd> sends. Drop a file on the box to attach it.</p>",
       type: [{ css: "textarea" }, ASK],
     },
     {
       screen: "home-scope",
-      spot: { text: "acme-web", exact: true },
+      spot: { text: "atlas", exact: true },
       title: "Scope: what the AI thinks with",
       body:
-        "<p><strong>Scope</strong> picks one project, or <strong>All projects</strong> in this workspace. The AI tool works in that project's folder and searches its memory first.</p>" +
+        "<p><strong>Scope</strong> picks one project, or <strong>All projects</strong> in this workspace. The agent works in that project's folder and searches its memory first.</p>" +
         "<p>The scope is not saved, so last week's pick never hides an answer.</p>",
     },
     {
@@ -56,7 +56,7 @@ export const home = {
       spot: { text: "Ask first", exact: true },
       title: "Which tool answers, and how freely",
       body:
-        "<p>Beside the scope, the composer names the AI tool that will answer, here <strong>Claude Code</strong>. When the project has more than one tool, you can pick another for this message.</p>" +
+        "<p>Beside the scope, the composer names the agent that will answer, here <strong>Claude Code</strong>. When the project has more than one tool, you can pick another for this message.</p>" +
         "<p>The pill decides how much it may do without asking. <strong>Ask first</strong> reads freely and asks before it edits a file or runs a command.</p>",
       try: "Click <strong>Ask first</strong>.",
       click: true,
@@ -84,7 +84,7 @@ export const home = {
       spot: { text: "/checkout-qa", up: 1 },
       title: "/ for skills",
       body:
-        "<p>Type <kbd>/</kbd> at the start of the box to list the skills the AI tool loads in the scoped project, then the tool's own commands.</p>" +
+        "<p>Type <kbd>/</kbd> at the start of the box to list the skills the agent loads in the scoped project, then the tool's own commands.</p>" +
         "<p>Pick one and it waits as a chip in front of your words. On send, the tool reads that skill and follows it.</p>",
     },
     {
@@ -92,31 +92,31 @@ export const home = {
       spot: { text: "Checkout redesign", exact: true },
       title: "@ to mention anything",
       body:
-        "<p>Type <kbd>@</kbd> anywhere to name a page, session, memory, task, automation or report. The menu groups matches by kind, most recent first.</p>" +
-        "<p>Each pick becomes a chip, and its content is sent ahead of your message, so the AI tool reads exactly what you pointed at.</p>",
+        "<p>Type <kbd>@</kbd> anywhere to name a doc, session, memory, task, automation or report. The menu groups matches by kind, most recent first.</p>" +
+        "<p>Each pick becomes a chip, and its content is sent ahead of your message, so the agent reads exactly what you pointed at.</p>",
     },
     {
       screen: "home-palette-q",
       spot: { css: "input[placeholder]" },
       title: "⌘K searches everything",
       body:
-        "<p><kbd>⌘K</kbd>, or the <strong>Search</strong> bar at the top, opens one search over sessions, pages, memories and tasks. A live session shows its status dot.</p>" +
+        "<p><kbd>⌘K</kbd>, or the <strong>Search</strong> bar at the top, opens one search over sessions, docs, memories and tasks. A live session shows its status dot.</p>" +
         "<p>Arrow to a result and press <kbd>Enter</kbd> to open it. It works from every place in Slate.</p>",
     },
     {
       screen: "home-askai",
       spot: { text: "Ask AI", exact: true, up: 2 },
-      title: "⌘J asks about the page you are on",
+      title: "⌘J asks about the doc you are on",
       body:
-        "<p>On any page, <kbd>⌘J</kbd> opens the <strong>Ask AI</strong> panel beside it, with that page as its context. Ask about it, or tell the AI what to change.</p>" +
-        "<p>It opens only on a page. Anywhere else, <kbd>⌘J</kbd> says to open a page first.</p>",
+        "<p>On any doc, <kbd>⌘J</kbd> opens the <strong>Ask AI</strong> panel beside it, with that doc as its context. Ask about it, or tell the AI what to change.</p>" +
+        "<p>It opens only on a doc. Anywhere else, <kbd>⌘J</kbd> says to open a doc first.</p>",
     },
     {
       screen: "home-chat",
       spot: { text: "slate: recall", up: 1 },
       title: "Watch it work",
       body:
-        "<p>A question opens a chat over Home. Each step the AI tool takes shows as it runs: here it recalled your pinned decision on tax rounding from Slate's memory, then read the file. Click a step to see its result.</p>" +
+        "<p>A question opens a chat over Home. Each step the agent takes shows as it runs: here it recalled your pinned decision on tax rounding from Slate's memory, then read the file. Click a step to see its result.</p>" +
         "<p><strong>Home</strong>, top left, brings Home back and keeps the chat. <strong>New chat</strong> starts over.</p>",
     },
     {
@@ -124,7 +124,7 @@ export const home = {
       spot: { text: "Approve", up: 3 },
       title: "Try it: ask, then approve the fix",
       body:
-        "<p>In <strong>Ask first</strong>, an edit or a command waits on a card that shows exactly what will change. <strong>Approve</strong> runs that one call. <strong>Skip</strong> refuses it and tells the AI tool why.</p>" +
+        "<p>In <strong>Ask first</strong>, an edit or a command waits on a card that shows exactly what will change. <strong>Approve</strong> runs that one call. <strong>Skip</strong> refuses it and tells the agent why.</p>" +
         "<p>Set the scope to a project, ask why something is broken, read what it found, and approve the fix.</p>",
       try: `Pick a project in <strong>Scope</strong> and ask: <em>${ASK}</em>`,
     },

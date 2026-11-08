@@ -22,7 +22,7 @@ export const setup = {
       spot: { text: "Take the full tour", up: 2 },
       title: "Welcome to Slate",
       body:
-        "<p>Slate keeps your pages, notes and captured AI sessions in one file on your Mac. Every AI tool you connect, out of the 16 Slate supports, reads and writes that same memory.</p>" +
+        "<p>Slate keeps your docs, notes and captured AI sessions in one file on your Mac. Every agent you connect, out of the 16 Slate supports, reads and writes that same memory.</p>" +
         "<p>The welcome screen flips through what you are about to see. <strong>Take the full tour</strong> opens this guide.</p>",
     },
     {
@@ -37,8 +37,8 @@ export const setup = {
     },
     {
       screen: "setup-aitool",
-      spot: { text: "Connect your AI tools", up: 1 },
-      title: "Connect your AI tools",
+      spot: { text: "Connect your agents", up: 1 },
+      title: "Connect your agents",
       body:
         "<p>Connecting lets a tool search and write your Slate memory. Slate installs itself into each tool, as a plugin where the tool takes one.</p>" +
         "<p>A tool Slate found on your Mac says <strong>Detected</strong>. <strong>Connect all</strong> turns on every detected tool at once. Ten newer tools read <strong>Beta</strong>: Slate works with them, but nobody has run a session on them yet to check every part.</p>",
@@ -106,7 +106,7 @@ export const setup = {
       spot: { text: "Start a session", up: 2 },
       title: "Connect a tool, then start a session",
       body:
-        "<p><strong>Connect an AI tool</strong> ticks once this workspace has one. <strong>Start a session</strong> ticks when Slate has captured a session: run your tool in a project folder, from your own terminal or from Slate's <strong>New session</strong>.</p>",
+        "<p><strong>Connect an agent</strong> ticks once this workspace has one. <strong>Start a session</strong> ticks when Slate has captured a session: run your tool in a project folder, from your own terminal or from Slate's <strong>New session</strong>.</p>",
     },
     {
       screen: "setup-home",

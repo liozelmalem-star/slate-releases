@@ -7,12 +7,12 @@ export const sessions = {
   place: "Sessions",
   icon: '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/>',
   links: [
-    { match: { css: 'button[title="Watch this session live (feat/rate-limits)"]' }, step: 9 },
+    { match: { css: 'button[title="Watch this session live (acme-api)"]' }, step: 9 },
   ],
   steps: [
     {
       screen: "sessions",
-      spot: { text: "Every live AI session", up: 2 },
+      spot: { css: "aside" },
       title: "Every AI session on your Mac, live",
       body:
         "<p>Sessions lists every AI coding session running on this computer, from any of the 16 tools Slate supports,, whether Slate started it or you did in your own terminal. Nothing to register.</p>" +
@@ -48,7 +48,7 @@ export const sessions = {
       spot: { text: "Pick where it runs", up: 3 },
       title: "Pick where it runs",
       body:
-        "<p><strong>This computer</strong> lists your groups, projects and branches. Click one and the session starts there at once. <strong>Runs on</strong> picks the AI tool for this session only.</p>" +
+        "<p><strong>This computer</strong> lists your groups, projects and branches. Click one and the session starts there at once. <strong>Runs on</strong> picks the agent for this session only.</p>" +
         "<p>Turn on <strong>On my phone</strong> first to keep going from the Claude app. <strong>Start without a project</strong> is for a quick question or script.</p>",
       try: "Click <strong>Cloud</strong>.",
       click: { text: "Cloud", exact: true },
@@ -58,7 +58,7 @@ export const sessions = {
       spot: { text: "What should the cloud session do?" },
       title: "Or run it in the cloud",
       body:
-        "<p><strong>Cloud</strong> runs the session on your AI tool's computer, so it keeps going while your Mac sleeps. Claude Code and Codex have it.</p>" +
+        "<p><strong>Cloud</strong> runs the session on your agent's computer, so it keeps going while your Mac sleeps. Claude Code and Codex have it.</p>" +
         "<p>Write the task, pick a git project, and press <strong>Start in cloud</strong>. The note says exactly what leaves your Mac.</p>",
     },
     {
@@ -80,7 +80,7 @@ export const sessions = {
     },
     {
       screen: "sessions",
-      spot: { css: 'button[title="Watch this session live (feat/rate-limits)"]' },
+      spot: { css: 'button[title="Watch this session live (acme-api)"]' },
       title: "Open a session",
       body:
         "<p>Each row is named for its branch, with the latest line under it. The acme-api session on <strong>feat/rate-limits</strong> is waiting on you. Click its row to open it.</p>",
@@ -89,7 +89,7 @@ export const sessions = {
     },
     {
       screen: "sessions-open",
-      spot: { css: 'button[title="Watch this session live (feat/rate-limits)"]' },
+      spot: { css: 'button[title="Watch this session live (acme-api)"]' },
       title: "The row, and its tab",
       body:
         "<p>The row's meta line shows the tool, how long it has waited, how much it changed, and how far its plan has got. The session opens as a tab above the stage, so several can stay open.</p>" +
@@ -100,7 +100,7 @@ export const sessions = {
       spot: { text: "Continue in a copy", up: 1 },
       title: "Its conversation, live",
       body:
-        "<p>A session from your own terminal shows its conversation as the tool writes it. <strong>Continue in a copy</strong> picks it up in Slate without touching your terminal. <strong>Its page</strong> opens what Slate recorded about it.</p>" +
+        "<p>A session from your own terminal shows its conversation as the tool writes it. <strong>Continue in a copy</strong> picks it up in Slate without touching your terminal. <strong>Its doc</strong> opens what Slate recorded about it.</p>" +
         "<p>A session Slate started runs in a real terminal here.</p>",
     },
     {
@@ -108,14 +108,14 @@ export const sessions = {
       spot: { text: "Environment", exact: true, up: 2 },
       title: "Details, on the right",
       body:
-        "<p>The details rail says where the session runs (tool, project, branch, folder), how full its context is, its pull request and its page in Slate. <strong>Draft a skill</strong> turns the session's steps into a skill for the project.</p>" +
+        "<p>The details rail says where the session runs (tool, project, branch, folder), how full its context is, its pull request and its doc in Slate. <strong>Draft a skill</strong> turns the session's steps into a skill for the project.</p>" +
         "<p>The button with a number in the header counts the files the session changed.</p>",
       try: "Click the <strong>2</strong> in the header.",
       click: { css: 'button[aria-label^="Changes"]' },
     },
     {
       screen: "sessions-review",
-      spot: { text: "committed on this branch", up: 3 },
+      spot: { text: "This branch vs main", up: 3 },
       title: "What the branch changed",
       body:
         "<p><strong>Changes</strong> opens beside the conversation: what is committed on this branch, and what is not published yet. <strong>Publish branch</strong> pushes it.</p>",
@@ -130,7 +130,7 @@ export const sessions = {
     },
     {
       screen: "sessions-changes",
-      spot: { text: "Commit & Push", up: 2 },
+      spot: { text: "Commit 2 files", up: 2 },
       title: "Try it: check a working session",
       body:
         "<p>A session still working has files not yet committed. Tick the ones to keep, write a message, then <strong>Commit</strong>, <strong>Commit & Push</strong> or <strong>Open PR</strong>.</p>" +

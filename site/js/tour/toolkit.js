@@ -1,4 +1,4 @@
-// Toolkit: everything a project's AI tools read, kept once and published to all of them.
+// Toolkit: everything a project's agents read, kept once and published to all of them.
 export const toolkit = {
   id: "toolkit",
   title: "Toolkit",
@@ -7,29 +7,28 @@ export const toolkit = {
   links: [
     { match: { text: "write-tests", exact: true }, step: 4 },
     { match: { text: "review-pr", exact: true }, step: 4 },
-    { match: { text: "AI tools", exact: true }, step: 8 },
   ],
   steps: [
     {
       screen: "toolkit",
       spot: { css: "main" },
       spotOpts: { dim: false, pad: -4 },
-      title: "One setup for every AI tool",
+      title: "One setup for every agent",
       body:
-        "<p>Claude Code, Codex, Cursor and every other AI tool want their skills, rules and MCP servers in their own folder and their own format. Kept by hand, the copies drift apart.</p>" +
+        "<p>Claude Code, Codex, Cursor and every other agent want their skills, rules and MCP servers in their own folder and their own format. Kept by hand, the copies drift apart.</p>" +
         "<p><strong>Toolkit</strong> keeps one copy and publishes it to all of them. You write it once, in the project's <code>.slate/</code> folder and its <code>AGENTS.md</code>, and Slate writes each tool's version for you.</p>",
     },
     {
       screen: "toolkit-picker",
-      spot: { text: "Your AI tools", up: 2 },
+      spot: { text: "Your agents", up: 2 },
       title: "Pick a project",
       body:
-        "<p>Toolkit always shows one project. The picker lists every project with a folder, grouped the way your sidebar groups them. Here <strong>acme-web</strong> has 4 skills, <strong>acme-api</strong> 3 and <strong>blog</strong> 2.</p>" +
-        "<p><strong>Your AI tools</strong> comes first: the skills and setup each tool keeps in your home folder, for every project.</p>",
+        "<p>Toolkit always shows one project. The picker lists every project with a folder, grouped the way your sidebar groups them. Here <strong>atlas</strong> has 4 skills, <strong>acme-api</strong> 3 and <strong>blog</strong> 2.</p>" +
+        "<p><strong>Your agents</strong> comes first: the skills and setup each tool keeps in your home folder, for every project.</p>",
     },
     {
       screen: "toolkit",
-      spot: { text: "Config files", exact: true, up: 1 },
+      spot: { css: "aside" },
       spotOpts: { pad: 4 },
       title: "One tab per kind of thing",
       body:
@@ -38,7 +37,7 @@ export const toolkit = {
     },
     {
       screen: "toolkit",
-      spot: { text: "review-pr", exact: true, up: 1 },
+      spot: { text: "review-pr", up: 1 },
       click: true,
       title: "Your skills, grouped",
       body:
@@ -65,7 +64,7 @@ export const toolkit = {
     },
     {
       screen: "toolkit-skill-md",
-      spot: { text: "History", exact: true },
+      spot: { css: 'button[aria-label="More for review-pr"]' },
       click: true,
       title: "Every version, from git",
       body:
@@ -88,14 +87,6 @@ export const toolkit = {
       body:
         "<p>The pill in the header says whether every tool matches <code>.slate/</code>: <strong>In sync</strong>, or how many tools are behind. Slate watches <code>.slate/</code> and <code>AGENTS.md</code> and syncs a moment after either changes — whoever changed it.</p>",
       try: "Click <strong>In sync</strong>.",
-    },
-    {
-      screen: "toolkit-aitools",
-      spot: { text: "AI tool", exact: true, up: 3 },
-      title: "What each tool reads",
-      body:
-        "<p><strong>AI tools</strong> is one row per tool: how many skills reach it, its rules, its MCP servers, and its state. <strong>Check again</strong> re-reads the folders; <strong>Sync now</strong> rewrites every tool's copy from <code>.slate/</code>.</p>" +
-        "<p><code>AGENTS.md</code> is the rules file the tools read on their own, and <code>CLAUDE.md</code> is a link to it.</p>",
     },
     {
       screen: "toolkit",
@@ -121,7 +112,7 @@ export const toolkit = {
       title: "Try it: one rule, every tool",
       body:
         "<p>Your team keeps forgetting to update the changelog. Add a skill with <strong>+</strong>, name it <code>changelog</code>, and write \"Add a line to CHANGELOG.md for every user-facing change.\"</p>" +
-        "<p>Slate syncs it to every connected tool within a moment. Check <strong>AI tools</strong> says <strong>In sync</strong>, then commit <code>.slate/</code> so everyone on the project gets it too.</p>",
+        "<p>Slate syncs it to every connected tool within a moment. Check the header says <strong>In sync</strong>, then commit <code>.slate/</code> so everyone on the project gets it too.</p>",
     },
   ],
 };

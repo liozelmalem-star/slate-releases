@@ -1,4 +1,4 @@
-// Memory — what every connected AI tool saved, on one map, and the review queue for what
+// Memory — what every connected agent saved, on one map, and the review queue for what
 // they proposed to change. Screens: memory-m, memory-card, memory-country,
 // memory-decisions, memory-search (captured from the seeded demo workspace).
 export const memory = {
@@ -10,13 +10,13 @@ export const memory = {
   steps: [
     {
       screen: "memory-m",
-      spot: { text: "What Slate remembers, learned from your sessions", up: 2 },
-      title: "What every AI tool learned, in one place",
-      body: "<p><strong>Memory</strong> is what your AI tools saved while they worked — decisions with their reasons, preferences, lessons, where things stand. One tool saves it; every tool gets it back.</p><p>Nothing here was typed by hand. It arrives as sessions end.</p>",
+      spot: { css: "main" },
+      title: "What every agent learned, in one place",
+      body: "<p><strong>Memory</strong> is what your agents saved while they worked — decisions with their reasons, preferences, lessons, where things stand. One tool saves it; every tool gets it back.</p><p>Nothing here was typed by hand. It arrives as sessions end.</p>",
     },
     {
       screen: "memory-m",
-      spot: { text: "50 active", up: 1 },
+      spot: { text: "used this month", up: 1 },
       title: "How much of it is earning its place",
       body: "<p>The chips along the top are the colour key and the filters: <strong>used this month</strong> in green, <strong>never used</strong> in amber, <strong>new this week</strong> in blue.</p><p>A memory nobody uses is a hint it can go. Click a chip to see only those.</p>",
     },
@@ -38,13 +38,13 @@ export const memory = {
       screen: "memory-m",
       spot: { text: "2 to review" },
       title: "Nothing changes behind your back",
-      body: "<p>AI tools can propose to tidy memory — merge two that say the same thing, retire one that is wrong — but nothing changes until you accept it. What waits for you is counted here: <strong>2 to review</strong>.</p>",
+      body: "<p>agents can propose to tidy memory — merge two that say the same thing, retire one that is wrong — but nothing changes until you accept it. What waits for you is counted here: <strong>2 to review</strong>.</p>",
       try: "Click <strong>2 to review</strong>.",
       click: true,
     },
     {
       screen: "memory-review",
-      spot: { text: "Claude Code proposes to merge 2 memories", up: 1 },
+      spot: { text: "Merge these 2 into one?", up: 1 },
       title: "A merge, proposed by Claude Code",
       body: "<p>The two old sentences are struck through, the merged one is under <strong>Into</strong>, and <strong>Why</strong> says what made Claude Code propose it.</p>",
       try: "Click <strong>Merge</strong> to accept it.",
@@ -57,7 +57,7 @@ export const memory = {
     },
     {
       screen: "memory-review",
-      spot: { text: "Gemini disagreed with a surer memory", up: 1 },
+      spot: { text: "1 claim disagrees with a surer memory", up: 1 },
       title: "When two tools disagree",
       body: "<p>Gemini wrote that rate limits use a sliding window; Slate already holds, more surely, that they use a token bucket. A claim that contradicts a firmer memory is held, not saved.</p><p><strong>Keep existing</strong>, <strong>Replace it</strong> or <strong>Keep both</strong> — your call.</p>",
     },
@@ -65,7 +65,7 @@ export const memory = {
       screen: "memory-country",
       spot: { text: "Migrations are additive only", up: 2 },
       title: "Reading a memory",
-      body: "<p>Each row shows its kind — <strong>decision</strong>, <strong>preference</strong>, <strong>fact</strong>, <strong>lesson</strong> or <strong>status note</strong> — the sentence, its ref (<code>m:…</code>, which sessions cite it by), the AI tool that wrote it, and how often it was used and by whom.</p><p>Wrong? Click <strong>edit</strong> and fix it; the next session reads the correction.</p>",
+      body: "<p>Each row shows its kind — <strong>decision</strong>, <strong>preference</strong>, <strong>fact</strong>, <strong>lesson</strong> or <strong>status note</strong> — the sentence, its ref (<code>m:…</code>, which sessions cite it by), the agent that wrote it, and how often it was used and by whom.</p><p>Wrong? Click <strong>edit</strong> and fix it; the next session reads the correction.</p>",
     },
     {
       screen: "memory-m",
@@ -90,7 +90,7 @@ export const memory = {
     },
     {
       screen: "memory-m",
-      spot: { text: "What Slate remembers, learned from your sessions", up: 2 },
+      spot: { css: "main" },
       title: "Try it",
       body: "<p>In any connected tool, such as Claude Code, Codex or Cursor, make a decision and say why. When the session ends it lands here.</p><p>Then open a <em>different</em> tool and ask what was decided. It recalls the same memory, without you pasting anything.</p>",
     },

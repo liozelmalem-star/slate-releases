@@ -8,7 +8,6 @@ export const activity = {
   icon: '<path d="M22 12h-2.48a2 2 0 0 0-1.93 1.46l-2.35 8.36a.25.25 0 0 1-.48 0L9.24 2.18a.25.25 0 0 0-.48 0l-2.35 8.36A2 2 0 0 1 4.49 12H2"/>',
   links: [
     { match: { text: "Last 13 weeks", exact: true }, step: 3 },
-    { match: { text: "Codex", within: byTool }, step: 5 },
   ],
   steps: [
     {
@@ -17,7 +16,7 @@ export const activity = {
       spotOpts: { dim: false, pad: -4 },
       title: "What your AI work came to",
       body:
-        "<p><strong>Activity</strong> reads the session files your AI tools already keep on your machine, and turns them into one board: what you did today, where the time went, and how your weeks are trending.</p>" +
+        "<p><strong>Activity</strong> reads the session files your agents already keep on your machine, and turns them into one board: what you did today, where the time went, and how your weeks are trending.</p>" +
         "<p>Nothing to set up. Everything here comes from data already on your computer.</p>",
     },
     {
@@ -48,21 +47,9 @@ export const activity = {
     {
       screen: "activity-lower",
       spot: { text: "Codex", within: byTool },
-      click: true,
       title: "By tool, project and branch",
       body:
-        "<p><strong>By tool</strong>, <strong>By project</strong> and <strong>By branch</strong> rank your sessions by what ran them and where. Each row shows tokens and the session count.</p>" +
-        "<p>Clicking any row filters the whole board to it.</p>",
-      try: "Click <strong>Codex</strong>.",
-    },
-    {
-      screen: "activity-tool",
-      spot: { text: "Filtered to", up: 1 },
-      spotOpts: { pad: 6 },
-      title: "The board, for one tool",
-      body:
-        "<p>Now every widget counts only Codex sessions: 10 in the last 30 days, 3h 39m. <strong>Filtered to</strong> shows what is applied; the <strong>×</strong> on the chip clears it.</p>" +
-        "<p>The same works for a project or a branch, so you can see where one feature's time went.</p>",
+        "<p><strong>By tool</strong>, <strong>By project</strong> and <strong>By branch</strong> rank your sessions by what ran them and where. Each row shows tokens and the session count.</p>",
     },
     {
       screen: "activity-bottom",
@@ -85,7 +72,7 @@ export const activity = {
     },
     {
       screen: "activity",
-      spot: { css: 'button[aria-label="Add widget"]' },
+      spot: { css: 'button[aria-label="Arrange the board"]' },
       click: true,
       title: "Make the board yours",
       body:
