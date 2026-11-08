@@ -22,21 +22,21 @@
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 
 <!-- Dependency order: tokens first, the page's own furniture last. See site/README.md. -->
-<link rel="stylesheet" href="site/css/tokens.css?v=20261108a">
-<link rel="stylesheet" href="site/css/base.css?v=20261108a">
-<link rel="stylesheet" href="site/css/layout.css?v=20261108a">
-<link rel="stylesheet" href="site/css/components.css?v=20261108a">
-<link rel="stylesheet" href="site/css/home.css?v=20261108a">
+<link rel="stylesheet" href="site/css/tokens.css?v=20261108b">
+<link rel="stylesheet" href="site/css/base.css?v=20261108b">
+<link rel="stylesheet" href="site/css/layout.css?v=20261108b">
+<link rel="stylesheet" href="site/css/components.css?v=20261108b">
+<link rel="stylesheet" href="site/css/home.css?v=20261108b">
 
 <script>
-  // Before first paint, never after — a theme applied later is a white flash for a
-  // returning dark-mode reader. Light is the fallback; prefers-color-scheme is not consulted.
-  try {
-    var t = localStorage.getItem("slate-theme");
-    document.documentElement.dataset.theme = t === "light" ? "light" : "dark";
-  } catch (e) {
-    document.documentElement.dataset.theme = "dark";
-  }
+  // Before first paint, never after: a theme applied later is a flash on every page.
+  // A stored pick wins; with none, follow the system. Same lines on every page.
+  (function () {
+    var t = null;
+    try { t = localStorage.getItem("slate-theme"); } catch (e) {}
+    if (t !== "light" && t !== "dark") t = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    document.documentElement.dataset.theme = t;
+  })();
 </script>
 </head>
 <body class="home">
@@ -96,7 +96,7 @@
     <a href="#releases" class="hide-sm">Changelog</a>
     <a href="#faq" class="hide-sm">FAQ</a>
     <a class="nav-cta" href="#install">Download</a>
-    <span class="nav-theme"></span>
+    <span class="nav-theme" data-theme-slot></span>
   </div>
 </nav>
 
@@ -123,8 +123,8 @@
         <figure class="film" id="stage">
           <div class="film-bar"><i></i><i></i><i></i><span class="film-tag" id="tag"><b id="day"></b><span id="mode"></span></span></div>
           <div class="film-view">
-            <img class="film-shot" src="assets/demo/s1.jpg" width="1600" height="940" alt="Slate's Sessions place: a Claude Code session working on its branch, its terminal in the middle and its environment, progress and links on the right" data-z="1.28" data-o="72% 20%">
-            <img class="film-shot" src="assets/demo/s2.jpg" width="1600" height="940" alt="Slate's Sessions place: two live sessions in two projects, one needing you and one working, listed and drawn as a map" data-z="1.45" data-o="20% 28%">
+            <img class="film-shot" src="assets/demo/s1.jpg" width="1600" height="940" alt="Slate's Sessions place: a Claude Code session working on its branch, its terminal in the middle and its environment, progress and links on the right" data-z="1.08" data-o="0% 15%">
+            <img class="film-shot" src="assets/demo/s2.jpg" width="1600" height="940" alt="Slate's Sessions place: two live sessions in two projects, one needing you and one working, listed and drawn as a map" data-z="1.15" data-o="0% 40%">
             <img class="film-shot" src="assets/demo/s3.jpg" width="1600" height="940" alt="Slate's Home: one thing needs you, a session's question shown first with Open session" data-z="1.4" data-o="50% 38%">
             <img class="film-shot" src="assets/demo/s4.jpg" width="1600" height="940" alt="Slate's Memory: six memories, including Use pnpm in Atlas, not npm, listed by project beside a map" data-z="1.75" data-o="6% 58%">
             <img class="film-shot" src="assets/demo/s5.jpg" width="1600" height="940" alt="Slate's Activity: three sessions across Claude Code and Codex over 1h 30m, and the memory they learned" data-z="1.45" data-o="25% 40%">
@@ -328,7 +328,7 @@
           <li><svg><use href="#i-check"/></svg><span><strong>Run a task with AI</strong>: it plans, waits for your yes, builds, and waits again before it ships.</span></li>
           <li><svg><use href="#i-check"/></svg><span>A held call waits as a card — <strong>Yes, do it</strong> runs it once.</span></li>
         </ul>
-        <a class="more" href="tour/#agents">See Automations & Tasks in the tour <svg width="14" height="14"><use href="#i-arrow"/></svg></a>
+        <a class="more" href="tour/#automations">See Automations & Tasks in the tour <svg width="14" height="14"><use href="#i-arrow"/></svg></a>
       </div>
       <figure class="shot"><img loading="lazy" src="assets/shots/standup.webp?v=202611081334" srcset="assets/shots/standup-1x.webp?v=202611081334 1320w, assets/shots/standup.webp?v=202611081334 2640w" sizes="(min-width: 1180px) 740px, 100vw" width="1320" height="860" alt="Slate's Automations and Tasks"></figure>
     </section>
@@ -582,7 +582,7 @@ shasum -a 256 -c SHASUMS256.txt</pre>
   </p>
 </footer>
 
-<script type="module" src="site/js/home.js?v=202611081334"></script>
-<script src="site/js/moment.js?v=20261108a"></script>
+<script type="module" src="site/js/home.js?v=202611081400"></script>
+<script src="site/js/moment.js?v=202611081400"></script>
 </body>
 </html>

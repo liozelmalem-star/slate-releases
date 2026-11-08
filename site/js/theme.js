@@ -45,10 +45,28 @@ function render() {
   box.innerHTML =
     `<button type="button" data-theme-set="light" title="Light" aria-label="Light">${icon(SUN)}</button>` +
     `<button type="button" data-theme-set="dark" title="Dark" aria-label="Dark">${icon(MOON)}</button>`;
-  document.body.prepend(box);
+  // A page with a top bar marks where the switch goes; without one it is fixed to the corner.
+  const slot = document.querySelector("[data-theme-slot]");
+  if (slot) slot.append(box);
+  else document.body.prepend(box);
   return box;
 }
 
+const KEY = "slate-theme";
+const system = matchMedia("(prefers-color-scheme: dark)");
+
+function stored() {
+  try {
+    const t = localStorage.getItem(KEY);
+    return t === "light" || t === "dark" ? t : null;
+  } catch {
+    return null;
+  }
+}
+
+/* Until a reader picks a theme, every page follows the system setting, and keeps
+   following it if it changes. A pick is stored and wins on every page after.
+   Nothing is stored on load: storing the default would freeze it as a "choice". */
 export function initTheme() {
   const box = document.getElementById("theme") || render();
   const btns = [...box.querySelectorAll("[data-theme-set]")];
@@ -57,17 +75,21 @@ export function initTheme() {
     document.documentElement.dataset.theme = next;
     for (const b of btns) b.setAttribute("aria-pressed", String(b.dataset.themeSet === next));
     document.dispatchEvent(new CustomEvent(THEME_EVENT, { detail: { theme: next, reduced } }));
+  }
+
+  apply(stored() ?? (system.matches ? "dark" : "light"));
+  system.addEventListener("change", (e) => {
+    if (!stored()) apply(e.matches ? "dark" : "light");
+  });
+  box.addEventListener("click", (e) => {
+    const btn = e.target.closest("[data-theme-set]");
+    if (!btn) return;
+    apply(btn.dataset.themeSet);
     try {
-      localStorage.setItem("slate-theme", next);
+      localStorage.setItem(KEY, btn.dataset.themeSet);
     } catch {
       /* Private browsing refuses the write. The theme is already applied to the
          DOM; losing the preference on the next visit is not worth an exception. */
     }
-  }
-
-  apply(document.documentElement.dataset.theme === "dark" ? "dark" : "light");
-  box.addEventListener("click", (e) => {
-    const btn = e.target.closest("[data-theme-set]");
-    if (btn) apply(btn.dataset.themeSet);
   });
 }

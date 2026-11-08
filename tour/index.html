@@ -16,19 +16,20 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="../site/css/tokens.css?v=202611081334">
-<link rel="stylesheet" href="../site/css/base.css?v=202611081334">
-<link rel="stylesheet" href="../site/css/components.css?v=202611081334">
-<link rel="stylesheet" href="../site/css/tour.css?v=202611081334">
+<link rel="stylesheet" href="../site/css/tokens.css?v=202611081400">
+<link rel="stylesheet" href="../site/css/base.css?v=202611081400">
+<link rel="stylesheet" href="../site/css/components.css?v=202611081400">
+<link rel="stylesheet" href="../site/css/tour.css?v=202611081400">
 
 <script>
-  // Before first paint, never after — see the same four lines on every page.
-  try {
-    var t = localStorage.getItem("slate-theme");
-    document.documentElement.dataset.theme = t === "dark" ? "dark" : "light";
-  } catch (e) {
-    document.documentElement.dataset.theme = "light";
-  }
+  // Before first paint, never after: a theme applied later is a flash on every page.
+  // A stored pick wins; with none, follow the system. Same lines on every page.
+  (function () {
+    var t = null;
+    try { t = localStorage.getItem("slate-theme"); } catch (e) {}
+    if (t !== "light" && t !== "dark") t = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    document.documentElement.dataset.theme = t;
+  })();
 </script>
 </head>
 <body class="tour-page">
@@ -37,7 +38,7 @@
   <a class="back" href="../"><img class="logo-light" src="../assets/icon.svg" alt=""><img class="logo-dark" src="../assets/icon-dark.svg" alt="">Slate</a>
   <span class="grow"></span>
   <a class="back" href="../docs/">Docs</a>
-  
+  <span data-theme-slot></span>
 </div>
 
 <main class="tour">
@@ -75,6 +76,6 @@
   </div>
 </main>
 
-<script type="module" src="../site/js/tour.js?v=202611081334"></script>
+<script type="module" src="../site/js/tour.js?v=202611081400"></script>
 </body>
 </html>

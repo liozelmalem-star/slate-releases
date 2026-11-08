@@ -638,6 +638,8 @@ pre.shell .c { color: rgb(var(--text-faint)); }
 .topnav .nav-cta:hover { color: rgb(var(--btn-fg)); background: rgb(var(--brand-500)); }
 .nav-theme .theme { position: static; }
 @media (max-width: 640px) { .topnav .hide-sm { display: none; } .topnav-in { gap: 14px; padding: 10px 16px; } }
+/* A 390px phone: brand, Tour, Docs, Download and both theme buttons must fit with no sideways scroll. */
+@media (max-width: 400px) { .topnav-in { gap: 10px; padding: 10px 8px; } .nav-theme .theme button { padding: 5px 6px; } }
 
 /* ── Hero ──────────────────────────────────────────────────────────────── */
 header.hero { padding: 72px 0 0; text-align: center; }
@@ -1065,7 +1067,8 @@ h2.mid { font-size: clamp(26px, 3.2vw, 34px); line-height: 1.12; margin: 0 0 16p
 /* Shared section type for the new sections */
 .v2s { padding-block: 72px; border-top: 1px solid rgb(var(--edge)); }
 .kick { margin: 0 0 10px; font: 500 13px var(--mono); color: rgb(var(--text-faint)); letter-spacing: .02em; }
-.v2h { margin: 0 0 12px; font-size: clamp(28px, 3.4vw, 42px); line-height: 1.08; letter-spacing: -0.03em; font-weight: 700; text-wrap: balance; }
+/* Undo the bare h2 (the small grey section label in layout.css) as h2.big does. */
+.v2h { display: block; text-transform: none; color: rgb(var(--text)); margin: 0 0 12px; font-size: clamp(28px, 3.4vw, 42px); line-height: 1.08; letter-spacing: -0.03em; font-weight: 700; text-wrap: balance; }
 .v2p { margin: 0; color: rgb(var(--text-muted)); max-width: 56ch; font-size: 17px; }
 .v2p.small { font-size: 15px; margin-top: 18px; }
 .v2p a { color: rgb(var(--mark)); }

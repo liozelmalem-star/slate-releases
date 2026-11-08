@@ -11,10 +11,6 @@ import { initAssemble } from "./assemble.js";
  * so the order is what the reader sees first: the theme, then what is on screen,
  * then the network. */
 initTheme();
-// The switcher builds itself fixed to the corner; on this page it lives in the top bar.
-const slot = document.querySelector(".nav-theme");
-const sw = document.getElementById("theme");
-if (slot && sw) slot.append(sw);
 reveal(document.querySelectorAll(".reveal"));
 initCopy();
 initShowcase();
