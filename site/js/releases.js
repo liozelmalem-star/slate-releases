@@ -14,7 +14,6 @@ export async function initReleases() {
 (async () => {
   const strip = document.getElementById("rel");
   const stripText = document.getElementById("rel-text");
-  const sec = document.getElementById("news-sec");
 
   let releases;
   try {
@@ -61,32 +60,39 @@ export async function initReleases() {
   });
   strip.hidden = false;
 
-  // The changelog is authored one bold lead sentence per change — CHANGELOG.md
-  // says so in its own header. Those leads ARE the summary written for this
-  // exact reader, so they are lifted whole rather than re-summarised here.
-  const leads = [...(latest.body || "").matchAll(/\*\*(.+?)\*\*/gs)]
-    .map((m) => m[1].replace(/\s+/g, " ").trim())
-    .filter((t) => t.length > 12)
-    .slice(0, 3);
-  if (leads.length === 0) return;
+  // The download line names the version a visitor gets and when it shipped, from the
+  // same release the chip reads, so the page can never claim a version that is not out.
+  const dlVer = document.getElementById("dl-ver");
+  if (dlVer) {
+    const day = (r) =>
+      new Date(r.published_at).toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" });
+    dlVer.textContent = ` · ${latest.tag_name} · released ${day(latest)}`;
+    dlVer.hidden = false;
+  }
 
-  document.getElementById("news-ver").textContent =
-    `${latest.tag_name} · ${new Date(latest.published_at).toLocaleDateString(undefined, { month: "short", day: "numeric" })}`;
-
-  const list = document.getElementById("news");
-  for (const lead of leads) {
-    const row = document.createElement("div");
-    row.className = "news-item";
-    row.innerHTML = '<svg class="tick" width="9" height="9"><use href="#slab-9"/></svg>';
-    const para = document.createElement("p");
-    para.textContent = lead;
-    row.append(para);
-    list.append(row);
+  // "Shipped lately": the newest four releases, each with its date and the changelog's
+  // headline, which CHANGELOG.md writes as the first bold line of every section.
+  const list = document.getElementById("rel-list");
+  const sec = document.getElementById("releases");
+  if (!list || !sec) return;
+  for (const r of shipped.slice(0, 4)) {
+    const head = (r.body || "").match(/\*\*(.+?)\*\*/s);
+    const li = document.createElement("li");
+    const time = document.createElement("time");
+    time.dateTime = r.published_at.slice(0, 10);
+    time.textContent = new Date(r.published_at).toLocaleDateString(undefined, { day: "numeric", month: "short", year: "numeric" });
+    const ver = document.createElement("b");
+    ver.textContent = r.tag_name.replace(/^v/, "");
+    const what = document.createElement("span");
+    // textContent, never innerHTML: release notes are remote data.
+    what.textContent = head ? head[1].replace(/\s+/g, " ").trim() : r.name || "";
+    li.append(time, ver, what);
+    list.append(li);
   }
   sec.hidden = false;
-  // The section was hidden when the IntersectionObserver swept the page, so it
-  // was never given a reveal to trigger. Observing it now is the difference
-  // between a section that fades in and one that is permanently invisible.
+  // The section was hidden when the IntersectionObserver swept the page, so it was never
+  // given a reveal to trigger. Observing it now is the difference between a section that
+  // fades in and one that stays invisible.
   if (!reduced && "IntersectionObserver" in window) {
     const io2 = new IntersectionObserver(
       (entries) => {

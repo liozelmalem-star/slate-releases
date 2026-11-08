@@ -1,20 +1,17 @@
 /* The story beside the five places.
  *
- * A large mark stays pinned while the five sections scroll. Before a place is
- * reached its leaf is grey and pushed apart from the others; the place being read
- * lights its leaf and glows; places already read stay lit. The spread closes as the
- * reader moves down, so after the fifth the leaves sit together as the whole mark —
- * and the "One Slate" section below lights it once more, top to bottom. */
-const SPREAD = { red: -1, amber: -0.5, teal: 0, blue: 0.5, green: 1 };
-
+ * Each place's own icon (the app's family mark) stays pinned beside the five sections
+ * and crossfades to the place being read, in the brand's tones, the way the app's rail
+ * lights a place when it is selected. The Slate mark shows before the first place and
+ * after the last. */
 export function initAssemble() {
-  const mark = document.querySelector(".big-mark");
+  const stack = document.querySelector(".place-stack");
   const cap = document.querySelector(".story-cap");
-  const steps = [...document.querySelectorAll(".step[data-leaf]")];
-  const leaves = mark ? [...mark.querySelectorAll(".lf")] : [];
+  const steps = [...document.querySelectorAll(".step[data-name]")];
+  const icons = stack ? [...stack.querySelectorAll(".place-icon")] : [];
   const reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-  if (mark && steps.length) {
+  if (stack && steps.length) {
     let ticking = false;
     const update = () => {
       ticking = false;
@@ -23,26 +20,16 @@ export function initAssemble() {
       steps.forEach((st, i) => {
         if (st.getBoundingClientRect().top < mid) cur = i;
       });
-      // 0 before the first place, 1 once the last has been read.
       const last = steps[steps.length - 1].getBoundingClientRect();
       const done = last.bottom < innerHeight * 0.75;
-      const progress = done ? 1 : Math.max(0, cur + 1) / (steps.length + 1);
-      const gap = reduced ? 0 : (1 - progress) * 70;
-      for (const lf of leaves) {
-        const leaf = lf.dataset.leaf;
-        const idx = steps.findIndex((s) => s.dataset.leaf === leaf);
-        const lit = done || (idx >= 0 && idx <= cur);
-        lf.classList.toggle("lit", lit);
-        lf.classList.toggle("now", !done && idx === cur);
-        lf.style.transform = `translateY(${SPREAD[leaf] * gap}px)`;
-      }
+      const name = !done && steps[cur] ? steps[cur].dataset.name : "";
+      for (const ic of icons) ic.classList.toggle("on", ic.dataset.for === name);
       steps.forEach((st, i) => {
         st.classList.toggle("now", i === cur);
         st.classList.toggle("seen", i < cur);
       });
-      const s = steps[cur];
-      cap.querySelector("b").textContent = done ? "One Slate" : s ? s.dataset.name : "Five places";
-      cap.querySelector("span").textContent = done ? "all five, together" : s ? `${cur + 1} of ${steps.length}` : "scroll to build it";
+      cap.querySelector("b").textContent = done ? "One Slate" : name || "Five places";
+      cap.querySelector("span").textContent = done ? "all five, together" : name ? `${cur + 1} of ${steps.length}` : "one home for your agents";
     };
     addEventListener("scroll", () => {
       if (!ticking) {

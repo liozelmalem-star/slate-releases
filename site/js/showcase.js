@@ -2,15 +2,15 @@ import { reduced } from "./motion.js";
 
 /* The screenshots' version: bump it with the site's cache version whenever the shots are
    recaptured, or a browser keeps showing the old ones it already has. */
-const SHOTS = "202611041947";
+const SHOTS = "202611080500";
 
 /* The hero's window: five real screens of Slate behind five tabs. It moves on by
  * itself every few seconds until the reader picks a tab, and then it stays put —
  * a carousel that keeps moving under someone who is reading it is a carousel
  * nobody can read. Reduced motion never advances it at all. */
 const CAPTIONS = {
-  artifacts: "Artifacts keeps what your AI tools publish — a dashboard, a report, a page — with every version, and a box to ask for a change.",
-  toolkit: "Toolkit keeps one set of skills, rules and MCP servers, and keeps every AI tool in sync with it.",
+  artifacts: "Artifacts keeps what your agents publish — a dashboard, a report, a page — with every version, and a box to ask for a change.",
+  toolkit: "Toolkit keeps one set of skills, rules and MCP servers, and keeps every agent in sync with it.",
   home: "Home opens on what needs you — a session waiting on an answer, an automation asking first — and a box to ask anything.",
   sessions: "Sessions shows every AI session on your Mac, by project and branch: who is working, who is waiting on you.",
   memory: "Memory maps what your tools learned onto the files it cites, and holds proposed changes for you to review.",
@@ -18,8 +18,8 @@ const CAPTIONS = {
   tasks: "Tasks gathers what you owe — reviews, issues, replies — beside your own to-dos, with reminders.",
 };
 const ALTS = {
-  artifacts: "An artifact named Checkout funnel: conversion figures and a bar chart an AI tool published",
-  toolkit: "Toolkit: a project's skills, in sync with every AI tool",
+  artifacts: "An artifact named Checkout funnel: conversion figures and a bar chart an agent published",
+  toolkit: "Toolkit: a project's skills, in sync with every agent",
   home: "Slate's Home: ten things need you, with a session waiting on an answer at the top",
   sessions: "Sessions: the live list grouped by project beside a map of every session on this computer",
   memory: "Memory: memories mapped onto the folders they cite, with proposed changes waiting for review",
