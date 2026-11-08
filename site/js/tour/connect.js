@@ -23,7 +23,7 @@ export const connect = {
       spot: { text: "Claude Code", exact: true, up: 3 },
       title: "Every agent, one row each",
       body:
-        "<p>One row for each of the 16 agents Slate supports. This screen is from before 0.1.59 and shows the first six. Here Claude Code and Codex are on, and Claude Code is the <strong>default</strong> — the one this workspace reaches for when nothing more specific is named.</p>" +
+        "<p>One row for each of the 16 agents Slate supports. Here Claude Code and Codex are on, and Claude Code is the <strong>default</strong> — the one this workspace reaches for when nothing more specific is named.</p>" +
         "<p>Each row names the profile and model it runs under. The tool's dialog names the config file Slate writes for it.</p>",
     },
     {
