@@ -8,11 +8,11 @@ import { projects } from "./tour/projects.js";
 import { memory } from "./tour/memory.js";
 import { activity } from "./tour/activity.js";
 import { artifacts } from "./tour/artifacts.js";
-import { apps } from "./tour/apps.js";
-import { agents } from "./tour/agents.js";
+import { widgets } from "./tour/widgets.js";
+import { automations } from "./tour/automations.js";
 import { toolkit } from "./tour/toolkit.js";
 import { connect } from "./tour/connect.js";
 import { trash } from "./tour/trash.js";
 import { settings } from "./tour/settings.js";
 
-export const CHAPTERS = [setup, sessions, home, tasks, projects, memory, activity, artifacts, apps, agents, toolkit, connect, trash, settings];
+export const CHAPTERS = [setup, sessions, home, tasks, projects, memory, activity, artifacts, widgets, automations, toolkit, connect, trash, settings];

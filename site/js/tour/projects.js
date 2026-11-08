@@ -85,7 +85,7 @@ export const projects = {
       screen: "projects",
       spot: { css: 'aside button[aria-label^="New doc"]' },
       title: "Try this: write a plan for a branch",
-      body: "<p>Pick a project in the picker, then press <strong>New doc</strong> (<kbd>⌘N</kbd>). The button names where it goes; on <strong>All projects</strong> it goes under <strong>Everything else</strong>. The colored button beside it, <strong>Generate a doc</strong> (<kbd>⌘⇧G</kbd>), asks an agent to draft one instead.</p><p>Give it a title, set the type to <strong>Plan</strong>, fill in the headings, and drag it under its branch. Every AI session on that branch can now read it.</p>",
+      body: "<p>Pick a project in the picker, then press <strong>+</strong> beside <strong>Projects</strong> (<kbd>⌘N</kbd>) for a new doc. With <strong>All projects</strong> picked, it goes under <strong>Everything else</strong>.</p><p>Give it a title, set the type to <strong>Plan</strong>, fill in the headings, and drag it under its branch. Every AI session on that branch can now read it.</p>",
     },
   ],
 };

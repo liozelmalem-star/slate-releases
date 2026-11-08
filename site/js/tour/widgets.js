@@ -1,11 +1,12 @@
 // Widgets: small cards your agent builds inside Slate and shows on Home or Activity. Screens:
 // widgets, widgets-picker, widgets-builder, widgets-files, widgets-menu (widget previews are
-// captured into their iframes as srcdoc). `id` keeps the published #apps address.
+// captured into their iframes as srcdoc). The old #apps address still opens here (OLD_IDS
+// in tour.js).
 
 const DESCRIBE = { css: 'textarea[placeholder^="Describe a widget for"]' };
 
-export const apps = {
-  id: "apps",
+export const widgets = {
+  id: "widgets",
   title: "Widgets",
   place: "Widgets",
   icon: '<rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>',
@@ -48,7 +49,7 @@ export const apps = {
       screen: "widgets-builder",
       spot: { text: "Discuss", exact: true, up: 1 },
       title: "Build, or Discuss first",
-      body: "<p>To change the widget, type in the box: <em>“make the number bigger”</em>. In <strong>Build</strong> the agent makes the change and a new version appears.</p><p><strong>Discuss</strong> talks a change through and changes nothing until you say <strong>Build it</strong>.</p>",
+      body: "<p>To change the widget, type in the box, for example <em>“make the buttons green”</em>. In <strong>Build</strong> the agent makes the change and a new version appears.</p><p><strong>Discuss</strong> talks a change through and changes nothing until you say <strong>Build it</strong>.</p>",
     },
     {
       screen: "widgets-builder",

@@ -1,5 +1,6 @@
 import { initTheme } from "./theme.js";
-import { CHAPTERS } from "./tour-chapters.js";
+// Stamped: a cached copy would still import the chapter files by their old names.
+import { CHAPTERS } from "./tour-chapters.js?v=20261108b";
 
 /* The guided tour at /tour/.
  *
@@ -193,10 +194,14 @@ function nudge() {
 }
 
 /* ── Start ──────────────────────────────────────────────────────────────── */
+// Addresses from before the rename, already shared in links: they open the same chapter.
+const OLD_IDS = { agents: "automations", apps: "widgets" };
+
 function fromHash() {
   const m = /^#([\w-]+)(?:\/(\d+))?/.exec(location.hash);
   if (!m) return [0, 0];
-  const i = CHAPTERS.findIndex((c) => c.id === m[1]);
+  const id = OLD_IDS[m[1]] ?? m[1];
+  const i = CHAPTERS.findIndex((c) => c.id === id);
   if (i < 0) return [0, 0];
   const n = Math.min(Math.max(Number(m[2] || 1) - 1, 0), CHAPTERS[i].steps.length - 1);
   return [i, n];

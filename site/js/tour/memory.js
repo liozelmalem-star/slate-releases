@@ -46,7 +46,7 @@ export const memory = {
       screen: "memory-review",
       spot: { text: "Merge these 2 into one?", up: 1 },
       title: "A merge, proposed by Claude Code",
-      body: "<p>The two old sentences are struck through, the merged one is under <strong>Into</strong>, and <strong>Why</strong> says what made Claude Code propose it.</p>",
+      body: "<p>Claude Code found two memories that say the same thing: <strong>Use pnpm in Atlas, not npm</strong> and <strong>atlas installs with pnpm</strong>. Under <strong>Into one</strong> is the one memory that would replace them. The line below it says why.</p>",
       try: "Click <strong>Merge</strong> to accept it.",
       click: { text: "Merge", exact: true },
       after: (root, find) => {

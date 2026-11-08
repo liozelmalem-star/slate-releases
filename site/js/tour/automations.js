@@ -1,7 +1,7 @@
 // Automations: work that runs for you on a trigger, inside rules you set. Screens:
 // automations, automations-new, automations-standup, automations-ask, automations-setup,
-// automations-steps, automations-knows, automations-edit, automations-debrief. `id` keeps
-// the published #agents address.
+// automations-steps, automations-knows, automations-edit, automations-debrief. The old
+// #agents address still opens here (OLD_IDS in tour.js).
 
 const ASK_CARD = { css: 'section[aria-label="Ask first"]' };
 const side = (name) => ({ text: name, exact: true, within: { css: "aside" } });
@@ -19,8 +19,8 @@ function answered(root) {
   if (used) used.textContent = "Used github, slack";
 }
 
-export const agents = {
-  id: "agents",
+export const automations = {
+  id: "automations",
   title: "Automations",
   place: "Automations",
   icon: '<path d="M12 8V4H8"/><rect width="16" height="12" x="4" y="8" rx="2"/><path d="M2 14h2"/><path d="M20 14h2"/><path d="M15 13v2"/><path d="M9 13v2"/>',

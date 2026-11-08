@@ -15,7 +15,7 @@ export const sessions = {
       spot: { css: "aside" },
       title: "Every AI session on your Mac, live",
       body:
-        "<p>Sessions lists every AI coding session running on this computer, from any of the 16 tools Slate supports,, whether Slate started it or you did in your own terminal. Nothing to register.</p>" +
+        "<p>Sessions lists every AI coding session running on this computer, from any of the 16 tools Slate supports, whether Slate started it or you did in your own terminal. Nothing to register.</p>" +
         "<p>The header counts them: <strong>1 need you</strong>, <strong>1 working</strong>, <strong>1 idle</strong>. <kbd>⌘⇧J</kbd> jumps to the one that has waited longest.</p>",
     },
     {
@@ -75,7 +75,7 @@ export const sessions = {
       spot: { text: "Carry over", exact: true, up: 1 },
       title: "The worktree form",
       body:
-        "<p>Name the <strong>Branch</strong> and the branch it starts <strong>From</strong>. <strong>Carry over</strong> copies ignored files like <code class=\"inline\">node_modules</code> or <code class=\"inline\">.env</code> without using extra disk.</p>" +
+        "<p>Name the <strong>Branch</strong> and the branch it starts <strong>From</strong>. <strong>Carry over</strong> copies files that git ignores into the new folder, here <code class=\"inline\">.mcp.json</code> and <code class=\"inline\">CLAUDE.md</code>. They are cloned, so they use no extra disk.</p>" +
         "<p><strong>Then run</strong> and <strong>On remove</strong> are commands for setup and cleanup. All of it is saved for the project. When the session ends, Slate removes the worktree and keeps unmerged commits.</p>",
     },
     {
