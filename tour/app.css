@@ -3404,16 +3404,16 @@ img.ProseMirror-separator { display: inline !important; border-width: medium !im
 .ProseMirror-hideselection ::selection { background: transparent; }
 .ProseMirror-hideselection * { caret-color: transparent; }
 .ProseMirror-focused .ProseMirror-gapcursor { display: block; }
-.placeholder-selector-77ebabca-21fc-4ab0-8932-94a057b401af .bn-block-content[data-is-empty-and-focused]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Type '/' for commands, or just start writing…"; }
-.placeholder-selector-77ebabca-21fc-4ab0-8932-94a057b401af .bn-block-content[data-is-only-empty-block]:has(.ProseMirror-trailingBreak:only-child)::after { }
-.placeholder-selector-77ebabca-21fc-4ab0-8932-94a057b401af .bn-block-content[data-content-type="comment_reply"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Add comment..."; }
-.placeholder-selector-77ebabca-21fc-4ab0-8932-94a057b401af .bn-block-content[data-content-type="edit_comment"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Edit comment..."; }
-.placeholder-selector-77ebabca-21fc-4ab0-8932-94a057b401af .bn-block-content[data-content-type="new_comment"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Write a comment..."; }
-.placeholder-selector-77ebabca-21fc-4ab0-8932-94a057b401af .bn-block-content[data-content-type="checkListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "To-do"; }
-.placeholder-selector-77ebabca-21fc-4ab0-8932-94a057b401af .bn-block-content[data-content-type="numberedListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "List"; }
-.placeholder-selector-77ebabca-21fc-4ab0-8932-94a057b401af .bn-block-content[data-content-type="bulletListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "List"; }
-.placeholder-selector-77ebabca-21fc-4ab0-8932-94a057b401af .bn-block-content[data-content-type="toggleListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Toggle"; }
-.placeholder-selector-77ebabca-21fc-4ab0-8932-94a057b401af .bn-block-content[data-content-type="heading"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Heading"; }
+.placeholder-selector-1b0ebf7d-8eef-4fdc-b6ea-0fce52ba53be .bn-block-content[data-is-empty-and-focused]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Type '/' for commands, or just start writing…"; }
+.placeholder-selector-1b0ebf7d-8eef-4fdc-b6ea-0fce52ba53be .bn-block-content[data-is-only-empty-block]:has(.ProseMirror-trailingBreak:only-child)::after { }
+.placeholder-selector-1b0ebf7d-8eef-4fdc-b6ea-0fce52ba53be .bn-block-content[data-content-type="comment_reply"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Add comment..."; }
+.placeholder-selector-1b0ebf7d-8eef-4fdc-b6ea-0fce52ba53be .bn-block-content[data-content-type="edit_comment"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Edit comment..."; }
+.placeholder-selector-1b0ebf7d-8eef-4fdc-b6ea-0fce52ba53be .bn-block-content[data-content-type="new_comment"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Write a comment..."; }
+.placeholder-selector-1b0ebf7d-8eef-4fdc-b6ea-0fce52ba53be .bn-block-content[data-content-type="checkListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "To-do"; }
+.placeholder-selector-1b0ebf7d-8eef-4fdc-b6ea-0fce52ba53be .bn-block-content[data-content-type="numberedListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "List"; }
+.placeholder-selector-1b0ebf7d-8eef-4fdc-b6ea-0fce52ba53be .bn-block-content[data-content-type="bulletListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "List"; }
+.placeholder-selector-1b0ebf7d-8eef-4fdc-b6ea-0fce52ba53be .bn-block-content[data-content-type="toggleListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Toggle"; }
+.placeholder-selector-1b0ebf7d-8eef-4fdc-b6ea-0fce52ba53be .bn-block-content[data-content-type="heading"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Heading"; }
 @media (max-width: 35.9937em) {
   .mantine-visible-from-xs { display: none !important; }
 }
@@ -3489,46 +3489,46 @@ img.ProseMirror-separator { display: inline !important; border-width: medium !im
 .xterm .xterm-scrollable-element > .shadow.left { display: block; top: 3px; left: 0px; height: 100%; width: 3px; box-shadow: var(--vscode-scrollbar-shadow, #000) 6px 0 6px -6px inset; }
 .xterm .xterm-scrollable-element > .shadow.top-left-corner { display: block; top: 0px; left: 0px; height: 3px; width: 3px; }
 .xterm .xterm-scrollable-element > .shadow.top.left { box-shadow: var(--vscode-scrollbar-shadow, #000) 6px 0 6px -6px inset; }
-.placeholder-selector-104b7e0e-ad11-4a6f-bf5d-a8a2a773556e .bn-block-content[data-is-empty-and-focused]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Type '/' for commands, or just start writing…"; }
-.placeholder-selector-104b7e0e-ad11-4a6f-bf5d-a8a2a773556e .bn-block-content[data-is-only-empty-block]:has(.ProseMirror-trailingBreak:only-child)::after { }
-.placeholder-selector-104b7e0e-ad11-4a6f-bf5d-a8a2a773556e .bn-block-content[data-content-type="comment_reply"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Add comment..."; }
-.placeholder-selector-104b7e0e-ad11-4a6f-bf5d-a8a2a773556e .bn-block-content[data-content-type="edit_comment"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Edit comment..."; }
-.placeholder-selector-104b7e0e-ad11-4a6f-bf5d-a8a2a773556e .bn-block-content[data-content-type="new_comment"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Write a comment..."; }
-.placeholder-selector-104b7e0e-ad11-4a6f-bf5d-a8a2a773556e .bn-block-content[data-content-type="checkListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "To-do"; }
-.placeholder-selector-104b7e0e-ad11-4a6f-bf5d-a8a2a773556e .bn-block-content[data-content-type="numberedListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "List"; }
-.placeholder-selector-104b7e0e-ad11-4a6f-bf5d-a8a2a773556e .bn-block-content[data-content-type="bulletListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "List"; }
-.placeholder-selector-104b7e0e-ad11-4a6f-bf5d-a8a2a773556e .bn-block-content[data-content-type="toggleListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Toggle"; }
-.placeholder-selector-104b7e0e-ad11-4a6f-bf5d-a8a2a773556e .bn-block-content[data-content-type="heading"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Heading"; }
-.placeholder-selector-8ad3bce9-54b6-480e-857e-f0f7936d6099 .bn-block-content[data-is-empty-and-focused]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Type '/' for commands, or just start writing…"; }
-.placeholder-selector-8ad3bce9-54b6-480e-857e-f0f7936d6099 .bn-block-content[data-is-only-empty-block]:has(.ProseMirror-trailingBreak:only-child)::after { }
-.placeholder-selector-8ad3bce9-54b6-480e-857e-f0f7936d6099 .bn-block-content[data-content-type="comment_reply"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Add comment..."; }
-.placeholder-selector-8ad3bce9-54b6-480e-857e-f0f7936d6099 .bn-block-content[data-content-type="edit_comment"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Edit comment..."; }
-.placeholder-selector-8ad3bce9-54b6-480e-857e-f0f7936d6099 .bn-block-content[data-content-type="new_comment"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Write a comment..."; }
-.placeholder-selector-8ad3bce9-54b6-480e-857e-f0f7936d6099 .bn-block-content[data-content-type="checkListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "To-do"; }
-.placeholder-selector-8ad3bce9-54b6-480e-857e-f0f7936d6099 .bn-block-content[data-content-type="numberedListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "List"; }
-.placeholder-selector-8ad3bce9-54b6-480e-857e-f0f7936d6099 .bn-block-content[data-content-type="bulletListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "List"; }
-.placeholder-selector-8ad3bce9-54b6-480e-857e-f0f7936d6099 .bn-block-content[data-content-type="toggleListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Toggle"; }
-.placeholder-selector-8ad3bce9-54b6-480e-857e-f0f7936d6099 .bn-block-content[data-content-type="heading"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Heading"; }
-.placeholder-selector-4d55f0b8-baac-4a20-b7cc-1aedc33d1412 .bn-block-content[data-is-empty-and-focused]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Type '/' for commands, or just start writing…"; }
-.placeholder-selector-4d55f0b8-baac-4a20-b7cc-1aedc33d1412 .bn-block-content[data-is-only-empty-block]:has(.ProseMirror-trailingBreak:only-child)::after { }
-.placeholder-selector-4d55f0b8-baac-4a20-b7cc-1aedc33d1412 .bn-block-content[data-content-type="comment_reply"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Add comment..."; }
-.placeholder-selector-4d55f0b8-baac-4a20-b7cc-1aedc33d1412 .bn-block-content[data-content-type="edit_comment"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Edit comment..."; }
-.placeholder-selector-4d55f0b8-baac-4a20-b7cc-1aedc33d1412 .bn-block-content[data-content-type="new_comment"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Write a comment..."; }
-.placeholder-selector-4d55f0b8-baac-4a20-b7cc-1aedc33d1412 .bn-block-content[data-content-type="checkListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "To-do"; }
-.placeholder-selector-4d55f0b8-baac-4a20-b7cc-1aedc33d1412 .bn-block-content[data-content-type="numberedListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "List"; }
-.placeholder-selector-4d55f0b8-baac-4a20-b7cc-1aedc33d1412 .bn-block-content[data-content-type="bulletListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "List"; }
-.placeholder-selector-4d55f0b8-baac-4a20-b7cc-1aedc33d1412 .bn-block-content[data-content-type="toggleListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Toggle"; }
-.placeholder-selector-4d55f0b8-baac-4a20-b7cc-1aedc33d1412 .bn-block-content[data-content-type="heading"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Heading"; }
-.placeholder-selector-332f2227-85c1-4154-b251-133a1a899fbb .bn-block-content[data-is-empty-and-focused]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Type '/' for commands, or just start writing…"; }
-.placeholder-selector-332f2227-85c1-4154-b251-133a1a899fbb .bn-block-content[data-is-only-empty-block]:has(.ProseMirror-trailingBreak:only-child)::after { }
-.placeholder-selector-332f2227-85c1-4154-b251-133a1a899fbb .bn-block-content[data-content-type="comment_reply"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Add comment..."; }
-.placeholder-selector-332f2227-85c1-4154-b251-133a1a899fbb .bn-block-content[data-content-type="edit_comment"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Edit comment..."; }
-.placeholder-selector-332f2227-85c1-4154-b251-133a1a899fbb .bn-block-content[data-content-type="new_comment"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Write a comment..."; }
-.placeholder-selector-332f2227-85c1-4154-b251-133a1a899fbb .bn-block-content[data-content-type="checkListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "To-do"; }
-.placeholder-selector-332f2227-85c1-4154-b251-133a1a899fbb .bn-block-content[data-content-type="numberedListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "List"; }
-.placeholder-selector-332f2227-85c1-4154-b251-133a1a899fbb .bn-block-content[data-content-type="bulletListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "List"; }
-.placeholder-selector-332f2227-85c1-4154-b251-133a1a899fbb .bn-block-content[data-content-type="toggleListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Toggle"; }
-.placeholder-selector-332f2227-85c1-4154-b251-133a1a899fbb .bn-block-content[data-content-type="heading"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Heading"; }
+.placeholder-selector-0d947ad6-f707-42e5-8a67-def7ad541a8b .bn-block-content[data-is-empty-and-focused]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Type '/' for commands, or just start writing…"; }
+.placeholder-selector-0d947ad6-f707-42e5-8a67-def7ad541a8b .bn-block-content[data-is-only-empty-block]:has(.ProseMirror-trailingBreak:only-child)::after { }
+.placeholder-selector-0d947ad6-f707-42e5-8a67-def7ad541a8b .bn-block-content[data-content-type="comment_reply"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Add comment..."; }
+.placeholder-selector-0d947ad6-f707-42e5-8a67-def7ad541a8b .bn-block-content[data-content-type="edit_comment"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Edit comment..."; }
+.placeholder-selector-0d947ad6-f707-42e5-8a67-def7ad541a8b .bn-block-content[data-content-type="new_comment"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Write a comment..."; }
+.placeholder-selector-0d947ad6-f707-42e5-8a67-def7ad541a8b .bn-block-content[data-content-type="checkListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "To-do"; }
+.placeholder-selector-0d947ad6-f707-42e5-8a67-def7ad541a8b .bn-block-content[data-content-type="numberedListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "List"; }
+.placeholder-selector-0d947ad6-f707-42e5-8a67-def7ad541a8b .bn-block-content[data-content-type="bulletListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "List"; }
+.placeholder-selector-0d947ad6-f707-42e5-8a67-def7ad541a8b .bn-block-content[data-content-type="toggleListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Toggle"; }
+.placeholder-selector-0d947ad6-f707-42e5-8a67-def7ad541a8b .bn-block-content[data-content-type="heading"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Heading"; }
+.placeholder-selector-1a2721d8-d9d3-4f1f-b664-4fcd681ccf42 .bn-block-content[data-is-empty-and-focused]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Type '/' for commands, or just start writing…"; }
+.placeholder-selector-1a2721d8-d9d3-4f1f-b664-4fcd681ccf42 .bn-block-content[data-is-only-empty-block]:has(.ProseMirror-trailingBreak:only-child)::after { }
+.placeholder-selector-1a2721d8-d9d3-4f1f-b664-4fcd681ccf42 .bn-block-content[data-content-type="comment_reply"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Add comment..."; }
+.placeholder-selector-1a2721d8-d9d3-4f1f-b664-4fcd681ccf42 .bn-block-content[data-content-type="edit_comment"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Edit comment..."; }
+.placeholder-selector-1a2721d8-d9d3-4f1f-b664-4fcd681ccf42 .bn-block-content[data-content-type="new_comment"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Write a comment..."; }
+.placeholder-selector-1a2721d8-d9d3-4f1f-b664-4fcd681ccf42 .bn-block-content[data-content-type="checkListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "To-do"; }
+.placeholder-selector-1a2721d8-d9d3-4f1f-b664-4fcd681ccf42 .bn-block-content[data-content-type="numberedListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "List"; }
+.placeholder-selector-1a2721d8-d9d3-4f1f-b664-4fcd681ccf42 .bn-block-content[data-content-type="bulletListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "List"; }
+.placeholder-selector-1a2721d8-d9d3-4f1f-b664-4fcd681ccf42 .bn-block-content[data-content-type="toggleListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Toggle"; }
+.placeholder-selector-1a2721d8-d9d3-4f1f-b664-4fcd681ccf42 .bn-block-content[data-content-type="heading"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Heading"; }
+.placeholder-selector-65307523-02b3-4f2d-a5dc-36ab3d85d80f .bn-block-content[data-is-empty-and-focused]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Type '/' for commands, or just start writing…"; }
+.placeholder-selector-65307523-02b3-4f2d-a5dc-36ab3d85d80f .bn-block-content[data-is-only-empty-block]:has(.ProseMirror-trailingBreak:only-child)::after { }
+.placeholder-selector-65307523-02b3-4f2d-a5dc-36ab3d85d80f .bn-block-content[data-content-type="comment_reply"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Add comment..."; }
+.placeholder-selector-65307523-02b3-4f2d-a5dc-36ab3d85d80f .bn-block-content[data-content-type="edit_comment"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Edit comment..."; }
+.placeholder-selector-65307523-02b3-4f2d-a5dc-36ab3d85d80f .bn-block-content[data-content-type="new_comment"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Write a comment..."; }
+.placeholder-selector-65307523-02b3-4f2d-a5dc-36ab3d85d80f .bn-block-content[data-content-type="checkListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "To-do"; }
+.placeholder-selector-65307523-02b3-4f2d-a5dc-36ab3d85d80f .bn-block-content[data-content-type="numberedListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "List"; }
+.placeholder-selector-65307523-02b3-4f2d-a5dc-36ab3d85d80f .bn-block-content[data-content-type="bulletListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "List"; }
+.placeholder-selector-65307523-02b3-4f2d-a5dc-36ab3d85d80f .bn-block-content[data-content-type="toggleListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Toggle"; }
+.placeholder-selector-65307523-02b3-4f2d-a5dc-36ab3d85d80f .bn-block-content[data-content-type="heading"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Heading"; }
+.placeholder-selector-f95caf2d-94c6-4d3a-9d51-3356d38c5e2a .bn-block-content[data-is-empty-and-focused]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Type '/' for commands, or just start writing…"; }
+.placeholder-selector-f95caf2d-94c6-4d3a-9d51-3356d38c5e2a .bn-block-content[data-is-only-empty-block]:has(.ProseMirror-trailingBreak:only-child)::after { }
+.placeholder-selector-f95caf2d-94c6-4d3a-9d51-3356d38c5e2a .bn-block-content[data-content-type="comment_reply"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Add comment..."; }
+.placeholder-selector-f95caf2d-94c6-4d3a-9d51-3356d38c5e2a .bn-block-content[data-content-type="edit_comment"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Edit comment..."; }
+.placeholder-selector-f95caf2d-94c6-4d3a-9d51-3356d38c5e2a .bn-block-content[data-content-type="new_comment"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Write a comment..."; }
+.placeholder-selector-f95caf2d-94c6-4d3a-9d51-3356d38c5e2a .bn-block-content[data-content-type="checkListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "To-do"; }
+.placeholder-selector-f95caf2d-94c6-4d3a-9d51-3356d38c5e2a .bn-block-content[data-content-type="numberedListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "List"; }
+.placeholder-selector-f95caf2d-94c6-4d3a-9d51-3356d38c5e2a .bn-block-content[data-content-type="bulletListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "List"; }
+.placeholder-selector-f95caf2d-94c6-4d3a-9d51-3356d38c5e2a .bn-block-content[data-content-type="toggleListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Toggle"; }
+.placeholder-selector-f95caf2d-94c6-4d3a-9d51-3356d38c5e2a .bn-block-content[data-content-type="heading"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Heading"; }
 .ͼ1.cm-focused { outline: rgb(33, 33, 33) dotted 1px; }
 .ͼ1 { box-sizing: border-box; flex-direction: column; position: relative !important; display: flex !important; }
 .ͼ1 .cm-scroller { font-family: monospace; line-height: 1.4; height: 100%; overflow-x: auto; position: relative; z-index: 0; overflow-anchor: none; display: flex !important; align-items: flex-start !important; }
