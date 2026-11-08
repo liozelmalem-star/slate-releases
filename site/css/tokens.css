@@ -25,23 +25,23 @@
    theme switch one block of overrides rather than a `[data-theme]` variant on
    every selector. */
 :root {
-  --n-50: 244 246 250;
-  --n-100: 233 235 239;
-  --n-200: 213 216 224;
-  --n-300: 171 177 190;
-  --n-400: 127 132 145;
-  --n-500: 88 93 105;
-  --n-600: 62 66 77;
-  --n-700: 43 47 57;
-  --n-800: 28 31 39;
-  --n-900: 18 21 27;
-  --n-950: 10 12 16;
+  --n-50: 247 247 248;
+  --n-100: 237 237 239;
+  --n-200: 220 220 224;
+  --n-300: 190 190 197;
+  --n-400: 163 163 173;
+  --n-500: 111 111 120;
+  --n-600: 94 94 103;
+  --n-700: 58 58 64;
+  --n-800: 41 41 47;
+  --n-900: 27 27 31;
+  --n-950: 20 20 22;
 
-  --brand-300: 162 196 254;
-  --brand-400: 122 170 254;
-  --brand-500: 80 144 255;
-  --brand-600: 58 119 225;
-  --brand-700: 43 96 188;
+  --brand-300: 222 239 224;
+  --brand-400: 201 227 205;
+  --brand-500: 82 119 96;
+  --brand-600: 22 61 52;
+  --brand-700: 22 61 52;
 
   /* The mark's leaves at tone 500 — the logo colour itself. These do NOT vary
      with the theme, because in the app they do not: LeafMark, SectionLabel's
@@ -49,11 +49,11 @@
      mode down was tried there and reverted as a contrast reflex that cost the
      one thing that matters — a leaf has to be the colour you recognise. They
      always sit beside their own label, so the hue is never the sole carrier. */
-  --leaf-red-500: 254 100 85;
-  --leaf-amber-500: 254 178 6;
-  --leaf-green-500: 49 177 124;
-  --leaf-teal-500: 40 176 151;
-  --leaf-blue-500: 57 119 228;
+  --leaf-red-500: 125 157 137;
+  --leaf-amber-500: 125 157 137;
+  --leaf-green-500: 125 157 137;
+  --leaf-teal-500: 125 157 137;
+  --leaf-blue-500: 125 157 137;
 
   /* Three radii and a shape, replacing the eight this page used to spend
      (10px cards, 5px code, 999px pills). Same scale as the app, same reasons:
@@ -106,7 +106,7 @@
   --ring-offset: 255 255 255;
   --scroll-thumb: var(--n-300);
 
-  --aura: .035;                /* white shows a tint far more readily than black */
+  --aura: 0;                /* white shows a tint far more readily than black */
   --tile-shadow: 0 10px 40px rgb(18 21 27 / .10), 0 0 0 1px rgb(18 21 27 / .06);
   --trace: var(--brand-500) / .5;
 
@@ -128,10 +128,10 @@
      area of leaf colour anywhere on the page, which is where that difference
      stops being invisible. Role tones varying per hue is the app's rule in
      palette.ts, not an exception made here. */
-  --hub-blue: var(--brand-600);
-  --hub-amber: 168 116 0;      /* leaf amber 700 */
-  --hub-teal: 11 149 127;      /* leaf teal 600 */
-  --hub-red: 222 73 61;        /* leaf red 600 */
+  --hub-blue: 125 157 137;
+  --hub-amber: 125 157 137;      /* leaf amber 700 */
+  --hub-teal: 125 157 137;      /* leaf teal 600 */
+  --hub-red: 125 157 137;        /* leaf red 600 */
   --graph-hub-a: .42;
   --graph-atom: var(--n-400);
   --graph-atom-a: .42;
@@ -165,7 +165,7 @@
   --ring-offset: var(--n-950);
   --scroll-thumb: var(--n-700);
 
-  --aura: .06;
+  --aura: 0;
   --tile-shadow: 0 10px 40px rgb(0 0 0 / .6), 0 0 0 1px rgb(255 255 255 / .06);
   --trace: var(--brand-400) / .7;
 
@@ -178,10 +178,10 @@
   /* Hubs step one tone lighter on the dark ground — the same branch the app's
      own graph renderer makes (400 on dark, 500 on light). Amber still sits a
      stop below its neighbours for the reason above. */
-  --hub-blue: 84 144 250;      /* leaf blue 400 */
-  --hub-amber: 210 147 7;      /* leaf amber 600 */
-  --hub-teal: 76 194 169;      /* leaf teal 400 */
-  --hub-red: 255 135 120;      /* leaf red 400 */
+  --hub-blue: 125 157 137;      /* leaf blue 400 */
+  --hub-amber: 125 157 137;      /* leaf amber 600 */
+  --hub-teal: 125 157 137;      /* leaf teal 400 */
+  --hub-red: 125 157 137;      /* leaf red 400 */
   --graph-hub-a: .55;
   --graph-atom: var(--n-300);
   --graph-atom-a: .30;
@@ -190,3 +190,12 @@
   --graph-pulse: var(--brand-400);
   --graph-core: 255 255 255;
 }
+
+/* Organic identity (ADR 0122): the mark is forest on light, mint on dark; lime means running. */
+:root { --mark: 22 61 52; --live: 92 138 26; --btn-fg: 245 243 236; }
+:root[data-theme="dark"] { --mark: 201 227 205; --live: 184 230 106; --btn-fg: 22 61 52; --btn-hover: 222 239 224; --code-fg: 201 227 205; }
+
+/* The brand's five tones (packages/ui/src/App.css --brand-tone-*): a family mark wears
+   them, one per leaf, when its place is selected. Forest, then Mint. */
+:root { --tone-red: 125 157 137; --tone-amber: 82 119 96; --tone-teal: 63 107 85; --tone-blue: 36 87 74; --tone-green: 22 61 52; }
+:root[data-theme="dark"] { --tone-red: 201 227 205; --tone-amber: 169 205 177; --tone-teal: 147 178 158; --tone-blue: 125 157 137; --tone-green: 94 143 121; }
