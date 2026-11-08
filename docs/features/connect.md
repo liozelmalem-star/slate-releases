@@ -75,7 +75,7 @@ The **Integrations** tab holds this workspace's connected apps. Press **Connect*
 
 ## Import
 
-The **Import** tab brings in what you kept elsewhere, grouped by where it lands in Slate: Memory, Docs, Projects and Chats. Each group shows its sources as tiles with their logos, and has one button for the tile picked. **Preview** shows what an import would do before anything is written. See [Import](https://liozelmalem-star.github.io/slate-releases/docs/features/import.md).
+The **Import** tab brings in the projects your editors already know: one tile per editor, with one button for the tile picked. **Preview** lists the folders before anything is added. See [Import](https://liozelmalem-star.github.io/slate-releases/docs/features/import.md).
 
 ## What is not here
 

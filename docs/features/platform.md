@@ -9,9 +9,9 @@ Slate is a native macOS app: Tauri 2, a Rust host and a React 19 webview. Linux 
 | Platform | Can you download it? | Status |
 | --- | --- | --- |
 | macOS, Apple Silicon | **Yes** — the `curl` installer | Primary platform, smoke-tested |
-| macOS, Intel | **Yes**, since 0.1.49 | Its own app, built on the release Mac for Intel. Before each release it boots, and its sidecar builds an app, through Rosetta |
-| Linux (x86_64, `.deb`) | **Yes**, from 0.1.58: `Slate_<version>_amd64.deb` in the release's files | Each release builds the `.deb` on Ubuntu 22.04, installs it and boots it, and attaches it only when all three pass. Not used day to day yet |
-| Windows | **Yes**, from 0.1.58: `Slate_<version>_x64-setup.exe` in the release's files | Each release builds it, boots it and runs the tests on a GitHub Windows runner, and attaches an NSIS installer only when that passes. The installer is not signed with a Windows certificate, so SmartScreen warns on first install |
+| macOS, Intel | **Yes** — the `curl` installer | Its own app, built on the release Mac for Intel. Before each release it boots, and its sidecar builds an app, through Rosetta |
+| Linux (x86_64, `.deb`) | Not in the latest release (0.1.61) | A release attaches it only when it builds, installs and boots on Ubuntu 22.04 |
+| Windows 10/11 | Not in the latest release (0.1.61) | Being ported; a release attaches the installer only when its Windows build passes |
 
 Slate needs **macOS 13.5 (Ventura) or later** (bundled server: Node 24). `LSMinimumSystemVersion` in `Info.plist` makes an older Mac refuse to open the app rather than show a window with no server.
 

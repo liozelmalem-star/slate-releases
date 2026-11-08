@@ -8,7 +8,7 @@ A build skill has five steps: **Overview, Plan, Build, Check, Land**. Research h
 
 **The word is the step the session is in now. The bar is how far it has got.** A session that ran its tests and went back to editing reads **Build** again, while its bar stays solid through Check.
 
-**Waiting.** When the latest step only waits, the word is **Waiting**: a shell loop on the gate lock (`slate-heavy.lock`) while another receipt holds it, a `sleep` still running, or a ScheduleWakeup. An idle session mid-step reads Waiting too. Its status is Idle and nothing pulses. Details says what it waits on, such as "waiting for the gate lock". Waiting on you is the amber status, and its step keeps its own word.
+**Waiting.** When the latest step only waits, the word is **Waiting**: a `sleep` still running, a shell loop that sleeps until something is ready, or a scheduled wakeup. An idle session mid-step reads Waiting too. Its status is Idle and nothing pulses. Details says what it waits on, such as "sleeping". Waiting on you is the amber status, and its step keeps its own word.
 
 **The bar has one colour**, the accent: done steps are solid, the current step is lighter and breathes while it works, steps ahead are the grey track. Only these change a segment:
 
