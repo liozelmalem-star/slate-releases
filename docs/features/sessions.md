@@ -13,8 +13,8 @@ The list shows live sessions on the whole computer. An ended session folds into 
 | State | Meaning |
 | --- | --- |
 | **Needs you** | The tool finished a turn and is blocked on you. **⌘⇧J** goes to the one waiting longest, then the next. The tab header shows the count. Kinds: **Needs permission** (a tool call waits for your yes), **Asks you** (the turn ends on a question), **Finished** (the turn is a report) |
-| **Working** | The transcript is being written now |
-| **Idle** | Quiet, and you spoke last. A session that only waits is idle too, however fresh its transcript: its newest step is a running `sleep`, a shell loop that sleeps until something is ready, or a scheduled wakeup. The wait must be the whole command: `sleep 30 && npm test` is work. Grey dot, no pulse, flow word **Waiting** |
+| **Working** | The session wrote a turn in the last 45 seconds. For Claude Code only a turn counts: the bookkeeping lines it adds to a transcript afterwards do not |
+| **Idle** | Quiet, and you spoke last. A session that only waits is idle too, however fresh its transcript: its newest step is a running `sleep`, a shell loop that sleeps until something is ready, or a scheduled wakeup. The wait must be the whole command: `sleep 30 && npm test` is work. A Claude Code background job that finished but still runs its process is idle too, until **Stop** ends it (Claude Code keeps that process until `claude stop`). Grey dot, no pulse, flow word **Waiting** |
 
 When a session starts waiting on a permission or question and Slate is not in front, macOS shows one notification with the question, once per wait (never for waits already there when Slate opened). A finished turn posts nothing; it waits on [Home](https://liozelmalem-star.github.io/slate-releases/docs/features/agent.md#what-home-shows). **Tell me when a session needs me** in Automations › Built-in turns it off. See [How status works](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/status.md).
 

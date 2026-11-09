@@ -45,6 +45,7 @@ One panel on the right shows what the session in your active column (blue line o
 | **Details** (ⓘ) | **⌥⌘I** in a session's column, or a click on the state words in its header, opens it here |
 | **Changes** (⇄) | Count of files waiting to commit on its icon. What the session's checkout changed ([Review the branch](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/review.md#what-the-branch-changed)); a session started in the main checkout that edits a worktree reads that worktree's changes. **All files** opens Projects › Code for the session's project |
 | **Turns** | Every prompt, newest first, with when. A click scrolls the conversation to it, or finds it in terminal scrollback. A prompt that changed files shows how many; open it for the files, each opening its change. Undo: [Rewinding a turn](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/review.md#rewinding-a-turn) |
+| **The widget** (its name) | Only while a widget is made for Sessions ([Widgets](https://liozelmalem-star.github.io/slate-releases/docs/features/widgets.md)); one at most. It reads the session open beside it, and runs only while this tab is picked |
 
 ### Details
 

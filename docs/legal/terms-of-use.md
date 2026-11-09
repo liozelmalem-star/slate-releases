@@ -30,6 +30,10 @@ Software is licensed, not sold. No licence is granted except as these Terms stat
 Subject to these Terms, you are granted a personal, non-exclusive, non-transferable right
 to install and use the Software on devices you control.
 
+The Software includes open-source components. Each is licensed to you under its own
+licence, not these Terms, and nothing here limits your rights under those licences. The
+list of components and their licence texts is in Settings → About → Open-source licences.
+
 ## Acceptable Use
 
 You agree to:

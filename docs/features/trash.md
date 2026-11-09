@@ -17,8 +17,8 @@ title to read it first.
 - **Delete forever…** asks first and cannot be undone. A doc's nested docs go with it. A widget loses every version and the data it kept.
 
 Tick rows to act on several: **Restore (N)** and **Delete forever (N)**. **Select all**
-ticks every row shown. With nothing ticked, **Empty Trash** deletes everything forever,
-after the same question.
+ticks every row shown. With nothing ticked, **Empty Trash**, beside the title, deletes forever
+everything in the Trash, widgets and docs, after one question.
 
 **Filter by title** narrows the list. With a filter on, the button reads **Delete forever ·
 N shown** and removes only the rows you can see forever.

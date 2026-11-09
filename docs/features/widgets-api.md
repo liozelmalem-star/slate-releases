@@ -186,7 +186,7 @@ Slate shows no card for a widget, on its tab or in Widgets. A call that would ne
 
 Slate owns the frame; the widget fills it. The root of every widget is `Widget`, and these lay it out. Each takes `hideBelow="medium"` (dropped on a small card) or `"wide"` (shown only on a wide one).
 
-- `Widget`: the root, the whole card: Slate's padding, surface, radius and text, clipped at its edge. `gap` is 1 to 4 (4 to 16 px).
+- `Widget`: the root. It fills the widget's box with Slate's text, clipped at its edge, and takes the look of the tab it sits on: inside Home's card with its padding, flush under the section heading on Activity and in a session's panel. Off a tab it is a padded tile on Slate's surface. `gap` is 1 to 4 (4 to 16 px).
 - `Stack`: parts one under the other; `grow` takes the room left, `gap`, `align`, `justify`.
 - `Inline`: parts side by side on one line; `wrap` lets them wrap.
 - `Panel`: a quiet section inside the card.
