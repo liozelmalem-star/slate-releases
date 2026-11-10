@@ -45,7 +45,7 @@ Published with `live: true`, an artifact reads your workspace while shown, so a 
 | Aspect | Rule |
 | --- | --- |
 | Reads | Docs, one doc's text, memories and AI sessions of its project (whole workspace if made under none); newest first, up to 5,000 rows each; read-only |
-| Network | No fetch, WebRTC, internet image or font, form or new window. Scripts may load from cdnjs, jsDelivr, unpkg (chart libraries work). An attempt to leave for another address closes it |
+| Network | No fetch, WebRTC, resource hint (preconnect, prefetch), internet image or font, form, new window, frame or `document.write`. Scripts may load from cdnjs, jsDelivr, unpkg (chart libraries work). An attempt to leave for another address closes it |
 | Isolation | No origin of its own; shares nothing with other artifacts, not even localStorage; talks to Slate only over a private channel opened at start |
 | Yours only | In a shared workspace a teammate's live artifact is a plain HTML page and never reads your store; restored on another computer it is also plain |
 

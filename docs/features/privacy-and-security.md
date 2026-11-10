@@ -19,7 +19,7 @@ Sign-in sends your name, email and picture link from Google or GitHub to Supabas
 
 Slate's cloud holds only: accounts and plans, opt-in telemetry, problem reports you send, Team interest, invitations (the invitee's email and role, until accepted or declined; Slate sends no email, the invite opens in your own mail app), the update service, and the rows of a workspace you chose to share.
 
-**Removing your account.** Settings → Account → **Delete my account forever** removes your Slate account from the cloud: your identity, name, email, plan and Team interest, your memberships, what you authored in shared workspaces, and any account only you were in. Type your email to confirm. You are signed out, and everything on this Mac stays. If you own an account with other people in it, transfer it or remove them first; Slate says so and keeps everything. See the [Privacy Policy](https://liozelmalem-star.github.io/slate-releases/docs/legal/privacy-policy.md#your-control-export-and-deletion) for what lives outside the database.
+**Removing your account.** Settings → Account → **Delete my account forever** removes your Slate account from the cloud: your identity, name, email, plan and Team interest, your memberships, what you authored in shared workspaces, and any account only you were in. Type your email to confirm. You are signed out, and everything on this Mac stays. If other people are in your account or its workspaces, remove them first; Slate says so and keeps everything. See the [Privacy Policy](https://liozelmalem-star.github.io/slate-releases/docs/legal/privacy-policy.md#your-control-export-and-deletion) for what lives outside the database.
 
 ## What leaves your Mac
 

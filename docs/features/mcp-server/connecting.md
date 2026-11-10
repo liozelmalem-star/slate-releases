@@ -96,7 +96,7 @@ A failed call answers JSON with `error.code` and `error.message`:
 * `proposal_refused` — a `propose_memory_change` the project's memories cannot take.
 * `not_a_project`, `invalid_proposal`, `already_offered` — a `propose_setup_change` for a folder that is not there, a change that could never apply, or one the project already had.
 * `artifact_not_found`, `invalid_artifact`, `is_a_widget` — the artifact tools.
-* `widget_not_found`, `invalid_widget`, `build_failed`, `not_a_widget` — the widget tools.
+* `widget_not_found`, `invalid_widget`, `build_failed`, `not_a_widget`, `version_conflict` — the widget tools (`version_conflict`: someone published a newer version while this one built; publish again).
 * `wrong_workspace` — the `cwd` belongs to another workspace than the session's ([Tool Rules](https://liozelmalem-star.github.io/slate-releases/docs/features/mcp-server/tool-rules.md#which-workspace-a-call-reaches)).
 * `no_task` (`get_agent_run` outside an agent run); `stale`, `closed`, `invalid` — a refused `report_agent_run_step`.
 * `slate_not_running` — `connected_tools` or `read_connected` while Slate is closed.

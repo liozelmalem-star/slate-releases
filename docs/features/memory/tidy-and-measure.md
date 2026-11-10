@@ -36,7 +36,7 @@ A lesson used in at least three sessions is a way of working. Daily, at most thr
 
 ## Logging progress mid-run
 
-`log_mission_progress` reports a run's work on its branch: the summary becomes a session entry of the project labelled with the branch; goal and open items become what the next session on that branch is told; each decision is a memory. No doc is made. On a trunk branch (`main`, `master`, `develop`) the goal is unchanged. A git branch is a label on records, never a doc (ADR 0119).
+`log_mission_progress` reports a run's work on its branch: the summary becomes a session entry of the project labelled with the branch; goal and open items become what the next session on that branch is told; each decision is a memory, with the summary as its reason. Every item passes the same rules as `remember` and `record_decision` (the project's memory policy and the checks on what a memory may hold), and a reworded duplicate of a decision already kept is merged. Anything refused is listed in the reply's `refused`, each line naming its item and why; a refused goal or open list also retires the one it would have replaced. No doc is made. On a trunk branch (`main`, `master`, `develop`) the goal is unchanged. A git branch is a label on records, never a doc (ADR 0119).
 
 ## Measuring it
 

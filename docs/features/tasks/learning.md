@@ -22,11 +22,11 @@ Then the tool is read like Jira, free, with your id as a placeholder; Done, Clos
 
 ## Teach Slate
 
-Connecting an app in Connect → Integrations with no reader starts one automatic lesson, nothing to press. Its tile says **Learning how to read your tasks in GitLab…** for about a minute; apps go one at a time. Claude (Sonnet) is asked about that app through Slate's `connected_tools` and `read_connected`, with no shell or web. Slate tries the answer and keeps it only if it returned a list; afterwards no agent and no tokens. If nothing is found: **Couldn't find your tasks in Notion.** with **Try again**, and Slate never retries by itself. A read kept later clears it.
+A connected app in Connect → Integrations with no reader shows **Not read yet** and a button to teach it; opening the screen starts nothing. When you press it, its tile says **Learning how to read your tasks in GitLab…** for about a minute; apps go one at a time. Claude (Sonnet) is asked about that app through Slate's `connected_tools` and `read_connected`, with no shell or web. Slate tries the answer and keeps it only if it returned a list; afterwards no agent and no tokens. If nothing is found: **Couldn't find your tasks in Notion.** with **Try again**, and Slate never retries by itself; each lesson starts only when you press the button. A read kept later clears it.
 
 **Write-word check.** Every tool is checked when picked, when kept and on every read. Refused: any tool with a write word in its name (send, create, update, remove, add, move, post, reply, comment, merge, close, assign, set, mark, upload, write and about fifty more), or belonging to another app. Filter words pass: `get_assigned_issues` yes, `assign_issue` no.
 
-**Tools only your Claude account reaches** (a claude.ai connector such as monday.com): read by Claude (Haiku) on opening Tasks when the last read is over 30 minutes old, or **Sync** (at most every 2 minutes). Never a tool Slate reads itself; no background timer.
+**Tools only your Claude account reaches** (a claude.ai connector such as monday.com): read by Claude (Haiku) only when you press **Sync** (at most every 2 minutes). Opening Tasks never starts a model call, so your Claude usage is spent only when you ask. Never a tool Slate reads itself; no background timer.
 
 ## What is stored
 

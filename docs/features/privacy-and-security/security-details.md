@@ -28,7 +28,7 @@ Protections around Slate's local server, the files it writes and your databases,
 
 ## The local server
 
-**The workspace port only answers the app.** The server listens on loopback. A web page you visit can POST to a localhost port (CORS only stops it reading the reply), so the server refuses any request whose `Origin` is not Slate's webview and any request to a non-loopback hostname (DNS rebinding). `Origin` proves nothing about a non-browser program, so every request also presents a token minted each run into a `0600` file (`slate-server-token`) beside the database. The app window gets it from Slate; another process only by reading that file, which only your user can.
+**The workspace port only answers the app.** The server listens on loopback. A web page you visit can POST to a localhost port (CORS only stops it reading the reply), so the server refuses any request whose `Origin` is not Slate's webview and any request to a non-loopback hostname (DNS rebinding). `Origin` proves nothing about a non-browser program, so every request also presents a token minted each run into a `0600` file (`slate-server-token`) in the app-data folder, never in a folder you moved the workspace to. The app window gets it from Slate; another process only by reading that file, which only your user can.
 
 Three cases carry no header: a CORS preflight from the app window (runs nothing), the live event stream (cannot set headers, so the token is in its address), and the two sign-in redirect landings (cloud account, work gateway). Each acts only on a sign-in Slate started, once.
 

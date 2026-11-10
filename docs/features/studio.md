@@ -38,6 +38,8 @@ If a tool's skills folder is itself a link (often to a shared folder), sync writ
 
 **Writes outside the project.** When `.slate/` lists MCP servers, a sync you start writes them into the machine-wide Claude Desktop config (macOS and Windows, app installed) and `~/.cursor/mcp.json`. You start one with `yarn studio sync`, **Sync now**, or by changing a `.slate/` skill or the rules file in Toolkit. Never written by: the sync Slate runs itself when `.slate/` changes, any sync inside a linked git worktree, or with `STUDIO_SKIP_DESKTOP=1`.
 
+**Removing an MCP server.** Studio remembers the servers it wrote, per file, in `.slate/mcp-owned.json` (ignored by git). Take a server out of `.slate/` and the next sync removes it from every tool's file, unless you changed that entry or wrote it yourself first. Entries you added by hand are never removed. In the two machine-wide files, which every project shares, Studio removes only an entry that points into this project. A dropped server run by a bare `npx` or `uvx` command, or a remote one, stays there on purpose, because Studio cannot prove it is its own; remove it by hand. A JSON file with comments or trailing commas is read, but never rewritten. Toolkit's sync pill lists that tool as "MCP file is not plain JSON (comments or trailing commas): edit it by hand", `yarn studio check` prints the same reason, and `yarn studio sync` prints it as a `refused:` line.
+
 ## Commands
 
 ```

@@ -72,6 +72,8 @@ Drag the line between list and item to widen the list (320 to 640 px; item keeps
 
 **Sync** reads your tools now. Its label says when the last read finished, which tool failed, or which needs sign-in ("Jira needs sign-in"). Greyed while reading.
 
+Every tool is read to the end, up to 1,000 items from one tool. When a tool holds more, or its rate limit stops the read, the list says so above the rows: "1,000 of 3,400 from GitHub. Narrow by project or label, or open the full list in GitHub." with **Open the full list in {tool}**. A tool that does not say its total reads "The first 1,000 from {tool}". A group draws its first hundred rows, then **Show 100 more of N**. The note stays until a whole read replaces it, through a "nothing changed" sync and through a failed one. When GitHub says to slow down, the last list stays as it was and the sync line does not report an outage. Items that only now came into reach (the first 1,000 after an upgrade) are not "arrived": an automation on a new task starts only for items updated after the previous read.
+
 A chip filters to one tool; **⋯** beside the chips:
 
 - **Disconnect** (apps connected from Slate): remove the sign-in.

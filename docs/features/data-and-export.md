@@ -10,11 +10,11 @@ Everything (docs, captured sessions, memories, decisions, automations, settings)
 | Linux | `$XDG_DATA_HOME/app.slate.workspace/` (`~/.local/share/` when unset) |
 | Windows | `%APPDATA%\app.slate.workspace\` |
 
-To keep Personal elsewhere (external drive, synced folder), move it in **Settings → Workspaces → (the workspace) → Storage**. Backups go with it; the app, MCP server and capture hooks follow. `SLATE_DB_PATH` points one launch at another file (for testing).
+To keep Personal elsewhere (an external drive or another folder on this computer), move it in **Settings → Workspaces → (the workspace) → Storage**. Slate restarts by itself and makes the copy at the next launch, before anything has the file open, checks it (integrity check, row counts, write-ahead mode) and only then points at it. While the move waits, agents and hooks refuse to open the workspace, so nothing writes between the two files. Backups go with it; the app, MCP server and capture hooks follow. Slate refuses a folder that a sync service owns (iCloud Drive, including Desktop and Documents when iCloud syncs them; Dropbox, OneDrive and Google Drive roots) and a network drive: the database cannot run safely there. If the drive is not connected, nothing opens a different empty workspace in its place: the app shows its missing-workspace screen (also when the drive goes away while Slate is open), hooks skip quietly and agents are told the workspace is not connected. **Start empty here** sets the old copy at the default location aside, dated, and starts a really empty workspace; when the moved one is back, **Use a workspace from another folder** in Storage points Slate at it. The local API tokens stay in the app-data folder. `SLATE_DB_PATH` points one launch at another file (for testing).
 
 ## Where to find all of this
 
-Open **Settings → Workspaces**, click the workspace, then **Storage**. The dialog has up to three tabs: **General** (sharing, name, colour, the remove buttons including **Delete workspace forever**), **Members** (shared workspaces) and **Storage**. Only Personal can be relocated; shared workspaces are replicas in Slate's data folder.
+Open **Settings → Workspaces**, click the workspace, then **Storage**. The dialog has up to three tabs: **General** (sharing, name, colour, the remove buttons including **Delete workspace forever**), **Members** (shared workspaces) and **Storage**. Only Personal can be relocated; shared workspaces are replicas in Slate's data folder. **Delete workspace forever** leaves no copy: the store and its upgrade backups are removed, with no way back. Export it first if you may want it.
 
 ## How big it is
 

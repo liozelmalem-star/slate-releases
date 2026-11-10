@@ -24,7 +24,7 @@ Full list: [Workspaces](https://liozelmalem-star.github.io/slate-releases/docs/f
 
 ## Artifacts and widgets
 
-**Live artifact.** A tool-published `live` artifact asks the Slate window for docs, memories and sessions of its own project, read-only. Its policy blocks every connection, image, form and window to any address, and WebRTC is removed. One route remains: a script from cdnjs, jsDelivr or unpkg, whose host sees the address the doc asks for. A teammate's live artifact never reads your store. See [Artifacts](https://liozelmalem-star.github.io/slate-releases/docs/features/artifacts.md#live-artifacts).
+**Live artifact.** A tool-published `live` artifact asks the Slate window for docs, memories and sessions of its own project, read-only. Its policy blocks every connection, image, form and window to any address, and WebRTC, frames and resource hints are removed. One route remains: a script from cdnjs, jsDelivr or unpkg, whose host sees the address the doc asks for. A teammate's live artifact never reads your store. See [Artifacts](https://liozelmalem-star.github.io/slate-releases/docs/features/artifacts.md#live-artifacts).
 
 **Widget.** A widget runs with no origin and no network (no requests, images, fonts, scripts, WebRTC, resource hints or frames) and reads what its tab shows. A write needs a permission you granted once; a memory or doc write shows its words each time before saving. A memory a widget saves is held until you release it and is never shared with a team. What a widget wrote reaches an agent quoted as data. Its data stays on this computer, and a teammate's widget never reads your store.
 

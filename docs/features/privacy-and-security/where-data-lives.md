@@ -22,8 +22,8 @@ Credential files, all `0600`:
 | File | Holds |
 | --- | --- |
 | Cloud session (app-data root) | The cloud sign-in; never in a database, so an export cannot contain a live token |
-| `slate-server-token` (beside the database) | The credential every local caller presents to the server, capture port included ([how](https://liozelmalem-star.github.io/slate-releases/docs/features/privacy-and-security/security-details.md#the-local-server)). Persists across launches. No agent's config holds it |
-| `slate-mcp-token` (beside it) | A copy sits in each connected agent's MCP entry, in a config made owner-only and never passed on a command line (ADR 0106). It opens Slate's MCP server only, not the rest of the server. Slate will not write it through a config file that is a link |
+| `slate-server-token` (in the app-data folder, also when you move Personal) | The credential every local caller presents to the server, capture port included ([how](https://liozelmalem-star.github.io/slate-releases/docs/features/privacy-and-security/security-details.md#the-local-server)). Persists across launches. No agent's config holds it |
+| `slate-mcp-token` (in the app-data folder too) | A copy sits in each connected agent's MCP entry, in a config made owner-only and never passed on a command line (ADR 0106). It opens Slate's MCP server only, not the rest of the server. Slate will not write it through a config file that is a link |
 | `work-gateway-auth.json` | The token a web-address work gateway, or an app connected from Slate, issued to Slate; sent only to that server |
 | `work-token-auth.json` | The token you pasted for Bitbucket, Gitea, Gerrit, YouTrack, Zulip or Rocket.Chat, with the account name, keyed by workspace and server. Sent only to that server, never logged, removed on **Disconnect** |
 | `oauth-pending.json` | A sign-in in progress; dropped when used and after 15 minutes |

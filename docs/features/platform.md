@@ -10,8 +10,8 @@ Slate is a native macOS app: Tauri 2, a Rust host and a React 19 webview. Linux 
 | --- | --- | --- |
 | macOS, Apple Silicon | **Yes** — the `curl` installer | Primary platform, smoke-tested |
 | macOS, Intel | **Yes** — the `curl` installer | Its own app, built on the release Mac for Intel. Before each release it boots, and its sidecar builds an app, through Rosetta |
-| Linux (x86_64, `.deb`) | **Yes** — `Slate_0.1.62_amd64.deb` from [the latest release](https://github.com/liozelmalem-star/slate-releases/releases/latest), then `sudo apt install ./Slate_0.1.62_amd64.deb` | Built, installed and booted on Ubuntu 22.04 before each release |
-| Windows 10/11 | **Yes** — `Slate_0.1.62_x64-setup.exe` from [the latest release](https://github.com/liozelmalem-star/slate-releases/releases/latest) | Built and booted on Windows before each release. Not signed with a Windows certificate, so SmartScreen warns on first install |
+| Linux (x86_64, `.deb`) | **Yes** — `Slate_0.1.63_amd64.deb` from [the latest release](https://github.com/liozelmalem-star/slate-releases/releases/latest), then `sudo apt install ./Slate_0.1.63_amd64.deb` | Built, installed and booted on Ubuntu 22.04 before each release |
+| Windows 10/11 | **Yes** — `Slate_0.1.63_x64-setup.exe` from [the latest release](https://github.com/liozelmalem-star/slate-releases/releases/latest) | Built and booted on Windows before each release. Not signed with a Windows certificate, so SmartScreen warns on first install |
 
 Slate needs **macOS 13.5 (Ventura) or later** (bundled server: Node 24). `LSMinimumSystemVersion` in `Info.plist` makes an older Mac refuse to open the app rather than show a window with no server.
 

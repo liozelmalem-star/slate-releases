@@ -24,7 +24,7 @@ A client never calls a mutating tool to test the connection: `slate_capabilities
 
 ## Capability discovery
 
-The contract id is `slate-mcp-contract/2026-11-07`; `slate_capabilities` returns version, tools, access levels, approval policies and schema hash.
+The contract id is `slate-mcp-contract/2026-11-10`; `slate_capabilities` returns version, tools, access levels, approval policies and schema hash.
 
 ## See also
 

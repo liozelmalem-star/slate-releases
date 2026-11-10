@@ -180,14 +180,14 @@ downloads, is on the [Releases page](https://github.com/liozelmalem-star/slate-r
 Linux and Windows are early builds.
 
 <!-- slate:readme-platforms -->
-Latest release: **0.1.62**.
+Latest release: **0.1.63**.
 
 | Platform | Status |
 | --- | --- |
 | macOS, Apple Silicon | Available — the primary platform, used every day |
 | macOS, Intel | Available — its own download, built for Intel |
-| Linux (x86_64, `.deb`) | Available — download `Slate_0.1.62_amd64.deb` from [the latest release](https://github.com/liozelmalem-star/slate-releases/releases/latest), then `sudo apt install ./Slate_0.1.62_amd64.deb`. Built, installed and booted on Ubuntu 22.04 before each release |
-| Windows 10/11 | Available — run `Slate_0.1.62_x64-setup.exe` from [the latest release](https://github.com/liozelmalem-star/slate-releases/releases/latest). It is not signed with a Windows certificate, so SmartScreen warns first |
+| Linux (x86_64, `.deb`) | Available — download `Slate_0.1.63_amd64.deb` from [the latest release](https://github.com/liozelmalem-star/slate-releases/releases/latest), then `sudo apt install ./Slate_0.1.63_amd64.deb`. Built, installed and booted on Ubuntu 22.04 before each release |
+| Windows 10/11 | Available — run `Slate_0.1.63_x64-setup.exe` from [the latest release](https://github.com/liozelmalem-star/slate-releases/releases/latest). It is not signed with a Windows certificate, so SmartScreen warns first |
 
 The `curl` installer is for macOS; on any other system it says so rather than installing
 something that won't run.

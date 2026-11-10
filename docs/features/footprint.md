@@ -42,6 +42,8 @@ Each number is the most Slate may use. Each limit was set from the median of sev
 
 In use, on the heavy store with an agent's sessions captured and Tasks, Sessions and Memory opened, the memory the server's code still uses two minutes after launch is at most 51 MB. It counts what the code keeps, not what macOS has not taken back yet, so it is smaller than the table above.
 
+With a window open and nothing running, the server wakes at most 0.55 times per second.
+
 ### Slate's server, while AI sessions work
 
 Two sessions working, one of them writing every 2 seconds, on the six-months store.

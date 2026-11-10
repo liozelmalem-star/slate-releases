@@ -883,7 +883,7 @@ Each memory in the card shows its claim, kind, lines (click to go), ref (`m:7f3a
 
 **Unsaved text survives closing the tab and quitting**, in the app's own storage (never the file), and returns through the same merge. A past commit, Diff and Blame are never editable. No rename, new file or removal.
 
-**Where files open.** Only inside a folder Slate has business in: a group, project or branch folder, or one a live session runs in. A file a live session changed opens wherever it is (a `/tmp` scratchpad too), since its Changed list names it. Up to 1 MB of text or 8 MB of image opens. Larger, a non-image binary, or a file outside those folders goes to the system with **Open in Finder** and a sentence saying why.
+**Where files open.** Only inside a folder Slate has business in: a group, project or branch folder, or one a live session runs in. A file a live session changed opens wherever it is (a `/tmp` scratchpad too), since its Changed list names it. Up to 1 MB of text or 8 MB of image opens. Larger, a non-image binary, or a file outside those folders shows a sentence saying why and **Open in Finder**, which shows the file in Finder and never opens it. The small system icon on a file opens it with the system, except a program, script or installer, which Slate shows in Finder instead.
 
 ---
 
@@ -1354,7 +1354,7 @@ A lesson used in at least three sessions is a way of working. Daily, at most thr
 
 ## Logging progress mid-run
 
-`log_mission_progress` reports a run's work on its branch: the summary becomes a session entry of the project labelled with the branch; goal and open items become what the next session on that branch is told; each decision is a memory. No doc is made. On a trunk branch (`main`, `master`, `develop`) the goal is unchanged. A git branch is a label on records, never a doc (ADR 0119).
+`log_mission_progress` reports a run's work on its branch: the summary becomes a session entry of the project labelled with the branch; goal and open items become what the next session on that branch is told; each decision is a memory, with the summary as its reason. Every item passes the same rules as `remember` and `record_decision` (the project's memory policy and the checks on what a memory may hold), and a reworded duplicate of a decision already kept is merged. Anything refused is listed in the reply's `refused`, each line naming its item and why; a refused goal or open list also retires the one it would have replaced. No doc is made. On a trunk branch (`main`, `master`, `develop`) the goal is unchanged. A git branch is a label on records, never a doc (ADR 0119).
 
 ## Measuring it
 
@@ -1581,6 +1581,8 @@ The manifest's `rules` line names the rules file, `AGENTS.md` by default. Codex,
 If a tool's skills folder is itself a link (often to a shared folder), sync writes nothing through it and prints a `skills skipped` line naming folder and link. The same holds for every file sync writes in the project: a tool's config, a rules adapter, `.gitignore`. When the file, or any folder on the way to it, is a link, sync writes nothing there and prints a `refused` line naming the link. A cloned project cannot use a link such as `.codex -> ~/.codex` to put servers into your own tool configs.
 
 **Writes outside the project.** When `.slate/` lists MCP servers, a sync you start writes them into the machine-wide Claude Desktop config (macOS and Windows, app installed) and `~/.cursor/mcp.json`. You start one with `yarn studio sync`, **Sync now**, or by changing a `.slate/` skill or the rules file in Toolkit. Never written by: the sync Slate runs itself when `.slate/` changes, any sync inside a linked git worktree, or with `STUDIO_SKIP_DESKTOP=1`.
+
+**Removing an MCP server.** Studio remembers the servers it wrote, per file, in `.slate/mcp-owned.json` (ignored by git). Take a server out of `.slate/` and the next sync removes it from every tool's file, unless you changed that entry or wrote it yourself first. Entries you added by hand are never removed. In the two machine-wide files, which every project shares, Studio removes only an entry that points into this project. A dropped server run by a bare `npx` or `uvx` command, or a remote one, stays there on purpose, because Studio cannot prove it is its own; remove it by hand. A JSON file with comments or trailing commas is read, but never rewritten. Toolkit's sync pill lists that tool as "MCP file is not plain JSON (comments or trailing commas): edit it by hand", `yarn studio check` prints the same reason, and `yarn studio sync` prints it as a `refused:` line.
 
 ## Commands
 
@@ -2173,6 +2175,8 @@ Drag the line between list and item to widen the list (320 to 640 px; item keeps
 
 **Sync** reads your tools now. Its label says when the last read finished, which tool failed, or which needs sign-in ("Jira needs sign-in"). Greyed while reading.
 
+Every tool is read to the end, up to 1,000 items from one tool. When a tool holds more, or its rate limit stops the read, the list says so above the rows: "1,000 of 3,400 from GitHub. Narrow by project or label, or open the full list in GitHub." with **Open the full list in {tool}**. A tool that does not say its total reads "The first 1,000 from {tool}". A group draws its first hundred rows, then **Show 100 more of N**. The note stays until a whole read replaces it, through a "nothing changed" sync and through a failed one. When GitHub says to slow down, the last list stays as it was and the sync line does not report an outage. Items that only now came into reach (the first 1,000 after an upgrade) are not "arrived": an automation on a new task starts only for items updated after the previous read.
+
 A chip filters to one tool; **⋯** beside the chips:
 
 - **Disconnect** (apps connected from Slate): remove the sign-in.
@@ -2308,11 +2312,11 @@ Then the tool is read like Jira, free, with your id as a placeholder; Done, Clos
 
 ## Teach Slate
 
-Connecting an app in Connect → Integrations with no reader starts one automatic lesson, nothing to press. Its tile says **Learning how to read your tasks in GitLab…** for about a minute; apps go one at a time. Claude (Sonnet) is asked about that app through Slate's `connected_tools` and `read_connected`, with no shell or web. Slate tries the answer and keeps it only if it returned a list; afterwards no agent and no tokens. If nothing is found: **Couldn't find your tasks in Notion.** with **Try again**, and Slate never retries by itself. A read kept later clears it.
+A connected app in Connect → Integrations with no reader shows **Not read yet** and a button to teach it; opening the screen starts nothing. When you press it, its tile says **Learning how to read your tasks in GitLab…** for about a minute; apps go one at a time. Claude (Sonnet) is asked about that app through Slate's `connected_tools` and `read_connected`, with no shell or web. Slate tries the answer and keeps it only if it returned a list; afterwards no agent and no tokens. If nothing is found: **Couldn't find your tasks in Notion.** with **Try again**, and Slate never retries by itself; each lesson starts only when you press the button. A read kept later clears it.
 
 **Write-word check.** Every tool is checked when picked, when kept and on every read. Refused: any tool with a write word in its name (send, create, update, remove, add, move, post, reply, comment, merge, close, assign, set, mark, upload, write and about fifty more), or belonging to another app. Filter words pass: `get_assigned_issues` yes, `assign_issue` no.
 
-**Tools only your Claude account reaches** (a claude.ai connector such as monday.com): read by Claude (Haiku) on opening Tasks when the last read is over 30 minutes old, or **Sync** (at most every 2 minutes). Never a tool Slate reads itself; no background timer.
+**Tools only your Claude account reaches** (a claude.ai connector such as monday.com): read by Claude (Haiku) only when you press **Sync** (at most every 2 minutes). Opening Tasks never starts a model call, so your Claude usage is spent only when you ask. Never a tool Slate reads itself; no background timer.
 
 ## What is stored
 
@@ -3124,7 +3128,7 @@ Published with `live: true`, an artifact reads your workspace while shown, so a 
 | Aspect | Rule |
 | --- | --- |
 | Reads | Docs, one doc's text, memories and AI sessions of its project (whole workspace if made under none); newest first, up to 5,000 rows each; read-only |
-| Network | No fetch, WebRTC, internet image or font, form or new window. Scripts may load from cdnjs, jsDelivr, unpkg (chart libraries work). An attempt to leave for another address closes it |
+| Network | No fetch, WebRTC, resource hint (preconnect, prefetch), internet image or font, form, new window, frame or `document.write`. Scripts may load from cdnjs, jsDelivr, unpkg (chart libraries work). An attempt to leave for another address closes it |
 | Isolation | No origin of its own; shares nothing with other artifacts, not even localStorage; talks to Slate only over a private channel opened at start |
 | Yours only | In a shared workspace a teammate's live artifact is a plain HTML page and never reads your store; restored on another computer it is also plain |
 
@@ -3986,7 +3990,7 @@ Per workspace: open tabs, favourites, recents, expanded sections, what Home is s
 Sync runs every 2 minutes and at startup. **Sync now** (Settings → Workspaces) runs it at once and reports what moved. After a failure the retry waits 2, 4, 8… minutes up to 1 hour; a success resets. With no shared workspace it does nothing.
 
 - Only changed rows are sent (hash of exactly the published fields); nothing new costs one query.
-- The same comparison **withdraws**: a row the cloud holds that your replica lacks (in Trash, removed for good, moved to another workspace) is tombstoned upstream and every member's copy goes on their next pull. A store's first pass (new Mac, reinstall) withdraws nothing and pulls your rows down first.
+- The same comparison **withdraws**: a row the cloud holds that your replica lacks (in Trash, removed for good, moved to another workspace) is tombstoned upstream and every member's copy goes on their next pull. A store's first pass (new Mac, reinstall) withdraws nothing and pulls your rows down first. A doc you moved to Trash on one Mac is not published again by your other Mac. The withdrawal records which Mac wrote it, and your other Mac moves just that doc to its own Trash on its next sync (a doc inside it that you moved elsewhere stays). It does this once per withdrawal: if you then restore the doc from the Trash on that Mac, it stays restored and is published again. Memories and artifacts follow the same rule. A withdrawal that names no Mac (from Stop sharing, or older than this rule) is sent again after you turn sharing on again, or when you restore a doc that this Mac had already seen gone; a doc restored before that Mac's first sync after the update is not sent until then. A sync pass checks again, right before each write, that the workspace is still shared, so pressing Stop sharing while a pass runs cannot put the work back.
 - Offline works: you are the only writer of your rows, so queue order does not matter.
 
 ## What actually leaves your machine
@@ -4013,7 +4017,7 @@ Every workspace, Personal included, keeps an append-only log in its own store: d
 
 | Action | What happens |
 | --- | --- |
-| **Stop sharing** | Publishing stops; everything you authored is withdrawn from the cloud and every member's copy on their next sync. Slate first counts docs, memories, activity rows and artifacts; the button reads **Stop sharing and erase my work**. The store stays here and keeps working. Share again and the next sync publishes it as it then stands. The cloud keeps a blank row per item saying it existed; as sole member, Slate removes those too |
+| **Stop sharing** | Publishing stops; everything you authored is withdrawn from the cloud and every member's copy on their next sync. Slate first counts docs, memories, activity rows and artifacts; the button reads **Stop sharing and erase my work**. The store stays here and keeps working. Your other Macs stop sharing it too, on their next sync, and withdraw anything they had sent meanwhile; on those Macs it stays off until you share it there. Share again and the next sync publishes it as it then stands. The cloud keeps a blank row per item saying it existed; as sole member, Slate removes those too |
 | **Leave** | This machine's replica is removed after a copy is kept in `backups/` (named `left-…`). Shared: button **Remove this machine's copy of “…”**; your rows upstream stay. Never shared (no other copy): **Delete workspace forever**, confirm **Delete “…” forever, with everything in it**; export from **Storage** first. If the copy fails or a connected agent still has it open, nothing is removed. Personal cannot be left |
 | **Erase my work** | Every row you authored is tombstoned upstream and every member's replica drops it on next pull. Final: sharing again does not restore it (the Article 17 request) |
 | **Someone removes you, or the owner removes the workspace for good** | Row Level Security stops answering; your replica becomes read-only. What you read stays readable and exportable; removing it is your decision |
@@ -4363,7 +4367,7 @@ A client never calls a mutating tool to test the connection: `slate_capabilities
 
 ## Capability discovery
 
-The contract id is `slate-mcp-contract/2026-11-07`; `slate_capabilities` returns version, tools, access levels, approval policies and schema hash.
+The contract id is `slate-mcp-contract/2026-11-10`; `slate_capabilities` returns version, tools, access levels, approval policies and schema hash.
 
 ## See also
 
@@ -4474,7 +4478,7 @@ A failed call answers JSON with `error.code` and `error.message`:
 * `proposal_refused` — a `propose_memory_change` the project's memories cannot take.
 * `not_a_project`, `invalid_proposal`, `already_offered` — a `propose_setup_change` for a folder that is not there, a change that could never apply, or one the project already had.
 * `artifact_not_found`, `invalid_artifact`, `is_a_widget` — the artifact tools.
-* `widget_not_found`, `invalid_widget`, `build_failed`, `not_a_widget` — the widget tools.
+* `widget_not_found`, `invalid_widget`, `build_failed`, `not_a_widget`, `version_conflict` — the widget tools (`version_conflict`: someone published a newer version while this one built; publish again).
 * `wrong_workspace` — the `cwd` belongs to another workspace than the session's ([Tool Rules](https://liozelmalem-star.github.io/slate-releases/docs/features/mcp-server/tool-rules.md#which-workspace-a-call-reaches)).
 * `no_task` (`get_agent_run` outside an agent run); `stale`, `closed`, `invalid` — a refused `report_agent_run_step`.
 * `slate_not_running` — `connected_tools` or `read_connected` while Slate is closed.
@@ -4527,7 +4531,7 @@ Find docs with `recall` and `kind: "docs"`. Plain docs, rename, move and trash a
 | `get_memory` | Read memories in full by `refs` (max 20): claim, reason, `citation` (`same`, `changed`, `gone`, `unchecked`), `evidence` (tools that confirmed it), `history` (what it replaced and was replaced by). Unknown refs return under `unknown`. |
 | `list_memories` | For a tidy the person agreed to: the project's memories, oldest first, max 100 per call from `offset`, each with ref, kind, text, whether resting. Memories hidden from sessions are left out. |
 | `propose_memory_change` | Propose a `merge` (2–50 `refs` into one `text`), a `retire`, a `lesson` (`refs` into one lesson `text` with its `when`), or a `skill` (a lesson as a skill file in the project folder; Slate offers these itself). Nothing changes until the person accepts it in Memory → Needs review. `proposal_refused`: ref outside the project (unplaced refs under `unknown`), merge or lesson with no text, lesson with no `when`, or text the save rules refuse. |
-| `log_mission_progress` | Report a session's work on its branch: `cwd`, `summary`, optional `branch` (if the work was on another git branch), `goal`, `open_items`, `decisions`. The summary becomes a session entry, goal and open items feed the branch's next brief, each decision becomes a memory, all labelled with the branch. Makes no doc. |
+| `log_mission_progress` | Report a session's work on its branch: `cwd`, `summary`, optional `branch` (if the work was on another git branch), `goal`, `open_items`, `decisions`. The summary becomes a session entry, goal and open items feed the branch's next brief, each decision becomes a memory, all labelled with the branch. Each item passes the memory policy and admission rules; refusals come back in `refused`. Makes no doc. |
 
 ## Workspaces
 
@@ -5028,7 +5032,7 @@ Sign-in sends your name, email and picture link from Google or GitHub to Supabas
 
 Slate's cloud holds only: accounts and plans, opt-in telemetry, problem reports you send, Team interest, invitations (the invitee's email and role, until accepted or declined; Slate sends no email, the invite opens in your own mail app), the update service, and the rows of a workspace you chose to share.
 
-**Removing your account.** Settings → Account → **Delete my account forever** removes your Slate account from the cloud: your identity, name, email, plan and Team interest, your memberships, what you authored in shared workspaces, and any account only you were in. Type your email to confirm. You are signed out, and everything on this Mac stays. If you own an account with other people in it, transfer it or remove them first; Slate says so and keeps everything. See the [Privacy Policy](https://liozelmalem-star.github.io/slate-releases/docs/legal/privacy-policy.md#your-control-export-and-deletion) for what lives outside the database.
+**Removing your account.** Settings → Account → **Delete my account forever** removes your Slate account from the cloud: your identity, name, email, plan and Team interest, your memberships, what you authored in shared workspaces, and any account only you were in. Type your email to confirm. You are signed out, and everything on this Mac stays. If other people are in your account or its workspaces, remove them first; Slate says so and keeps everything. See the [Privacy Policy](https://liozelmalem-star.github.io/slate-releases/docs/legal/privacy-policy.md#your-control-export-and-deletion) for what lives outside the database.
 
 ## What leaves your Mac
 
@@ -5118,8 +5122,8 @@ Credential files, all `0600`:
 | File | Holds |
 | --- | --- |
 | Cloud session (app-data root) | The cloud sign-in; never in a database, so an export cannot contain a live token |
-| `slate-server-token` (beside the database) | The credential every local caller presents to the server, capture port included ([how](https://liozelmalem-star.github.io/slate-releases/docs/features/privacy-and-security/security-details.md#the-local-server)). Persists across launches. No agent's config holds it |
-| `slate-mcp-token` (beside it) | A copy sits in each connected agent's MCP entry, in a config made owner-only and never passed on a command line (ADR 0106). It opens Slate's MCP server only, not the rest of the server. Slate will not write it through a config file that is a link |
+| `slate-server-token` (in the app-data folder, also when you move Personal) | The credential every local caller presents to the server, capture port included ([how](https://liozelmalem-star.github.io/slate-releases/docs/features/privacy-and-security/security-details.md#the-local-server)). Persists across launches. No agent's config holds it |
+| `slate-mcp-token` (in the app-data folder too) | A copy sits in each connected agent's MCP entry, in a config made owner-only and never passed on a command line (ADR 0106). It opens Slate's MCP server only, not the rest of the server. Slate will not write it through a config file that is a link |
 | `work-gateway-auth.json` | The token a web-address work gateway, or an app connected from Slate, issued to Slate; sent only to that server |
 | `work-token-auth.json` | The token you pasted for Bitbucket, Gitea, Gerrit, YouTrack, Zulip or Rocket.Chat, with the account name, keyed by workspace and server. Sent only to that server, never logged, removed on **Disconnect** |
 | `oauth-pending.json` | A sign-in in progress; dropped when used and after 15 minutes |
@@ -5156,7 +5160,7 @@ Full list: [Workspaces](https://liozelmalem-star.github.io/slate-releases/docs/f
 
 ## Artifacts and widgets
 
-**Live artifact.** A tool-published `live` artifact asks the Slate window for docs, memories and sessions of its own project, read-only. Its policy blocks every connection, image, form and window to any address, and WebRTC is removed. One route remains: a script from cdnjs, jsDelivr or unpkg, whose host sees the address the doc asks for. A teammate's live artifact never reads your store. See [Artifacts](https://liozelmalem-star.github.io/slate-releases/docs/features/artifacts.md#live-artifacts).
+**Live artifact.** A tool-published `live` artifact asks the Slate window for docs, memories and sessions of its own project, read-only. Its policy blocks every connection, image, form and window to any address, and WebRTC, frames and resource hints are removed. One route remains: a script from cdnjs, jsDelivr or unpkg, whose host sees the address the doc asks for. A teammate's live artifact never reads your store. See [Artifacts](https://liozelmalem-star.github.io/slate-releases/docs/features/artifacts.md#live-artifacts).
 
 **Widget.** A widget runs with no origin and no network (no requests, images, fonts, scripts, WebRTC, resource hints or frames) and reads what its tab shows. A write needs a permission you granted once; a memory or doc write shows its words each time before saving. A memory a widget saves is held until you release it and is never shared with a team. What a widget wrote reaches an agent quoted as data. Its data stays on this computer, and a teammate's widget never reads your store.
 
@@ -5216,7 +5220,7 @@ Protections around Slate's local server, the files it writes and your databases,
 
 ## The local server
 
-**The workspace port only answers the app.** The server listens on loopback. A web page you visit can POST to a localhost port (CORS only stops it reading the reply), so the server refuses any request whose `Origin` is not Slate's webview and any request to a non-loopback hostname (DNS rebinding). `Origin` proves nothing about a non-browser program, so every request also presents a token minted each run into a `0600` file (`slate-server-token`) beside the database. The app window gets it from Slate; another process only by reading that file, which only your user can.
+**The workspace port only answers the app.** The server listens on loopback. A web page you visit can POST to a localhost port (CORS only stops it reading the reply), so the server refuses any request whose `Origin` is not Slate's webview and any request to a non-loopback hostname (DNS rebinding). `Origin` proves nothing about a non-browser program, so every request also presents a token minted each run into a `0600` file (`slate-server-token`) in the app-data folder, never in a folder you moved the workspace to. The app window gets it from Slate; another process only by reading that file, which only your user can.
 
 Three cases carry no header: a CORS preflight from the app window (runs nothing), the live event stream (cannot set headers, so the token is in its address), and the two sign-in redirect landings (cloud account, work gateway). Each acts only on a sign-in Slate started, once.
 
@@ -5263,11 +5267,11 @@ Everything (docs, captured sessions, memories, decisions, automations, settings)
 | Linux | `$XDG_DATA_HOME/app.slate.workspace/` (`~/.local/share/` when unset) |
 | Windows | `%APPDATA%\app.slate.workspace\` |
 
-To keep Personal elsewhere (external drive, synced folder), move it in **Settings → Workspaces → (the workspace) → Storage**. Backups go with it; the app, MCP server and capture hooks follow. `SLATE_DB_PATH` points one launch at another file (for testing).
+To keep Personal elsewhere (an external drive or another folder on this computer), move it in **Settings → Workspaces → (the workspace) → Storage**. Slate restarts by itself and makes the copy at the next launch, before anything has the file open, checks it (integrity check, row counts, write-ahead mode) and only then points at it. While the move waits, agents and hooks refuse to open the workspace, so nothing writes between the two files. Backups go with it; the app, MCP server and capture hooks follow. Slate refuses a folder that a sync service owns (iCloud Drive, including Desktop and Documents when iCloud syncs them; Dropbox, OneDrive and Google Drive roots) and a network drive: the database cannot run safely there. If the drive is not connected, nothing opens a different empty workspace in its place: the app shows its missing-workspace screen (also when the drive goes away while Slate is open), hooks skip quietly and agents are told the workspace is not connected. **Start empty here** sets the old copy at the default location aside, dated, and starts a really empty workspace; when the moved one is back, **Use a workspace from another folder** in Storage points Slate at it. The local API tokens stay in the app-data folder. `SLATE_DB_PATH` points one launch at another file (for testing).
 
 ## Where to find all of this
 
-Open **Settings → Workspaces**, click the workspace, then **Storage**. The dialog has up to three tabs: **General** (sharing, name, colour, the remove buttons including **Delete workspace forever**), **Members** (shared workspaces) and **Storage**. Only Personal can be relocated; shared workspaces are replicas in Slate's data folder.
+Open **Settings → Workspaces**, click the workspace, then **Storage**. The dialog has up to three tabs: **General** (sharing, name, colour, the remove buttons including **Delete workspace forever**), **Members** (shared workspaces) and **Storage**. Only Personal can be relocated; shared workspaces are replicas in Slate's data folder. **Delete workspace forever** leaves no copy: the store and its upgrade backups are removed, with no way back. Export it first if you may want it.
 
 ## How big it is
 
@@ -5373,8 +5377,8 @@ Slate is a native macOS app: Tauri 2, a Rust host and a React 19 webview. Linux 
 | --- | --- | --- |
 | macOS, Apple Silicon | **Yes** — the `curl` installer | Primary platform, smoke-tested |
 | macOS, Intel | **Yes** — the `curl` installer | Its own app, built on the release Mac for Intel. Before each release it boots, and its sidecar builds an app, through Rosetta |
-| Linux (x86_64, `.deb`) | **Yes** — `Slate_0.1.62_amd64.deb` from [the latest release](https://github.com/liozelmalem-star/slate-releases/releases/latest), then `sudo apt install ./Slate_0.1.62_amd64.deb` | Built, installed and booted on Ubuntu 22.04 before each release |
-| Windows 10/11 | **Yes** — `Slate_0.1.62_x64-setup.exe` from [the latest release](https://github.com/liozelmalem-star/slate-releases/releases/latest) | Built and booted on Windows before each release. Not signed with a Windows certificate, so SmartScreen warns on first install |
+| Linux (x86_64, `.deb`) | **Yes** — `Slate_0.1.63_amd64.deb` from [the latest release](https://github.com/liozelmalem-star/slate-releases/releases/latest), then `sudo apt install ./Slate_0.1.63_amd64.deb` | Built, installed and booted on Ubuntu 22.04 before each release |
+| Windows 10/11 | **Yes** — `Slate_0.1.63_x64-setup.exe` from [the latest release](https://github.com/liozelmalem-star/slate-releases/releases/latest) | Built and booted on Windows before each release. Not signed with a Windows certificate, so SmartScreen warns on first install |
 
 Slate needs **macOS 13.5 (Ventura) or later** (bundled server: Node 24). `LSMinimumSystemVersion` in `Info.plist` makes an older Mac refuse to open the app rather than show a window with no server.
 
@@ -5450,6 +5454,8 @@ Each number is the most Slate may use. Each limit was set from the median of sev
 | A heavy user | 0.05% | 0.2 | 236 MB |
 
 In use, on the heavy store with an agent's sessions captured and Tasks, Sessions and Memory opened, the memory the server's code still uses two minutes after launch is at most 51 MB. It counts what the code keeps, not what macOS has not taken back yet, so it is smaller than the table above.
+
+With a window open and nothing running, the server wakes at most 0.55 times per second.
 
 ### Slate's server, while AI sessions work
 
