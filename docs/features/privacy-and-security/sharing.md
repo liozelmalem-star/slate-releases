@@ -46,6 +46,6 @@ Every release tests the no-network claim in the built Slate app: a hostile widge
 
 - **Switch off:** **Settings → Workspaces** → the workspace's **Sharing** switch. It asks, stops publishing and withdraws what was published; your store is untouched. Cloud rows are blanked and every member's copy drops them at the next sync. Switching on again republishes.
 - **Move out:** moving a doc back to Personal takes it off the server at the next pass.
-- **Erase my work** tombstones every row you authored there (blanked, final). Members' copies drop them at the next sync, and sharing again does not bring them back. This is the Article 17 request.
+- **Erase my work** tombstones every row you authored there (blanked, final). Members' copies drop them at the next sync, and sharing again does not bring them back. This is the Article 17 request. It needs you to be an editor or the owner: a viewer or a former member is told so, and nothing is reported as erased. If any row is still shared afterwards, Slate says how many.
 
 > **Warning:** Withdrawal removes the doc from the cloud, not from anyone's memory of it. Reversible, but not retroactive.

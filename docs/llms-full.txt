@@ -653,7 +653,7 @@ One panel on the right shows what the session in your active column (blue line o
 
 Four sections: **Environment** (tool, project, branch, folder, other agents there), **Progress** ([flow](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/flow.md) as one line such as "Check · 4 of 5", "27m in", and a bar), **Context** (fill; for a tool that states no window, past 200k tokens is read against a 1M window) and **Links**. The foot holds what the branch is for (doc, goal, documents under it), **Changed**, **Recorded** and **Given**. A session ends from its tab.
 
-**Links** is what the branch is attached to. Shut: `PR #142 · #138`. Opened: a row per source mark (GitHub, Jira, Linear, Slate); click to open.
+**Links** is what the branch is attached to. Shut: `PR #142 · #138`. Opened: a row per source mark (GitHub, Jira, Linear, Slate); click to open. The PR number comes from your remote with no sign-in. A PR's title, checks and reviews, and a GitHub issue, are read with your own `gh` only after you press Connect on GitHub's card; before that the card shows the number alone.
 
 - **The pull request**: title, checks (passing, failing, running), reviewer count, open/merged/closed. The number comes from origin; the rest is read with `gh`. Without `gh`, the number alone.
 - **The issue**: a branch named for a Jira or Linear key (`SLT-138-…`) shows that item from Tasks; otherwise the GitHub issue the pull request closes, or the one whose number starts the branch name (`fix/138-…`).
@@ -808,7 +808,7 @@ The branch name in a worktree's section, or pointing at a rail row, opens the br
 **Every prompt takes a checkpoint first.** When a new prompt appears in a live session's transcript, before the agent acts, Slate snapshots the session's start folder: tracked and untracked files inside it, not what the project ignores. Other folders of a larger git repository are not included.
 
 - Works for every tool whose transcript Slate reads. Branch, HEAD, staged changes and stash never move.
-- Stored under `refs/slate/checkpoints/<branch>/` (hidden from `git log` and `git push`); newest 100 per branch kept.
+- Stored under `refs/slate/checkpoints/<branch>/` (hidden from `git log` and `git push`; a linked worktree adds its own `wt-<name>/` folder, so worktrees never share checkpoints); newest 100 per branch and worktree kept.
 - A turn that changed nothing takes none; nor does a folder outside any git repository.
 
 **Turns**, in the side panel, lists them newest first, each named by its prompt and holding the files that turn changed (from its checkpoint to the next; the newest to now). A file opens showing what changed since the turn began. **Restore** needs a second click, then resets the session's folder to that checkpoint and removes files created since, touching nothing outside it. It first checkpoints the present (*Before restoring: …*), so a restore can itself be restored.
@@ -1083,7 +1083,7 @@ recall({ query, cwd, as_of: "2026-08-01" })
 get_memory({ refs })
 ```
 
-`recall` searches the project's memories and docs and returns one line per memory with ref and citation. Default 8 results, 25 at most, memories at most half, docs the rest. On a feature branch the first result is the branch brief: goal, open items, recent sessions and commits, from records labelled with the branch and from git. A doc matches when its title or text holds the query's words. `kind: "pages"` searches docs only, up to 20 results.
+`recall` searches the project's memories and docs and returns one line per memory with ref and citation. Default 8 results, 25 at most, memories at most half, docs the rest. When the query is about the branch (it names the branch, or asks what is open or in progress) the first result is the branch brief: goal, open items, recent sessions and commits, from records labelled with the branch and from git. A memory scoring under 0.7 of the best memory's score is left out; the best one always stays. A doc matches when its text holds all the query's words; a doc found by its title alone, and captured session docs, are not returned. `kind: "pages"` searches docs only, up to 20 results.
 
 ### How results are ranked
 
@@ -1263,7 +1263,7 @@ One concise statement per call, one typed memory. Part of [Recall & Remember](ht
 | `kind` | Captures |
 | ---- | ------------- |
 | `decision` | A choice ("chose X over Y because Z"). |
-| `preference` | A durable working preference. |
+| `preference` | How you like to work. An agent's `preference` that names no person and sets no rule ("Never …", "Use …") is saved as a `lesson`; a tool's own `feedback` memory is imported as a lesson. |
 | `state` | A durable note on where things stand. |
 | `fact` | Durable project knowledge. |
 | `lesson` | What to do in a situation, and why; can say [when](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/lessons.md). |
@@ -1301,6 +1301,7 @@ A refused write says how to fix it.
 | Refused | Fix |
 |---|---|
 | Transient text ("currently editing X") | — |
+| An agent's progress note ("I am taking …", "landed on origin/main as `<sha>`", "Open on `<branch>:`", a `state` starting "As of `<date>`") outside a `mission.<branch>.*` slot | Use `log_mission_progress`. |
 | An agent's git snapshot ("main is 11 commits ahead") | Git answers these. |
 | A tool call's own markup (`<parameter …>`) | The call was malformed. |
 | A decision with no reason | Pass `reason`, or say why ("because", "so", "rather than", "never", "the owner wants"). |
@@ -1354,7 +1355,7 @@ A lesson used in at least three sessions is a way of working. Daily, at most thr
 
 ## Logging progress mid-run
 
-`log_mission_progress` reports a run's work on its branch: the summary becomes a session entry of the project labelled with the branch; goal and open items become what the next session on that branch is told; each decision is a memory, with the summary as its reason. Every item passes the same rules as `remember` and `record_decision` (the project's memory policy and the checks on what a memory may hold), and a reworded duplicate of a decision already kept is merged. Anything refused is listed in the reply's `refused`, each line naming its item and why; a refused goal or open list also retires the one it would have replaced. No doc is made. On a trunk branch (`main`, `master`, `develop`) the goal is unchanged. A git branch is a label on records, never a doc (ADR 0119).
+`log_mission_progress` reports a run's work on its branch: the summary becomes a session entry of the project labelled with the branch; goal and open items become what the next session on that branch is told; each decision is a memory, with the summary as its reason. Every item passes the same rules as `remember` and `record_decision` (the project's memory policy and the checks on what a memory may hold), and a reworded duplicate of a decision already kept is merged. Anything refused is listed in the reply's `refused`, each line naming its item and why; a refused goal or open list leaves the one already stored as it is. No doc is made. On a trunk branch (`main`, `master`, `develop`) the goal is unchanged. A git branch is a label on records, never a doc (ADR 0119).
 
 ## Measuring it
 
@@ -1363,6 +1364,10 @@ A lesson used in at least three sessions is a way of working. Daily, at most thr
 `yarn memory:report` prints, from a snapshot of your store: first the **cite rate** (of the lessons and decisions given to a session, the share that session used; target 40%; each session and memory pair counts once, and preferences and `fact` memories are left out, because a session follows them without naming them); sessions that used a memory and offered memories cited, counting every delivery; offers per channel (lessons are `trigger`); **reach** per tool (work sessions given memory, of those captured); the holdout comparison (corrections per session and per 100 of your turns, for each group); **health** (memories written per distinct memory used; fewer is better); **quality** (share AI memory care read that both readings kept; aim 80%); imported memories per tool; per project, active memories, index lines and changed citations. `--sample 24` writes random deliveries to judge by hand.
 
 The index went from up to 40 short lines to 12 whole ones on 2026-11-07. To compare the two weeks on each side, run `yarn memory:report --days 14` on 2026-11-07 and again on 2026-11-21.
+
+**The quality floor.** A committed, synthetic store (161 memories, 19 docs, 44 questions, none of it yours) runs in the server tests and fails a push when recall or the session-start brief gets noisier. It measures precision@8, recall@5, MRR, how often a question nothing answers gets nothing back, the share of returned items that a rule must keep out (stale state, captured-session docs, title-only docs, another project's rows), the share of returned items and of brief lines that repeat another, the share of brief lines that are stale state, and that a fresh pinned state stays in the brief. A near-duplicate twin of the answer counts as an answer. The numbers are in `packages/server/test/operations/memory/quality/baseline.json`. Each may move one step the wrong way (one question, one returned item or one brief line) before the test fails. After a change that truly improves one, run `MEMORY_BENCH_UPDATE=1 yarn workspace @slate/server vitest run test/operations/memory/quality/quality-benchmark.test.ts`: floors only rise, ceilings only fall, and nothing is written while a check fails. Read the diff of `baseline.json` and commit it with the change. Two questions recall misses today are named as known gaps and pinned as misses. A second table test (`admission-table.test.ts`) pins which kind each kind of write is stored as, or why it is refused.
+
+`yarn memory:health` prints the live usefulness number from a read-only copy of your store: for the last 7 days (`--days N`), per channel (`brief`, `recall`, `trigger` for lessons), the memories given to sessions, how many were judged, how many a session cited, how many still wait for their session's transcript (**pending**) and how many belong to no session (**unowned**, a screen's brief: no verdict will come), and the used share (cited over judged; a row still waiting for its transcript is not counted as ignored). Under it, the 10 most-given memories no session ever cited. A `recall` the session asked is judged from its transcript, cited or not. `--days` is a whole number from 1 to 365. `--db <file>` reads another store; `--json` prints the data. The app serves the same data at `GET /memory/usefulness`.
 
 `yarn memory:eval --cwd <project>` runs `recall` on fixed questions and prints recall@5 and MRR per kind (plain, updated, time, unanswerable). The set quotes your memory, so it lives at `memory-eval/questions.json` in Slate's data folder. `--half tune` / `--half report` score odd / even questions; `--also <file>` passes other phrasings.
 
@@ -1420,7 +1425,7 @@ Each setting shows its source: here, a group above, the workspace, or default. A
 
 ## Shelf life and resting
 
-**Shelf life.** A `state` memory goes stale: 14 days after its last *confirmation* it leaves the **recall pool** (no session, automation or `recall` offers it; only `recall` with `as_of` reads it). It stays `active` in the store and Memory list, not under **retired**. Restating or confirming restarts the 14 days. Only `state` has a shelf life.
+**Shelf life.** A `state` memory goes stale: 14 days after its last *confirmation* it leaves the **recall pool** (no session, automation or `recall` offers it; only `recall` with `as_of` reads it). It stays `active` in the store and Memory list, not under **retired**. Restating or confirming restarts the 14 days. Only `state` has a shelf life. A `state` memory whose branch landed or was removed is retired at the next start of Slate (goal and open items included), and you can bring it back like any retired memory. Once per workspace, Slate also retired every `state` memory already past the 14 days.
 
 **Resting.** A memory unused and unrestated for 30 days **rests**: it leaves the session [index](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/session-start-brief.md#the-brief), stays stored and searchable. Citing, restating or pinning wakes it. Pinned memories and preferences never rest.
 
@@ -1583,6 +1588,8 @@ If a tool's skills folder is itself a link (often to a shared folder), sync writ
 **Writes outside the project.** When `.slate/` lists MCP servers, a sync you start writes them into the machine-wide Claude Desktop config (macOS and Windows, app installed) and `~/.cursor/mcp.json`. You start one with `yarn studio sync`, **Sync now**, or by changing a `.slate/` skill or the rules file in Toolkit. Never written by: the sync Slate runs itself when `.slate/` changes, any sync inside a linked git worktree, or with `STUDIO_SKIP_DESKTOP=1`.
 
 **Removing an MCP server.** Studio remembers the servers it wrote, per file, in `.slate/mcp-owned.json` (ignored by git). Take a server out of `.slate/` and the next sync removes it from every tool's file, unless you changed that entry or wrote it yourself first. Entries you added by hand are never removed. In the two machine-wide files, which every project shares, Studio removes only an entry that points into this project. A dropped server run by a bare `npx` or `uvx` command, or a remote one, stays there on purpose, because Studio cannot prove it is its own; remove it by hand. A JSON file with comments or trailing commas is read, but never rewritten. Toolkit's sync pill lists that tool as "MCP file is not plain JSON (comments or trailing commas): edit it by hand", `yarn studio check` prints the same reason, and `yarn studio sync` prints it as a `refused:` line.
+
+**Checks.** `.slate/link-copies.json` (the record Windows keeps when it copies a rules file instead of linking it) is ignored by git, like `mcp-owned.json`. A key in `.slate/config.toml` that Studio does not know, such as `tools` written under `[project]`, is an error that names the key. `yarn studio check` fails a `SKILL.md` without a non-empty `name` and `description`; `sync` still links the other skills.
 
 ## Commands
 
@@ -2175,7 +2182,7 @@ Drag the line between list and item to widen the list (320 to 640 px; item keeps
 
 **Sync** reads your tools now. Its label says when the last read finished, which tool failed, or which needs sign-in ("Jira needs sign-in"). Greyed while reading.
 
-Every tool is read to the end, up to 1,000 items from one tool. When a tool holds more, or its rate limit stops the read, the list says so above the rows: "1,000 of 3,400 from GitHub. Narrow by project or label, or open the full list in GitHub." with **Open the full list in {tool}**. A tool that does not say its total reads "The first 1,000 from {tool}". A group draws its first hundred rows, then **Show 100 more of N**. The note stays until a whole read replaces it, through a "nothing changed" sync and through a failed one. When GitHub says to slow down, the last list stays as it was and the sync line does not report an outage. Items that only now came into reach (the first 1,000 after an upgrade) are not "arrived": an automation on a new task starts only for items updated after the previous read.
+Every tool is read to the end, up to 1,000 items from one tool. When a tool holds more, or its rate limit stops the read, the list says so above the rows: "1,000 of 3,400 from GitHub. Narrow by project or label, or open the full list in GitHub." with **Open the full list in {tool}**. A tool that does not say its total reads "The first 1,000 from {tool}". A group draws its first hundred rows, then **Show 100 more of N**. The note stays until a whole read replaces it, through a "nothing changed" sync and through a failed one. When GitHub says to slow down, the last list stays as it was, what that read did take is kept, the next sync goes on from where it stopped, and the sync line does not report an outage. When GitHub needed more than one read a search for your items, the next syncs for 30 minutes ask only for what changed (with one minute of overlap); an item that left the list is noticed by the full read after that, or at the end of a full read that took several syncs, which keeps every item it saw along the way. It is never noticed by a read that stopped early or asked only for changes. Items that only now came into reach (the first 1,000 after an upgrade) are not "arrived": an automation on a new task starts only for items updated after the previous read.
 
 A chip filters to one tool; **⋯** beside the chips:
 
@@ -2431,7 +2438,23 @@ The agent keeps your tool's normal reach (shell, web, MCP servers) inside **agen
 | **Shell** | A command that sends data out asks first |
 | **Files** | Writes stay in the run's folder; none while reading and planning |
 
-Rules read every tool call and shell command, including those wrapped in `env`, `$( )`, scripts and heredocs. A guard, not a sandbox: an unknown program can still reach the network. The push rule has a second lock, a git hook in the run's folder.
+Rules read every tool call and shell command, including those wrapped in `env`, `$( )`, `sh -c` strings and heredocs. A guard, not a sandbox: an unknown program can still reach the network. The push rule has a second lock, a git hook in the run's folder.
+
+### What the rules do not stop
+
+The rules are a guard, not a sandbox. They read the text of each call. They cannot see what a program does after it starts. These limits are known, accepted and written in ADR 0055 (`docs/internals/decisions/0055-a-task-has-full-capability-inside-task-rules.md`). Plan with them in mind.
+
+- **Scripts and configs in the run's folder.** The rules do not read them. This covers `npm run`, `make`, `rake`, `cargo run` and the scripts in `package.json`. It also covers a script the run writes and then runs (`echo … > x.sh && sh x.sh`). The first step is a write inside the folder, so it is allowed. The second runs a file the rules cannot read in full.
+- **Plugins and modules named in a command.** A reporter, plugin or `-r` module comes from the project's installed packages. It is not checked (`pytest -p` still asks).
+- **What is inside a `.tar` or `.zip` file or a patch.** `tar`, `unzip` and `patch` are judged by the folder they unpack into, not by the paths inside.
+- **Reading your secrets.** Reading is not guarded. `cat ~/.ssh/id_rsa` is allowed.
+- **Git changes that stay in the run's own folder.** `git reset --hard`, `git stash drop`, `git reflog expire` and `git gc --prune` are allowed. They can lose work that was never pushed.
+- **Paths built while the program runs.** Inline code that builds a path at run time is caught only in some forms (`'/' + 'x'` is caught, most others are not).
+- **A pattern that never ends.** A decision that takes longer than one second asks you. The rules cannot interrupt a regular expression that never returns.
+
+What still holds when the text is misread: the git hook in the run's folder holds every push before you approve shipping, and after that any push to another branch. It does not stop a force push to the run's own branch. The shell rule refuses that one. After shipping, Slate reads the pull request back and says whether it matches.
+
+To close one of these for a project, add a **Deny** rule for the command, for example `shell:git reset --hard`.
 
 **A held call** is refused for now and shown in the run. Answer: **Allow for this step**, **Always allow in this project**, **Deny**. An allowance names that one call (MCP tool or exact command) and only passes what a rule would have asked about.
 
@@ -2796,7 +2819,7 @@ The MCP tool `log_mission_progress` takes `cwd` (and `branch` when the work was 
 recall  →  work the task  →  log_mission_progress(summary, goal, open_items, decisions)
 ```
 
-- **Goal and open items** become the branch's goal and open items, shown in the next session's brief. A newer report replaces the older; they fade after a state memory's shelf life.
+- **Goal and open items** become the branch's goal and open items, shown in the next session's brief. A newer report replaces the older; they fade after a state memory's shelf life, and are retired when the branch lands or is removed.
 - **Each decision** is saved as a decision memory labelled with the branch.
 - **The summary** is a session entry of the project, labelled with the branch, in its **Sessions** tab.
 - No doc is made. On a trunk branch (`main`, `master`, `develop`) the goal is not changed.
@@ -3494,10 +3517,13 @@ this computer, never synced, up to 1 MB.
 
 ### A widget's tab
 
-A widget's `slate.json` names a `"place"`. It makes one read, `slate.place.get()`, with no arguments. Slate fills in the range and project; read again on `slate.on("place")`.
+A widget's `slate.json` names a `"place"`. It reads its tab with `slate.place.get()`, with no arguments; any other call needs its permission in `slate.json` ([above](#slatesdk)). Slate fills in the range, project or session; read again on `slate.on("place")`.
 
 - `"activity"` answers `{ place, from, to, days, project, sessions, memories }`: the range and project in Activity's side panel, the AI sessions that started in that range and project (each with usage and `project`), and the memories learned in the range, without those kept away from widgets. Memories are not narrowed to the project.
 - `"home"` answers `{ place, project, running, tasks, finished }`: the AI sessions running now (working, waiting for you or idle) in this workspace's projects, your open tasks, and the receipts of sessions that finished in the last day. With a project picked, all three hold only that project and the docs under it; a session in a folder no project claims is never in `running`. `tasks` is empty unless the widget lists `tasks.read` in `slate.json` and you allowed it; a Home widget that calls `slate.place.get()` may ask for `tasks.read` with no other call using it. A task's title is its author's words.
+- `"sessions"` answers `{ place, session }`: the one session open in a session's right panel, or `null` when none is open or the session is outside this workspace's projects. `session` holds `tool` (labelled, "Claude Code"), `title`, `branch`, `status` (`working`, `needs_you` or `idle`), `lastActiveAt`, `project` (its project's title), `githubRepo` ("owner/name" of the git repository that project is cloned from on GitHub, or `null`), and from the last week's usage `model`, `startedAt`, `activeMs`, `prompts`, `tokens` and `costUsd`, each `null` when Slate has not measured it.
+
+  A Sessions widget reads the rest of the workspace with the same permissions as a widget on any other tab. To show the GitHub issues of the session's project, list `tasks.read` in `slate.json`, read `slate.sources.tasks({})`, and keep the rows whose `key` starts with `session.githubRepo` and `#` (GitHub items have the key `owner/name#number`; compare ignoring case). Slate holds the issues you are involved in; it does not fetch every issue of the git repository.
 
 Any call that needs a permission the widget did not ask for fails the build. `slate.ui.open` opens a doc, so it needs `workspace.read` like the other workspace reads.
 
@@ -4018,8 +4044,8 @@ Every workspace, Personal included, keeps an append-only log in its own store: d
 | Action | What happens |
 | --- | --- |
 | **Stop sharing** | Publishing stops; everything you authored is withdrawn from the cloud and every member's copy on their next sync. Slate first counts docs, memories, activity rows and artifacts; the button reads **Stop sharing and erase my work**. The store stays here and keeps working. Your other Macs stop sharing it too, on their next sync, and withdraw anything they had sent meanwhile; on those Macs it stays off until you share it there. Share again and the next sync publishes it as it then stands. The cloud keeps a blank row per item saying it existed; as sole member, Slate removes those too |
-| **Leave** | This machine's replica is removed after a copy is kept in `backups/` (named `left-…`). Shared: button **Remove this machine's copy of “…”**; your rows upstream stay. Never shared (no other copy): **Delete workspace forever**, confirm **Delete “…” forever, with everything in it**; export from **Storage** first. If the copy fails or a connected agent still has it open, nothing is removed. Personal cannot be left |
-| **Erase my work** | Every row you authored is tombstoned upstream and every member's replica drops it on next pull. Final: sharing again does not restore it (the Article 17 request) |
+| **Leave** | Shared: **Leave “…” and end my access** removes your seat in the cloud workspace first, then this Mac's copy (a copy is kept in `backups/`, named `left-…`). You can no longer read what the workspace holds, and what you published stays for its members; **Erase my work** takes it back. If you are the only owner, Leave is refused: make someone else an owner first. If you are offline or signed out, Leave is refused and nothing changes. **Remove from this Mac** keeps your seat and only removes the copy here. Never shared (no other copy): **Delete workspace forever**, confirm **Delete “…” forever, with everything in it**; export from **Storage** first. If the copy fails or a connected agent still has it open, nothing is removed. Personal cannot be left |
+| **Erase my work** | Every row you authored is tombstoned upstream and every member's replica drops it on next pull. Final: sharing again does not restore it (the Article 17 request). Editors and the owner only; a viewer or former member is refused with the reason |
 | **Someone removes you, or the owner removes the workspace for good** | Row Level Security stops answering; your replica becomes read-only. What you read stays readable and exportable; removing it is your decision |
 
 Personal is never marked read-only (every window falls back to it). If it is shared and its cloud side goes away, sync fails; **Stop sharing** is the way out.
@@ -4034,7 +4060,7 @@ Source: https://liozelmalem-star.github.io/slate-releases/docs/features/workspac
 
 Everything in a shared workspace is the team's; there is no "publish this doc" button. Keep work private in a workspace you have not shared.
 
-A doc you create there is shared at once, as is a decision your AI records, and a commit in a git repository the workspace owns lands in its activity feed. A captured AI session's doc is never published. Sharing needs **Team** (coming soon); accounts that already shared keep it free until Team ships.
+A doc you create there is shared at once, as is a decision your AI records, and a commit in a git repository the workspace owns lands in its activity feed. A captured AI session's doc is never published, and neither is a plan captured from a session in plan mode: it stays on this Mac. Sharing needs **Team** (coming soon); accounts that already shared keep it free until Team ships.
 
 ## Getting existing work in
 
@@ -4049,6 +4075,8 @@ Groups and projects are moved, not copied. Right-click in the sidebar or use ⋯
 
 Order is read, write, remove. No transaction spans two SQLite files, so a failure between write and remove leaves the docs in both workspaces; re-run.
 
+**One folder, one workspace.** A folder decides where the work done in it goes, so it belongs to one workspace on your Mac. Adding a folder that another workspace already holds is refused, and the message names that workspace: move the project instead. If two workspaces still both have a project on the same folder, the one holding it keeps it, and Personal always wins, so the work stays private.
+
 ## Read-only, and why there is no merge
 
 Each doc has one writer, its author. A teammate's doc opens with a read-only editor and a line giving the reason:
@@ -4059,6 +4087,8 @@ Each doc has one writer, its author. A teammate's doc opens with a read-only edi
 | **Workspace is read-only** | Removed upstream, or you were removed. Everything stays readable and exportable |
 
 With one writer per row there are no version columns, 409 handling or conflict resolution. Your manual sibling order is not published; on a teammate's machine your docs arrive in pull order.
+
+**You on two Macs.** Each Mac remembers the version of your doc it last saw in the workspace. When your other Mac published a newer version, this one takes it, and never sends its older copy over it. If you edited the same doc on both Macs before either synced, the later edit wins and the other is kept beside it as "<title> (copy from this Mac)". Docs, memories and artifacts all work this way. One exception: a doc or memory whose published copy has words of a hidden memory blanked out is not taken, so the words this Mac holds are never replaced; it stays as it is until you edit it here.
 
 **Who wrote what** (shared workspaces only):
 
@@ -4113,6 +4143,8 @@ The session is in `cloud-session.json`, a `0600` file in the app-data folder, ne
 
 Work stays on this Mac on every plan; the account holds only who you are and your plan.
 
+**Another account on the same Mac.** Each shared workspace belongs to the account that joined it on this Mac. Signed in with a different account, Slate does not list or sync it, and does not mark it read-only. Sign in with its account again and it is back as you left it. Personal belongs to the Mac, whoever is signed in.
+
 **Sharing is Team.** On Free a new workspace is local only: the switch is off and disabled with **Team · coming soon** and the same button. An already-shared workspace can still be turned off. With early access sharing works.
 
 ## Two tiers
@@ -4134,7 +4166,7 @@ Workspace membership is independent of account membership (a contractor gets one
 
 The account's owner can do all a workspace owner can; account admins can invite, remove and rename only. Only a workspace owner or the account's owner can make, change or remove an owner, or delete the workspace forever; an account admin cannot make themselves owner (database-enforced). A role does not decide whose docs you may edit: author-only for everyone.
 
-> **Note:** **A viewer's replica is read-only on their machine too.** The role is stored locally and writes (including a memory you or an agent saves) are refused where made, with a line saying an editor or owner can change it; a viewer's machine does not push. Accepting an invitation fetches the role at once. Until fetched (offline, signed out, a machine that joined earlier) the workspace counts as writable, so offline use works; the cloud has the last word.
+> **Note:** **A viewer's replica is read-only on their machine too.** The role is stored locally and writes (including a memory you or an agent saves) are refused where made, with a line saying an editor or owner can change it; a viewer's machine does not push. Accepting an invitation fetches the role at once. Until fetched (offline, signed out, a machine that joined earlier) the workspace counts as writable, so offline use works; the cloud has the last word. **A role change reaches the machine on the next sync pass, not the next launch.** A demoted editor stops pushing at once. The workspace shows "You can only read this workspace now." It is not a failure, so syncing does not slow down and teammates' work still arrives.
 
 ## Inviting someone
 
@@ -4144,7 +4176,7 @@ The account's owner can do all a workspace owner can; account admins can invite,
 
 An invitation is a membership addressed by email (a user id exists only after someone signs in). The address is stored lower-cased and trimmed, database-enforced, so it matches a login. Pending invitations are listed with members and can be revoked before claimed.
 
-**Accepting is explicit.** A banner at the top of the app, on any screen, names the workspace, inviter and role with **Accept** and **Decline**. Accepting sets up the replica and the workspace appears in the switcher. A declined invitation stays declined until re-invited.
+**Accepting is explicit.** A banner at the top of the app, on any screen, names the workspace, inviter and role with **Accept** and **Decline**. Accepting sets up the replica and the workspace appears in the switcher. A declined invitation stays declined until re-invited. The only way into a workspace is an invitation the person accepts; the database refuses an admin who tries to add someone directly.
 
 **Telling them.** Each pending row has:
 
@@ -4165,7 +4197,7 @@ The message names the workspace and inviter, links to where Slate installs from,
 
 ## Removing someone
 
-Read access ends on their next request (Row Level Security decides every query). Their machine marks the replica read-only at next launch: they can read and export what is on disk; nothing goes up or arrives. Docs they authored stay; **Erase my work** tombstones every row they authored and every replica drops it on next pull.
+Read access ends on their next request (Row Level Security decides every query). Their machine checks membership on every sync pass, about every two minutes. It marks the replica read-only on the next pass: they can read and export what is on disk; nothing goes up or arrives. Docs they authored stay. **Erase my work** no longer works for them: the cloud refuses a former member, and Slate says so instead of reporting the work erased. The workspace owner removes it for them.
 
 See also: [Workspaces](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces.md), [Working in a Shared Workspace](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces/sharing.md), [Privacy & Security](https://liozelmalem-star.github.io/slate-releases/docs/features/privacy-and-security.md).
 
@@ -4277,7 +4309,7 @@ title to read it first.
 ## Restore, or delete forever
 
 - **Restore** puts the doc back where it was, with everything that went to the Trash with it. A doc inside it that you had moved to the Trash on its own, earlier, stays in the Trash. If its parent is in the Trash too, it stays there with it until the parent comes back.
-- **Delete forever…** asks first and cannot be undone. A doc's nested docs go with it. A widget loses every version and the data it kept.
+- **Delete forever…** asks first and cannot be undone. A doc's nested docs go with it. A widget loses every version and the data it kept. If another Mac restored the same doc or widget and has not synced since, delete forever still wins: your next sync makes that Mac move its copy to its Trash. A restore made on that Mac after it has seen that stays restored.
 
 Tick rows to act on several: **Restore (N)** and **Delete forever (N)**. **Select all**
 ticks every row shown. With nothing ticked, **Empty Trash**, beside the title, deletes forever
@@ -4527,7 +4559,7 @@ Find docs with `recall` and `kind: "docs"`. Plain docs, rename, move and trash a
 | Tool | Purpose |
 | --- | --- |
 | `remember` | Save one typed memory (`kind`: `decision`, `preference`, `state`, `fact`, `lesson`), filed by `cwd`. A near-duplicate strengthens an existing memory; a new claim on the same slot replaces the old. `replaces`: refs this corrects and retires. `when` makes a lesson fire on a matching tool call: `{tool: "shell", match}` or `{tool: "read" \| "edit", path}` (a match-everything pattern is refused). `index: true` pins it into the project index; `unindex` removes refs. Reply: `saved`, `memory`, up to 3 `neighbours`. Refused, with reason, when: the text is passing status, a git snapshot or a tool call's markup; a `decision` has no reason; an agent memory holds 3+ numbers (put them in `reason`); a `state` has no `subject`; the project's [memory settings](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/decisions-and-facts.md#what-a-project-keeps) turn off that writer, kind or word; AI memory care is on and `reason` is under 4 words; or the workspace is read-only for you. A title-like line is kept with a `warning`. A claim contradicting a firmer memory waits for review in Memory. |
-| `recall` | The one search. On a feature branch the first result is the branch brief, with the `target_doc_id` writes file under. Then memories (BM25 over sentence, tags, citation, reason, plus small recency and confidence lifts), then docs whose title or text matches. Each memory is a line with `ref` (`m:7f3a2b1c`) and citation, marked `weak` for a thin match and `citation: changed` or `gone` when its code moved. Default 8 results, max 25, at most half memories. `scope: "all"` searches every project. `also`: up to 3 other phrasings, merged by rank. Then up to 2 artifacts matching every word (`artifact_id`, title, snippet, `link`). `kind: "docs"`: docs only, up to 20 hits with snippets. `as_of` (`2026-08-01`): memories only, as believed at the end of that day, later-replaced ones marked `until`. |
+| `recall` | The one search. When the query is about the branch (names it, or asks what is open or in progress) the first result is the branch brief, with the `target_doc_id` writes file under. Then memories (BM25 over sentence, tags, citation, reason, plus small recency and confidence lifts), then docs whose text matches (not title-only matches or captured session docs). A memory under 0.7 of the best memory's score is left out. Each memory is a line with `ref` (`m:7f3a2b1c`) and citation, marked `weak` for a thin match and `citation: changed` or `gone` when its code moved. Default 8 results, max 25, at most half memories. `scope: "all"` searches every project. `also`: up to 3 other phrasings, merged by rank. Then up to 2 artifacts matching every word (`artifact_id`, title, snippet, `link`). `kind: "docs"`: docs only, up to 20 hits with snippets. `as_of` (`2026-08-01`): memories only, as believed at the end of that day, later-replaced ones marked `until`. |
 | `get_memory` | Read memories in full by `refs` (max 20): claim, reason, `citation` (`same`, `changed`, `gone`, `unchecked`), `evidence` (tools that confirmed it), `history` (what it replaced and was replaced by). Unknown refs return under `unknown`. |
 | `list_memories` | For a tidy the person agreed to: the project's memories, oldest first, max 100 per call from `offset`, each with ref, kind, text, whether resting. Memories hidden from sessions are left out. |
 | `propose_memory_change` | Propose a `merge` (2–50 `refs` into one `text`), a `retire`, a `lesson` (`refs` into one lesson `text` with its `when`), or a `skill` (a lesson as a skill file in the project folder; Slate offers these itself). Nothing changes until the person accepts it in Memory → Needs review. `proposal_refused`: ref outside the project (unplaced refs under `unknown`), merge or lesson with no text, lesson with no `when`, or text the save rules refuse. |
@@ -5182,7 +5214,7 @@ Every release tests the no-network claim in the built Slate app: a hostile widge
 
 - **Switch off:** **Settings → Workspaces** → the workspace's **Sharing** switch. It asks, stops publishing and withdraws what was published; your store is untouched. Cloud rows are blanked and every member's copy drops them at the next sync. Switching on again republishes.
 - **Move out:** moving a doc back to Personal takes it off the server at the next pass.
-- **Erase my work** tombstones every row you authored there (blanked, final). Members' copies drop them at the next sync, and sharing again does not bring them back. This is the Article 17 request.
+- **Erase my work** tombstones every row you authored there (blanked, final). Members' copies drop them at the next sync, and sharing again does not bring them back. This is the Article 17 request. It needs you to be an editor or the owner: a viewer or a former member is told so, and nothing is reported as erased. If any row is still shared afterwards, Slate says how many.
 
 > **Warning:** Withdrawal removes the doc from the cloud, not from anyone's memory of it. Reversible, but not retroactive.
 
@@ -5377,8 +5409,8 @@ Slate is a native macOS app: Tauri 2, a Rust host and a React 19 webview. Linux 
 | --- | --- | --- |
 | macOS, Apple Silicon | **Yes** — the `curl` installer | Primary platform, smoke-tested |
 | macOS, Intel | **Yes** — the `curl` installer | Its own app, built on the release Mac for Intel. Before each release it boots, and its sidecar builds an app, through Rosetta |
-| Linux (x86_64, `.deb`) | **Yes** — `Slate_0.1.63_amd64.deb` from [the latest release](https://github.com/liozelmalem-star/slate-releases/releases/latest), then `sudo apt install ./Slate_0.1.63_amd64.deb` | Built, installed and booted on Ubuntu 22.04 before each release |
-| Windows 10/11 | **Yes** — `Slate_0.1.63_x64-setup.exe` from [the latest release](https://github.com/liozelmalem-star/slate-releases/releases/latest) | Built and booted on Windows before each release. Not signed with a Windows certificate, so SmartScreen warns on first install |
+| Linux (x86_64, `.deb`) | Not in the latest release (0.1.65) | A release attaches it only when it builds, installs and boots on Ubuntu 22.04 |
+| Windows 10/11 | Not in the latest release (0.1.65) | Being ported; a release attaches the installer only when its Windows build passes |
 
 Slate needs **macOS 13.5 (Ventura) or later** (bundled server: Node 24). `LSMinimumSystemVersion` in `Info.plist` makes an older Mac refuse to open the app rather than show a window with no server.
 
@@ -5455,7 +5487,7 @@ Each number is the most Slate may use. Each limit was set from the median of sev
 
 In use, on the heavy store with an agent's sessions captured and Tasks, Sessions and Memory opened, the memory the server's code still uses two minutes after launch is at most 51 MB. It counts what the code keeps, not what macOS has not taken back yet, so it is smaller than the table above.
 
-With a window open and nothing running, the server wakes at most 0.55 times per second.
+With a window open and nothing running, the server wakes at most 0.27 times per second.
 
 ### Slate's server, while AI sessions work
 

@@ -65,7 +65,7 @@ The branch name in a worktree's section, or pointing at a rail row, opens the br
 **Every prompt takes a checkpoint first.** When a new prompt appears in a live session's transcript, before the agent acts, Slate snapshots the session's start folder: tracked and untracked files inside it, not what the project ignores. Other folders of a larger git repository are not included.
 
 - Works for every tool whose transcript Slate reads. Branch, HEAD, staged changes and stash never move.
-- Stored under `refs/slate/checkpoints/<branch>/` (hidden from `git log` and `git push`); newest 100 per branch kept.
+- Stored under `refs/slate/checkpoints/<branch>/` (hidden from `git log` and `git push`; a linked worktree adds its own `wt-<name>/` folder, so worktrees never share checkpoints); newest 100 per branch and worktree kept.
 - A turn that changed nothing takes none; nor does a folder outside any git repository.
 
 **Turns**, in the side panel, lists them newest first, each named by its prompt and holding the files that turn changed (from its checkpoint to the next; the newest to now). A file opens showing what changed since the turn began. **Restore** needs a second click, then resets the session's folder to that checkpoint and removes files created since, touching nothing outside it. It first checkpoints the present (*Before restoring: …*), so a restore can itself be restored.

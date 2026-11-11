@@ -51,7 +51,7 @@ One panel on the right shows what the session in your active column (blue line o
 
 Four sections: **Environment** (tool, project, branch, folder, other agents there), **Progress** ([flow](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/flow.md) as one line such as "Check · 4 of 5", "27m in", and a bar), **Context** (fill; for a tool that states no window, past 200k tokens is read against a 1M window) and **Links**. The foot holds what the branch is for (doc, goal, documents under it), **Changed**, **Recorded** and **Given**. A session ends from its tab.
 
-**Links** is what the branch is attached to. Shut: `PR #142 · #138`. Opened: a row per source mark (GitHub, Jira, Linear, Slate); click to open.
+**Links** is what the branch is attached to. Shut: `PR #142 · #138`. Opened: a row per source mark (GitHub, Jira, Linear, Slate); click to open. The PR number comes from your remote with no sign-in. A PR's title, checks and reviews, and a GitHub issue, are read with your own `gh` only after you press Connect on GitHub's card; before that the card shows the number alone.
 
 - **The pull request**: title, checks (passing, failing, running), reviewer count, open/merged/closed. The number comes from origin; the rest is read with `gh`. Without `gh`, the number alone.
 - **The issue**: a branch named for a Jira or Linear key (`SLT-138-…`) shows that item from Tasks; otherwise the GitHub issue the pull request closes, or the one whose number starts the branch name (`fix/138-…`).

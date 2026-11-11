@@ -17,6 +17,8 @@ The session is in `cloud-session.json`, a `0600` file in the app-data folder, ne
 
 Work stays on this Mac on every plan; the account holds only who you are and your plan.
 
+**Another account on the same Mac.** Each shared workspace belongs to the account that joined it on this Mac. Signed in with a different account, Slate does not list or sync it, and does not mark it read-only. Sign in with its account again and it is back as you left it. Personal belongs to the Mac, whoever is signed in.
+
 **Sharing is Team.** On Free a new workspace is local only: the switch is off and disabled with **Team · coming soon** and the same button. An already-shared workspace can still be turned off. With early access sharing works.
 
 ## Two tiers
@@ -38,7 +40,7 @@ Workspace membership is independent of account membership (a contractor gets one
 
 The account's owner can do all a workspace owner can; account admins can invite, remove and rename only. Only a workspace owner or the account's owner can make, change or remove an owner, or delete the workspace forever; an account admin cannot make themselves owner (database-enforced). A role does not decide whose docs you may edit: author-only for everyone.
 
-> **Note:** **A viewer's replica is read-only on their machine too.** The role is stored locally and writes (including a memory you or an agent saves) are refused where made, with a line saying an editor or owner can change it; a viewer's machine does not push. Accepting an invitation fetches the role at once. Until fetched (offline, signed out, a machine that joined earlier) the workspace counts as writable, so offline use works; the cloud has the last word.
+> **Note:** **A viewer's replica is read-only on their machine too.** The role is stored locally and writes (including a memory you or an agent saves) are refused where made, with a line saying an editor or owner can change it; a viewer's machine does not push. Accepting an invitation fetches the role at once. Until fetched (offline, signed out, a machine that joined earlier) the workspace counts as writable, so offline use works; the cloud has the last word. **A role change reaches the machine on the next sync pass, not the next launch.** A demoted editor stops pushing at once. The workspace shows "You can only read this workspace now." It is not a failure, so syncing does not slow down and teammates' work still arrives.
 
 ## Inviting someone
 
@@ -48,7 +50,7 @@ The account's owner can do all a workspace owner can; account admins can invite,
 
 An invitation is a membership addressed by email (a user id exists only after someone signs in). The address is stored lower-cased and trimmed, database-enforced, so it matches a login. Pending invitations are listed with members and can be revoked before claimed.
 
-**Accepting is explicit.** A banner at the top of the app, on any screen, names the workspace, inviter and role with **Accept** and **Decline**. Accepting sets up the replica and the workspace appears in the switcher. A declined invitation stays declined until re-invited.
+**Accepting is explicit.** A banner at the top of the app, on any screen, names the workspace, inviter and role with **Accept** and **Decline**. Accepting sets up the replica and the workspace appears in the switcher. A declined invitation stays declined until re-invited. The only way into a workspace is an invitation the person accepts; the database refuses an admin who tries to add someone directly.
 
 **Telling them.** Each pending row has:
 
@@ -69,6 +71,6 @@ The message names the workspace and inviter, links to where Slate installs from,
 
 ## Removing someone
 
-Read access ends on their next request (Row Level Security decides every query). Their machine marks the replica read-only at next launch: they can read and export what is on disk; nothing goes up or arrives. Docs they authored stay; **Erase my work** tombstones every row they authored and every replica drops it on next pull.
+Read access ends on their next request (Row Level Security decides every query). Their machine checks membership on every sync pass, about every two minutes. It marks the replica read-only on the next pass: they can read and export what is on disk; nothing goes up or arrives. Docs they authored stay. **Erase my work** no longer works for them: the cloud refuses a former member, and Slate says so instead of reporting the work erased. The workspace owner removes it for them.
 
 See also: [Workspaces](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces.md), [Working in a Shared Workspace](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces/sharing.md), [Privacy & Security](https://liozelmalem-star.github.io/slate-releases/docs/features/privacy-and-security.md).

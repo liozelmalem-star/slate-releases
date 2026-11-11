@@ -89,7 +89,23 @@ The agent keeps your tool's normal reach (shell, web, MCP servers) inside **agen
 | **Shell** | A command that sends data out asks first |
 | **Files** | Writes stay in the run's folder; none while reading and planning |
 
-Rules read every tool call and shell command, including those wrapped in `env`, `$( )`, scripts and heredocs. A guard, not a sandbox: an unknown program can still reach the network. The push rule has a second lock, a git hook in the run's folder.
+Rules read every tool call and shell command, including those wrapped in `env`, `$( )`, `sh -c` strings and heredocs. A guard, not a sandbox: an unknown program can still reach the network. The push rule has a second lock, a git hook in the run's folder.
+
+### What the rules do not stop
+
+The rules are a guard, not a sandbox. They read the text of each call. They cannot see what a program does after it starts. These limits are known, accepted and written in ADR 0055 (`docs/internals/decisions/0055-a-task-has-full-capability-inside-task-rules.md`). Plan with them in mind.
+
+- **Scripts and configs in the run's folder.** The rules do not read them. This covers `npm run`, `make`, `rake`, `cargo run` and the scripts in `package.json`. It also covers a script the run writes and then runs (`echo … > x.sh && sh x.sh`). The first step is a write inside the folder, so it is allowed. The second runs a file the rules cannot read in full.
+- **Plugins and modules named in a command.** A reporter, plugin or `-r` module comes from the project's installed packages. It is not checked (`pytest -p` still asks).
+- **What is inside a `.tar` or `.zip` file or a patch.** `tar`, `unzip` and `patch` are judged by the folder they unpack into, not by the paths inside.
+- **Reading your secrets.** Reading is not guarded. `cat ~/.ssh/id_rsa` is allowed.
+- **Git changes that stay in the run's own folder.** `git reset --hard`, `git stash drop`, `git reflog expire` and `git gc --prune` are allowed. They can lose work that was never pushed.
+- **Paths built while the program runs.** Inline code that builds a path at run time is caught only in some forms (`'/' + 'x'` is caught, most others are not).
+- **A pattern that never ends.** A decision that takes longer than one second asks you. The rules cannot interrupt a regular expression that never returns.
+
+What still holds when the text is misread: the git hook in the run's folder holds every push before you approve shipping, and after that any push to another branch. It does not stop a force push to the run's own branch. The shell rule refuses that one. After shipping, Slate reads the pull request back and says whether it matches.
+
+To close one of these for a project, add a **Deny** rule for the command, for example `shell:git reset --hard`.
 
 **A held call** is refused for now and shown in the run. Answer: **Allow for this step**, **Always allow in this project**, **Deny**. An allowance names that one call (MCP tool or exact command) and only passes what a rule would have asked about.
 

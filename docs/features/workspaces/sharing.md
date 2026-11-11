@@ -2,7 +2,7 @@
 
 Everything in a shared workspace is the team's; there is no "publish this doc" button. Keep work private in a workspace you have not shared.
 
-A doc you create there is shared at once, as is a decision your AI records, and a commit in a git repository the workspace owns lands in its activity feed. A captured AI session's doc is never published. Sharing needs **Team** (coming soon); accounts that already shared keep it free until Team ships.
+A doc you create there is shared at once, as is a decision your AI records, and a commit in a git repository the workspace owns lands in its activity feed. A captured AI session's doc is never published, and neither is a plan captured from a session in plan mode: it stays on this Mac. Sharing needs **Team** (coming soon); accounts that already shared keep it free until Team ships.
 
 ## Getting existing work in
 
@@ -17,6 +17,8 @@ Groups and projects are moved, not copied. Right-click in the sidebar or use ⋯
 
 Order is read, write, remove. No transaction spans two SQLite files, so a failure between write and remove leaves the docs in both workspaces; re-run.
 
+**One folder, one workspace.** A folder decides where the work done in it goes, so it belongs to one workspace on your Mac. Adding a folder that another workspace already holds is refused, and the message names that workspace: move the project instead. If two workspaces still both have a project on the same folder, the one holding it keeps it, and Personal always wins, so the work stays private.
+
 ## Read-only, and why there is no merge
 
 Each doc has one writer, its author. A teammate's doc opens with a read-only editor and a line giving the reason:
@@ -27,6 +29,8 @@ Each doc has one writer, its author. A teammate's doc opens with a read-only edi
 | **Workspace is read-only** | Removed upstream, or you were removed. Everything stays readable and exportable |
 
 With one writer per row there are no version columns, 409 handling or conflict resolution. Your manual sibling order is not published; on a teammate's machine your docs arrive in pull order.
+
+**You on two Macs.** Each Mac remembers the version of your doc it last saw in the workspace. When your other Mac published a newer version, this one takes it, and never sends its older copy over it. If you edited the same doc on both Macs before either synced, the later edit wins and the other is kept beside it as "<title> (copy from this Mac)". Docs, memories and artifacts all work this way. One exception: a doc or memory whose published copy has words of a hidden memory blanked out is not taken, so the words this Mac holds are never replaced; it stays as it is until you edit it here.
 
 **Who wrote what** (shared workspaces only):
 

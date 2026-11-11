@@ -17,7 +17,7 @@ recall({ query, cwd, as_of: "2026-08-01" })
 get_memory({ refs })
 ```
 
-`recall` searches the project's memories and docs and returns one line per memory with ref and citation. Default 8 results, 25 at most, memories at most half, docs the rest. On a feature branch the first result is the branch brief: goal, open items, recent sessions and commits, from records labelled with the branch and from git. A doc matches when its title or text holds the query's words. `kind: "pages"` searches docs only, up to 20 results.
+`recall` searches the project's memories and docs and returns one line per memory with ref and citation. Default 8 results, 25 at most, memories at most half, docs the rest. When the query is about the branch (it names the branch, or asks what is open or in progress) the first result is the branch brief: goal, open items, recent sessions and commits, from records labelled with the branch and from git. A memory scoring under 0.7 of the best memory's score is left out; the best one always stays. A doc matches when its text holds all the query's words; a doc found by its title alone, and captured session docs, are not returned. `kind: "pages"` searches docs only, up to 20 results.
 
 ### How results are ranked
 

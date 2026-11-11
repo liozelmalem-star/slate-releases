@@ -159,10 +159,13 @@ this computer, never synced, up to 1 MB.
 
 ### A widget's tab
 
-A widget's `slate.json` names a `"place"`. It makes one read, `slate.place.get()`, with no arguments. Slate fills in the range and project; read again on `slate.on("place")`.
+A widget's `slate.json` names a `"place"`. It reads its tab with `slate.place.get()`, with no arguments; any other call needs its permission in `slate.json` ([above](#slatesdk)). Slate fills in the range, project or session; read again on `slate.on("place")`.
 
 - `"activity"` answers `{ place, from, to, days, project, sessions, memories }`: the range and project in Activity's side panel, the AI sessions that started in that range and project (each with usage and `project`), and the memories learned in the range, without those kept away from widgets. Memories are not narrowed to the project.
 - `"home"` answers `{ place, project, running, tasks, finished }`: the AI sessions running now (working, waiting for you or idle) in this workspace's projects, your open tasks, and the receipts of sessions that finished in the last day. With a project picked, all three hold only that project and the docs under it; a session in a folder no project claims is never in `running`. `tasks` is empty unless the widget lists `tasks.read` in `slate.json` and you allowed it; a Home widget that calls `slate.place.get()` may ask for `tasks.read` with no other call using it. A task's title is its author's words.
+- `"sessions"` answers `{ place, session }`: the one session open in a session's right panel, or `null` when none is open or the session is outside this workspace's projects. `session` holds `tool` (labelled, "Claude Code"), `title`, `branch`, `status` (`working`, `needs_you` or `idle`), `lastActiveAt`, `project` (its project's title), `githubRepo` ("owner/name" of the git repository that project is cloned from on GitHub, or `null`), and from the last week's usage `model`, `startedAt`, `activeMs`, `prompts`, `tokens` and `costUsd`, each `null` when Slate has not measured it.
+
+  A Sessions widget reads the rest of the workspace with the same permissions as a widget on any other tab. To show the GitHub issues of the session's project, list `tasks.read` in `slate.json`, read `slate.sources.tasks({})`, and keep the rows whose `key` starts with `session.githubRepo` and `#` (GitHub items have the key `owner/name#number`; compare ignoring case). Slate holds the issues you are involved in; it does not fetch every issue of the git repository.
 
 Any call that needs a permission the widget did not ask for fails the build. `slate.ui.open` opens a doc, so it needs `workspace.read` like the other workspace reads.
 

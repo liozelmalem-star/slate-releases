@@ -20,7 +20,7 @@ The MCP tool `log_mission_progress` takes `cwd` (and `branch` when the work was 
 recall  →  work the task  →  log_mission_progress(summary, goal, open_items, decisions)
 ```
 
-- **Goal and open items** become the branch's goal and open items, shown in the next session's brief. A newer report replaces the older; they fade after a state memory's shelf life.
+- **Goal and open items** become the branch's goal and open items, shown in the next session's brief. A newer report replaces the older; they fade after a state memory's shelf life, and are retired when the branch lands or is removed.
 - **Each decision** is saved as a decision memory labelled with the branch.
 - **The summary** is a session entry of the project, labelled with the branch, in its **Sessions** tab.
 - No doc is made. On a trunk branch (`main`, `master`, `develop`) the goal is not changed.

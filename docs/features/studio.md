@@ -40,6 +40,8 @@ If a tool's skills folder is itself a link (often to a shared folder), sync writ
 
 **Removing an MCP server.** Studio remembers the servers it wrote, per file, in `.slate/mcp-owned.json` (ignored by git). Take a server out of `.slate/` and the next sync removes it from every tool's file, unless you changed that entry or wrote it yourself first. Entries you added by hand are never removed. In the two machine-wide files, which every project shares, Studio removes only an entry that points into this project. A dropped server run by a bare `npx` or `uvx` command, or a remote one, stays there on purpose, because Studio cannot prove it is its own; remove it by hand. A JSON file with comments or trailing commas is read, but never rewritten. Toolkit's sync pill lists that tool as "MCP file is not plain JSON (comments or trailing commas): edit it by hand", `yarn studio check` prints the same reason, and `yarn studio sync` prints it as a `refused:` line.
 
+**Checks.** `.slate/link-copies.json` (the record Windows keeps when it copies a rules file instead of linking it) is ignored by git, like `mcp-owned.json`. A key in `.slate/config.toml` that Studio does not know, such as `tools` written under `[project]`, is an error that names the key. `yarn studio check` fails a `SKILL.md` without a non-empty `name` and `description`; `sync` still links the other skills.
+
 ## Commands
 
 ```

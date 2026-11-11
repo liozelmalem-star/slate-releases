@@ -48,7 +48,7 @@ Each setting shows its source: here, a group above, the workspace, or default. A
 
 ## Shelf life and resting
 
-**Shelf life.** A `state` memory goes stale: 14 days after its last *confirmation* it leaves the **recall pool** (no session, automation or `recall` offers it; only `recall` with `as_of` reads it). It stays `active` in the store and Memory list, not under **retired**. Restating or confirming restarts the 14 days. Only `state` has a shelf life.
+**Shelf life.** A `state` memory goes stale: 14 days after its last *confirmation* it leaves the **recall pool** (no session, automation or `recall` offers it; only `recall` with `as_of` reads it). It stays `active` in the store and Memory list, not under **retired**. Restating or confirming restarts the 14 days. Only `state` has a shelf life. A `state` memory whose branch landed or was removed is retired at the next start of Slate (goal and open items included), and you can bring it back like any retired memory. Once per workspace, Slate also retired every `state` memory already past the 14 days.
 
 **Resting.** A memory unused and unrestated for 30 days **rests**: it leaves the session [index](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/session-start-brief.md#the-brief), stays stored and searchable. Citing, restating or pinning wakes it. Pinned memories and preferences never rest.
 

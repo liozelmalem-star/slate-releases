@@ -14,7 +14,7 @@ One concise statement per call, one typed memory. Part of [Recall & Remember](ht
 | `kind` | Captures |
 | ---- | ------------- |
 | `decision` | A choice ("chose X over Y because Z"). |
-| `preference` | A durable working preference. |
+| `preference` | How you like to work. An agent's `preference` that names no person and sets no rule ("Never …", "Use …") is saved as a `lesson`; a tool's own `feedback` memory is imported as a lesson. |
 | `state` | A durable note on where things stand. |
 | `fact` | Durable project knowledge. |
 | `lesson` | What to do in a situation, and why; can say [when](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/lessons.md). |
@@ -52,6 +52,7 @@ A refused write says how to fix it.
 | Refused | Fix |
 |---|---|
 | Transient text ("currently editing X") | — |
+| An agent's progress note ("I am taking …", "landed on origin/main as `<sha>`", "Open on `<branch>:`", a `state` starting "As of `<date>`") outside a `mission.<branch>.*` slot | Use `log_mission_progress`. |
 | An agent's git snapshot ("main is 11 commits ahead") | Git answers these. |
 | A tool call's own markup (`<parameter …>`) | The call was malformed. |
 | A decision with no reason | Pass `reason`, or say why ("because", "so", "rather than", "never", "the owner wants"). |
