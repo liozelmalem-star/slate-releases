@@ -17,6 +17,8 @@ remember({
 
 A `when` makes the memory a lesson. A pattern matching every command or file is refused.
 
+A `match` runs on every shell call, so Slate also refuses a pattern that can run for minutes on one command: a repeated group that holds its own repeat, like `(a+)+`, or holds alternatives, like `(\w|\d)+`. A glob holds at most one `**`. Only the first **512** characters of a command are tested; a path is tested whole.
+
 On a matching command or file, the lesson is added to what the agent sees for that call. So is a lesson or decision whose `source_ref` cites the file. At most **2** memories per call, each once per session. The call is never blocked or changed.
 
 | Tool | Arrives |

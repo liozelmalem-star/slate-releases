@@ -52,10 +52,10 @@ A refused write says how to fix it.
 | Refused | Fix |
 |---|---|
 | Transient text ("currently editing X") | — |
-| An agent's progress note ("I am taking …", "landed on origin/main as `<sha>`", "Open on `<branch>:`", a `state` starting "As of `<date>`") outside a `mission.<branch>.*` slot | Use `log_mission_progress`. |
+| An agent's progress note ("I am taking …", "landed on origin/main as `<sha>`", "Open on `<branch>:`", a `state` starting "As of `<date>`" or with a date, in any language) outside a `mission.<branch>.*` slot | Use `log_mission_progress`. |
 | An agent's git snapshot ("main is 11 commits ahead") | Git answers these. |
 | A tool call's own markup (`<parameter …>`) | The call was malformed. |
-| A decision with no reason | Pass `reason`, or say why ("because", "so", "rather than", "never", "the owner wants"). |
+| A decision with no reason | Pass `reason`, or say why ("because", "so", "rather than", "never", "the owner wants"; in German, French and Spanish their own words such as "weil", "parce que", "porque"). In a language not written in Latin letters (Hebrew, Russian, Japanese…), a second sentence counts as the reason. |
 | Three or more numbers in an agent's memory | Keep the claim in the sentence; put numbers in `reason`. |
 | An agent's `state` with no `subject` | Pass a dotted key like `release.next-version`. A [handoff](https://liozelmalem-star.github.io/slate-releases/docs/features/mcp-server/tools.md) is exempt. |
 | A vague reason with AI memory care on | `reason` needs at least four words on why it changes what a future agent does. |

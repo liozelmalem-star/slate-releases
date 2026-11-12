@@ -6,9 +6,9 @@ Any MCP-capable tool can connect and share Slate's memory. What it can then do: 
 
 In **[Connect → Agents](https://liozelmalem-star.github.io/slate-releases/docs/features/connect.md)**, pick the tool and account and switch Slate on. It registers for that config directory, so it holds for every project here. [Toolkit](https://liozelmalem-star.github.io/slate-releases/docs/features/studio.md) can also project MCP configs to every tool.
 
-Every session talks over HTTP to the running Slate app (`http://127.0.0.1:47366/mcp`). The entry carries a private key in a header, so Slate writes it into the tool's config file and makes the file readable by you only. Existing setups switch over on the next launch of Slate. The key opens Slate's MCP server and nothing else. Slate does not write it into a config file that is a link (for example into a dotfiles folder): connecting that tool shows an error, and you replace the link with a plain file.
+Every session talks over HTTP to the running Slate app (`http://127.0.0.1:47366/mcp` for the first account on the Mac; each other Mac user gets the next port, 47367 and up). The entry carries a private key in a header, so Slate writes it into the tool's config file and makes the file readable by you only. Existing setups switch over on the next launch of Slate. The key opens Slate's MCP server and nothing else. Slate does not write it into a config file that is a link (for example into a dotfiles folder): connecting that tool shows an error, and you replace the link with a plain file.
 
-**Another program on port 47366.** If something else holds the port when Slate starts, Slate shows a red line at the top of the window: agents cannot reach Slate. Quit that program, then restart Slate.
+**Another program on Slate's port.** If something else holds the port when Slate starts, Slate shows a red line at the top of the window with the port number: agents cannot reach Slate. Run `lsof -i :<port>` to see which program it is, quit it, then restart Slate. Two Mac users whose ids are 64 apart share a port, which shows the same line for the second one.
 
 **Slate must be running.** With it closed, the tool lists `slate` as failed and the session-start hook says so. Open Slate and start a new session (Claude Code: `/mcp` also reconnects).
 
@@ -21,7 +21,7 @@ The app's entry is the supported way. To write it yourself, read the key from `s
   "mcpServers": {
     "slate": {
       "type": "http",
-      "url": "http://127.0.0.1:47366/mcp",
+      "url": "http://127.0.0.1:47366/mcp",   // your port: 47366 for the first account, one more for each next user
       "headers": { "x-slate-token": "<the key>" }
     }
   }

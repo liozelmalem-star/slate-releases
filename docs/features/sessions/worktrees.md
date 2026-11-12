@@ -15,7 +15,7 @@ Fields: **Branch**, **From** (local branches only, nothing fetched) and the **Fo
 | --- | --- |
 | **Then run** | One command in the new folder once files are there (build, codegen, submodule fetch). Empty is normal |
 | **On remove** | One command in the folder just before the worktree is removed, however it is removed: stop a dev server, drop a local database, free a port. If it fails the worktree stays and the error shows its output (up to 60 seconds) |
-| Shell | Login shell (`/bin/sh -lc`) on macOS and Linux; PowerShell on Windows (`cmd` if missing); untranslated, so write for your shell |
+| Shell | `/bin/sh -c` on macOS and Linux, with your login shell's `PATH` and environment; PowerShell on Windows (`cmd` if missing); untranslated, so write for your shell |
 
 **Carry over**, **Then run**, **On remove** and **Run preview** are saved on the project (so on its group for later worktrees) only when you press **Create and start**. Closing the form or **Back** saves nothing.
 
@@ -47,7 +47,7 @@ When the session started in a new worktree ends (you exit the tool or press Stop
 | Commits not merged | Folder goes, branch stays |
 | Uncommitted changes | Asks once: **Keep worktree** or **Delete forever** |
 
-First, what the session left running there is stopped: every process with its working folder inside the worktree (dev server, watcher, test run) gets a polite stop, then a forced one after 3 seconds. It goes by folder, never port, and spares shells, `tmux`, `screen` and apps. Windows cannot see another process's folder, so it stops processes whose command line names a path inside the worktree or that listen on its port.
+First, what the session left running there is stopped: every process Slate started for that worktree whose working folder is still inside it (dev server, watcher, test run) gets a polite stop, then a forced one after 3 seconds. Slate knows its own by a mark it gives each session, setup and teardown line for that worktree, never by name or port. A process you started elsewhere is never touched, and shells, multiplexers (`tmux`, `screen`, `zellij`), editors and apps are spared even when Slate started them. macOS hides the environment of its own system programs, so one of those (`tail`, `ruby`) is left running. Windows cannot see another process's folder, so it stops processes whose command line names a path inside the worktree or that listen on its port.
 
 A message at the window's bottom says what was returned, **Cleaned up · stopped :3000 · 11.2 GB freed**, and what happened to worktree and branch. It waits while another session still works in the folder. It never touches a worktree not made for a session: hand-made, another tool's, or one whose session was running when Slate quit. The folder is renamed aside at once and removed in the background.
 

@@ -39,7 +39,7 @@ The brief (first step) gives the agent notes on the task, the project's [memory 
 
 ## Approvals
 
-- **After the plan**: **Approve plan** or **Send back**. **Save as Plan doc** keeps the plan as the branch's Plan doc, in the project, labelled with the branch; unticked, it stays in the run's steps.
+- **After the plan**: **Approve plan** or **Send back**. **Save as Plan doc** keeps the plan as the branch's Plan doc, in the project, labelled with the branch; unticked, it stays in the run's steps. A Plan doc a person wrote is left as it is, and the run's trail says it was kept. A Plan doc Slate saved from an earlier plan is replaced, but its **Progress** stays.
 - **Before anything leaves your machine**: **Approve to ship** shows commits, changed files, and the pull request title and body, ticket update, review comments or reply, word for word, each with **Copy**.
 - Approving lets the push through, plus writes to the task's own tracker or chat and the code host. Other servers still ask; merging and removing are always refused.
 - After shipping, Slate reads the pull request back and says whether it matches.
@@ -59,10 +59,11 @@ Off for every project until turned on in the start box or the project's **Settin
 
 ## Finish a run
 
-After shipping the run waits for its merge. Every two minutes Slate reads the pull request state with `gh` or `glab`; merged, or task done, ends the run.
+After shipping the run waits for its merge. Every two minutes Slate reads the pull request state with `gh` or `glab`; merged, or task done, ends the run. A project on GitHub Enterprise is read the same way, through `gh` signed in to that host.
 
 - **Mark done**: finish by hand.
-- Pull request closed unmerged blocks the run: **Mark done** or **Watch for the merge again**.
+- Pull request closed unmerged blocks the run, even when its task is done: **Mark done** or **Watch for the merge again**.
+- Task done while the pull request is still open or cannot be read: the run ends, and no decision or lesson is marked shipped.
 - Reply or review you posted yourself: **I sent it myself**.
 
 A finished run adds one session entry to its project (labelled with the branch), keeps a lesson if the agent reported one, and records session tokens and estimated cost (all but Cursor report usage). It also shows on its pull request's task under Reviews.

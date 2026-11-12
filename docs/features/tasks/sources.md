@@ -6,12 +6,20 @@ A normal read uses no agent and no tokens. This guide lists the source for each 
 
 Read through the **GitHub CLI** (`gh`) once you press **Connect** on its card in Connect → Integrations or setup. A signed-in `gh` alone reads nothing.
 
-- Several `gh` accounts: each workspace reads as the account owning its git repositories (for an organisation's, the one that can see them). A workspace no account reaches shows no GitHub; switching accounts drops the old one's tasks.
+- Several `gh` accounts: Slate asks `gh` who is signed in, in every `gh` config folder, including several logins in one folder (`gh auth login` twice, `gh auth switch`). Each workspace reads as the account owning its git repositories (for an organisation's, the one that can see them). A workspace no account reaches shows no GitHub; switching accounts drops the old one's tasks.
+- A remote cloned through an SSH host alias (`git@github.com-work:acme/app`) counts as GitHub: the alias is resolved with `ssh -G`.
 - Every AI session started in a project runs `gh` as the sign-in reaching that project. An agent run shows GitHub connected only when one of your sign-ins reaches the project.
+- A write made in your name (an app's card) runs as exactly the login shown, with that login's token for that one call. If `gh` cannot confirm that login, the write is refused and asks you to sign in.
 - Read on opening Tasks, and on returning to the window after a minute. Each read first asks GitHub whether anything changed; a full read follows a change, a last read over ten minutes old, or **Sync**.
 - Six lists: reviews asked of you, pull requests assigned to you, your open pull requests, issues assigned to you, and on git repositories your account owns, pull requests nobody reviewed or took (**On your projects**) and unassigned issues. A task on several lists shows once.
 - One more read gets your open pull requests' state (review decision, checks, can merge). If it fails they show under **Waiting on review**.
 - No `gh`: **Unavailable**. Signed out, or no sign-in sees the workspace's git repositories: **Sign in** (`gh auth login`). A workspace whose docs name no GitHub git repository shows no GitHub row.
+
+## When a source is down, or goes away
+
+An outage, a rate limit or a settings file an agent is rewriting never removes tasks: the row says **Unavailable** and the last tasks stay until the next good read. This holds for every source above: GitHub (a rate limit is a skipped read, never "cannot see"; a `gh` sign-in that cannot be told is kept as it was, and a "cannot see" answer is asked again after ten minutes) and the tools read through your agents (an empty, half-written or just-removed settings file is not "no tool").
+
+When a source really goes away (you disconnect GitHub, switch `gh` accounts, or remove an app's token connection), its tasks leave the list. Items you **dismissed** or set a **reminder** on are not forgotten: they stay hidden, with their title and link erased, and come back with the same dismissal or reminder if the source returns. Reconnecting a source is a first import, so it starts no automation for the tasks it brings back.
 
 ## Apps connected from Slate
 

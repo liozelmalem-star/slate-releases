@@ -4,7 +4,7 @@ Slate runs an MCP server that gives every agent one workspace and one long-term 
 
 ## What it is
 
-Agents reach it over streamable HTTP on the running app, `http://127.0.0.1:47366/mcp`, with the app's private key in a header; sessions start no processes. The `slate-mcp` binary serves the same tools over stdio, for Claude Desktop and other stdio-only clients.
+Agents reach it over streamable HTTP on the running app, `http://127.0.0.1:47366/mcp` (the port follows the Mac user: 47366 for the first account, then 47367 and up), with the app's private key in a header; sessions start no processes. The `slate-mcp` binary serves the same tools over stdio, for Claude Desktop and other stdio-only clients.
 
 ## The recall / remember contract
 

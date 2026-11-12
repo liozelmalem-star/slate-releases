@@ -47,7 +47,7 @@ Everything in a shared workspace is for its members, except what is specific to 
 | Doc title, block content and plain text for the cloud index, as written. A captured AI session's doc is never sent | `properties` (typed and captured metadata, including a project's folder path) |
 | `doc_type`, parent link, your timestamps | `position`, the sibling order |
 | Memories anchored to a doc in the workspace: sentence, kind, subject, confidence, a lesson's trigger, the doc learned on | A memory's reasoning body and source reference. Also never: a memory hidden from sessions, a global memory (no doc), one Slate no longer believes, one an app saved |
-| Git activity: commits and branch events with branch, commit subject and normalised git remote (so a teammate's checkout at another path matches) | The activity payload (file paths, diff stats, counts) and `activity.repo`, the absolute path |
+| Git activity: commits and branch events with branch, commit subject (never the rest of the message) and normalised git remote (so a teammate's checkout at another path matches) | A commit message body, the activity payload (file paths, diff stats, counts) and `activity.repo`, the absolute path |
 | Artifacts: title, kind, description, agent, the doc made under, newest version | Older versions |
 | That a session happened, with branch and time | Everything else: transcript, tool, session id, summary |
 | Your display name, email, avatar from the sign-in provider | Anything in a workspace you have not shared |

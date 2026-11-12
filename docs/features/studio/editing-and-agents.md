@@ -13,7 +13,7 @@ Part of [Toolkit](https://liozelmalem-star.github.io/slate-releases/docs/feature
 
 Markdown opens drawn: header fields on top, text below, a **Preview / Markdown** switch. A rule, subagent, command or output style shows the New form's fields above its text.
 
-* A choice saves at once; text saves when you stop typing or leave the box; the rules file on leaving the box or ⌘S.
+* A choice saves at once; text saves when you stop typing or leave the box; the rules file on leaving the box, ⌘S, closing the editor or quitting. A save that fails as the editor closes says so in a message.
 * Only the keys a field writes change; other keys, comments and order stay. A model the three choices do not name (`sonnet`) stays until you pick one.
 * A header that does not parse hides the fields until fixed in the text. A config that would no longer parse is not saved, parsed as its tool does: Gemini's `settings.json` and OpenCode's `opencode.json` may carry comments; Claude Code's and Cursor's JSON may not.
 * With `.slate/`, editing the rules file syncs every tool.
@@ -50,7 +50,7 @@ An **MCP server** row lists each connected tool with **Remove from** (has it) or
 
 What each agent keeps for every project, in its config folder and plugins, with the project tabs and counts. Home folders have no git and nothing to publish.
 
-* **New skill** goes in `~/.claude/skills` (Claude Code), `~/.agents/skills` (Codex, Gemini CLI, OpenCode, Cursor) or both (written once, the other folder links to it).
+* **New skill** goes in the `skills` folder of the Claude Code account this workspace runs under (`~/.claude/skills` when it names no profile), `~/.agents/skills` (Codex, Gemini CLI, OpenCode, Cursor) or both (written once, the other folder links to it).
 * Chips atop each tab pick one profile (`~/.claude-personal`, `~/.codex`) or plugin, with its count. A profile that could hold the kind has a chip even when empty.
 * A row opens its file to read or edit; a config saves only if it still parses.
 * **+** adds to the picked profile on every tab where its tool keeps that kind (a subagent in `~/.claude-alt/agents`, a hook in its settings file, an MCP server in `~/.codex/config.toml`). Output styles exist only in Claude Code profiles.

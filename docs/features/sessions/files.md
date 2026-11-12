@@ -54,7 +54,7 @@ Each memory in the card shows its claim, kind, lines (click to go), ref (`m:7f3a
 
 - **Save waits while an agent works in that folder** (*Waiting for Claude Code*); keep typing. It works when the turn ends.
 - **Every save takes a checkpoint first**, so **Turns** can undo it. The *Saved* line also offers **Undo**.
-- **A disk change under unsaved lines is merged.** Different lines are all kept, and a line says so. Same lines: each place shows *Yours* beside theirs; choose **Keep yours**, **Keep theirs** or **Keep both**. Nothing is written until Save.
+- **A disk change under unsaved lines is merged.** Different lines are all kept, and a line says so. Same lines: each place shows *Yours* beside theirs; choose **Keep yours**, **Keep theirs** or **Keep both**. If the agent writes again before you choose, the merge is made again from what you typed; **Revert** drops your side and closes the choice. Nothing is written until Save.
 
 **The editor uses VS Code's keys** ([list](https://liozelmalem-star.github.io/slate-releases/docs/features/shortcuts.md#files-and-the-editor)). Brackets and quotes close themselves; typing one over a selection wraps it. Matches of the selected word are lit; words in the file are offered as you type (Enter or Tab takes one); the margin arrow folds a block.
 
@@ -62,6 +62,6 @@ Each memory in the card shows its claim, kind, lines (click to go), ref (`m:7f3a
 
 **The agent reads the disk, not your screen:** with unsaved lines and an agent in the folder, a line says it cannot see them yet. Review comments Slate sends save your unsaved files there first, and say if one failed.
 
-**Unsaved text survives closing the tab and quitting**, in the app's own storage (never the file), and returns through the same merge. A past commit, Diff and Blame are never editable. No rename, new file or removal.
+**Unsaved text survives closing the tab and quitting**, in the app's own storage (never the file), and returns through the same merge, so an unanswered choice comes back as that choice. A past commit, Diff and Blame are never editable. No rename, new file or removal.
 
-**Where files open.** Only inside a folder Slate has business in: a group, project or branch folder, or one a live session runs in. A file a live session changed opens wherever it is (a `/tmp` scratchpad too), since its Changed list names it. Up to 1 MB of text or 8 MB of image opens. Larger, a non-image binary, or a file outside those folders shows a sentence saying why and **Open in Finder**, which shows the file in Finder and never opens it. The small system icon on a file opens it with the system, except a program, script or installer, which Slate shows in Finder instead.
+**Where files open.** Only inside a folder Slate has business in: a group, project or branch folder, or one a live session runs in. A file a live session changed opens wherever it is (a `/tmp` scratchpad too), since its Changed list names it. Up to 1 MB of text or 8 MB of image opens. Larger, a non-image binary, a file that is not UTF-8 text (Latin-1, Windows-1255), or a file outside those folders shows a sentence saying why and **Open in Finder**, which shows the file in Finder and never opens it. The small system icon on a file opens it with the system, except a program, script or installer, which Slate shows in Finder instead.

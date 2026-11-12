@@ -13,7 +13,7 @@ During a sync, a tracker app with no reader gets one try a day per workspace. No
 | Call | The best tools, at most 6 calls: your id as assignee, then `me` |
 | Keep | The first read returning a list with a title and a status for at least one task (a done flag like `completed: true` counts). A plain list beats one narrowed to a slice, such as by date |
 
-Then the tool is read like Jira, free, with your id as a placeholder; Done, Closed and Resolved are left out.
+Then the tool is read like Jira, free, with your id as a placeholder. Finished items are left out: ones the app marks finished (`completed: true`, a completion date, a status class like Linear's `completed`), and statuses that say so in English or in the team's language (Done, Erledigt, Terminé, 完了). A negated status ("Nicht erledigt", 未完成) or a "ready for" one ("Listo para QA") stays open, as does any status Slate cannot read. Priority names are read in any case, with Urgent and P0 to P3.
 
 - An app that reads fine but has nothing yours yet (new account): no read is kept; retried next day.
 - **Sync**, connecting or disconnecting an app: learns again at once.

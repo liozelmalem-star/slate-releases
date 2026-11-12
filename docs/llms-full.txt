@@ -192,6 +192,7 @@ Check the line that names your workspace and its size.
 |---|---|
 | **Slate's entries in your agents** | The plugin trees, the capture hooks and the MCP registrations, in exactly the accounts Slate wrote to |
 | **`/Applications/Slate.app`** | The app itself |
+| **The start-at-login item** | `~/Library/LaunchAgents/Slate.plist`, if you turned on Start Slate at login |
 | **Logs, cache and webview state** | Three rebuildable directories under `~/Library` |
 
 Slate installs itself into up to eighteen other products (the 16 agents, Claude Desktop and VS Code). Dragging Slate to the Trash leaves every entry behind, pointing at an app that is gone. So the app undoes its own work first, from a record of the accounts it wrote to. **An MCP server you registered yourself is never touched**, and neither is a plugin marketplace that only shares a name.
@@ -241,13 +242,18 @@ osascript -e 'tell application "Slate" to quit'
 /Applications/Slate.app/Contents/MacOS/slate --list-connections   # see them
 /Applications/Slate.app/Contents/MacOS/slate --disconnect-all     # remove them
 
-# 3. The app, and the three rebuildable directories.
+# 3. The start-at-login item, if you turned it on. The first line may print an error when
+#    it is not loaded; that is fine.
+launchctl bootout "gui/$(id -u)/Slate"
+rm -f ~/Library/LaunchAgents/Slate.plist
+
+# 4. The app, and the three rebuildable directories.
 rm -rf /Applications/Slate.app
 rm -rf ~/Library/Logs/app.slate.workspace
 rm -rf ~/Library/Caches/app.slate.workspace
 rm -rf ~/Library/WebKit/app.slate.workspace
 
-# 4. Your workspace — only if you mean it.
+# 5. Your workspace — only if you mean it.
 rm -rf ~/Library/Application\ Support/app.slate.workspace
 ```
 
@@ -496,7 +502,7 @@ Fields: **Branch**, **From** (local branches only, nothing fetched) and the **Fo
 | --- | --- |
 | **Then run** | One command in the new folder once files are there (build, codegen, submodule fetch). Empty is normal |
 | **On remove** | One command in the folder just before the worktree is removed, however it is removed: stop a dev server, drop a local database, free a port. If it fails the worktree stays and the error shows its output (up to 60 seconds) |
-| Shell | Login shell (`/bin/sh -lc`) on macOS and Linux; PowerShell on Windows (`cmd` if missing); untranslated, so write for your shell |
+| Shell | `/bin/sh -c` on macOS and Linux, with your login shell's `PATH` and environment; PowerShell on Windows (`cmd` if missing); untranslated, so write for your shell |
 
 **Carry over**, **Then run**, **On remove** and **Run preview** are saved on the project (so on its group for later worktrees) only when you press **Create and start**. Closing the form or **Back** saves nothing.
 
@@ -528,7 +534,7 @@ When the session started in a new worktree ends (you exit the tool or press Stop
 | Commits not merged | Folder goes, branch stays |
 | Uncommitted changes | Asks once: **Keep worktree** or **Delete forever** |
 
-First, what the session left running there is stopped: every process with its working folder inside the worktree (dev server, watcher, test run) gets a polite stop, then a forced one after 3 seconds. It goes by folder, never port, and spares shells, `tmux`, `screen` and apps. Windows cannot see another process's folder, so it stops processes whose command line names a path inside the worktree or that listen on its port.
+First, what the session left running there is stopped: every process Slate started for that worktree whose working folder is still inside it (dev server, watcher, test run) gets a polite stop, then a forced one after 3 seconds. Slate knows its own by a mark it gives each session, setup and teardown line for that worktree, never by name or port. A process you started elsewhere is never touched, and shells, multiplexers (`tmux`, `screen`, `zellij`), editors and apps are spared even when Slate started them. macOS hides the environment of its own system programs, so one of those (`tail`, `ruby`) is left running. Windows cannot see another process's folder, so it stops processes whose command line names a path inside the worktree or that listen on its port.
 
 A message at the window's bottom says what was returned, **Cleaned up · stopped :3000 · 11.2 GB freed**, and what happened to worktree and branch. It waits while another session still works in the folder. It never touches a worktree not made for a session: hand-made, another tool's, or one whose session was running when Slate quit. The folder is renamed aside at once and removed in the background.
 
@@ -873,7 +879,7 @@ Each memory in the card shows its claim, kind, lines (click to go), ref (`m:7f3a
 
 - **Save waits while an agent works in that folder** (*Waiting for Claude Code*); keep typing. It works when the turn ends.
 - **Every save takes a checkpoint first**, so **Turns** can undo it. The *Saved* line also offers **Undo**.
-- **A disk change under unsaved lines is merged.** Different lines are all kept, and a line says so. Same lines: each place shows *Yours* beside theirs; choose **Keep yours**, **Keep theirs** or **Keep both**. Nothing is written until Save.
+- **A disk change under unsaved lines is merged.** Different lines are all kept, and a line says so. Same lines: each place shows *Yours* beside theirs; choose **Keep yours**, **Keep theirs** or **Keep both**. If the agent writes again before you choose, the merge is made again from what you typed; **Revert** drops your side and closes the choice. Nothing is written until Save.
 
 **The editor uses VS Code's keys** ([list](https://liozelmalem-star.github.io/slate-releases/docs/features/shortcuts.md#files-and-the-editor)). Brackets and quotes close themselves; typing one over a selection wraps it. Matches of the selected word are lit; words in the file are offered as you type (Enter or Tab takes one); the margin arrow folds a block.
 
@@ -881,9 +887,9 @@ Each memory in the card shows its claim, kind, lines (click to go), ref (`m:7f3a
 
 **The agent reads the disk, not your screen:** with unsaved lines and an agent in the folder, a line says it cannot see them yet. Review comments Slate sends save your unsaved files there first, and say if one failed.
 
-**Unsaved text survives closing the tab and quitting**, in the app's own storage (never the file), and returns through the same merge. A past commit, Diff and Blame are never editable. No rename, new file or removal.
+**Unsaved text survives closing the tab and quitting**, in the app's own storage (never the file), and returns through the same merge, so an unanswered choice comes back as that choice. A past commit, Diff and Blame are never editable. No rename, new file or removal.
 
-**Where files open.** Only inside a folder Slate has business in: a group, project or branch folder, or one a live session runs in. A file a live session changed opens wherever it is (a `/tmp` scratchpad too), since its Changed list names it. Up to 1 MB of text or 8 MB of image opens. Larger, a non-image binary, or a file outside those folders shows a sentence saying why and **Open in Finder**, which shows the file in Finder and never opens it. The small system icon on a file opens it with the system, except a program, script or installer, which Slate shows in Finder instead.
+**Where files open.** Only inside a folder Slate has business in: a group, project or branch folder, or one a live session runs in. A file a live session changed opens wherever it is (a `/tmp` scratchpad too), since its Changed list names it. Up to 1 MB of text or 8 MB of image opens. Larger, a non-image binary, a file that is not UTF-8 text (Latin-1, Windows-1255), or a file outside those folders shows a sentence saying why and **Open in Finder**, which shows the file in Finder and never opens it. The small system icon on a file opens it with the system, except a program, script or installer, which Slate shows in Finder instead.
 
 ---
 
@@ -1007,7 +1013,7 @@ Memory you kept with claude-mem or agentmemory can be brought in as well; see [I
 
 Every tool gets the same digest, noise filtering and branch attribution. Capture is measured on Claude Code, Codex, Cursor, GitHub Copilot, OpenCode, Gemini, Hermes Agent and Goose. For the other eight it is unverified or not built: see [Features by Agent](https://liozelmalem-star.github.io/slate-releases/docs/features/agent/tool-features.md).
 
-**New tools and other configs.** The watcher also finds any agent writing JSONL transcripts under your home directory: a hidden config folder with a subdirectory (`projects`, `sessions`, `chats`, `tmp`, …) whose files parse as a role-tagged transcript. A new tool needs no registration; a non-default config directory (Claude under `~/.claude-personal`) is read as well as `~/.claude`. Folders that never hold transcripts (`~/.config`, `~/.ssh`) are skipped.
+**Profiles and other configs.** Every profile a workspace or a project names is watched, wherever its folder is (`~/work/claude-cfg` as well as `~/.claude-work`), from the moment it is saved. Tools that follow `XDG_CONFIG_HOME` / `XDG_DATA_HOME` (OpenCode, Kilo Code, Goose, Kiro on Linux) are read there. Beyond those, the watcher suggests any agent writing JSONL transcripts under your home directory: a hidden config folder, or one under `~/.config` or `~/.local/share`, with a subdirectory (`projects`, `sessions`, `chats`, `tmp`, …) whose files parse as a role-tagged transcript. Tools Slate reads from a database are never picked up this way, so a leftover transcript folder does not double their sessions.
 
 **A cloud session brought back.** A [cloud session](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/cloud.md#cloud-sessions) runs on the vendor's computer, out of the watcher's sight. When you bring it back and send a message, Claude Code writes the whole conversation to a normal transcript under the worktree, and the watcher captures it. Nothing is written before that first message, so an unused task is not captured. It arrives as a record of what was said, not saved memories (the cloud part had no Slate hooks). A Codex cloud session brings back changes, not a conversation; applying it notes the task on its project's doc with files and lines changed.
 
@@ -1052,7 +1058,7 @@ Capture runs inside Slate and stops when you quit; at next launch a historical s
 
 ## Turning capture off for one project
 
-A project's **Memory** settings can turn **Capture sessions** off: sessions in its folder are not saved as docs by any route (watcher, hook, local port) and the agents' own memory files there are not read. Turning it on resumes. See [What a project keeps](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/decisions-and-facts.md#what-a-project-keeps).
+A project's **Memory** settings can turn **Capture sessions** off: sessions in its folder are not saved as docs by any route (watcher, hook, local port) and the agents' own memory files there are not read, and an import from another tool skips the items it files into that project too (the preview and the result count them and say why). The import is not the live path: it files by the folder or project name each item carries, reads the policy of the scope that lands in, and does not refuse a folder no project holds, whose items go to global memory under the workspace's own settings. Turning it on resumes. See [What a project keeps](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/decisions-and-facts.md#what-a-project-keeps).
 
 ## See also
 
@@ -1089,7 +1095,7 @@ get_memory({ refs })
 
 Memories are ranked lexically and locally with BM25. No model is called and nothing is downloaded.
 
-* Each query word counts by its rarity among your memories. Sentence (counts most), tags, citation and reason are read; words match by stem ("refused" finds "refusal").
+* Each query word counts by its rarity among your memories. Sentence (counts most), tags, citation and reason are read; words match by stem ("refused" finds "refusal"), and case, accents and punctuation do not matter ("preproduction" finds "préproduction").
 * Recent memories are lifted slightly; a newer near-tie on the same subject comes first.
 * From 200 memories in a workspace, a match is lifted (at most doubled) by how close its words sit to the query's in your store (latent semantic analysis, fitted in memory). It only re-orders keyword matches; a memory sharing no word is never added.
 * Your acts on the code move a match, at most doubled or halved: merges and Confirms lift, reverts and discards of the code its sessions wrote lower (see [Citing](#citing-how-slate-learns-what-helped)).
@@ -1232,6 +1238,8 @@ remember({
 
 A `when` makes the memory a lesson. A pattern matching every command or file is refused.
 
+A `match` runs on every shell call, so Slate also refuses a pattern that can run for minutes on one command: a repeated group that holds its own repeat, like `(a+)+`, or holds alternatives, like `(\w|\d)+`. A glob holds at most one `**`. Only the first **512** characters of a command are tested; a path is tested whole.
+
 On a matching command or file, the lesson is added to what the agent sees for that call. So is a lesson or decision whose `source_ref` cites the file. At most **2** memories per call, each once per session. The call is never blocked or changed.
 
 | Tool | Arrives |
@@ -1301,10 +1309,10 @@ A refused write says how to fix it.
 | Refused | Fix |
 |---|---|
 | Transient text ("currently editing X") | — |
-| An agent's progress note ("I am taking …", "landed on origin/main as `<sha>`", "Open on `<branch>:`", a `state` starting "As of `<date>`") outside a `mission.<branch>.*` slot | Use `log_mission_progress`. |
+| An agent's progress note ("I am taking …", "landed on origin/main as `<sha>`", "Open on `<branch>:`", a `state` starting "As of `<date>`" or with a date, in any language) outside a `mission.<branch>.*` slot | Use `log_mission_progress`. |
 | An agent's git snapshot ("main is 11 commits ahead") | Git answers these. |
 | A tool call's own markup (`<parameter …>`) | The call was malformed. |
-| A decision with no reason | Pass `reason`, or say why ("because", "so", "rather than", "never", "the owner wants"). |
+| A decision with no reason | Pass `reason`, or say why ("because", "so", "rather than", "never", "the owner wants"; in German, French and Spanish their own words such as "weil", "parce que", "porque"). In a language not written in Latin letters (Hebrew, Russian, Japanese…), a second sentence counts as the reason. |
 | Three or more numbers in an agent's memory | Keep the claim in the sentence; put numbers in `reason`. |
 | An agent's `state` with no `subject` | Pass a dotted key like `release.next-version`. A [handoff](https://liozelmalem-star.github.io/slate-releases/docs/features/mcp-server/tools.md) is exempt. |
 | A vague reason with AI memory care on | `reason` needs at least four words on why it changes what a future agent does. |
@@ -1383,6 +1391,8 @@ A **decision** is a choice kept with its reasoning. A **`fact`** stays true acro
 
 `record_decision` needs `title`, `reasoning` and `confidence` (`high`, `medium`, `low`); it also takes `alternatives`, `outcome`, `source_ref`. It writes a decision memory (confidence 0.95, 0.8, 0.6) and a decision doc with the full reasoning. `recall` ranks a decision first for a "why" question.
 
+The same title under the same project updates your decision doc: the reasoning is replaced, and the lines under **Outcome** stay. In a shared workspace, a teammate's decision doc with that title is left alone, and you get a doc of your own.
+
 `remember` stores a memory as a decision when the text reads like one and no `kind` is given. `kind: "decision"` must carry its reason (`reason` or in the sentence) or it is refused.
 
 ### A decision learns what came of it
@@ -1392,7 +1402,8 @@ When an [agent run](https://liozelmalem-star.github.io/slate-releases/docs/featu
 | Event | Line added under **Outcome** |
 |---|---|
 | Pull request merged | *Shipped in "Fix the invoice rounding" (link), 2026-10-14*, also on the memory. |
-| Closed without merging | *Not shipped*. **Mark done** on that run later adds no *Shipped*: only a merge does. |
+| Closed without merging | *Not shipped*, also when its task is done. **Mark done** on that run later adds no *Shipped*: only a merge does. |
+| Task done, pull request open or unreadable | Nothing. The run ends, but only a merge is evidence that the work shipped. |
 | Merged GitHub pull request reverted within 30 days | *Reverted: "…" was undone in (link)*. Counted only on exact evidence: a merged pull request naming this one as reverted (GitHub's Revert button), or a commit saying "This reverts commit" with the merge's commit id (`git revert`). |
 
 Checked hourly through your own `gh`; GitLab merge requests are not checked. The first line replaces "To be determined."; later lines are added beside it; the same line is never written twice.
@@ -1451,7 +1462,7 @@ The **Are memories reachable?** Activity widget (add from **Edit**) measures thr
 | Memory filed under the folder's group, not its project | Moves it when the cited file exists in exactly one project below the group, or the teaching session belongs to one; else it stays. |
 | Citation that no longer resolves (`path/to/file.ts:42`; a reused path can hit an unrelated file) | Drops the citation, keeps the claim. |
 
-A citation whose project folder is not on this machine is **not judged**, never stale. **Show what would change** before repairing lists files not found and each memory it would move. It also reports, untouched: memories recall never returned, longer than a sentence, untagged, and exact duplicates (dedup runs on every write, so a rising count means a fault). Nothing runs on its own. A memory whose cited file is gone is left out of what sessions get and marked **cited file gone**.
+A citation whose project folder is not on this machine, or that is not a file path (a version like `Node 24.14`, an RFC, a domain like `stripe.com`), is **not judged**, never stale. **Show what would change** before repairing lists files not found and each memory it would move. It also reports, untouched: memories recall never returned, longer than a sentence, untagged, and exact duplicates (dedup runs on every write, so a rising count means a fault). Nothing runs on its own. A memory whose cited file is gone is left out of what sessions get and marked **cited file gone**.
 
 ## Repairing memory by hand
 
@@ -1585,6 +1596,8 @@ The manifest's `rules` line names the rules file, `AGENTS.md` by default. Codex,
 
 If a tool's skills folder is itself a link (often to a shared folder), sync writes nothing through it and prints a `skills skipped` line naming folder and link. The same holds for every file sync writes in the project: a tool's config, a rules adapter, `.gitignore`. When the file, or any folder on the way to it, is a link, sync writes nothing there and prints a `refused` line naming the link. A cloned project cannot use a link such as `.codex -> ~/.codex` to put servers into your own tool configs.
 
+A real folder or file where a skill link goes (your own `.cursor/skills/alpha`, say) is left as it is and printed as a `refused` line; every other skill is still linked. One part that fails does not stop the rest: a `SKILL.md` whose frontmatter does not parse, a tool config that is not valid JSON or TOML, or a real `CLAUDE.md` where the rules link goes is skipped, every other skill, MCP file, rules file and `.gitignore` is still written, and sync then fails with every problem it met. A skill that is skipped this way keeps the link it already had.
+
 **Writes outside the project.** When `.slate/` lists MCP servers, a sync you start writes them into the machine-wide Claude Desktop config (macOS and Windows, app installed) and `~/.cursor/mcp.json`. You start one with `yarn studio sync`, **Sync now**, or by changing a `.slate/` skill or the rules file in Toolkit. Never written by: the sync Slate runs itself when `.slate/` changes, any sync inside a linked git worktree, or with `STUDIO_SKIP_DESKTOP=1`.
 
 **Removing an MCP server.** Studio remembers the servers it wrote, per file, in `.slate/mcp-owned.json` (ignored by git). Take a server out of `.slate/` and the next sync removes it from every tool's file, unless you changed that entry or wrote it yourself first. Entries you added by hand are never removed. In the two machine-wide files, which every project shares, Studio removes only an entry that points into this project. A dropped server run by a bare `npx` or `uvx` command, or a remote one, stays there on purpose, because Studio cannot prove it is its own; remove it by hand. A JSON file with comments or trailing commas is read, but never rewritten. Toolkit's sync pill lists that tool as "MCP file is not plain JSON (comments or trailing commas): edit it by hand", `yarn studio check` prints the same reason, and `yarn studio sync` prints it as a `refused:` line.
@@ -1701,7 +1714,7 @@ Part of [Toolkit](https://liozelmalem-star.github.io/slate-releases/docs/feature
 
 Markdown opens drawn: header fields on top, text below, a **Preview / Markdown** switch. A rule, subagent, command or output style shows the New form's fields above its text.
 
-* A choice saves at once; text saves when you stop typing or leave the box; the rules file on leaving the box or ⌘S.
+* A choice saves at once; text saves when you stop typing or leave the box; the rules file on leaving the box, ⌘S, closing the editor or quitting. A save that fails as the editor closes says so in a message.
 * Only the keys a field writes change; other keys, comments and order stay. A model the three choices do not name (`sonnet`) stays until you pick one.
 * A header that does not parse hides the fields until fixed in the text. A config that would no longer parse is not saved, parsed as its tool does: Gemini's `settings.json` and OpenCode's `opencode.json` may carry comments; Claude Code's and Cursor's JSON may not.
 * With `.slate/`, editing the rules file syncs every tool.
@@ -1738,7 +1751,7 @@ An **MCP server** row lists each connected tool with **Remove from** (has it) or
 
 What each agent keeps for every project, in its config folder and plugins, with the project tabs and counts. Home folders have no git and nothing to publish.
 
-* **New skill** goes in `~/.claude/skills` (Claude Code), `~/.agents/skills` (Codex, Gemini CLI, OpenCode, Cursor) or both (written once, the other folder links to it).
+* **New skill** goes in the `skills` folder of the Claude Code account this workspace runs under (`~/.claude/skills` when it names no profile), `~/.agents/skills` (Codex, Gemini CLI, OpenCode, Cursor) or both (written once, the other folder links to it).
 * Chips atop each tab pick one profile (`~/.claude-personal`, `~/.codex`) or plugin, with its count. A profile that could hold the kind has a chip even when empty.
 * A row opens its file to read or edit; a config saves only if it still parses.
 * **+** adds to the picked profile on every tab where its tool keeps that kind (a subagent in `~/.claude-alt/agents`, a hook in its settings file, an MCP server in `~/.codex/config.toml`). Output styles exist only in Claude Code profiles.
@@ -1941,6 +1954,7 @@ The card title is one plain line: the question the reply ends on, or its first s
 - Every time on Home, in Sessions and in Tasks says **just now** under a minute. A card that waits on you says how long: *waiting 2 min*, *waiting 3 hours*, *waiting 2 days*.
 - **A short window keeps the composer in view.** Home sizes itself to the window's height. Below about 900 px the mark hides, and the headline and the widgets get smaller. Below about 560 px the mark, date and subline hide, the widgets shrink further, the pager keeps only its dots, and the running pill under the deck hides (Sessions still shows it). While a card waits, the composer stays at the foot and only the part above it scrolls. The next card peeks in at the side and fades out, and the window edge never cuts it.
 - With nothing waiting, the headline says **All clear.** and the composer moves to the middle. Past sessions are in Sessions, under **All past sessions**.
+- If Home could not read what waits (tasks, agent runs or held calls), it says so under the headline, with **Try again**. With no card to show, the headline says *Could not check what waits for you.*, never **All clear.**
 - A chat opens over Home. **Home** (top left of the chat) returns to Home and keeps the chat; **Back to the chat** returns. A streaming reply does not pull you back; sending a message does.
 - **⌘J** opens the **Ask AI** panel beside a doc; elsewhere it shows *The AI panel opens on a doc. Open a doc first.* **Write with AI** in the slash menu drafts text straight into the doc. Waiting setup changes are in [Toolkit › Suggestions](https://liozelmalem-star.github.io/slate-releases/docs/features/studio.md#suggestions).
 - Your [widgets](https://liozelmalem-star.github.io/slate-releases/docs/features/widgets.md) for Home sit in the gaps between Home's parts (under the greeting, above or below the box), each at the size its setup in Widgets chose (a third, a half or the whole width). They read what Home shows (running AI sessions, for the project picked here). A new one appears below the box once built. Home has no control that adds or moves a widget: open it in Widgets and click a line on its preview.
@@ -2182,7 +2196,7 @@ Drag the line between list and item to widen the list (320 to 640 px; item keeps
 
 **Sync** reads your tools now. Its label says when the last read finished, which tool failed, or which needs sign-in ("Jira needs sign-in"). Greyed while reading.
 
-Every tool is read to the end, up to 1,000 items from one tool. When a tool holds more, or its rate limit stops the read, the list says so above the rows: "1,000 of 3,400 from GitHub. Narrow by project or label, or open the full list in GitHub." with **Open the full list in {tool}**. A tool that does not say its total reads "The first 1,000 from {tool}". A group draws its first hundred rows, then **Show 100 more of N**. The note stays until a whole read replaces it, through a "nothing changed" sync and through a failed one. When GitHub says to slow down, the last list stays as it was, what that read did take is kept, the next sync goes on from where it stopped, and the sync line does not report an outage. When GitHub needed more than one read a search for your items, the next syncs for 30 minutes ask only for what changed (with one minute of overlap); an item that left the list is noticed by the full read after that, or at the end of a full read that took several syncs, which keeps every item it saw along the way. It is never noticed by a read that stopped early or asked only for changes. Items that only now came into reach (the first 1,000 after an upgrade) are not "arrived": an automation on a new task starts only for items updated after the previous read.
+Every tool is read to the end, up to 1,000 items from one tool. When a tool holds more, or its rate limit stops the read, the list says so above the rows: "1,000 of 3,400 from GitHub. Narrow by project or label, or open the full list in GitHub." with **Open the full list in {tool}**. A tool that does not say its total reads "The first 1,000 from {tool}". A group draws its first hundred rows, then **Show 100 more of N**. A group with items from more than one tool or project is split under a heading for each ("GitHub · acme/api", with its count), the ones holding something of yours first, then by name, and each heading folds with a click; a fold is remembered on this Mac. In a group of more than a hundred, only the headings holding something of yours, and the first by name, start open. The hundred rows are shared by a group's open headings, and **Show 100 more** keeps its count when you fold. A fold never hides the item you have open. The note stays until a whole read replaces it, through a "nothing changed" sync and through a failed one. When GitHub says to slow down, the last list stays as it was, what that read did take is kept, the next sync goes on from where it stopped, and the sync line does not report an outage. When GitHub needed more than one read a search for your items, the next syncs for 30 minutes ask only for what changed (with one minute of overlap); an item that left the list is noticed by the full read after that, or at the end of a full read that took several syncs, which keeps every item it saw along the way. It is never noticed by a read that stopped early or asked only for changes. Items that only now came into reach (the first 1,000 after an upgrade) are not "arrived": an automation on a new task starts only for items updated after the previous read.
 
 A chip filters to one tool; **⋯** beside the chips:
 
@@ -2236,12 +2250,20 @@ A normal read uses no agent and no tokens. This guide lists the source for each 
 
 Read through the **GitHub CLI** (`gh`) once you press **Connect** on its card in Connect → Integrations or setup. A signed-in `gh` alone reads nothing.
 
-- Several `gh` accounts: each workspace reads as the account owning its git repositories (for an organisation's, the one that can see them). A workspace no account reaches shows no GitHub; switching accounts drops the old one's tasks.
+- Several `gh` accounts: Slate asks `gh` who is signed in, in every `gh` config folder, including several logins in one folder (`gh auth login` twice, `gh auth switch`). Each workspace reads as the account owning its git repositories (for an organisation's, the one that can see them). A workspace no account reaches shows no GitHub; switching accounts drops the old one's tasks.
+- A remote cloned through an SSH host alias (`git@github.com-work:acme/app`) counts as GitHub: the alias is resolved with `ssh -G`.
 - Every AI session started in a project runs `gh` as the sign-in reaching that project. An agent run shows GitHub connected only when one of your sign-ins reaches the project.
+- A write made in your name (an app's card) runs as exactly the login shown, with that login's token for that one call. If `gh` cannot confirm that login, the write is refused and asks you to sign in.
 - Read on opening Tasks, and on returning to the window after a minute. Each read first asks GitHub whether anything changed; a full read follows a change, a last read over ten minutes old, or **Sync**.
 - Six lists: reviews asked of you, pull requests assigned to you, your open pull requests, issues assigned to you, and on git repositories your account owns, pull requests nobody reviewed or took (**On your projects**) and unassigned issues. A task on several lists shows once.
 - One more read gets your open pull requests' state (review decision, checks, can merge). If it fails they show under **Waiting on review**.
 - No `gh`: **Unavailable**. Signed out, or no sign-in sees the workspace's git repositories: **Sign in** (`gh auth login`). A workspace whose docs name no GitHub git repository shows no GitHub row.
+
+## When a source is down, or goes away
+
+An outage, a rate limit or a settings file an agent is rewriting never removes tasks: the row says **Unavailable** and the last tasks stay until the next good read. This holds for every source above: GitHub (a rate limit is a skipped read, never "cannot see"; a `gh` sign-in that cannot be told is kept as it was, and a "cannot see" answer is asked again after ten minutes) and the tools read through your agents (an empty, half-written or just-removed settings file is not "no tool").
+
+When a source really goes away (you disconnect GitHub, switch `gh` accounts, or remove an app's token connection), its tasks leave the list. Items you **dismissed** or set a **reminder** on are not forgotten: they stay hidden, with their title and link erased, and come back with the same dismissal or reminder if the source returns. Reconnecting a source is a first import, so it starts no automation for the tasks it brings back.
 
 ## Apps connected from Slate
 
@@ -2310,7 +2332,7 @@ During a sync, a tracker app with no reader gets one try a day per workspace. No
 | Call | The best tools, at most 6 calls: your id as assignee, then `me` |
 | Keep | The first read returning a list with a title and a status for at least one task (a done flag like `completed: true` counts). A plain list beats one narrowed to a slice, such as by date |
 
-Then the tool is read like Jira, free, with your id as a placeholder; Done, Closed and Resolved are left out.
+Then the tool is read like Jira, free, with your id as a placeholder. Finished items are left out: ones the app marks finished (`completed: true`, a completion date, a status class like Linear's `completed`), and statuses that say so in English or in the team's language (Done, Erledigt, Terminé, 完了). A negated status ("Nicht erledigt", 未完成) or a "ready for" one ("Listo para QA") stays open, as does any status Slate cannot read. Priority names are read in any case, with Urgent and P0 to P3.
 
 - An app that reads fine but has nothing yours yet (new account): no read is kept; retried next day.
 - **Sync**, connecting or disconnecting an app: learns again at once.
@@ -2388,7 +2410,7 @@ The brief (first step) gives the agent notes on the task, the project's [memory 
 
 ## Approvals
 
-- **After the plan**: **Approve plan** or **Send back**. **Save as Plan doc** keeps the plan as the branch's Plan doc, in the project, labelled with the branch; unticked, it stays in the run's steps.
+- **After the plan**: **Approve plan** or **Send back**. **Save as Plan doc** keeps the plan as the branch's Plan doc, in the project, labelled with the branch; unticked, it stays in the run's steps. A Plan doc a person wrote is left as it is, and the run's trail says it was kept. A Plan doc Slate saved from an earlier plan is replaced, but its **Progress** stays.
 - **Before anything leaves your machine**: **Approve to ship** shows commits, changed files, and the pull request title and body, ticket update, review comments or reply, word for word, each with **Copy**.
 - Approving lets the push through, plus writes to the task's own tracker or chat and the code host. Other servers still ask; merging and removing are always refused.
 - After shipping, Slate reads the pull request back and says whether it matches.
@@ -2408,10 +2430,11 @@ Off for every project until turned on in the start box or the project's **Settin
 
 ## Finish a run
 
-After shipping the run waits for its merge. Every two minutes Slate reads the pull request state with `gh` or `glab`; merged, or task done, ends the run.
+After shipping the run waits for its merge. Every two minutes Slate reads the pull request state with `gh` or `glab`; merged, or task done, ends the run. A project on GitHub Enterprise is read the same way, through `gh` signed in to that host.
 
 - **Mark done**: finish by hand.
-- Pull request closed unmerged blocks the run: **Mark done** or **Watch for the merge again**.
+- Pull request closed unmerged blocks the run, even when its task is done: **Mark done** or **Watch for the merge again**.
+- Task done while the pull request is still open or cannot be read: the run ends, and no decision or lesson is marked shipped.
 - Reply or review you posted yourself: **I sent it myself**.
 
 A finished run adds one session entry to its project (labelled with the branch), keeps a lesson if the agent reported one, and records session tokens and estimated cost (all but Cursor report usage). It also shows on its pull request's task under Reviews.
@@ -3806,6 +3829,8 @@ Pick the **Profile** this workspace uses, or **Add** one by naming it and its co
 * For Claude Code, Codex and Cursor, the add form offers config folders already in your home folder (such as `~/.claude-work`) as buttons under **Found here**. Gemini offers none: its variable names a replacement home folder.
 * **Choose folder…** picks any other. A missing path is fine: the tool creates it on sign-in.
 * Pick before connecting: the profile decides where Slate is installed.
+* **Its own default** is the tool's built-in folder (`~/.claude`, `~/.codex`, …). A `CLAUDE_CONFIG_DIR` or `CODEX_HOME` set in your shell is not followed for it: name that folder as a profile instead. Slate does follow `XDG_CONFIG_HOME`, `XDG_DATA_HOME` and `OPENCODE_CONFIG`.
+* A tool kept only under a profile or its own variable's folder counts as installed. Gemini CLI and Antigravity share `~/.gemini`; each is told apart by the files only it writes.
 * **Cursor:** `CURSOR_CONFIG_DIR` moves only its sign-in. `cursor-agent` reads servers, hooks and plugins from `~/.cursor` and writes history there (or where `CURSOR_DATA_DIR` says) for every profile. Slate writes them once for all Cursor profiles. Turning one profile off leaves them while another connected Cursor profile uses them.
 
 Why two workspaces on one profile share its sign-in: [Project environments](https://liozelmalem-star.github.io/slate-releases/docs/features/studio/cli-profiles.md).
@@ -3838,7 +3863,7 @@ A **plugin** is a directory the tool owns, with five hooks (six for Claude Code)
 * OpenCode and GitHub Copilot have no plugin route, so hooks go into their config. So for Claude Code, Gemini and Cursor when the plugin cannot be installed or run.
 * Codex takes no config hooks. Without its plugin it keeps only the MCP entry.
 
-**The MCP entry** is a URL on the running app (`http://127.0.0.1:47366/mcp`) with Slate's private key in a header (ADR 0106). No session starts its own process. Slate writes the entry itself, readable by you only. Claude Desktop and VS Code keep a stdio entry running `slate-mcp`. With Slate closed the tool lists the server as failed and the session-start hook says why: open Slate, start a new session.
+**The MCP entry** is a URL on the running app (`http://127.0.0.1:47366/mcp`; the port follows the Mac user, 47366 for the first account) with Slate's private key in a header (ADR 0106). No session starts its own process. Slate writes the entry itself, readable by you only. Claude Desktop and VS Code keep a stdio entry running `slate-mcp`. With Slate closed the tool lists the server as failed and the session-start hook says why: open Slate, start a new session.
 
 | Tool | Turning it on |
 |---|---|
@@ -3851,7 +3876,7 @@ A **plugin** is a directory the tool owns, with five hooks (six for Claude Code)
 | The ten newest tools | write the `slate` entry into the tool's own MCP config (the file is in the tool's record in `agentsAndHosts.json`). Grok Build, Droid, Hermes Agent and Auggie also get hooks; Antigravity, Kiro, Cline and Goose get none yet |
 
 * **Node 24 or newer** is needed for the plugin. Without it, tools with a config route use that. If Node disappears, Slate removes the plugin rather than leave a server that cannot start. Slate asks your shell once per launch where `node` is (an app opened from Finder has no shell PATH), which finds fnm, nvm, volta and asdf.
-* **Exactly one way.** Each launch checks every tool and profile: with the plugin installed, old hooks are removed; a connected tool with neither gets back what it can have (else everything runs twice). Slate decides from its record of what it installed per profile: a matching profile gets no writes, an unrecorded one is left alone unless you connected it, and a connected profile that lost Slate is connected again. Only turning it off in Connect keeps it off.
+* **Exactly one way.** Each launch checks every tool and profile: with the plugin installed, old hooks are removed; a connected tool with neither gets back what it can have (else everything runs twice). Slate decides from its record of what it installed per profile: a matching profile gets no writes, an unrecorded one is left alone unless you connected it, and a connected profile that lost Slate is connected again. Only turning it off in Connect keeps it off. If Slate's record, or its list of connected or turned-off profiles, cannot be read (cut short, or written by a newer Slate), that launch changes nothing from it: no profile is connected again, no kept original is removed, the file stays as it is with a copy beside it (`.corrupt`), and Disconnect of a profile that shares its files with another (Cursor) is refused until the file is fixed or removed.
 * **What actually ran.** The MCP server records tool, account and Slate when a tool starts it. The tool's dialog shows what its last session ran: this Slate and when; one started before this Slate was built (the next session runs this one); or another Slate install, named (also on the row, behind an amber dot). A dev checkout's server run from its source counts as this Slate. The HTTP entry always reaches the running Slate; a host's stdio entry keeps the server it started with.
 
 ## What Slate writes into a config
@@ -4028,7 +4053,7 @@ Everything in a shared workspace is for its members, except what is specific to 
 | Doc title, block content and plain text for the cloud index, as written. A captured AI session's doc is never sent | `properties` (typed and captured metadata, including a project's folder path) |
 | `doc_type`, parent link, your timestamps | `position`, the sibling order |
 | Memories anchored to a doc in the workspace: sentence, kind, subject, confidence, a lesson's trigger, the doc learned on | A memory's reasoning body and source reference. Also never: a memory hidden from sessions, a global memory (no doc), one Slate no longer believes, one an app saved |
-| Git activity: commits and branch events with branch, commit subject and normalised git remote (so a teammate's checkout at another path matches) | The activity payload (file paths, diff stats, counts) and `activity.repo`, the absolute path |
+| Git activity: commits and branch events with branch, commit subject (never the rest of the message) and normalised git remote (so a teammate's checkout at another path matches) | A commit message body, the activity payload (file paths, diff stats, counts) and `activity.repo`, the absolute path |
 | Artifacts: title, kind, description, agent, the doc made under, newest version | Older versions |
 | That a session happened, with branch and time | Everything else: transcript, tool, session id, summary |
 | Your display name, email, avatar from the sign-in provider | Anything in a workspace you have not shared |
@@ -4193,11 +4218,11 @@ The message names the workspace and inviter, links to where Slate installs from,
 
 **Colour** is used for its mark in the switcher's list and in its settings, always beside its name. Nine, in the order new workspaces get them: Cobalt, Lagoon, Iris, Silver, Orchid, Fjord, Heather, Wisteria, Graphite. The rail's tabs and the Sessions screen wear Slate's own green, not a workspace's colour. Stored on your machine, not the shared row: everyone keeps their own and anyone can recolour whatever their role.
 
-**Delete workspace forever** (**General** in the workspace dialog) removes every doc everyone put there, for every member, without notice; authors keep what they moved back out. Only a workspace owner or the account's owner; asks twice; nothing for anyone else. Your replica is marked read-only, not removed: you can copy content out; removing it is your decision.
+**Delete workspace forever** (**General** in the workspace dialog) removes every doc everyone put there, for every member, without notice; authors keep what they moved back out. Only a workspace owner or the account's owner; asks twice; nothing for anyone else. Every member's Mac learns of it on its next sync and removes what teammates published there; what a person wrote themselves stays on their Mac, and the store is marked read-only and stops sharing, so you can copy your own work out. A person who was removed before it was deleted forever keeps the read-only copy described below: only people who were members when it was deleted forever are told.
 
 ## Removing someone
 
-Read access ends on their next request (Row Level Security decides every query). Their machine checks membership on every sync pass, about every two minutes. It marks the replica read-only on the next pass: they can read and export what is on disk; nothing goes up or arrives. Docs they authored stay. **Erase my work** no longer works for them: the cloud refuses a former member, and Slate says so instead of reporting the work erased. The workspace owner removes it for them.
+Read access ends on their next request (Row Level Security decides every query). Their machine checks membership on every sync pass, about every two minutes. It marks the replica read-only on the next pass: they can read and export what is on disk; nothing goes up or arrives. Docs they authored stay. If the workspace is deleted forever later, their Mac is not told, because they were no longer a member: the copy stays read-only. **Erase my work** no longer works for them: the cloud refuses a former member, and Slate says so instead of reporting the work erased. The workspace owner removes it for them.
 
 See also: [Workspaces](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces.md), [Working in a Shared Workspace](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces/sharing.md), [Privacy & Security](https://liozelmalem-star.github.io/slate-releases/docs/features/privacy-and-security.md).
 
@@ -4379,7 +4404,7 @@ Slate runs an MCP server that gives every agent one workspace and one long-term 
 
 ## What it is
 
-Agents reach it over streamable HTTP on the running app, `http://127.0.0.1:47366/mcp`, with the app's private key in a header; sessions start no processes. The `slate-mcp` binary serves the same tools over stdio, for Claude Desktop and other stdio-only clients.
+Agents reach it over streamable HTTP on the running app, `http://127.0.0.1:47366/mcp` (the port follows the Mac user: 47366 for the first account, then 47367 and up), with the app's private key in a header; sessions start no processes. The `slate-mcp` binary serves the same tools over stdio, for Claude Desktop and other stdio-only clients.
 
 ## The recall / remember contract
 
@@ -4420,9 +4445,9 @@ Any MCP-capable tool can connect and share Slate's memory. What it can then do: 
 
 In **[Connect → Agents](https://liozelmalem-star.github.io/slate-releases/docs/features/connect.md)**, pick the tool and account and switch Slate on. It registers for that config directory, so it holds for every project here. [Toolkit](https://liozelmalem-star.github.io/slate-releases/docs/features/studio.md) can also project MCP configs to every tool.
 
-Every session talks over HTTP to the running Slate app (`http://127.0.0.1:47366/mcp`). The entry carries a private key in a header, so Slate writes it into the tool's config file and makes the file readable by you only. Existing setups switch over on the next launch of Slate. The key opens Slate's MCP server and nothing else. Slate does not write it into a config file that is a link (for example into a dotfiles folder): connecting that tool shows an error, and you replace the link with a plain file.
+Every session talks over HTTP to the running Slate app (`http://127.0.0.1:47366/mcp` for the first account on the Mac; each other Mac user gets the next port, 47367 and up). The entry carries a private key in a header, so Slate writes it into the tool's config file and makes the file readable by you only. Existing setups switch over on the next launch of Slate. The key opens Slate's MCP server and nothing else. Slate does not write it into a config file that is a link (for example into a dotfiles folder): connecting that tool shows an error, and you replace the link with a plain file.
 
-**Another program on port 47366.** If something else holds the port when Slate starts, Slate shows a red line at the top of the window: agents cannot reach Slate. Quit that program, then restart Slate.
+**Another program on Slate's port.** If something else holds the port when Slate starts, Slate shows a red line at the top of the window with the port number: agents cannot reach Slate. Run `lsof -i :<port>` to see which program it is, quit it, then restart Slate. Two Mac users whose ids are 64 apart share a port, which shows the same line for the second one.
 
 **Slate must be running.** With it closed, the tool lists `slate` as failed and the session-start hook says so. Open Slate and start a new session (Claude Code: `/mcp` also reconnects).
 
@@ -4435,7 +4460,7 @@ The app's entry is the supported way. To write it yourself, read the key from `s
   "mcpServers": {
     "slate": {
       "type": "http",
-      "url": "http://127.0.0.1:47366/mcp",
+      "url": "http://127.0.0.1:47366/mcp",   // your port: 47366 for the first account, one more for each next user
       "headers": { "x-slate-token": "<the key>" }
     }
   }
@@ -4757,7 +4782,8 @@ Rust runs the model calls (`packages/desktop/src-tauri/src/ai/`; `driver.rs` pic
 - **Protocols.** Claude Code and Codex speak their own. Cursor, OpenCode, Gemini, GitHub Copilot and the ten newest speak the Agent Client Protocol (`cursor-agent acp`, `opencode acp`, `gemini --acp`, `copilot --acp`, `grok agent stdio`, `droid exec --output-format acp`, …) in `ai/acp/`. Through it Stop keeps the process, the model can change mid-conversation, and approval cards appear ([Approvals](https://liozelmalem-star.github.io/slate-releases/docs/features/agent/approvals.md#what-differs-by-agent)).
 - **Fallback.** A tool silent on the protocol for 20 seconds runs one process per message for the rest of that app session (an automation's unattended Gemini turn too). No card can be answered, so an ask is a refusal (OpenCode's rule: [Approvals](https://liozelmalem-star.github.io/slate-releases/docs/features/agent/approvals.md#what-differs-by-agent)). Cursor runs pre-approved. GitHub Copilot (`copilot -p`) runs every tool only on Full auto, otherwise only what your Copilot settings allow.
 - **Automations** run unattended, one process per run. Claude and Codex reach your connected MCP tools and the automation's rules decide each call: reads go on, a call that changes something is held for your answer, and merging, removing, file changes, commands and anything needing more access are refused ([Automations](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md#what-it-may-do)).
-- **Timeout.** Every turn is bounded at 10 minutes; a CLI that connects then goes quiet (say, waiting on an auth callback) ends with a readable timeout.
+- **Timeout.** A turn ends when its agent is quiet for 10 minutes; each line it prints starts the 10 minutes again, so a long turn that keeps working is never cut off. A CLI that connects then goes quiet (say, waiting on an auth callback) ends with a readable timeout.
+- **Stop.** Stop, New chat and quit also end a message still waiting for a free agent (three run at once, shared with automations and session lanes), so it never runs later where you cannot see it. They never wait on an agent that is not reading what Slate sends it.
 
 ## Who runs the tool loop
 
@@ -5064,7 +5090,7 @@ Sign-in sends your name, email and picture link from Google or GitHub to Supabas
 
 Slate's cloud holds only: accounts and plans, opt-in telemetry, problem reports you send, Team interest, invitations (the invitee's email and role, until accepted or declined; Slate sends no email, the invite opens in your own mail app), the update service, and the rows of a workspace you chose to share.
 
-**Removing your account.** Settings → Account → **Delete my account forever** removes your Slate account from the cloud: your identity, name, email, plan and Team interest, your memberships, what you authored in shared workspaces, and any account only you were in. Type your email to confirm. You are signed out, and everything on this Mac stays. If other people are in your account or its workspaces, remove them first; Slate says so and keeps everything. See the [Privacy Policy](https://liozelmalem-star.github.io/slate-releases/docs/legal/privacy-policy.md#your-control-export-and-deletion) for what lives outside the database.
+**Removing your account.** Settings → Account → **Delete my account forever** removes your Slate account from the cloud: your identity, name, email, plan and Team interest, your memberships, what you authored in shared workspaces (each row is blanked and marked as removed, so every teammate's Mac removes its copy on the next sync), and any account only you were in. Type your email to confirm. You are signed out, and everything on this Mac stays. If other people are in your account or its workspaces, remove them first; Slate says so and keeps everything. See the [Privacy Policy](https://liozelmalem-star.github.io/slate-releases/docs/legal/privacy-policy.md#your-control-export-and-deletion) for what lives outside the database.
 
 ## What leaves your Mac
 
@@ -5083,6 +5109,8 @@ Four exceptions run without a click each time: the agent CLIs, sharing, the upda
 - **Cloud session.** **Start in cloud**: Claude Code clones your project's GitHub remote (or uploads the code if there is none) to Anthropic's computer. Codex runs in the environment you set up at chatgpt.com. Each uses your sign-in; Slate holds no vendor key and sends nothing. It records the task in `machine.db`: what you asked, your messages, where the task came from.
 - **On my phone.** [On my phone](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/cloud.md#on-my-phone) makes Claude Code connect the session to claude.ai, and Anthropic keeps that conversation. The session still runs here; Slate only types `/remote-control` into its terminal.
 - **No model is shipped or downloaded.** Recall is keyword matching on your device.
+- **Your shell's environment.** Opened from the Dock, an app gets almost no environment, so Slate asks your login shell once for `PATH` and a fixed list of variables (proxy and certificate settings, `XDG_*`, `SSH_AUTH_SOCK`, node-manager folders, each agent's account variable) and gives them to the programs it starts. API keys and other variables are not copied. The answer is kept in `shell-env.json` in Slate's data folder (readable only by you), so the next launch starts with it at once; the first launch ever waits at most 3 seconds for the shell.
+- **Proxies and company certificates.** Every connection Slate makes trusts the certificates in your system's store (a company root certificate included) and goes through your proxy: the macOS system proxy, or `HTTPS_PROXY` / `HTTP_PROXY` from your shell when no system proxy is set. Connections to this computer (`localhost`, `127.0.0.1`, `[::1]`) never go through a proxy.
 
 **Connections you set up yourself** start when you connect and stop on **Disconnect**. None sends a doc, session or memory.
 
@@ -5299,7 +5327,7 @@ Everything (docs, captured sessions, memories, decisions, automations, settings)
 | Linux | `$XDG_DATA_HOME/app.slate.workspace/` (`~/.local/share/` when unset) |
 | Windows | `%APPDATA%\app.slate.workspace\` |
 
-To keep Personal elsewhere (an external drive or another folder on this computer), move it in **Settings → Workspaces → (the workspace) → Storage**. Slate restarts by itself and makes the copy at the next launch, before anything has the file open, checks it (integrity check, row counts, write-ahead mode) and only then points at it. While the move waits, agents and hooks refuse to open the workspace, so nothing writes between the two files. Backups go with it; the app, MCP server and capture hooks follow. Slate refuses a folder that a sync service owns (iCloud Drive, including Desktop and Documents when iCloud syncs them; Dropbox, OneDrive and Google Drive roots) and a network drive: the database cannot run safely there. If the drive is not connected, nothing opens a different empty workspace in its place: the app shows its missing-workspace screen (also when the drive goes away while Slate is open), hooks skip quietly and agents are told the workspace is not connected. **Start empty here** sets the old copy at the default location aside, dated, and starts a really empty workspace; when the moved one is back, **Use a workspace from another folder** in Storage points Slate at it. The local API tokens stay in the app-data folder. `SLATE_DB_PATH` points one launch at another file (for testing).
+To keep Personal elsewhere (an external drive or another folder on this computer), move it in **Settings → Workspaces → (the workspace) → Storage**. Slate restarts by itself and makes the copy at the next launch, before anything has the file open, checks it (integrity check, row counts, write-ahead mode) and only then points at it. While the move waits, agents and hooks refuse to open the workspace, so nothing writes between the two files. Backups go with it; the app, MCP server and capture hooks follow. Slate refuses a folder that a sync service owns (iCloud Drive, including Desktop and Documents when iCloud syncs them; Dropbox, OneDrive and Google Drive roots) and a network drive: the database cannot run safely there. If the drive is not connected, or the file that records where Personal went cannot be read (empty after a power cut, for example), nothing opens a different empty workspace in its place: the app shows its missing-workspace screen (also when the drive goes away while Slate is open), hooks skip quietly and agents are told the workspace is not connected. **Start empty here** sets the old copy at the default location aside, dated, and starts a really empty workspace; when the moved one is back, **Use a workspace from another folder** in Storage points Slate at it. The local API tokens stay in the app-data folder. `SLATE_DB_PATH` points one launch at another file (for testing).
 
 ## Where to find all of this
 
@@ -5801,8 +5829,8 @@ described after the four.
    - **Memories** — the saved sentence, its kind, its subject, its confidence, for a
      lesson the trigger that says when it applies, and the title of the doc it was
      learned against.
-   - **Development activity** — commits (the subject line Slate recorded, and any further
-     lines of the message it holds), branch created / deleted / merged / switched events, and
+   - **Development activity** — commits (the subject line only, never the rest of the commit
+     message), branch created / deleted / merged / switched events, and
      a record that an AI session happened (its branch and the time).
    - **Artifacts** — the docs an agent publishes to be looked at: the title, the kind
      (HTML or Markdown), the description, the name of the agent that made it, the doc it
@@ -6014,13 +6042,14 @@ Because each workspace is a single local file, you are in full control of it.
 
 - **Account deletion** — Settings → Account → **Delete my account forever** removes your Slate account
   from our database: your sign-in identity, name, email, plan and Team interest, your
-  memberships, the rows you authored in shared workspaces, invitations you sent or that are
+  memberships, the content of the rows you authored in shared workspaces (each row is blanked and marked deleted, keeping only its id, your user id and the time, so teammates' devices delete their copies), invitations you sent or that are
   waiting for you, any account only you were in, and the sign-in audit records that hold your
   email and IP address. It signs you out and leaves everything on your device. While you own an
   account that has other members, Slate asks you to transfer it or remove them first. Some
   copies sit outside our database and are not reached by it: request logs kept by our hosting
-  providers, copies already on teammates' devices (which drop withdrawn rows on their next
-  synchronisation), anonymous usage counts keyed to this installation (deleted after 180 days),
+  providers, copies already on teammates' devices (which drop your rows on their next
+  synchronisation, and the content of a workspace deleted forever, for people who were members
+  when it was deleted), anonymous usage counts keyed to this installation (deleted after 180 days),
   and problem reports you chose to send, with their issue copies.
 
 Because every person signs in, our database holds a record of your account even if you

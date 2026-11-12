@@ -17,8 +17,9 @@
 #      capture hooks and the MCP server registrations, in whichever accounts Slate
 #      actually wrote to.
 #   2. /Applications/Slate.app
-#   3. The logs, the cache and the webview state.
-#   4. The workspace itself — ONLY with --delete-workspace.
+#   3. The "Start Slate at login" item (~/Library/LaunchAgents/Slate.plist).
+#   4. The logs, the cache and the webview state.
+#   5. The workspace itself — ONLY with --delete-workspace.
 #
 # WHY STEP 1 RUNS FIRST, AND FROM THE APP
 # ---------------------------------------
@@ -67,7 +68,7 @@ while [[ $# -gt 0 ]]; do
     --delete-workspace) DELETE_WORKSPACE=true; shift ;;
     --keep-connections) KEEP_CONNECTIONS=true; shift ;;
     --prefix)           PREFIX="${2:-}"; [[ -n "$PREFIX" ]] || die "--prefix needs a value"; shift 2 ;;
-    -h|--help)          sed -n '2,46p' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
+    -h|--help)          sed -n '2,47p' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
     *) die "unknown option: $1" ;;
   esac
 done
@@ -97,12 +98,23 @@ SUPPORT="$HOME/Library/Application Support/$BUNDLE_ID"
 LOGS="$HOME/Library/Logs/$BUNDLE_ID"
 CACHES="$HOME/Library/Caches/$BUNDLE_ID"
 WEBKIT="$HOME/Library/WebKit/$BUNDLE_ID"
+# The "Start Slate at login" item: the app's autostart plugin writes <product name>.plist here.
+# SLATE_UNINSTALL_TEST=1 is the test hook: the script then touches nothing outside the folders
+# it is pointed at. It never looks for a running Slate, never asks one to quit and never calls
+# launchctl, so a test cannot stop the live app on the machine that runs it.
+TEST_HOOK="${SLATE_UNINSTALL_TEST:-}"
+# The folder is overridable so a test never touches the real one.
+LAUNCH_AGENTS="${SLATE_LAUNCH_AGENTS_DIR:-$HOME/Library/LaunchAgents}"
+# Under sudo, the login item belongs to the person who ran sudo, not to root.
+GUI_UID="${SUDO_UID:-$(id -u)}"
+LOGIN_ITEM="$LAUNCH_AGENTS/Slate.plist"
 
 # `du` on a path that does not exist is an error, not a zero.
 size_of() { [[ -e "$1" ]] && du -sh "$1" 2>/dev/null | awk '{print $1}' || echo "—"; }
 
 # ── 1. Say what is about to happen ─────────────────────────────────────────────
 echo "  Slate.app          $(size_of "$APP")   $APP"
+if [[ -e "$LOGIN_ITEM" ]]; then echo "  Login item         $LOGIN_ITEM"; fi
 echo "  Logs               $(size_of "$LOGS")"
 echo "  Cache              $(size_of "$CACHES")"
 echo "  Webview state      $(size_of "$WEBKIT")"
@@ -113,7 +125,7 @@ else
 fi
 echo ""
 
-if [[ ! -e "$APP" && ! -e "$SUPPORT" ]]; then
+if [[ ! -e "$APP" && ! -e "$SUPPORT" && ! -e "$LOGIN_ITEM" ]]; then
   ok "Slate is not installed here — nothing to do."
   exit 0
 fi
@@ -124,7 +136,10 @@ run() { if $DRY_RUN; then dim "    would: $*"; else "$@"; fi; }
 # The executable is `slate`, lowercase — it takes its name from the Cargo package, not
 # from productName. Both spellings are tested for the same reason install-slate.sh tests
 # both: `pgrep -x Slate` alone never matched, and the check was silently dead.
-slate_running() { pgrep -xq slate 2>/dev/null || pgrep -xq Slate 2>/dev/null; }
+slate_running() {
+  [[ -z "$TEST_HOOK" ]] || return 1
+  pgrep -xq slate 2>/dev/null || pgrep -xq Slate 2>/dev/null
+}
 
 if slate_running; then
   info "Quitting Slate…"
@@ -177,6 +192,18 @@ if [[ -e "$APP" ]]; then
   [[ -w "$PREFIX" ]] || die "$PREFIX is not writable by $(whoami). Re-run with sudo, or pass --prefix."
   run rm -rf "$APP"
   ok "Removed the app"
+fi
+
+# ── 4b. The login item ─────────────────────────────────────────────────────────
+# Left behind, launchd tries to start the missing app at every login and System Settings keeps
+# listing a "Slate" background item. Unloaded first (best effort: it is only loaded after a
+# login that ran it), then the file goes.
+if [[ -e "$LOGIN_ITEM" ]]; then
+  if [[ -z "$TEST_HOOK" ]]; then
+    run launchctl bootout "gui/$GUI_UID/Slate" 2>/dev/null || true
+  fi
+  run rm -f "$LOGIN_ITEM"
+  ok "Removed the start-at-login item"
 fi
 
 # ── 5. Logs, cache, webview ────────────────────────────────────────────────────

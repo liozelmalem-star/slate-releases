@@ -23,7 +23,7 @@ get_memory({ refs })
 
 Memories are ranked lexically and locally with BM25. No model is called and nothing is downloaded.
 
-* Each query word counts by its rarity among your memories. Sentence (counts most), tags, citation and reason are read; words match by stem ("refused" finds "refusal").
+* Each query word counts by its rarity among your memories. Sentence (counts most), tags, citation and reason are read; words match by stem ("refused" finds "refusal"), and case, accents and punctuation do not matter ("preproduction" finds "préproduction").
 * Recent memories are lifted slightly; a newer near-tie on the same subject comes first.
 * From 200 memories in a workspace, a match is lifted (at most doubled) by how close its words sit to the query's in your store (latent semantic analysis, fitted in memory). It only re-orders keyword matches; a memory sharing no word is never added.
 * Your acts on the code move a match, at most doubled or halved: merges and Confirms lift, reverts and discards of the code its sessions wrote lower (see [Citing](#citing-how-slate-learns-what-helped)).

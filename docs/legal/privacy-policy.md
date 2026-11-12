@@ -125,8 +125,8 @@ described after the four.
    - **Memories** — the saved sentence, its kind, its subject, its confidence, for a
      lesson the trigger that says when it applies, and the title of the doc it was
      learned against.
-   - **Development activity** — commits (the subject line Slate recorded, and any further
-     lines of the message it holds), branch created / deleted / merged / switched events, and
+   - **Development activity** — commits (the subject line only, never the rest of the commit
+     message), branch created / deleted / merged / switched events, and
      a record that an AI session happened (its branch and the time).
    - **Artifacts** — the docs an agent publishes to be looked at: the title, the kind
      (HTML or Markdown), the description, the name of the agent that made it, the doc it
@@ -338,13 +338,14 @@ Because each workspace is a single local file, you are in full control of it.
 
 - **Account deletion** — Settings → Account → **Delete my account forever** removes your Slate account
   from our database: your sign-in identity, name, email, plan and Team interest, your
-  memberships, the rows you authored in shared workspaces, invitations you sent or that are
+  memberships, the content of the rows you authored in shared workspaces (each row is blanked and marked deleted, keeping only its id, your user id and the time, so teammates' devices delete their copies), invitations you sent or that are
   waiting for you, any account only you were in, and the sign-in audit records that hold your
   email and IP address. It signs you out and leaves everything on your device. While you own an
   account that has other members, Slate asks you to transfer it or remove them first. Some
   copies sit outside our database and are not reached by it: request logs kept by our hosting
-  providers, copies already on teammates' devices (which drop withdrawn rows on their next
-  synchronisation), anonymous usage counts keyed to this installation (deleted after 180 days),
+  providers, copies already on teammates' devices (which drop your rows on their next
+  synchronisation, and the content of a workspace deleted forever, for people who were members
+  when it was deleted), anonymous usage counts keyed to this installation (deleted after 180 days),
   and problem reports you chose to send, with their issue copies.
 
 Because every person signs in, our database holds a record of your account even if you
