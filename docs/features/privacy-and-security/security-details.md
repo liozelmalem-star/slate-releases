@@ -44,7 +44,7 @@ Each workspace stays in its own file and Slate refuses to mix them.
 - Slate's own code cannot open a workspace file without naming it.
 - An agent session works in the workspace of the first folder it names and is refused another workspace's folder.
 - Each file records its workspace, so a misplaced file does not open as another workspace.
-- Only Sessions shows every workspace at once.
+- Sessions shows every workspace at once, and so does the `live_sessions` tool: an agent in any workspace sees every running session, with its title, last reply, goal and folder. `recall_workspaces` and `workspace_doc` read the cloud copy of every workspace you belong to. Nothing else crosses workspaces.
 - A test plants a marker in one workspace and asks every part of the server and every agent read for it from another. It must never come back.
 
 ## Encryption and the webview

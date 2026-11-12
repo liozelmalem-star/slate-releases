@@ -10,8 +10,8 @@ Slate is a native macOS app: Tauri 2, a Rust host and a React 19 webview. Linux 
 | --- | --- | --- |
 | macOS, Apple Silicon | **Yes** — the `curl` installer | Primary platform, smoke-tested |
 | macOS, Intel | **Yes** — the `curl` installer | Its own app, built on the release Mac for Intel. Before each release it boots, and its sidecar builds an app, through Rosetta |
-| Linux (x86_64, `.deb`) | Not in the latest release (0.1.65) | A release attaches it only when it builds, installs and boots on Ubuntu 22.04 |
-| Windows 10/11 | Not in the latest release (0.1.65) | Being ported; a release attaches the installer only when its Windows build passes |
+| Linux (x86_64, `.deb`) | Not in the latest release (0.1.67) | A release attaches it only when it builds, installs and boots on Ubuntu 22.04 |
+| Windows 10/11 | Not in the latest release (0.1.67) | Being ported; a release attaches the installer only when its Windows build passes |
 
 Slate needs **macOS 13.5 (Ventura) or later** (bundled server: Node 24). `LSMinimumSystemVersion` in `Info.plist` makes an older Mac refuse to open the app rather than show a window with no server.
 
@@ -20,7 +20,7 @@ For Linux, each release's platform build runs the Rust tests on a GitHub Ubuntu 
 * shortcuts read Ctrl instead of ⌘
 * closing the window minimizes it
 * the tray icon has a menu (Open Slate, Quit Slate), because a Linux tray reports no clicks
-* Slate watches a project and your agents' transcript folders one folder at a time, never inside build output such as `node_modules` or `dist`. It uses at most a quarter of `fs.inotify.max_user_watches`, and no more than 8,192. At the cap it says so once in its log and stops adding folders. Git and the periodic checks still see changes there.
+* Slate watches a project and your agents' transcript folders one folder at a time, never inside `node_modules`, caches or `.git`. A folder named like build output (`dist`, `build`, `out`, `target`, `venv`, `vendor`) is skipped too, unless git tracks a file in it: then it is source and its edits show in Activity. It uses at most a quarter of `fs.inotify.max_user_watches`, and no more than 8,192. At the cap it says so once in its log and stops adding folders. Git and the periodic checks still see changes there.
 
 Releases are cut by hand on an Apple Silicon Mac, which also builds the Intel app and signs the Linux `.deb` and the Windows installer with the same updater key.
 

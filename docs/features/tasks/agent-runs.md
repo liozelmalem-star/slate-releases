@@ -13,7 +13,7 @@ An agent run takes a task through a fixed process in a session you can see. On a
 - **Where**: project and agent. Default: the task's project, else the last used, else your only project.
 - **What it is**: the kind ([Workflow](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks/workflow.md)), plus **Investigate only** (to solve), **Draft a reply** or **Find the answer, then draft** (message), **Just open a session** (all).
 - **The kind's rule**: the skill, its steps on one line with the two stops for you as an amber hand (*Stops for you after the plan, and before it ships*), and *Saved for every bug in <project>* under the skill picker.
-- **What the agent run gets**: **The task**; **What Slate knows** (memories in the brief, each with **×** to leave out; none is valid); **Your note** (closed until added).
+- **What the agent run gets**: **The task**; **What Slate knows** (memories in the brief, each with **×** to leave out; none is valid, and a memory read that fails says so instead of showing none, in the dialog and in the brief the agent gets); **Your note** (closed until added).
 - **What it can use**, one line (*GitHub · yarn test · Autopilot off*), opening to each tool and whether the agent reaches it, the check command, Autopilot and the agent run rules, under **Saved for every run in <project>**. **Allow Autopilot** is the project setting; **This run: Step by step / Autopilot** is per run.
 
 **Just open a session** shows **What to type in**: the task's name and link (or a to-do's words), typed but not sent. `/`, `@`, Cmd+Enter work as on Home. A blocked start (folder not a git repository) is explained in the footer.

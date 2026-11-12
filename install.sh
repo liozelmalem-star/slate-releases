@@ -214,21 +214,50 @@ if [[ ! -w "$PREFIX" ]]; then
    Re-run with --prefix \"\$HOME/Applications\", or with sudo if you meant to install system-wide."
 fi
 
-rm -rf "$DEST"
-# ditto rather than cp -R: it preserves extended attributes and resource forks, which a
-# plain copy can silently drop from a .app.
-ditto "$NEW_APP" "$DEST" || die "Could not copy the app into $PREFIX."
+# The working app is never removed before the new one has landed and passed the signature
+# check: the copy goes to a sibling name, and only then is the old one moved aside and the new
+# one moved in (a rename inside one folder). A failure at any point puts the old one back,
+# so a full disk or an unwritable subfolder cannot leave the person with no Slate.
+install_bundle() {
+  local new="$1" dest="$2"
+  local staged="$dest.new" aside="$dest.old"
+  # Leftovers of an earlier run that was killed half way. One killed between the two moves
+  # below left the working app aside and nothing in its place: that copy is put back first,
+  # because it is the only Slate this Mac has. Only then is a leftover deleted.
+  if [[ ! -e "$dest" && -e "$aside" ]]; then
+    mv "$aside" "$dest" || die "An earlier install left Slate at $aside and it could not be moved back. Move it to $dest yourself and run this again."
+  fi
+  rm -rf "$staged" "$aside"
+  # ditto rather than cp -R: it preserves extended attributes and resource forks, which a
+  # plain copy can silently drop from a .app.
+  if ! ditto "$new" "$staged"; then
+    rm -rf "$staged"
+    die "Could not copy the app into ${dest%/*}. The Slate that was installed is untouched."
+  fi
+  # The copy is checked again against the same pinned signature. A copy that fails is
+  # removed, so a bundle that is not Slate's is never left in place to be opened. There is
+  # no re-signing fallback: signing a bundle here would bless whatever is in it.
+  local sig_err
+  if ! sig_err="$(verify_signature "$staged")"; then
+    rm -rf "$staged"
+    die "The copy failed the signature check and was removed. The Slate that was installed is untouched.
+   $sig_err"
+  fi
+  if [[ -e "$dest" ]]; then
+    mv "$dest" "$aside" || { rm -rf "$staged"; die "Could not move the installed Slate aside. It is untouched."; }
+  fi
+  if ! mv "$staged" "$dest"; then
+    rm -rf "$staged"
+    if [[ -e "$aside" ]] && ! mv "$aside" "$dest"; then
+      die "Could not move the new app into place, nor the old one back. Your Slate is at $aside: move it to $dest."
+    fi
+    die "Could not move the new app into place. The Slate that was installed is back."
+  fi
+  rm -rf "$aside"
+}
+install_bundle "$NEW_APP" "$DEST"
 
-# ── 8. Make sure the installed copy is the one that was verified ───────────────
-# The copy is checked again against the same pinned signature. A copy that fails is
-# removed, so a bundle that is not Slate's is never left in place to be opened. There is
-# no re-signing fallback: signing a bundle here would bless whatever is in it.
-if ! SIG_ERR="$(verify_signature "$DEST")"; then
-  rm -rf "$DEST"
-  die "The installed copy failed the signature check and was removed.
-   $SIG_ERR"
-fi
-
+# ── 8. Quarantine ──────────────────────────────────────────────────────────────
 # curl does not set com.apple.quarantine, so this is normally a no-op — it matters when
 # someone downloads the tarball in a browser and runs the installer against it by hand.
 # Removing it skips Gatekeeper, which would otherwise reject an app Apple has not

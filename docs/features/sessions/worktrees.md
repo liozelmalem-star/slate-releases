@@ -35,7 +35,7 @@ Each worktree Slate makes gets a free port from 4100 to 4999, kept until removal
 
 The first run on a project with no command asks for it; **Save and run** stores it. A checkout with no project runs it once and saves nothing.
 
-**Pick** (crosshair) turns the preview into a picker. Point at anything to outline it, click, and its description is pasted at the prompt of the session in that folder: the doc it is on, a CSS selector, size and position, deciding styles, its HTML. Nothing is submitted; add the change and press Enter. No screenshot (other origin). The web page is framed through a small proxy on Slate's loopback port that adds one script and serves only a local dev server; hot reload works. Click the crosshair again for the plain preview.
+**Pick** (crosshair) turns the preview into a picker. Point at anything to outline it, click, and its description is pasted at the prompt of the session in that folder: the doc it is on, a CSS selector, size and position, deciding styles, its HTML. Nothing is submitted; add the change and press Enter. No screenshot (other origin). The web page is framed through a small proxy on Slate's loopback port that adds one script and serves only a local dev server; hot reload works. Slate keeps proxies for the 16 most recently used dev servers; an older one is closed and starts again when you pick there again. Click the crosshair again for the plain preview.
 
 ## A worktree made for a session ends with it
 
@@ -51,6 +51,6 @@ First, what the session left running there is stopped: every process Slate start
 
 A message at the window's bottom says what was returned, **Cleaned up · stopped :3000 · 11.2 GB freed**, and what happened to worktree and branch. It waits while another session still works in the folder. It never touches a worktree not made for a session: hand-made, another tool's, or one whose session was running when Slate quit. The folder is renamed aside at once and removed in the background.
 
-**Removing a worktree by hand** is under the trash icon on a branch row in **New session**. It stops no processes and counts nothing. It refuses a checkout with uncommitted work unless you choose to discard it, and can remove the branch too. A dirty branch is marked before the click; an unreadable worktree says **missing**.
+**Removing a worktree by hand** is under the trash icon on a branch row in **New session**. It stops no processes and counts nothing. It refuses a checkout with uncommitted work unless you choose to discard it, and can remove the branch too. A dirty branch is marked before the click; a worktree whose folder is gone says **missing**, and one git did not answer for says **not read**, never clean.
 
 Reviewing and merging a finished branch: [Review the branch](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/review.md#branches-waiting-for-review).

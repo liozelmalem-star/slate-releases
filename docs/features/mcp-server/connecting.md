@@ -89,10 +89,12 @@ A tool can save a typed document and add to a doc, and nothing else. Saving a do
 
 A failed call answers JSON with `error.code` and `error.message`:
 
+* `invalid_arguments` — an argument the tool's schema rejects (a missing `id`, a wrong type).
+* `unknown_tool` — a tool name this server does not have.
 * `approval_required` — `create_doc` without `user_approved:true`.
 * `content_required` — `create_doc` for a typed doc with no `markdown`.
 * `target_not_found`, `target_archived`, `ambiguous_target` — a doc, or a project and branch label, that does not resolve to exactly one live doc.
-* `invalid_request`, `not_found` — a bad `update_my_task` call, or an item that is not there.
+* `invalid_request`, `not_found` — a bad `update_my_task` call (such as both `in_minutes` and `at`, or a time with `clear_reminder`), or an item that is not there.
 * `proposal_refused` — a `propose_memory_change` the project's memories cannot take.
 * `not_a_project`, `invalid_proposal`, `already_offered` — a `propose_setup_change` for a folder that is not there, a change that could never apply, or one the project already had.
 * `artifact_not_found`, `invalid_artifact`, `is_a_widget` — the artifact tools.

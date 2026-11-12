@@ -33,7 +33,7 @@ A session groups under the group or project its folder is filed under. One in a 
 
 **Context fill** is read from the transcript. Codex states its window: bar and `8% of 258k`, darker from 75%. Claude Code and OpenCode show the count alone (`323k`). Gemini and Cursor record nothing per turn, so show nothing. A session's **tab** shows only status dot and name.
 
-**Checkout marks.** `↑3` commits the checkout has that its base lacks; `↓1` how far the base moved on; grey ring: uncommitted work; **missing**: a worktree git lists but cannot read. Level with base: nothing. A checkout with nothing running is listed as *checked out, nothing running*. `#118`: pull request. **owed** pill: real work, no memory recorded. **Review** tag: a branch waiting for you ([Branches waiting for review](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/review.md#branches-waiting-for-review)).
+**Checkout marks.** `↑3` commits the checkout has that its base lacks; `↓1` how far the base moved on; grey ring: uncommitted work; **missing**: a worktree git lists whose folder is gone; **not read**: the folder is there but git did not answer in time (the last counts read stay when there are any). Level with base: nothing. A checkout with nothing running is listed as *checked out, nothing running*. `#118`: pull request. **owed** pill: real work, no memory recorded. **Review** tag: a branch waiting for you ([Branches waiting for review](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/review.md#branches-waiting-for-review)).
 
 ## Row actions
 

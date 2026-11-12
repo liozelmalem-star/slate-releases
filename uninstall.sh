@@ -78,20 +78,32 @@ echo -e "${BOLD}Slate — uninstaller${RESET}"
 echo "─────────────────────────────────────"
 if $DRY_RUN; then dim "  DRY RUN — nothing will be changed."; echo ""; fi
 
-[[ "$(uname -s)" == "Darwin" ]] || die "Slate's uninstaller is macOS-only."
+# SLATE_UNINSTALL_TEST (below) lets the test run the script on any machine.
+[[ "$(uname -s)" == "Darwin" || -n "${SLATE_UNINSTALL_TEST:-}" ]] || die "Slate's uninstaller is macOS-only."
 
 APP="$PREFIX/Slate.app"
 
 # ── The bundle identifier, read from the bundle itself ─────────────────────────
-# Asked of the app rather than written down here, so the two cannot drift: it is the
-# identifier Slate resolves its data directory from, and a stale literal in this script
-# would clean a directory nothing has ever written to while leaving the real one behind.
-# The fallback is only reached when the bundle is already gone, which is also the one
-# case where nothing can be verified anyway.
-BUNDLE_ID="app.slate.workspace"
-if [[ -f "$APP/Contents/Info.plist" ]]; then
-  FOUND="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$APP/Contents/Info.plist" 2>/dev/null || true)"
-  if [[ -n "$FOUND" ]]; then BUNDLE_ID="$FOUND"; fi
+# Asked of the app rather than written down for the paths below, so the two cannot drift: it is
+# the identifier Slate resolves its data directory from. But the bundle at $PREFIX/Slate.app
+# is only a name; another product can sit there. Every path below is built from the id, so an
+# id that is not Slate's is refused before anything is quit or removed, and so is a bundle whose
+# id cannot be read: a failed read says nothing about whose bundle it is. Slate has only ever
+# shipped as app.slate.workspace. The fallback is only reached when the bundle is already gone,
+# which is also the one case where nothing can be verified anyway.
+SLATE_BUNDLE_ID="app.slate.workspace"
+PLIST_BUDDY="${SLATE_PLISTBUDDY:-/usr/libexec/PlistBuddy}"
+BUNDLE_ID="$SLATE_BUNDLE_ID"
+if [[ -e "$APP" ]]; then
+  FOUND="$("$PLIST_BUDDY" -c 'Print :CFBundleIdentifier' "$APP/Contents/Info.plist" 2>/dev/null || true)"
+  if [[ -z "$FOUND" ]]; then
+    die "Could not read the bundle id of $APP, so it may not be Slate.
+   Nothing was removed. If it is Slate, move it to the Trash yourself and run this again."
+  fi
+  if [[ "$FOUND" != "$SLATE_BUNDLE_ID" ]]; then
+    die "$APP is not Slate: its bundle id is $FOUND, not $SLATE_BUNDLE_ID.
+   Nothing was removed. If it is Slate, pass --prefix with the folder that holds it."
+  fi
 fi
 
 SUPPORT="$HOME/Library/Application Support/$BUNDLE_ID"

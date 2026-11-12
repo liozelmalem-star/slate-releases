@@ -30,7 +30,7 @@ Passes ask only for identifiers, states, names and times. Ticket bodies, comment
 
 ## The report
 
-Opens with three columns: **Assigned to me**, **Pull requests**, **Today's meetings**.
+Opens with three columns: **Assigned to me**, **Pull requests**, **Today's meetings**. A pull request shows its full GitHub name (`acme/api#12`), so two projects' `#12` are two rows.
 
 - A source needing sign-in shows a sign-in button (same account and directory as the pass), then reruns the automation.
 - An unreachable source says so, never "Nothing assigned".

@@ -4,7 +4,7 @@ Rules for every call in the [Tool Reference](https://liozelmalem-star.github.io/
 
 ## Which workspace a call reaches
 
-**One session, one workspace.** The first call with a `cwd` ties the session to that folder's workspace; later calls without `cwd` run there. A `cwd` from another workspace is refused with `wrong_workspace` and the session's workspace name: start a session in that workspace's folder instead. Before the first `cwd`, a call without one gets Personal. Only `live_sessions`, `recall_workspaces` and `workspace_doc` cross workspaces. An agent run's agent reaches its task by the task's token, or from inside the task's folder, wherever the task lives. No tool is marked as reaching outside Slate.
+**One session, one workspace.** The first call with a `cwd` ties the session to that folder's workspace; later calls without `cwd` run there. If that folder is later added to a project in another workspace, or taken out of one, the session follows it to the folder's new workspace. A `cwd` that names a different folder in another workspace is refused with `wrong_workspace` and the session's workspace name: start a session in that workspace's folder instead. A folder matches its project however it is spelled: through a symlink, with `..`, or by its real path. Before the first `cwd`, a call without one gets Personal. Only `live_sessions`, `recall_workspaces` and `workspace_doc` cross workspaces. An agent run's agent reaches its task by the task's token, or from inside the task's folder, wherever the task lives. No tool is marked as reaching outside Slate.
 
 ## Secrets
 

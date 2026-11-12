@@ -8,13 +8,15 @@ A worktree branch whose agent has finished, with commits `main` lacks, is waitin
 
 Its row, under the project beside the branch, carries grey tags: **Review · n files ›**, **behind n** when `main` moved past it, and the wait time. The row shows even when nothing runs in the project; with a session on the branch, the tag sits under that session's row. In a project with several git repositories the row names the git repository first (*editor · feat-x*).
 
+When git does not answer in time for a worktree, its row keeps the counts last read; a branch never read yet waits for the next check. The changed files and the review say git did not answer, never that the branch changed nothing.
+
 A branch `main` moved past cannot merge until its session rebases. With nothing running in it, it folds into a closed line at the project's end, **Behind main · n** (named for the branch it left, such as `master`), closed on each rail redraw. Branches with a session, and kept ones, stay in view.
 
 Click the tag, or **Review & merge** in **⋯**, to open the review ([Reviewing the whole branch](#reviewing-the-whole-branch)). The header counts waiting branches (**n to review**); click it for the one waiting longest. Actions above the review:
 
 | Action | Does |
 | --- | --- |
-| **Merge into main** | Fast-forwards `main` to the branch, then removes the worktree (project's **On remove** runs first) and the branch. Grey until the review loads. No merge commit, no checkout. With no checkout holding `main` only the ref moves; with one, it moves too, and the merge is refused if that checkout has uncommitted changes to a file the merge changes. Also refused: uncommitted work in the worktree, an open agent turn there, new commits since the review was drawn |
+| **Merge into main** | Fast-forwards `main` to the branch, then removes the worktree (project's **On remove** runs first) and the branch. Grey until the review loads. No merge commit, no checkout. With no checkout holding `main` only the ref moves; with one, it moves too, and the merge is refused if that checkout has uncommitted changes to a file the merge changes. Also refused: uncommitted work in the worktree, an open agent turn there, new commits since the review was drawn, and git not answering while it checks how far `main` moved |
 | **Ask to rebase** | Replaces Merge when `main` moved. Pastes *Rebase this branch on main and run the tests again.* at that session's prompt (no Enter), or copies it |
 | **Keep** | Leaves the branch; its tag becomes a grey **Kept**, out of the count; the button reads **Unkeep**. Kept is stored on this computer only. New commits from an agent make it waiting again |
 | **Discard** | Lists every commit on no other branch that will be lost, and whether uncommitted work goes too. Confirming removes worktree and branch. Uncommitted work added after the confirm opened is refused, not removed unlisted. Also refused: open agent turn, new commits since the review was drawn |

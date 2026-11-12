@@ -16,7 +16,9 @@
 <script>
   // A reader's own pick wins; until they pick, the page follows the system, as the home page and tour do.
   var t = null;
-  try { t = localStorage.getItem("slate-theme"); } catch (e) {}
+  try { t = localStorage.getItem("slate-theme"); } catch (e) {
+    // expected: storage may be blocked; the page follows the system
+  }
   if (t !== "light" && t !== "dark") t = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
   document.documentElement.dataset.theme = t;
 </script>

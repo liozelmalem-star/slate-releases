@@ -60,6 +60,8 @@ curl -fsSL https://liozelmalem-star.github.io/slate-releases/uninstall.sh | bash
 
 The script never asks a question, so the destructive half is a flag you type.
 
+**It removes only Slate.** The script reads the bundle id of `Slate.app` first. If the id is not `app.slate.workspace`, or cannot be read, the app may be another product with the same name. The script then stops and removes nothing.
+
 ## If you already removed the app
 
 The script still cleans the logs, cache and webview state, and reports that it could not remove the agent entries. They are inert. To remove them, reinstall Slate and run the uninstaller again.

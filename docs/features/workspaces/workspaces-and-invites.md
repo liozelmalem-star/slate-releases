@@ -48,9 +48,9 @@ The account's owner can do all a workspace owner can; account admins can invite,
 2. **Members**: type an email, **Create invitation** (editor role).
 3. Tell them (below); Slate sends no email.
 
-An invitation is a membership addressed by email (a user id exists only after someone signs in). The address is stored lower-cased and trimmed, database-enforced, so it matches a login. Pending invitations are listed with members and can be revoked before claimed.
+An invitation is a membership addressed by email (a user id exists only after someone signs in). The address is stored lower-cased and trimmed, database-enforced, so it matches a login. It matches only an address the sign-in provider confirmed; Google and GitHub confirm it when the account is made. Pending invitations are listed with members and can be revoked before claimed.
 
-**Accepting is explicit.** A banner at the top of the app, on any screen, names the workspace, inviter and role with **Accept** and **Decline**. Accepting sets up the replica and the workspace appears in the switcher. A declined invitation stays declined until re-invited. The only way into a workspace is an invitation the person accepts; the database refuses an admin who tries to add someone directly.
+**Accepting is explicit.** A banner at the top of the app, on any screen, names the workspace, inviter and role with **Accept** and **Decline**. Accepting sets up the replica and the workspace appears in the switcher. A declined invitation stays declined until re-invited. The only way into a workspace is an invitation the person accepts; the database refuses an admin who tries to add someone directly, to a workspace or to its account.
 
 **Telling them.** Each pending row has:
 

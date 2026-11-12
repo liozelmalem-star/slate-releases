@@ -69,7 +69,7 @@ The chat starts with what you first asked and, under **Summary**, what Slate sav
 
 The composer's **Scope** control (folder icon) lists your **projects** (not workspaces; the rail's switcher picks those), resting at **All projects**. The tool's searches, the memories Home hands it (**What it knows**), the tool picker and the widgets follow it. Scope is not saved.
 
-**Drag a file onto the composer** to attach it, as a paste does. An image shows as a thumbnail; on send Slate saves it in an `attachments` folder in its app-data folder and gives the tool the path. An image unused for 30 days is removed. A text or code file is inlined under its name. This also works in a session's **Conversation** prompt. Dropping a file elsewhere in the app imports a folder as docs.
+**Drag a file onto the composer** to attach it, as a paste does. An image shows as a thumbnail; on send Slate saves it in an `attachments` folder in its app-data folder and gives the tool the path. An image unused for 30 days is removed. A text or code file is inlined under its name, cut at 20,000 characters. The same limits hold for a drop, a paste and the paperclip: an image up to 8 MB, a text file up to 1 MB. A larger file, a binary (a PDF, a zip) or a file that is not UTF-8 text is not attached, and a message names it; the other files still attach. This also works in a session's **Conversation** prompt. Dropping a file elsewhere in the app imports a folder as docs.
 
 ## Skills and mentions
 

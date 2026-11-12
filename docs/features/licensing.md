@@ -18,7 +18,7 @@ Slate checks 8 seconds after opening, then every 4 hours, **downloads in the bac
 
 **On a Mac, updates usually download only what changed**: a patch from the previous version, about 5% of the full download (6 MB instead of 126 MB from 0.1.53 to 0.1.54). Slate rebuilds the new version from the patch and a kept copy of the current one (about 50 MB in its cache folder), installing only if the result is exactly the published release and its signature checks out; otherwise it downloads the whole version. If macOS clears the kept copy, the next update is full.
 
-The update installs **when you next quit**, never while you work or by restarting itself. **Restart now** in the notice first says how many CLI sessions are open. Quit and **Restart now** treat sessions alike: a Claude Code session goes to the background (Slate types `/bg` and it keeps running as a background job), a session from another tool is ended, and a session already in the background keeps running.
+With Automatic updates on, the update installs **when you next quit**, never while you work or by restarting itself. With it off, a quit installs nothing and asks the update service nothing: a downloaded update waits for **Restart now**. **Restart now** in the notice first says how many CLI sessions are open. Quit and **Restart now** treat sessions alike: a Claude Code session goes to the background (Slate types `/bg` and it keeps running as a background job), a session from another tool is ended, and a session already in the background keeps running.
 
 > **Note:** **About** in Settings shows your version, any waiting update with full release notes, and **Check now**. A failed check or install says why, with **Try again**. Website, Documentation and Source lines open in your browser.
 

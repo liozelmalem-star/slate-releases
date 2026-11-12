@@ -45,7 +45,7 @@ Both read the [cloud](https://liozelmalem-star.github.io/slate-releases/docs/fea
 | Tool | Purpose |
 | --- | --- |
 | `my_tasks` | Your [Tasks](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks.md) list. `view: "today"` (default): your overdue or due-today to-dos, grouped as the Tasks tab does, plus the first 10 open items from your tools, each with its key (`PROJ-12`, `acme/api#412`). `view: "all"`: every open to-do and up to 100 items. Omitted counts: `more_tasks`, `more_items`. No meetings. Old name `my_work` still answers for one release. |
-| `update_my_task` | Add a line to your list (no `id`, with `title`) or change one (`id`): tick (`done: true`), reopen (`done: false`), rename, or set/clear a reminder (`in_minutes` or `at` ISO instant; `clear_reminder: true`). A reminder notifies when due. Jira, Linear and GitHub items are refused, naming where to change them. Old name `update_my_work` still answers for one release. |
+| `update_my_task` | Add a line to your list (no `id`, with `title`) or change one (`id`): tick (`done: true`), reopen (`done: false`), rename, or set/clear a reminder (`in_minutes` or `at` ISO instant; `clear_reminder: true`). Pass one of the three: two at once is refused, not resolved. A reminder notifies when due. Jira, Linear and GitHub items are refused, naming where to change them. Old name `update_my_work` still answers for one release. |
 
 ## Apps you connected in Slate
 

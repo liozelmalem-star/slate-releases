@@ -12,13 +12,13 @@ With nothing typed: **Open tabs**, **Live sessions**, **Recent**, **Favorites**,
 
 Typed, the order is: **Actions** (commands whose name holds the text), open tabs, **Go to** (places and a few Settings sections), sessions, files, **Docs**, **Tasks** (to-dos and tickets; open in Tasks), **Memories** (open in Memory), **Reports**, **Artifacts**. Loose command matches come last, under **More actions**.
 
-Files come from the open workspace's projects only. A doc row shows its parent path. A doc in Trash is marked **In Trash** and opens read-only, with **Restore**.
+Files come from the open workspace's projects only. When git does not answer for a checkout (a large checkout read cold, past the 5 s limit), the palette names that checkout under the results instead of showing **No matches**; the other checkouts still answer, and a checkout read before keeps its last file list. A doc row shows its parent path. A doc in Trash is marked **In Trash** and opens read-only, with **Restore**.
 
 ### Text inside files — ⌘⇧F
 
 **⌘⇧F** (*Search docs and files*) searches doc bodies, then the text inside files of every project and worktree in the open workspace. A file hit is the matching line with file and line number, grouped by checkout and branch; Enter opens the file read-only at that line.
 
-The query starts at three characters. It is plain text, not a pattern, and ignores case. Ignored and binary files are skipped; uncommitted files an agent wrote are included. At most 200 lines are found, and the palette shows the first 30.
+The query starts at three characters. It is plain text, not a pattern, and ignores case. Ignored and binary files are skipped; uncommitted files an agent wrote are included. At most 200 lines are found, and the palette shows the first 30. A checkout git could not search is named under the results, as in ⌘K.
 
 ### Sessions in ⌘K
 
@@ -30,7 +30,7 @@ Type a web address and the first row is **Open in Slate**, which opens it in Sla
 
 The tab is read-only: back, forward, reload, an address bar, a button to open the web page outside Slate. Back and forward follow addresses typed in the bar, not clicked links. Sites that refuse to show inside another app get a note and your browser. Your browser's sign-ins do not carry over.
 
-A local HTML file is served from its folder on a private local port, so scripts, styles and images load; dot-names (`.env`, `.git`) below it are never served, and the HTML page may connect nowhere but that folder. A local server address in a session's messages or terminal opens here too, beside the session.
+A local HTML file is served from its folder on a private local port, so scripts, styles and images load; dot-names (`.env`, `.git`) below it are never served, and the HTML page may connect nowhere but that folder. Slate keeps the 16 most recently used folders served; an older one is closed and served again when you open it again. A local server address in a session's messages or terminal opens here too, beside the session.
 
 ## The cheatsheet
 

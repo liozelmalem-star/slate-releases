@@ -20,7 +20,7 @@ Assume everything is shared: docs, memories, git activity, a record that a sessi
 
 Full list: [Workspaces](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces.md#what-actually-leaves-your-machine). Postgres enforces activity kinds with a `CHECK` constraint.
 
-> **Warning:** **Text is not filtered.** A doc body and a memory sentence go up as written, so a path you typed travels with the row. Exception: Slate replaces keys, tokens and passwords it recognises with `[secret]` in every memory before storing it, and in docs an agent writes. A doc you type yourself is not checked.
+> **Warning:** **Text is not filtered.** A doc body and a memory sentence go up as written, so a path you typed travels with the row. Exception: Slate replaces keys, tokens and passwords it recognises with `[secret]` in every memory before storing it, and in docs an agent writes. A doc you type yourself is not checked, and neither is an artifact or widget an agent publishes (`publish_artifact`, `publish_widget`): they carry code.
 
 ## Artifacts and widgets
 

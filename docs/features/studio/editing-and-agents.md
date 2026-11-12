@@ -17,11 +17,12 @@ Markdown opens drawn: header fields on top, text below, a **Preview / Markdown**
 * Only the keys a field writes change; other keys, comments and order stay. A model the three choices do not name (`sonnet`) stays until you pick one.
 * A header that does not parse hides the fields until fixed in the text. A config that would no longer parse is not saved, parsed as its tool does: Gemini's `settings.json` and OpenCode's `opencode.json` may carry comments; Claude Code's and Cursor's JSON may not.
 * With `.slate/`, editing the rules file syncs every tool.
+* A rules or skill file that is a link to somewhere outside the project (or sits in a linked folder that leads outside) is neither shown nor saved; a message names the file. A link that stays inside the project, such as `CLAUDE.md` to `AGENTS.md`, works.
 * A Config files row opens the file as on disk, so MCP variables show there; an MCP server's own row never shows them.
 
 ## A `.slate/` skill
 
-It opens in a view that gives the editor the room. One row holds name, agents that read it, and a **⋯** menu: **Rename**, **Duplicate**, **Copy to project**, **History** (restore any commit), **Remove…** (the list's row menu offers the same). File name, **Preview** / **Markdown** and saved state share one row. A skill can hold more than one file.
+It opens in a view that gives the editor the room. One row holds name, agents that read it, and a **⋯** menu: **Rename**, **Duplicate**, **Copy to project**, **History** (restore any commit; images and other binary files come back byte for byte, and a file over 16 MB is refused rather than cut), **Remove…** (the list's row menu offers the same). File name, **Preview** / **Markdown** and saved state share one row. A skill can hold more than one file.
 
 The agents control shows marks, **N of M** and a chevron: N agents it is published to; M installed agents that can take it, plus any non-installed agent it reaches. It opens a checklist of the 16 supported agents: **Installed** first, a folded **Not installed** group, a search box, **All installed agents** on top. An agent that cannot take a skill is greyed with the reason.
 
@@ -44,7 +45,7 @@ A trash icon titled **Remove <name>** asks first (**Remove <name>?**, **Keep it*
 
 A skill behind a tool folder linked to a shared folder elsewhere is not removed there; Slate names the folder.
 
-An **MCP server** row lists each connected tool with **Remove from** (has it) or **Add to** (does not). It says when a server will not load yet: Claude Code waits for approval of a `.mcp.json` server; Codex reads `.codex/config.toml` only in a trusted project. Slate never approves a server. A JSON file with comments is never rewritten. Variables and headers never reach the screen. A **hook** row opens its commands, each with **Remove**.
+An **MCP server** row lists each connected tool with **Remove from** (has it) or **Add to** (does not). It says when a server will not load yet: Claude Code waits for approval of a `.mcp.json` server; Codex reads `.codex/config.toml` only in a trusted project. Slate never approves a server. **Add to** keeps an SSE server SSE; Codex and Grok Build take only streamable HTTP, so an SSE server is refused there with the reason, and Suggestions never offers that copy. When the other tool has no place for a setting (`cwd`, `timeout`, a server turned off), the copy says which ones it left out. A JSON file with comments is never rewritten. Variables and headers never reach the screen. A **hook** row opens its commands, each with **Remove**. Remove checks that the command is still the one shown; if a tool or an editor changed the file since, nothing is removed and the list reloads.
 
 ## Your agents
 

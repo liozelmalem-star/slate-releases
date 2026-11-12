@@ -33,7 +33,9 @@ document.querySelector("[data-theme-toggle]")?.addEventListener("click", () => {
   document.documentElement.dataset.theme = next;
   try {
     localStorage.setItem("slate-theme", next);
-  } catch {}
+  } catch {
+    // expected: the theme pick is a preference; storage may be blocked
+  }
 });
 
 document.querySelector("[data-menu]")?.addEventListener("click", () => {

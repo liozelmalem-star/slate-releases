@@ -55,6 +55,8 @@ yarn studio prove    # sources, adapters, symlinks, and a live probe of each ins
 
 `yarn studio check` keeps a stale `CLAUDE.md` or `.cursor/` out of main.
 
+**Time limits in Toolkit.** Toolkit runs these commands for you. Each one gets 60 seconds, and Prove gets 5 minutes, because it asks each installed tool in turn. A command that runs longer is stopped, together with everything it started, and Toolkit shows that it timed out instead of loading for ever.
+
 ## In the app
 
 Edits are committed in **Projects → Code → Changes**.

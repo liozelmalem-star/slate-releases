@@ -30,7 +30,7 @@ Each doc has one writer, its author. A teammate's doc opens with a read-only edi
 
 With one writer per row there are no version columns, 409 handling or conflict resolution. Your manual sibling order is not published; on a teammate's machine your docs arrive in pull order.
 
-**You on two Macs.** Each Mac remembers the version of your doc it last saw in the workspace. When your other Mac published a newer version, this one takes it, and never sends its older copy over it. If you edited the same doc on both Macs before either synced, the later edit wins and the other is kept beside it as "<title> (copy from this Mac)". Docs, memories and artifacts all work this way. One exception: a doc or memory whose published copy has words of a hidden memory blanked out is not taken, so the words this Mac holds are never replaced; it stays as it is until you edit it here.
+**You on two Macs.** Each Mac remembers the version of your doc it last saw in the workspace. When your other Mac published a newer version, this one takes it, and never sends its older copy over it. If you edited the same doc on both Macs before either synced, the later edit wins (by when you made it, not when it reached the cloud) and the other is kept beside it as "<title> (copy from this Mac)". Docs, memories and artifacts all work this way. One exception: a doc or memory whose published copy has words of a hidden memory blanked out is not taken, so the words this Mac holds are never replaced; it stays as it is until you edit it here.
 
 **Who wrote what** (shared workspaces only):
 
