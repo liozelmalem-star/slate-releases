@@ -34,7 +34,7 @@ Your home folder and the disk root are refused, because every session would file
 
 Slate makes no project itself. Setup's last step lists git repositories, newest change first, nothing ticked; ticked ones become projects. It never lists your home folder, temporary folders, an agent's own folder, Slate's data folder or a removed folder. A removed project stays removed until you restore its doc or add the folder.
 
-**A session in a folder no project holds is not recorded**: no session doc, nothing in Docs. Memories it writes with `remember` or `record_decision` are still saved, as global memory. Adding the folder later (setup, **+** in Projects, or the session's row) records sessions there from then on and earlier ones whose transcripts remain on disk. Restoring a project from Trash does the same.
+**A session in a folder no project holds is not recorded**: no session doc, nothing in Docs. Memories it writes with `remember` are still saved, as global memory. Adding the folder later (setup, **+** in Projects, or the session's row) records sessions there from then on and earlier ones whose transcripts remain on disk. Restoring a project from Trash does the same.
 
 A row in **No project** offers **Make a project** under **⋯**. With several workspaces the menu names each (**Make a project in Work**), the session's own first. A folder no workspace claims goes to Personal, private by default.
 

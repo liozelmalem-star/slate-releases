@@ -17,4 +17,4 @@ Every agent you use shares Slate's memory. It is stored as docs you can read.
 
 The tools every AI client calls are in [Slate as an MCP Server](https://liozelmalem-star.github.io/slate-releases/docs/features/mcp-server.md).
 
-`recall` reads the workspace on this machine that owns the working folder, and never leaves the machine. What you put in a [shared workspace](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces.md) is readable by colleagues and their AI through a separate verb, `recall_workspaces`, which asks the cloud.
+`recall` reads the workspace on this machine that owns the working folder, and never leaves the machine. What you put in a [shared workspace](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces.md) is readable by colleagues and their AI through a scope of its own, `recall` with `scope: "workspaces"`, which asks the cloud.

@@ -11,7 +11,7 @@ Agents reach it over streamable HTTP on the running app, `http://127.0.0.1:47366
 Every connected model gets a standing instruction (within Claude Code's 2,048-character limit); tool descriptions hold the detail.
 
 * **Start.** If no brief opened the session and no direct tool answers, call `recall({ query: "current branch goal and context", cwd })` for decisions, conventions, memories and the branch brief.
-* **During.** `record_decision` keeps a decision and its reason. At a milestone the agent asks whether to save a plan, review, test plan, bug report or design, and calls `create_doc` only after a yes. It lists the refs of memories that shaped its work in `used`, never in its reply. If a memory's `citation` says `changed`, it reads the code first, and calls `remember` with `replaces` if the memory is wrong.
+* **During.** `remember` with `kind: "decision"` keeps a decision, its reason and what it turned down. At a milestone the agent asks whether to save a plan, review, test plan, bug report or design, and calls `create_doc` only after a yes. It lists the refs of memories that shaped its work in `used`, never in its reply. If a memory's `citation` says `changed`, it reads the code first, and calls `remember` with `replaces` if the memory is wrong.
 * **End.** The agent must call `log_mission_progress` once before its final reply, and saves at most two memories, only what will change how a future agent acts.
 
 How the two verbs rank, stay silent and dedupe is in [Recall & Remember](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/recall-remember.md).
@@ -20,15 +20,19 @@ A client never calls a mutating tool to test the connection: `slate_capabilities
 
 ## The shared half
 
-`recall` searches the workspace owning the working folder, on this machine only (in a shared workspace, that includes teammates' work your copy holds). `recall_workspaces` and `workspace_doc` search the cloud across every shared [workspace](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces.md) you belong to, even ones this machine has not added. Both are read-only; Row Level Security decides what they see. They are separate verbs so private and shared knowledge stay distinguishable.
+`recall` searches the workspace owning the working folder, on this machine only (in a shared workspace, that includes teammates' work your copy holds). `recall` with `scope: "workspaces"` searches the cloud across every shared [workspace](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces.md) you belong to, even ones this machine has not added, and `get_doc` reads a doc shared there when its id is not local. Both are read-only; Row Level Security decides what they see. The shared half is its own scope, never mixed into your own results, and a shared doc says `shared: true`, so private and shared knowledge stay distinguishable.
 
 ## Capability discovery
 
-The contract id is `slate-mcp-contract/2026-11-10`; `slate_capabilities` returns version, tools, access levels, approval policies and schema hash.
+The contract id is `slate-mcp-contract/2026-11-13`; `slate_capabilities` returns the version, every place in Slate with its tools, each tool's access level and approval policy, and the schema hash.
+
+## Every place, one of three kinds
+
+Each place in Slate is served over MCP in one of three ways (ADR 0127): **the AI does it** (a tool), **you decide it** (in Slate, never a tool the model calls alone: accepting a memory or setup proposal), or **only in the app** (Settings, your account, Trash). The map of every place and its tools is `packages/catalog/src/en/mcpCoverage.json`; a check fails the build when a part of Slate, or a tool, is missing from it.
 
 ## See also
 
-* [Tool Reference](https://liozelmalem-star.github.io/slate-releases/docs/features/mcp-server/tools.md) — all 27 tools and their arguments.
+* [Tool Reference](https://liozelmalem-star.github.io/slate-releases/docs/features/mcp-server/tools.md) — all 25 tools and their arguments.
 * [Connecting Your Agents](https://liozelmalem-star.github.io/slate-releases/docs/features/mcp-server/connecting.md) — wire a tool to Slate.
-* [Workspaces](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces.md) — what `recall_workspaces` reads.
+* [Workspaces](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces.md) — what `recall` with `scope: "workspaces"` reads.
 * [Connected MCP Tools](https://liozelmalem-star.github.io/slate-releases/docs/features/agent/connected-tools.md) — the reverse direction, where Home is the client.

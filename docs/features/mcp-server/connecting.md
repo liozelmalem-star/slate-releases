@@ -12,6 +12,12 @@ Every session talks over HTTP to the running Slate app (`http://127.0.0.1:47366/
 
 **Slate must be running.** With it closed, the tool lists `slate` as failed and the session-start hook says so. Open Slate and start a new session (Claude Code: `/mcp` also reconnects).
 
+## One-click install in VS Code and Cursor
+
+Install Slate on your Mac first: these links only add the entry that runs the app's own `slate-mcp`, so they do nothing without the app.
+
+[Install in VS Code](vscode:mcp/install?%7B%22name%22%3A%22slate%22%2C%22command%22%3A%22%2FApplications%2FSlate.app%2FContents%2FMacOS%2Fslate-mcp%22%2C%22args%22%3A%5B%5D%7D) · [Install in Cursor](cursor://anysphere.cursor-deeplink/mcp/install?name=slate&config=eyJjb21tYW5kIjoiL0FwcGxpY2F0aW9ucy9TbGF0ZS5hcHAvQ29udGVudHMvTWFjT1Mvc2xhdGUtbWNwIiwiYXJncyI6W119)
+
 ## By hand
 
 The app's entry is the supported way. To write it yourself, read the key from `slate-mcp-token` beside your workspace database and `chmod 600` the config. Claude Code, `~/.claude.json`:
@@ -41,6 +47,8 @@ args:    []
 
 That is one process per client, so the agents use the HTTP entry.
 
+A client started with no folder (Claude Desktop's chat) gets the same rules with one change: it is asked to call `recall` with the conversation's topic, naming the project if there is one, instead of with a `cwd`.
+
 ## Verify it works
 
 Ask your agent:
@@ -66,7 +74,6 @@ Generated from the MCP tool registry and checked by `packages/mcp/test/tools/con
 | `log_mission_progress` | write | — |
 | `list_memories` | read | — |
 | `propose_memory_change` | write | — |
-| `record_decision` | write | — |
 | `get_artifact` | read | — |
 | `publish_artifact` | write | — |
 | `get_widget` | read | — |
@@ -77,12 +84,11 @@ Generated from the MCP tool registry and checked by `packages/mcp/test/tools/con
 | `propose_setup_change` | write | — |
 | `get_agent_run` | read | — |
 | `report_agent_run_step` | write | — |
+| `run_automation` | write | — |
 | `my_tasks` | read | — |
 | `update_my_task` | write | — |
 | `connected_tools` | read | — |
 | `read_connected` | read | — |
-| `recall_workspaces` | read | — |
-| `workspace_doc` | read | — |
 <!-- slate-contract:end -->
 
 A tool can save a typed document and add to a doc, and nothing else. Saving a document of a type the project already has on that branch rewrites that doc. Every tool carries the standard MCP labels, so a client can skip asking before a read. See [Tool Rules](https://liozelmalem-star.github.io/slate-releases/docs/features/mcp-server/tool-rules.md).
@@ -101,11 +107,12 @@ A failed call answers JSON with `error.code` and `error.message`:
 * `widget_not_found`, `invalid_widget`, `build_failed`, `not_a_widget`, `version_conflict` — the widget tools (`version_conflict`: someone published a newer version while this one built; publish again).
 * `wrong_workspace` — the `cwd` belongs to another workspace than the session's ([Tool Rules](https://liozelmalem-star.github.io/slate-releases/docs/features/mcp-server/tool-rules.md#which-workspace-a-call-reaches)).
 * `no_task` (`get_agent_run` outside an agent run); `stale`, `closed`, `invalid` — a refused `report_agent_run_step`.
-* `slate_not_running` — `connected_tools` or `read_connected` while Slate is closed.
+* `slate_not_running` — `connected_tools`, `read_connected` or starting a `run_automation` while Slate is closed.
+* `run_not_startable` — a `run_automation` id that names no automation, or one with no steps; the message is Slate's reason.
 * `store_unavailable` — the workspace file is behind this build, so this process cannot change it.
 * `internal_error` — anything else, with its message.
 
-A refused `remember` or `record_decision` is not an error. The answer says `saved: false` with the reason.
+A refused `remember` is not an error. The answer says `saved: false` with the reason.
 
 Memory lands in the workspace the call's `cwd` belongs to (Personal unless the folder belongs to a shared one). Read, edit or retire entries under **Memory**.
 

@@ -26,7 +26,7 @@ Pick the **Profile** this workspace uses, or **Add** one by naming it and its co
 * For Claude Code, Codex and Cursor, the add form offers config folders already in your home folder (such as `~/.claude-work`) as buttons under **Found here**. Gemini offers none: its variable names a replacement home folder.
 * **Choose folder…** picks any other. A missing path is fine: the tool creates it on sign-in.
 * Pick before connecting: the profile decides where Slate is installed.
-* **Its own default** is the tool's built-in folder (`~/.claude`, `~/.codex`, …). A `CLAUDE_CONFIG_DIR` or `CODEX_HOME` set in your shell is not followed for it: name that folder as a profile instead. Slate does follow `XDG_CONFIG_HOME`, `XDG_DATA_HOME` and `OPENCODE_CONFIG`.
+* **Its usual settings folder** is the tool's built-in folder (`~/.claude`, `~/.codex`, …). A `CLAUDE_CONFIG_DIR` or `CODEX_HOME` set in your shell is not followed for it: name that folder as a profile instead. Slate does follow `XDG_CONFIG_HOME`, `XDG_DATA_HOME` and `OPENCODE_CONFIG`.
 * A tool kept only under a profile or its own variable's folder counts as installed. Gemini CLI and Antigravity share `~/.gemini`; each is told apart by the files only it writes.
 * **Cursor:** `CURSOR_CONFIG_DIR` moves only its sign-in. `cursor-agent` reads servers, hooks and plugins from `~/.cursor` and writes history there (or where `CURSOR_DATA_DIR` says) for every profile. Slate writes them once for all Cursor profiles. Turning one profile off leaves them while another connected Cursor profile uses them.
 
@@ -34,4 +34,4 @@ Why two workspaces on one profile share its sign-in: [Project environments](http
 
 ## Models
 
-The model list shows once this workspace runs the tool. On **Its own default**, Slate passes no model and the CLI picks. **Make default** marks the tool used when nothing more specific is named, with a **default** badge. A group or standalone project can override any of it.
+The model list shows once this workspace runs the tool. On **Its usual model**, Slate passes no model and the agent picks. **Make default** marks the tool used when nothing more specific is named, with a **default** badge. A group or standalone project can override any of it.

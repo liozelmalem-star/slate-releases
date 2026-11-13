@@ -4,7 +4,7 @@ Press **⌘K** anywhere. One input runs a command, jumps to a doc, or searches y
 
 Search uses **SQLite FTS5**, an index in the same local file as your content; it never leaves the machine.
 
-⌘K searches **your** workspace only. What others shared is searched by opening [Workspaces](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces.md), or by an agent calling `recall_workspaces`. The palette never blends private and shared results.
+⌘K searches **your** workspace only. What others shared is searched by opening [Workspaces](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces.md), or by an agent calling `recall` with `scope: "workspaces"`. The palette never blends private and shared results.
 
 ### What ⌘K lists
 

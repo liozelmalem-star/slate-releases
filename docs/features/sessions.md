@@ -22,7 +22,7 @@ When a session starts waiting on a permission or question and Slate is not in fr
 
 A Sessions icon shows a count while a session needs you. Its panel lists sessions working or waiting on you, waiting first in Home's order (permission, question, finished), each with kind and tool, and its workspace (a small dot and the name) when they span more than one workspace. Click one to open it. The panel also has **Keep the computer awake**, **New session**, **Open Slate** and **Quit Slate**.
 
-Closing the window only hides it; ⌘Q quits. A hidden window stops reading sessions and all timers and catches up on opening; the count, notification and keep-awake come from the server and keep working. A visible but unused window shows changes within 5 seconds, other timers at a quarter pace. Automations › Built-in has **Show Slate in the menu bar** (on) and **Start Slate at login** (off).
+Closing the window only hides it; ⌘Q quits. A hidden window stops reading sessions and all timers and catches up on opening; the count, notification and keep-awake come from the server and keep working. A visible but unused window shows changes within 5 seconds, other timers at a quarter pace. Automations › Built-in has **Show Slate in the menu bar** (on) and **Start Slate at login** (off until you choose; it starts with no window, [Starting at login](https://liozelmalem-star.github.io/slate-releases/docs/features/automations.md#starting-at-login)).
 
 ## Narrowing to a workspace or a project
 

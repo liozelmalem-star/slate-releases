@@ -4,7 +4,7 @@ A **decision** is a choice kept with its reasoning. A **`fact`** stays true acro
 
 ## Decisions
 
-`record_decision` needs `title`, `reasoning` and `confidence` (`high`, `medium`, `low`); it also takes `alternatives`, `outcome`, `source_ref`. It writes a decision memory (confidence 0.95, 0.8, 0.6) and a decision doc with the full reasoning. `recall` ranks a decision first for a "why" question.
+`remember` with `kind: "decision"` takes the decision as `text`, its why as `reason`, and optionally `rejected` (what it turned down), `confidence` (`high`, the default, `medium`, `low`) and `source_ref`. It writes a decision memory (confidence 0.95, 0.8, 0.6) and a decision doc with the full reasoning. The old `record_decision` tool still answers for one release. `recall` ranks a decision first for a "why" question.
 
 The same title under the same project updates your decision doc: the reasoning is replaced, and the lines under **Outcome** stay. In a shared workspace, a teammate's decision doc with that title is left alone, and you get a doc of your own.
 

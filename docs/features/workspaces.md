@@ -28,7 +28,7 @@ Per workspace: open tabs, favourites, recents, expanded sections, what Home is s
 
 - **Sign in**: **Settings → Account**, GitHub. **Make, share, rename, recolour, leave, remove**: **Settings → Workspaces** (a private one renames at once; inviting needs it shared; Personal keeps its name; a workspace you belong to but have not set up here shows **Add here**). **Switch**: the switcher, whose last row **Manage workspaces…** opens Settings → Workspaces.
 - **Move a doc in**: right-click or ⋯, **Move to <workspace>** ([sharing](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces/sharing.md)). Others' docs sit in your tree with their avatar, read-only.
-- **Ask your AI**: [`recall_workspaces` and `workspace_doc`](../mcp-server/tools.md) search every workspace you belong to, including ones not set up here; `recall` stays in the working directory's workspace.
+- **Ask your AI**: [`recall` with `scope: "workspaces"` and `get_doc`](../mcp-server/tools.md#workspaces) search and read every workspace you belong to, including ones not set up here; `recall` without that scope stays in the working directory's workspace.
 
 ## How a shared workspace stays in step
 

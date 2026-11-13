@@ -14,13 +14,13 @@ Ten switches are app-wide: off stops it in every workspace. They pause things yo
 | --- | --- | --- |
 | **Scheduled automations** | Starts your automations at their times and those that run when a session ends; files each report under its group or project. Open workspace only, while Slate is open and the computer awake | Nothing runs on a schedule; automations stay listed and run by hand |
 | **Shared workspace sync** | At startup, then every two minutes: pushes your docs in a shared workspace, pulls others'. Needs sign-in. After repeated failures waits longer, up to an hour | Shared workspaces stop updating both ways; **Sync now** still works |
-| **agent runs (beta)** | Adds **Run with AI…** to a task (branch, folder, guided run). Every two minutes checks if a shipped run's pull request merged; for 30 days after shipping, hourly checks for a revert | Task card offers only **Just open a session**; started runs keep their rules; no merge or revert checks |
+| **agent runs** | Adds **Run with AI…** to a task (branch, folder, guided run). Every two minutes checks if a shipped run's pull request merged; for 30 days after shipping, hourly checks for a revert | Task card offers only **Just open a session**; started runs keep their rules; no merge or revert checks |
 | **Reminders** | Rings when a task with a time comes due, in every workspace on this computer | Nothing rings; times stay |
 | **AI memory care** (per workspace) | [Below](#ai-memory-care) | Free rules only: memories whose code is gone or whose state expired are hidden, badly shaped new ones refused; nothing spent |
 | **Automatic updates** | Checks for a version, downloads in background, installs on next quit | Keep your version until you check in Settings → About |
 | **Tell me when a session needs me** | One notification when a session waits on a permission or question and Slate is not in front; none for a finished turn | Sessions carry on; the amber dot and ⌘⇧J show the waiting one |
 | **Show Slate in the menu bar** | Menu bar icon opens a panel of working or waiting sessions, with a count while one needs you | Icon leaves; Sessions and ⌘⇧J still show all |
-| **Start Slate at login** | Opens Slate in the background at login. Off until turned on | Starts when you open it |
+| **Start Slate at login** | **Off until you choose.** Setup offers it ticked; an older install asks once. Starts Slate in the menu bar at login, [with no window](#starting-at-login), so every agent can reach it | Starts only when you open it; until then agents cannot reach Slate |
 | **Auto-capture** | Watches agents' transcripts and your projects, files what happens into the workspace owning the folder. While Slate is open; sessions run after quitting are caught at next launch | Nothing captured on its own, at once; agents can still write through Slate's MCP server |
 | **Keep the computer awake** | **Off until turned on.** While a session or automation works, stops the computer sleeping | Computer sleeps on schedule; running work pauses until wake |
 
@@ -47,6 +47,18 @@ A switch applies on the next tick, not next launch: within a minute for the auto
 - Everything else is local.
 
 Turning something off removes nothing: capture off keeps captured sessions; sync off does not withdraw shared docs ([leaving a workspace](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces/sharing.md)).
+
+## Starting at login
+
+Your agents reach Slate's memory, skills and connections through its MCP server, and that server runs only while Slate does. So Slate can start when you log in.
+
+- **Only if you chose it.** Setup shows **Start Slate in the menu bar when you log in** on the **Agents** step, ticked; untick it to say no. If you installed Slate before this existed, or skipped setup before that step, Slate asks once in a strip at the top of the window: **Turn on** or **Not now**. Either answer is kept, and you are not asked again. Until you answer, Slate adds no login item.
+- **macOS's own login item.** Slate registers itself with macOS (SMAppService), so it shows under its own name in **System Settings → General → Login Items**, and you can turn it off there too. If macOS waits for you to allow it, the switch says so, with **Open Login Items**.
+- **No window.** A login launch starts only the menu bar icon and the server; it does not even load the window. The Dock icon, the menu bar panel, opening Slate again, or a `slate://` link opens the window. If you are signed out, the window opens at once, because Slate needs you to sign in.
+- **Older login items move.** Versions before 0.1.69 wrote `~/Library/LaunchAgents/Slate.plist`. The next launch removes that file, and registers the macOS login item instead if you had the switch on.
+- **Your organization can decide.** With a managed preference (see [Managed Macs](https://liozelmalem-star.github.io/slate-releases/docs/features/privacy-and-security/security-details.md#managed-macs)), the switch shows the organization's answer, says **Managed by your organization**, and cannot be changed.
+- **Updates still arrive.** With **Automatic updates** on, a Slate that was started at login and not opened checks about 10 minutes in, then about every 4 hours. It installs the update when it quits or when you log out.
+- **Development builds** never write the login item. On Linux and Windows the login item opens the window.
 
 ## Keeping the computer awake
 

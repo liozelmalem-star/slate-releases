@@ -17,7 +17,8 @@
 #      capture hooks and the MCP server registrations, in whichever accounts Slate
 #      actually wrote to.
 #   2. /Applications/Slate.app
-#   3. The "Start Slate at login" item (~/Library/LaunchAgents/Slate.plist).
+#   3. The "Start Slate at login" item: the one macOS holds for the app (System Settings →
+#      Login Items), and the ~/Library/LaunchAgents/Slate.plist versions before 0.1.69 wrote.
 #   4. The logs, the cache and the webview state.
 #   5. The workspace itself — ONLY with --delete-workspace.
 #
@@ -198,6 +199,21 @@ else
   fi
 fi
 
+# ── 3b. The login item macOS holds for the app ────────────────────────────────
+# Start Slate at login is registered through SMAppService, from a plist inside the bundle, so
+# only the bundle can take it back out, and it must, before the bundle goes: otherwise System
+# Settings → Login Items keeps listing a Slate item. Run even with --keep-connections, which
+# only spares the AI tools' entries.
+if [[ -z "$TEST_HOOK" && -x "$APP/Contents/MacOS/slate" ]]; then
+  if $DRY_RUN; then
+    dim "    would: take Slate out of System Settings → Login Items"
+  elif "$APP/Contents/MacOS/slate" --remove-login-item >/dev/null 2>&1; then
+    ok "Removed Slate from Login Items"
+  else
+    warn "Could not take Slate out of Login Items — remove it in System Settings → General → Login Items."
+  fi
+fi
+
 # ── 4. The bundle ──────────────────────────────────────────────────────────────
 if [[ -e "$APP" ]]; then
   info "Removing ${APP}…"
@@ -206,8 +222,9 @@ if [[ -e "$APP" ]]; then
   ok "Removed the app"
 fi
 
-# ── 4b. The login item ─────────────────────────────────────────────────────────
-# Left behind, launchd tries to start the missing app at every login and System Settings keeps
+# ── 4b. The old login item ─────────────────────────────────────────────────────
+# Versions before 0.1.69 wrote Start Slate at login as a file in ~/Library/LaunchAgents. Left
+# behind, launchd tries to start the missing app at every login and System Settings keeps
 # listing a "Slate" background item. Unloaded first (best effort: it is only loaded after a
 # login that ran it), then the file goes.
 if [[ -e "$LOGIN_ITEM" ]]; then

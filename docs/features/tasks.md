@@ -100,9 +100,9 @@ Click a row to open it beside the list:
 
 Description and comments are read in the tool; terminal and changes are in the task's session ([Sessions](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions.md)).
 
-## Agent runs (beta)
+## Agent runs
 
-A run takes a task through Read it, Plan, Build, Check, Draft, Ship with two stops for your approval, in a visible session. On as **agent runs (beta)** in [Automations](https://liozelmalem-star.github.io/slate-releases/docs/features/automations.md); off, the card offers only **Just open a session**. Six kinds each run **one skill per project**, changed from the run button's menu, the start dialog or the folded **Workflow** box atop Issues and Reviews. See [Agent runs](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks/agent-runs.md) and [Workflow](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks/workflow.md).
+A run takes a task through Read it, Plan, Build, Check, Draft, Ship with two stops for your approval, in a visible session. On as **agent runs** in [Automations](https://liozelmalem-star.github.io/slate-releases/docs/features/automations.md); off, the card offers only **Just open a session**. Six kinds each run **one skill per project**, changed from the run button's menu, the start dialog or the folded **Workflow** box atop Issues and Reviews. See [Agent runs](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks/agent-runs.md) and [Workflow](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks/workflow.md).
 
 ### Workflow
 

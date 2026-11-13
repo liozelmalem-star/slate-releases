@@ -1,6 +1,6 @@
 # Agent runs
 
-An agent run takes a task through a fixed process in a session you can see. On as **agent runs (beta)** in [Automations](https://liozelmalem-star.github.io/slate-releases/docs/features/automations.md); off, the card offers only **Just open a session**. Only your click starts one.
+An agent run takes a task through a fixed process in a session you can see. On as **agent runs** in [Automations](https://liozelmalem-star.github.io/slate-releases/docs/features/automations.md); off, the card offers only **Just open a session**. Only your click starts one.
 
 ## Start a run
 
@@ -35,7 +35,7 @@ An agent run takes a task through a fixed process in a session you can see. On a
 2. Starts your agent there with one line naming the run. Codex, Cursor and Gemini CLI are told to trust the folder.
 3. Closes the dialog; the task shows the run (steps, last report, status). **Open session** shows the terminal. A tool that cannot take a first line at launch opens with it typed in. The run also tops **Agent runs**.
 
-The brief (first step) gives the agent notes on the task, the project's [memory index](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/session-start-brief.md#the-same-index-everywhere-slate-runs-an-ai) and any earlier run for it. Then one step at a time (Read it, Plan, Build, Check, Draft), each reported. After each the run waits for **Next**, shown when the agent finishes its turn.
+The brief (first step) gives the agent the task's [card](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/session-start-brief.md#a-session-started-from-a-task) (Scope, Open, Others, Connected, Rules and up to 5 memories) and any earlier run for it. Then one step at a time (Read it, Plan, Build, Check, Draft), each reported. After each the run waits for **Next**, shown when the agent finishes its turn.
 
 ## Approvals
 

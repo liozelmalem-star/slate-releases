@@ -32,6 +32,10 @@ Each number is the most Slate may use. Each limit was set from the median of sev
 | Settings | 1.5% |
 | Window hidden | 3% |
 
+### Started at login, no window
+
+When Slate starts at login, it loads no window until you open it: only the app, its menu bar icon and the server run. Together they use at most 0.2% of one core and 278 MB of memory, with no webview loaded.
+
 ### Slate's server, idle
 
 | Store | CPU, % of one core | Wake-ups per second | Memory |

@@ -24,7 +24,7 @@ Check the line that names your workspace and its size.
 |---|---|
 | **Slate's entries in your agents** | The plugin trees, the capture hooks and the MCP registrations, in exactly the accounts Slate wrote to |
 | **`/Applications/Slate.app`** | The app itself |
-| **The start-at-login item** | `~/Library/LaunchAgents/Slate.plist`, if you turned on Start Slate at login |
+| **The start-at-login item** | Slate's entry in System Settings → Login Items, and the `~/Library/LaunchAgents/Slate.plist` older versions wrote |
 | **Logs, cache and webview state** | Three rebuildable directories under `~/Library` |
 
 Slate installs itself into up to eighteen other products (the 16 agents, Claude Desktop and VS Code). Dragging Slate to the Trash leaves every entry behind, pointing at an app that is gone. So the app undoes its own work first, from a record of the accounts it wrote to. **An MCP server you registered yourself is never touched**, and neither is a plugin marketplace that only shares a name.
@@ -76,8 +76,9 @@ osascript -e 'tell application "Slate" to quit'
 /Applications/Slate.app/Contents/MacOS/slate --list-connections   # see them
 /Applications/Slate.app/Contents/MacOS/slate --disconnect-all     # remove them
 
-# 3. The start-at-login item, if you turned it on. The first line may print an error when
-#    it is not loaded; that is fine.
+# 3. The start-at-login item: the one macOS holds for the app, then the file versions
+#    before 0.1.69 wrote. The launchctl line may print an error when it is not loaded; fine.
+/Applications/Slate.app/Contents/MacOS/slate --remove-login-item
 launchctl bootout "gui/$(id -u)/Slate"
 rm -f ~/Library/LaunchAgents/Slate.plist
 

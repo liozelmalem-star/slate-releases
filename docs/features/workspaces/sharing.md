@@ -46,7 +46,7 @@ A removal is a **tombstone**: a row saying "gone", and when. When a teammate's d
 
 ## Memory
 
-A memory (decision, `fact`, preference or state saved by `remember` or `record_decision`) is anchored to a doc; if that doc is in a shared workspace, the memory is the workspace's. What travels: [What actually leaves your machine](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces.md#what-actually-leaves-your-machine). Superseding a decision withdraws the old one on the next pass.
+A memory (decision, `fact`, preference or state saved by `remember`) is anchored to a doc; if that doc is in a shared workspace, the memory is the workspace's. What travels: [What actually leaves your machine](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces.md#what-actually-leaves-your-machine). Superseding a decision withdraws the old one on the next pass.
 
 ## Artifacts
 

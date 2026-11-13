@@ -67,7 +67,7 @@ The plugin adds these to the `/` menu (type `/slate` in Claude Code):
 | `/slate:brief` | What Slate knows about this project, in a few lines |
 | `/slate:recall <what>` | Search your memory, and check any code it cites |
 | `/slate:remember <fact>` | Save one memory, in your words |
-| `/slate:open` | Open this branch's doc in the Slate app |
+| `/slate:open` | Open this project in the Slate app |
 
 ## What turning a tool off puts back
 

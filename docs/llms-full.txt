@@ -41,6 +41,8 @@ curl -fsSL https://liozelmalem-star.github.io/slate-releases/install.sh | bash
 
 The script downloads a prebuilt `Slate.app`, checks its checksum against the release's and its signature (a mismatch stops the install), quits a running Slate, installs to `/Applications` and opens it. Nothing compiles. Slate is not notarized by Apple, so a browser download would be quarantined by macOS, and `curl` avoids that.
 
+Already use VS Code or Cursor? After the app is installed, add Slate to the editor in one click: [Install in VS Code](vscode:mcp/install?%7B%22name%22%3A%22slate%22%2C%22command%22%3A%22%2FApplications%2FSlate.app%2FContents%2FMacOS%2Fslate-mcp%22%2C%22args%22%3A%5B%5D%7D) · [Install in Cursor](cursor://anysphere.cursor-deeplink/mcp/install?name=slate&config=eyJjb21tYW5kIjoiL0FwcGxpY2F0aW9ucy9TbGF0ZS5hcHAvQ29udGVudHMvTWFjT1Mvc2xhdGUtbWNwIiwiYXJncyI6W119). Without the app these links do nothing. Other tools: [Connecting your agents](https://liozelmalem-star.github.io/slate-releases/docs/features/mcp-server/connecting.md).
+
 To use [Home](https://liozelmalem-star.github.io/slate-releases/docs/features/agent.md) or give your tools one memory, install at least one **agent**: the [CLI of any of 16 tools](https://liozelmalem-star.github.io/slate-releases/docs/features/agent/brains.md): Claude Code, Codex, Cursor, GitHub Copilot, Antigravity, OpenCode, Gemini, Cline, Grok Build, Kiro, Qwen Code, Droid, Hermes Agent, Goose, Kilo Code or Auggie. Slate drives the CLI you already signed in to, so there is no API key to enter.
 
 **Sign in once. Your work never leaves your Mac.** The first launch asks you to sign in with Google or GitHub. This needs the internet once. The account holds your name, email and plan. Your work stays on this Mac. Slate keeps the sign-in on disk, so later launches open at once, even offline. The sign-in screen fills the window, so the app cannot be reached without it.
@@ -192,7 +194,7 @@ Check the line that names your workspace and its size.
 |---|---|
 | **Slate's entries in your agents** | The plugin trees, the capture hooks and the MCP registrations, in exactly the accounts Slate wrote to |
 | **`/Applications/Slate.app`** | The app itself |
-| **The start-at-login item** | `~/Library/LaunchAgents/Slate.plist`, if you turned on Start Slate at login |
+| **The start-at-login item** | Slate's entry in System Settings → Login Items, and the `~/Library/LaunchAgents/Slate.plist` older versions wrote |
 | **Logs, cache and webview state** | Three rebuildable directories under `~/Library` |
 
 Slate installs itself into up to eighteen other products (the 16 agents, Claude Desktop and VS Code). Dragging Slate to the Trash leaves every entry behind, pointing at an app that is gone. So the app undoes its own work first, from a record of the accounts it wrote to. **An MCP server you registered yourself is never touched**, and neither is a plugin marketplace that only shares a name.
@@ -244,8 +246,9 @@ osascript -e 'tell application "Slate" to quit'
 /Applications/Slate.app/Contents/MacOS/slate --list-connections   # see them
 /Applications/Slate.app/Contents/MacOS/slate --disconnect-all     # remove them
 
-# 3. The start-at-login item, if you turned it on. The first line may print an error when
-#    it is not loaded; that is fine.
+# 3. The start-at-login item: the one macOS holds for the app, then the file versions
+#    before 0.1.69 wrote. The launchctl line may print an error when it is not loaded; fine.
+/Applications/Slate.app/Contents/MacOS/slate --remove-login-item
 launchctl bootout "gui/$(id -u)/Slate"
 rm -f ~/Library/LaunchAgents/Slate.plist
 
@@ -294,7 +297,7 @@ When a session starts waiting on a permission or question and Slate is not in fr
 
 A Sessions icon shows a count while a session needs you. Its panel lists sessions working or waiting on you, waiting first in Home's order (permission, question, finished), each with kind and tool, and its workspace (a small dot and the name) when they span more than one workspace. Click one to open it. The panel also has **Keep the computer awake**, **New session**, **Open Slate** and **Quit Slate**.
 
-Closing the window only hides it; ⌘Q quits. A hidden window stops reading sessions and all timers and catches up on opening; the count, notification and keep-awake come from the server and keep working. A visible but unused window shows changes within 5 seconds, other timers at a quarter pace. Automations › Built-in has **Show Slate in the menu bar** (on) and **Start Slate at login** (off).
+Closing the window only hides it; ⌘Q quits. A hidden window stops reading sessions and all timers and catches up on opening; the count, notification and keep-awake come from the server and keep working. A visible but unused window shows changes within 5 seconds, other timers at a quarter pace. Automations › Built-in has **Show Slate in the menu bar** (on) and **Start Slate at login** (off until you choose; it starts with no window, [Starting at login](https://liozelmalem-star.github.io/slate-releases/docs/features/automations.md#starting-at-login)).
 
 ## Narrowing to a workspace or a project
 
@@ -439,7 +442,7 @@ Your home folder and the disk root are refused, because every session would file
 
 Slate makes no project itself. Setup's last step lists git repositories, newest change first, nothing ticked; ticked ones become projects. It never lists your home folder, temporary folders, an agent's own folder, Slate's data folder or a removed folder. A removed project stays removed until you restore its doc or add the folder.
 
-**A session in a folder no project holds is not recorded**: no session doc, nothing in Docs. Memories it writes with `remember` or `record_decision` are still saved, as global memory. Adding the folder later (setup, **+** in Projects, or the session's row) records sessions there from then on and earlier ones whose transcripts remain on disk. Restoring a project from Trash does the same.
+**A session in a folder no project holds is not recorded**: no session doc, nothing in Docs. Memories it writes with `remember` are still saved, as global memory. Adding the folder later (setup, **+** in Projects, or the session's row) records sessions there from then on and earlier ones whose transcripts remain on disk. Restoring a project from Trash does the same.
 
 A row in **No project** offers **Make a project** under **⋯**. With several workspaces the menu names each (**Make a project in Work**), the session's own first. A folder no workspace claims goes to Personal, private by default.
 
@@ -998,7 +1001,7 @@ Every agent you use shares Slate's memory. It is stored as docs you can read.
 
 The tools every AI client calls are in [Slate as an MCP Server](https://liozelmalem-star.github.io/slate-releases/docs/features/mcp-server.md).
 
-`recall` reads the workspace on this machine that owns the working folder, and never leaves the machine. What you put in a [shared workspace](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces.md) is readable by colleagues and their AI through a separate verb, `recall_workspaces`, which asks the cloud.
+`recall` reads the workspace on this machine that owns the working folder, and never leaves the machine. What you put in a [shared workspace](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces.md) is readable by colleagues and their AI through a scope of its own, `recall` with `scope: "workspaces"`, which asks the cloud.
 
 ---
 
@@ -1157,44 +1160,57 @@ Part of [Recall & Remember](https://liozelmalem-star.github.io/slate-releases/do
 ## Contents
 
 - [The brief](#the-brief)
-- [The same index everywhere Slate runs an AI](#the-same-index-everywhere-slate-runs-an-ai)
+- [A session started from a task](#a-session-started-from-a-task)
+- [The memory index where Slate runs an AI](#the-memory-index-where-slate-runs-an-ai)
 - [Deciding where a memory goes](#deciding-where-a-memory-goes)
 - [Rules: which memories your agents get](#rules-which-memories-your-agents-get)
 
 ## The brief
 
-Tools with Slate's hooks get a brief at session start, at most 4,000 characters (about 1,000 tokens):
+Tools with Slate's hooks get a short brief at session start, under 1,500 characters. It says where the session is and carries no memory, in this order:
 
-* **The branch:** name, and on a feature branch its goal, ticket and open items.
-* **The project's memory index:** up to 12 lines, one memory each, fewer when the index's 2,800 characters run out. Each claim is cut at 200 characters at a whole word, so a line with its ref is about 220 and an average lesson keeps its reason. The heading tells the session to list the ref of any memory that shapes its work in `used` on `log_mission_progress` or `remember`. It is chosen, not matched to words:
-  1. memories **pinned** into the index, by you in [Memory](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/map.md) or by a session with `remember(…, index: true)` (at most 25 per project);
-  2. memories a session **cited** in the last 30 days;
-  3. then lessons, preferences, decisions, newest first within each kind.
+* **Scope:** the project, the branch, and the branch's goal when one was written down (a plan or a saved goal, never one guessed from the branch name).
+* **Open:** the branch's open items, the pull requests and issues waiting on you in this project (from [Tasks](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks.md)), and on the main branch the other branches that still hold uncommitted work.
+* **Others:** other AI sessions working in this project right now.
+* **Rules:** up to 5 of your own rules for this project (see below).
+* One line telling the session to call `recall` with its task in its own words once it knows the task.
 
-  Other `fact` and `state` memories stay out unless pinned or cited; `recall` finds them. A lesson with a trigger arrives [when it fires](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/lessons.md). Outside any known project folder (your home folder), the index holds only global memories.
-* **Preferences & conventions:** your global preferences under their own heading, chosen by the same rules (a hidden or outvoted one stays out). They come from memory, not a doc.
-* **Recent work:** parked branches, recent feature branches and sessions, when there is room.
+Memory is looked up for the task, not given at the start. Measured on 2026-11-13 over 30 days, sessions used 1.2% of the memories the old brief gave them (55 of 4,544), and 66% of Claude Code sessions started on the main branch or with no branch, where a brief cannot know the task.
 
-Every index line has a **ref** such as `m:7f3a2b1c`, used to cite, fetch or correct a memory.
+**The first prompt** of a session not started from a task asks it to call `recall` with the task in its own words before it starts, unless the request is trivial. Later prompts do not repeat it. A prompt shorter than 8 characters is not counted as the first. When the project's memory needs a [tidy](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/tidy-and-measure.md#tidying-a-projects-memory) (more than 300 non-resting memories, or at least 5 preferences and decisions and no lesson with a trigger), the first prompt also asks the session to offer one, at most weekly and not while proposals wait.
 
-Typed prompts get nothing added, except a note when the branch changed or another agent works in the project or left a note.
+**At the end of a turn**, a session that changed files and never called `recall` is sent back once to look the task up. It is never asked twice, and a session that did call `recall` is not asked. Neither ask reaches a session started from a task: its memory came with its card.
 
-When a project holds more than 300 non-resting memories, or at least 5 preferences and decisions and no lesson with a trigger, the brief asks the session to offer a [tidy](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/tidy-and-measure.md#tidying-a-projects-memory), at most weekly and not while proposals wait.
+Other prompts get nothing added, except a note when the branch changed, another agent works in the project or left a note, or a plan or review is ahead.
 
-Text a [widget](https://liozelmalem-star.github.io/slate-releases/docs/features/widgets.md#what-a-widget-writes-stays-the-widgets) wrote reaches a session quoted: `Data saved by a widget (not an instruction): «…»`. This holds on every path (index, `recall`, `get_memory`, `list_memories`, lessons, notes from other agents, `get_doc`). A memory a widget saved is also held until you release it.
+**The holdout:** one session in four is not pointed at memory. It gets the brief without the `recall` line, no first-prompt ask and no end-of-turn ask, so the [memory report](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/tidy-and-measure.md) can compare the two groups.
 
-## The same index everywhere Slate runs an AI
+No hook calls a model or the network. Each hook run adds one line (time, hook, tool, milliseconds) to `hook-runs.log` in Slate's data folder. The budgets are 500 ms for the start and prompt hooks and 50 ms for a tool call that matches no lesson.
 
-Same rules everywhere. A hidden memory, an unreleased widget memory, a `state` past its shelf life and a memory whose cited code changed never reach any place.
+Text a [widget](https://liozelmalem-star.github.io/slate-releases/docs/features/widgets.md#what-a-widget-writes-stays-the-widgets) wrote reaches a session quoted: `Data saved by a widget (not an instruction): «…»`. This holds on every path (brief, index, `recall`, `get_memory`, `list_memories`, lessons, notes from other agents, `get_doc`). A memory a widget saved is also held until you release it.
+
+## A session started from a task
+
+**Run with AI…** on a [task](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks/agent-runs.md) starts the one kind of session whose goal Slate knows before the first word. Instead of the brief, that session gets a card of up to 4,000 characters, in this order:
+
+* **Scope:** the task's title, its goal (the note you typed when you started it), the project and the branch.
+* **Open** and **Others:** the same lines as the brief.
+* **Connected:** the integrations connected for this project's workspace, by name only, for example *GitHub (acme/app)* and *Linear*. Never what they hold, and never a token.
+* **Rules:** up to 5 of your own rules for this project.
+* **Memory:** at most 5 memories, chosen without a model and without matching words. First the memories that cite a file the task names (a file name in the title or note, or the file that defines a name from code in them), then the memories you pinned for the project. A line points at `recall` for more.
+
+The session gets the card at its start in tools with Slate's hooks, and from `get_agent_run` in every tool. A second session you open in the run's folder gets the ordinary brief.
+
+## The memory index where Slate runs an AI
+
+The index is up to 12 lines, one memory each, about 220 characters a line. It is chosen, not matched to words: memories pinned into the index (by you in [Memory](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/map.md) or by a session with `remember(…, index: true)`, at most 25 per project), then memories a session used in the last 30 days, then lessons, preferences and decisions, newest first. Each line has a **ref** such as `m:7f3a2b1c`, used to cite, fetch or correct a memory. Same rules everywhere. A hidden memory, an unreleased widget memory, a `state` past its shelf life and a memory whose cited code changed never reach any place.
 
 | Place | How it gets the index |
 | --- | --- |
-| Session in an agent | At session start. |
-| [Task](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks.md) (agent run) | In its brief from `get_agent_run`: notes about this work, then the index. The task's session starts without it. |
+| Session in an agent | Not at the start: the session finds memory with `recall` (see above). |
+| [Task](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks.md) (agent run) | Not the index: its [card](#a-session-started-from-a-task) carries up to 5 memories about the task's files, then the pinned ones. |
 | [Automation](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md) run | As `@memory` in its brief step, then also the memories sessions leave to search, newest first (an automation that tidies memory needs them). |
 | In-app agent (Home, Ask AI) | In its system prompt, for the project you are in. |
-
-When Slate starts a tool with the index in its prompt it sets `SLATE_BRIEF=embedded`: the tool's session-start brief keeps branch and recent work but omits the index. For an automation that applies only when its brief step uses `@memory` and the memory arrived. A task's own session gets the index from `get_agent_run`; a second terminal in the task's folder still gets it.
 
 ## Deciding where a memory goes
 
@@ -1215,7 +1231,7 @@ A memory kept out of a project or group never reaches it (index, lesson or widge
 * **Keep only lessons that proved useful:** used in at least N sessions (2 to start).
 * **Keep only decisions from work that shipped:** from agent runs whose pull request merged.
 * **Drop what came from work that was undone:** reverted after merge.
-* **Write your own:** a sentence; every agent saving memory there is told it under "What to save here". Slate cannot check it, and it is never left out.
+* **Write your own:** a sentence; every agent saving memory there is told it under "Rules". Slate cannot check it, and it is never left out.
 
 **For** sets where it holds: all projects or one. A rule only decides what is given out: nothing is removed, and what it leaves out returns when you turn it off. Rules apply everywhere memory is given out.
 
@@ -1367,7 +1383,7 @@ A lesson used in at least three sessions is a way of working. Daily, at most thr
 
 ## Logging progress mid-run
 
-`log_mission_progress` reports a run's work on its branch: the summary becomes a session entry of the project labelled with the branch; goal and open items become what the next session on that branch is told; each decision is a memory, with the summary as its reason. Every item passes the same rules as `remember` and `record_decision` (the project's memory policy and the checks on what a memory may hold), and a reworded duplicate of a decision already kept is merged. Anything refused is listed in the reply's `refused`, each line naming its item and why; a refused goal or open list leaves the one already stored as it is. No doc is made. On a trunk branch (`main`, `master`, `develop`) the goal is unchanged. A git branch is a label on records, never a doc (ADR 0119).
+`log_mission_progress` reports a run's work on its branch: the summary becomes a session entry of the project labelled with the branch; goal and open items become what the next session on that branch is told; each decision is a memory, with the summary as its reason. Every item passes the same rules as `remember` (the project's memory policy and the checks on what a memory may hold), and a reworded duplicate of a decision already kept is merged. Anything refused is listed in the reply's `refused`, each line naming its item and why; a refused goal or open list leaves the one already stored as it is. No doc is made. On a trunk branch (`main`, `master`, `develop`) the goal is unchanged. A git branch is a label on records, never a doc (ADR 0119).
 
 ## Measuring it
 
@@ -1393,7 +1409,7 @@ A **decision** is a choice kept with its reasoning. A **`fact`** stays true acro
 
 ## Decisions
 
-`record_decision` needs `title`, `reasoning` and `confidence` (`high`, `medium`, `low`); it also takes `alternatives`, `outcome`, `source_ref`. It writes a decision memory (confidence 0.95, 0.8, 0.6) and a decision doc with the full reasoning. `recall` ranks a decision first for a "why" question.
+`remember` with `kind: "decision"` takes the decision as `text`, its why as `reason`, and optionally `rejected` (what it turned down), `confidence` (`high`, the default, `medium`, `low`) and `source_ref`. It writes a decision memory (confidence 0.95, 0.8, 0.6) and a decision doc with the full reasoning. The old `record_decision` tool still answers for one release. `recall` ranks a decision first for a "why" question.
 
 The same title under the same project updates your decision doc: the reasoning is replaced, and the lines under **Outcome** stay. In a shared workspace, a teammate's decision doc with that title is left alone, and you get a doc of your own.
 
@@ -2231,9 +2247,9 @@ Click a row to open it beside the list:
 
 Description and comments are read in the tool; terminal and changes are in the task's session ([Sessions](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions.md)).
 
-## Agent runs (beta)
+## Agent runs
 
-A run takes a task through Read it, Plan, Build, Check, Draft, Ship with two stops for your approval, in a visible session. On as **agent runs (beta)** in [Automations](https://liozelmalem-star.github.io/slate-releases/docs/features/automations.md); off, the card offers only **Just open a session**. Six kinds each run **one skill per project**, changed from the run button's menu, the start dialog or the folded **Workflow** box atop Issues and Reviews. See [Agent runs](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks/agent-runs.md) and [Workflow](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks/workflow.md).
+A run takes a task through Read it, Plan, Build, Check, Draft, Ship with two stops for your approval, in a visible session. On as **agent runs** in [Automations](https://liozelmalem-star.github.io/slate-releases/docs/features/automations.md); off, the card offers only **Just open a session**. Six kinds each run **one skill per project**, changed from the run button's menu, the start dialog or the folded **Workflow** box atop Issues and Reviews. See [Agent runs](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks/agent-runs.md) and [Workflow](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks/workflow.md).
 
 ### Workflow
 
@@ -2378,7 +2394,7 @@ A connected app's address is in the workspace's file; not secret, never shared. 
 
 Source: https://liozelmalem-star.github.io/slate-releases/docs/features/tasks/agent-runs.md
 
-An agent run takes a task through a fixed process in a session you can see. On as **agent runs (beta)** in [Automations](https://liozelmalem-star.github.io/slate-releases/docs/features/automations.md); off, the card offers only **Just open a session**. Only your click starts one.
+An agent run takes a task through a fixed process in a session you can see. On as **agent runs** in [Automations](https://liozelmalem-star.github.io/slate-releases/docs/features/automations.md); off, the card offers only **Just open a session**. Only your click starts one.
 
 ## Start a run
 
@@ -2413,7 +2429,7 @@ An agent run takes a task through a fixed process in a session you can see. On a
 2. Starts your agent there with one line naming the run. Codex, Cursor and Gemini CLI are told to trust the folder.
 3. Closes the dialog; the task shows the run (steps, last report, status). **Open session** shows the terminal. A tool that cannot take a first line at launch opens with it typed in. The run also tops **Agent runs**.
 
-The brief (first step) gives the agent notes on the task, the project's [memory index](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/session-start-brief.md#the-same-index-everywhere-slate-runs-an-ai) and any earlier run for it. Then one step at a time (Read it, Plan, Build, Check, Draft), each reported. After each the run waits for **Next**, shown when the agent finishes its turn.
+The brief (first step) gives the agent the task's [card](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/session-start-brief.md#a-session-started-from-a-task) (Scope, Open, Others, Connected, Rules and up to 5 memories) and any earlier run for it. Then one step at a time (Read it, Plan, Build, Check, Draft), each reported. After each the run waits for **Next**, shown when the agent finishes its turn.
 
 ## Approvals
 
@@ -2905,7 +2921,7 @@ An automation is **a job, a trigger and steps**, held to **rules**.
 | **When a session ends** | After an AI coding session is captured. With **Scheduled automations** off in [Automations › Built-in](https://liozelmalem-star.github.io/slate-releases/docs/features/automations.md) these do not start, nor later for sessions that ended meanwhile. |
 | **When a task arrives** | When Tasks pulls in a new integration item, such as an assigned ticket. One read hands the run up to 5 new items. If already running, new items wait and start one run together afterwards. A just-connected tracker starts nothing (its first read brings everything). Your own to-dos never start one. Tasks reads integrations on opening and on returning to the window after over a minute. |
 
-Starts on its own only while **Runs on its own** (under **Starts**) is on. A line under the schedule says "Next: Mon 7:30 AM" or "Off, so it will not run on its own." Any automation can be run by hand.
+Starts on its own only while **Runs on its own** (under **Starts**) is on. A line under the schedule says "Next: Mon 7:30 AM" or "Off, so it will not run on its own." Any automation can be run by hand. Your agent can run one too, from whichever tool you are in ("run my morning report"): its `run_automation` tool lists your automations and starts one, as **Run now** does, while Slate is open. That run asks before it changes anything, like any other. Making or changing an automation stays here ([Tool Reference](https://liozelmalem-star.github.io/slate-releases/docs/features/mcp-server/tools.md#automations)).
 
 - **Asleep at due time**: runs once on wake. For time-bound reports switch on **Skip a run that is more than two hours late** ("· skips late runs").
 - **One at a time**; never started twice. **Slate stops mid-run**: marked failed; a scheduled one reruns minutes after return.
@@ -3087,13 +3103,13 @@ Ten switches are app-wide: off stops it in every workspace. They pause things yo
 | --- | --- | --- |
 | **Scheduled automations** | Starts your automations at their times and those that run when a session ends; files each report under its group or project. Open workspace only, while Slate is open and the computer awake | Nothing runs on a schedule; automations stay listed and run by hand |
 | **Shared workspace sync** | At startup, then every two minutes: pushes your docs in a shared workspace, pulls others'. Needs sign-in. After repeated failures waits longer, up to an hour | Shared workspaces stop updating both ways; **Sync now** still works |
-| **agent runs (beta)** | Adds **Run with AI…** to a task (branch, folder, guided run). Every two minutes checks if a shipped run's pull request merged; for 30 days after shipping, hourly checks for a revert | Task card offers only **Just open a session**; started runs keep their rules; no merge or revert checks |
+| **agent runs** | Adds **Run with AI…** to a task (branch, folder, guided run). Every two minutes checks if a shipped run's pull request merged; for 30 days after shipping, hourly checks for a revert | Task card offers only **Just open a session**; started runs keep their rules; no merge or revert checks |
 | **Reminders** | Rings when a task with a time comes due, in every workspace on this computer | Nothing rings; times stay |
 | **AI memory care** (per workspace) | [Below](#ai-memory-care) | Free rules only: memories whose code is gone or whose state expired are hidden, badly shaped new ones refused; nothing spent |
 | **Automatic updates** | Checks for a version, downloads in background, installs on next quit | Keep your version until you check in Settings → About |
 | **Tell me when a session needs me** | One notification when a session waits on a permission or question and Slate is not in front; none for a finished turn | Sessions carry on; the amber dot and ⌘⇧J show the waiting one |
 | **Show Slate in the menu bar** | Menu bar icon opens a panel of working or waiting sessions, with a count while one needs you | Icon leaves; Sessions and ⌘⇧J still show all |
-| **Start Slate at login** | Opens Slate in the background at login. Off until turned on | Starts when you open it |
+| **Start Slate at login** | **Off until you choose.** Setup offers it ticked; an older install asks once. Starts Slate in the menu bar at login, [with no window](#starting-at-login), so every agent can reach it | Starts only when you open it; until then agents cannot reach Slate |
 | **Auto-capture** | Watches agents' transcripts and your projects, files what happens into the workspace owning the folder. While Slate is open; sessions run after quitting are caught at next launch | Nothing captured on its own, at once; agents can still write through Slate's MCP server |
 | **Keep the computer awake** | **Off until turned on.** While a session or automation works, stops the computer sleeping | Computer sleeps on schedule; running work pauses until wake |
 
@@ -3120,6 +3136,18 @@ A switch applies on the next tick, not next launch: within a minute for the auto
 - Everything else is local.
 
 Turning something off removes nothing: capture off keeps captured sessions; sync off does not withdraw shared docs ([leaving a workspace](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces/sharing.md)).
+
+## Starting at login
+
+Your agents reach Slate's memory, skills and connections through its MCP server, and that server runs only while Slate does. So Slate can start when you log in.
+
+- **Only if you chose it.** Setup shows **Start Slate in the menu bar when you log in** on the **Agents** step, ticked; untick it to say no. If you installed Slate before this existed, or skipped setup before that step, Slate asks once in a strip at the top of the window: **Turn on** or **Not now**. Either answer is kept, and you are not asked again. Until you answer, Slate adds no login item.
+- **macOS's own login item.** Slate registers itself with macOS (SMAppService), so it shows under its own name in **System Settings → General → Login Items**, and you can turn it off there too. If macOS waits for you to allow it, the switch says so, with **Open Login Items**.
+- **No window.** A login launch starts only the menu bar icon and the server; it does not even load the window. The Dock icon, the menu bar panel, opening Slate again, or a `slate://` link opens the window. If you are signed out, the window opens at once, because Slate needs you to sign in.
+- **Older login items move.** Versions before 0.1.69 wrote `~/Library/LaunchAgents/Slate.plist`. The next launch removes that file, and registers the macOS login item instead if you had the switch on.
+- **Your organization can decide.** With a managed preference (see [Managed Macs](https://liozelmalem-star.github.io/slate-releases/docs/features/privacy-and-security/security-details.md#managed-macs)), the switch shows the organization's answer, says **Managed by your organization**, and cannot be changed.
+- **Updates still arrive.** With **Automatic updates** on, a Slate that was started at login and not opened checks about 10 minutes in, then about every 4 hours. It installs the update when it quits or when you log out.
+- **Development builds** never write the login item. On Linux and Windows the login item opens the window.
 
 ## Keeping the computer awake
 
@@ -3742,7 +3770,8 @@ A turn that cannot find a tool's CLI names the same command.
 * **Remove Slate** removes Slate from a tool this workspace does not run, leaving the workspace as is. The dialog names the config file Slate writes. Nothing is written until you connect, on first launch too.
 * **Capture** switch (Claude Code, Codex, Gemini; the ten newest have none yet): off stops recording that tool's sessions, and it stays connected. Cursor has **Capture sessions** / **Stop capturing**; OpenCode has none. **Auto-capture** in Automations › [Built-in](https://liozelmalem-star.github.io/slate-releases/docs/features/automations.md) stops all.
 * **A profile exists once per computer.** If another workspace runs the same tool on the same profile, the row says *Slate is installed here for Work* and offers no **Remove Slate** (it would break that workspace); disconnecting only stops this workspace, and says so first.
-* **Claude Desktop** is connected with Claude Code, if installed; turning Claude Code off leaves it (one machine-wide setting). The **Codex** desktop app follows the Codex CLI's config.
+* **Claude Desktop** is connected with Claude Code, if installed; turning Claude Code off leaves it (one machine-wide setting). It gets Slate's tools and instructions but no hooks, so nothing is captured from it. Its chat has no folder, so the instructions ask it to call `recall` with the conversation's topic and the project's name. The **Codex** desktop app follows the Codex CLI's config.
+* **VS Code** chat is captured through the Copilot hooks file. VS Code runs agent hooks by default and reads `~/.copilot/hooks`, where Slate writes its Copilot hooks, so connecting Copilot also captures VS Code chat. Slate tells the two apart by where the chat's transcript lives, and lists those sessions as **VS Code**, not GitHub Copilot.
 
 **With no tool, a workspace cannot chat on Home, run automations, build widgets, learn memories or record activity.** The Automations, Memory, Activity, Widgets and Toolkit icons stay dimmed (hover says why; a click does nothing); Memory, Activity and Widgets open once they hold something. Home opens as a doc: the agents, what connecting one unlocks, **Open Connect**, and what works without AI (Tasks, Projects, Artifacts). Set a tool and all works with no reload.
 
@@ -3841,7 +3870,7 @@ Pick the **Profile** this workspace uses, or **Add** one by naming it and its co
 * For Claude Code, Codex and Cursor, the add form offers config folders already in your home folder (such as `~/.claude-work`) as buttons under **Found here**. Gemini offers none: its variable names a replacement home folder.
 * **Choose folder…** picks any other. A missing path is fine: the tool creates it on sign-in.
 * Pick before connecting: the profile decides where Slate is installed.
-* **Its own default** is the tool's built-in folder (`~/.claude`, `~/.codex`, …). A `CLAUDE_CONFIG_DIR` or `CODEX_HOME` set in your shell is not followed for it: name that folder as a profile instead. Slate does follow `XDG_CONFIG_HOME`, `XDG_DATA_HOME` and `OPENCODE_CONFIG`.
+* **Its usual settings folder** is the tool's built-in folder (`~/.claude`, `~/.codex`, …). A `CLAUDE_CONFIG_DIR` or `CODEX_HOME` set in your shell is not followed for it: name that folder as a profile instead. Slate does follow `XDG_CONFIG_HOME`, `XDG_DATA_HOME` and `OPENCODE_CONFIG`.
 * A tool kept only under a profile or its own variable's folder counts as installed. Gemini CLI and Antigravity share `~/.gemini`; each is told apart by the files only it writes.
 * **Cursor:** `CURSOR_CONFIG_DIR` moves only its sign-in. `cursor-agent` reads servers, hooks and plugins from `~/.cursor` and writes history there (or where `CURSOR_DATA_DIR` says) for every profile. Slate writes them once for all Cursor profiles. Turning one profile off leaves them while another connected Cursor profile uses them.
 
@@ -3849,7 +3878,7 @@ Why two workspaces on one profile share its sign-in: [Project environments](http
 
 ## Models
 
-The model list shows once this workspace runs the tool. On **Its own default**, Slate passes no model and the CLI picks. **Make default** marks the tool used when nothing more specific is named, with a **default** badge. A group or standalone project can override any of it.
+The model list shows once this workspace runs the tool. On **Its usual model**, Slate passes no model and the agent picks. **Make default** marks the tool used when nothing more specific is named, with a **default** badge. A group or standalone project can override any of it.
 
 ---
 
@@ -3924,7 +3953,7 @@ The plugin adds these to the `/` menu (type `/slate` in Claude Code):
 | `/slate:brief` | What Slate knows about this project, in a few lines |
 | `/slate:recall <what>` | Search your memory, and check any code it cites |
 | `/slate:remember <fact>` | Save one memory, in your words |
-| `/slate:open` | Open this branch's doc in the Slate app |
+| `/slate:open` | Open this project in the Slate app |
 
 ## What turning a tool off puts back
 
@@ -4048,7 +4077,7 @@ Per workspace: open tabs, favourites, recents, expanded sections, what Home is s
 
 - **Sign in**: **Settings → Account**, GitHub. **Make, share, rename, recolour, leave, remove**: **Settings → Workspaces** (a private one renames at once; inviting needs it shared; Personal keeps its name; a workspace you belong to but have not set up here shows **Add here**). **Switch**: the switcher, whose last row **Manage workspaces…** opens Settings → Workspaces.
 - **Move a doc in**: right-click or ⋯, **Move to <workspace>** ([sharing](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces/sharing.md)). Others' docs sit in your tree with their avatar, read-only.
-- **Ask your AI**: [`recall_workspaces` and `workspace_doc`](../mcp-server/tools.md) search every workspace you belong to, including ones not set up here; `recall` stays in the working directory's workspace.
+- **Ask your AI**: [`recall` with `scope: "workspaces"` and `get_doc`](../mcp-server/tools.md#workspaces) search and read every workspace you belong to, including ones not set up here; `recall` without that scope stays in the working directory's workspace.
 
 ## How a shared workspace stays in step
 
@@ -4143,7 +4172,7 @@ A removal is a **tombstone**: a row saying "gone", and when. When a teammate's d
 
 ## Memory
 
-A memory (decision, `fact`, preference or state saved by `remember` or `record_decision`) is anchored to a doc; if that doc is in a shared workspace, the memory is the workspace's. What travels: [What actually leaves your machine](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces.md#what-actually-leaves-your-machine). Superseding a decision withdraws the old one on the next pass.
+A memory (decision, `fact`, preference or state saved by `remember`) is anchored to a doc; if that doc is in a shared workspace, the memory is the workspace's. What travels: [What actually leaves your machine](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces.md#what-actually-leaves-your-machine). Superseding a decision withdraws the old one on the next pass.
 
 ## Artifacts
 
@@ -4250,7 +4279,7 @@ Press **⌘K** anywhere. One input runs a command, jumps to a doc, or searches y
 
 Search uses **SQLite FTS5**, an index in the same local file as your content; it never leaves the machine.
 
-⌘K searches **your** workspace only. What others shared is searched by opening [Workspaces](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces.md), or by an agent calling `recall_workspaces`. The palette never blends private and shared results.
+⌘K searches **your** workspace only. What others shared is searched by opening [Workspaces](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces.md), or by an agent calling `recall` with `scope: "workspaces"`. The palette never blends private and shared results.
 
 ### What ⌘K lists
 
@@ -4427,7 +4456,7 @@ Agents reach it over streamable HTTP on the running app, `http://127.0.0.1:47366
 Every connected model gets a standing instruction (within Claude Code's 2,048-character limit); tool descriptions hold the detail.
 
 * **Start.** If no brief opened the session and no direct tool answers, call `recall({ query: "current branch goal and context", cwd })` for decisions, conventions, memories and the branch brief.
-* **During.** `record_decision` keeps a decision and its reason. At a milestone the agent asks whether to save a plan, review, test plan, bug report or design, and calls `create_doc` only after a yes. It lists the refs of memories that shaped its work in `used`, never in its reply. If a memory's `citation` says `changed`, it reads the code first, and calls `remember` with `replaces` if the memory is wrong.
+* **During.** `remember` with `kind: "decision"` keeps a decision, its reason and what it turned down. At a milestone the agent asks whether to save a plan, review, test plan, bug report or design, and calls `create_doc` only after a yes. It lists the refs of memories that shaped its work in `used`, never in its reply. If a memory's `citation` says `changed`, it reads the code first, and calls `remember` with `replaces` if the memory is wrong.
 * **End.** The agent must call `log_mission_progress` once before its final reply, and saves at most two memories, only what will change how a future agent acts.
 
 How the two verbs rank, stay silent and dedupe is in [Recall & Remember](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/recall-remember.md).
@@ -4436,17 +4465,21 @@ A client never calls a mutating tool to test the connection: `slate_capabilities
 
 ## The shared half
 
-`recall` searches the workspace owning the working folder, on this machine only (in a shared workspace, that includes teammates' work your copy holds). `recall_workspaces` and `workspace_doc` search the cloud across every shared [workspace](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces.md) you belong to, even ones this machine has not added. Both are read-only; Row Level Security decides what they see. They are separate verbs so private and shared knowledge stay distinguishable.
+`recall` searches the workspace owning the working folder, on this machine only (in a shared workspace, that includes teammates' work your copy holds). `recall` with `scope: "workspaces"` searches the cloud across every shared [workspace](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces.md) you belong to, even ones this machine has not added, and `get_doc` reads a doc shared there when its id is not local. Both are read-only; Row Level Security decides what they see. The shared half is its own scope, never mixed into your own results, and a shared doc says `shared: true`, so private and shared knowledge stay distinguishable.
 
 ## Capability discovery
 
-The contract id is `slate-mcp-contract/2026-11-10`; `slate_capabilities` returns version, tools, access levels, approval policies and schema hash.
+The contract id is `slate-mcp-contract/2026-11-13`; `slate_capabilities` returns the version, every place in Slate with its tools, each tool's access level and approval policy, and the schema hash.
+
+## Every place, one of three kinds
+
+Each place in Slate is served over MCP in one of three ways (ADR 0127): **the AI does it** (a tool), **you decide it** (in Slate, never a tool the model calls alone: accepting a memory or setup proposal), or **only in the app** (Settings, your account, Trash). The map of every place and its tools is `packages/catalog/src/en/mcpCoverage.json`; a check fails the build when a part of Slate, or a tool, is missing from it.
 
 ## See also
 
-* [Tool Reference](https://liozelmalem-star.github.io/slate-releases/docs/features/mcp-server/tools.md) — all 27 tools and their arguments.
+* [Tool Reference](https://liozelmalem-star.github.io/slate-releases/docs/features/mcp-server/tools.md) — all 25 tools and their arguments.
 * [Connecting Your Agents](https://liozelmalem-star.github.io/slate-releases/docs/features/mcp-server/connecting.md) — wire a tool to Slate.
-* [Workspaces](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces.md) — what `recall_workspaces` reads.
+* [Workspaces](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces.md) — what `recall` with `scope: "workspaces"` reads.
 * [Connected MCP Tools](https://liozelmalem-star.github.io/slate-releases/docs/features/agent/connected-tools.md) — the reverse direction, where Home is the client.
 
 ---
@@ -4466,6 +4499,12 @@ Every session talks over HTTP to the running Slate app (`http://127.0.0.1:47366/
 **Another program on Slate's port.** If something else holds the port when Slate starts, Slate shows a red line at the top of the window with the port number: agents cannot reach Slate. Run `lsof -i :<port>` to see which program it is, quit it, then restart Slate. Two Mac users whose ids are 64 apart share a port, which shows the same line for the second one.
 
 **Slate must be running.** With it closed, the tool lists `slate` as failed and the session-start hook says so. Open Slate and start a new session (Claude Code: `/mcp` also reconnects).
+
+## One-click install in VS Code and Cursor
+
+Install Slate on your Mac first: these links only add the entry that runs the app's own `slate-mcp`, so they do nothing without the app.
+
+[Install in VS Code](vscode:mcp/install?%7B%22name%22%3A%22slate%22%2C%22command%22%3A%22%2FApplications%2FSlate.app%2FContents%2FMacOS%2Fslate-mcp%22%2C%22args%22%3A%5B%5D%7D) · [Install in Cursor](cursor://anysphere.cursor-deeplink/mcp/install?name=slate&config=eyJjb21tYW5kIjoiL0FwcGxpY2F0aW9ucy9TbGF0ZS5hcHAvQ29udGVudHMvTWFjT1Mvc2xhdGUtbWNwIiwiYXJncyI6W119)
 
 ## By hand
 
@@ -4496,6 +4535,8 @@ args:    []
 
 That is one process per client, so the agents use the HTTP entry.
 
+A client started with no folder (Claude Desktop's chat) gets the same rules with one change: it is asked to call `recall` with the conversation's topic, naming the project if there is one, instead of with a `cwd`.
+
 ## Verify it works
 
 Ask your agent:
@@ -4521,7 +4562,6 @@ Generated from the MCP tool registry and checked by `packages/mcp/test/tools/con
 | `log_mission_progress` | write | — |
 | `list_memories` | read | — |
 | `propose_memory_change` | write | — |
-| `record_decision` | write | — |
 | `get_artifact` | read | — |
 | `publish_artifact` | write | — |
 | `get_widget` | read | — |
@@ -4532,12 +4572,11 @@ Generated from the MCP tool registry and checked by `packages/mcp/test/tools/con
 | `propose_setup_change` | write | — |
 | `get_agent_run` | read | — |
 | `report_agent_run_step` | write | — |
+| `run_automation` | write | — |
 | `my_tasks` | read | — |
 | `update_my_task` | write | — |
 | `connected_tools` | read | — |
 | `read_connected` | read | — |
-| `recall_workspaces` | read | — |
-| `workspace_doc` | read | — |
 <!-- slate-contract:end -->
 
 A tool can save a typed document and add to a doc, and nothing else. Saving a document of a type the project already has on that branch rewrites that doc. Every tool carries the standard MCP labels, so a client can skip asking before a read. See [Tool Rules](https://liozelmalem-star.github.io/slate-releases/docs/features/mcp-server/tool-rules.md).
@@ -4556,11 +4595,12 @@ A failed call answers JSON with `error.code` and `error.message`:
 * `widget_not_found`, `invalid_widget`, `build_failed`, `not_a_widget`, `version_conflict` — the widget tools (`version_conflict`: someone published a newer version while this one built; publish again).
 * `wrong_workspace` — the `cwd` belongs to another workspace than the session's ([Tool Rules](https://liozelmalem-star.github.io/slate-releases/docs/features/mcp-server/tool-rules.md#which-workspace-a-call-reaches)).
 * `no_task` (`get_agent_run` outside an agent run); `stale`, `closed`, `invalid` — a refused `report_agent_run_step`.
-* `slate_not_running` — `connected_tools` or `read_connected` while Slate is closed.
+* `slate_not_running` — `connected_tools`, `read_connected` or starting a `run_automation` while Slate is closed.
+* `run_not_startable` — a `run_automation` id that names no automation, or one with no steps; the message is Slate's reason.
 * `store_unavailable` — the workspace file is behind this build, so this process cannot change it.
 * `internal_error` — anything else, with its message.
 
-A refused `remember` or `record_decision` is not an error. The answer says `saved: false` with the reason.
+A refused `remember` is not an error. The answer says `saved: false` with the reason.
 
 Memory lands in the workspace the call's `cwd` belongs to (Personal unless the folder belongs to a shared one). Read, edit or retire entries under **Memory**.
 
@@ -4583,16 +4623,16 @@ Memory lands in the workspace the call's `cwd` belongs to (Personal unless the f
 
 Source: https://liozelmalem-star.github.io/slate-releases/docs/features/mcp-server/tools.md
 
-Slate's MCP server exposes 27 tools. Rules for workspace resolution and what an agent may not do: [Tool Rules](https://liozelmalem-star.github.io/slate-releases/docs/features/mcp-server/tool-rules.md).
+Slate's MCP server exposes 25 tools, each belonging to one place in Slate (listed with the reason in `packages/catalog/src/en/mcpCoverage.json`, ADR 0127). An app that draws views gets two more ([Views](#views-in-apps-that-draw-them), ADR 0129). Rules for workspace resolution and what an agent may not do: [Tool Rules](https://liozelmalem-star.github.io/slate-releases/docs/features/mcp-server/tool-rules.md).
 
-Almost every tool takes an optional **`cwd`** (your working directory), resolved to the workspace that owns the folder; `slate_capabilities`, `recall_workspaces` and `workspace_doc` read no local workspace. Every tool carries the standard MCP labels (title, read-only, whether a write can replace). Claude Code loads `recall` and `remember` at session start, the rest on demand.
+Almost every tool takes an optional **`cwd`** (your working directory), resolved to the workspace that owns the folder; only `slate_capabilities` takes none. Every tool carries the standard MCP labels (title, read-only, whether a write can replace). Claude Code loads `recall` and `remember` at session start, the rest on demand.
 
 ## Docs
 
 | Tool | Purpose |
 | --- | --- |
 | `create_doc` | Create a typed doc: `title`, `doc_type`, `user_approved:true`, `markdown`, optional `parent_id`, `source_ref`. Without `parent_id` it files under the project holding `cwd`, labelled with the checked-out git branch. Refused without `markdown` or unless the user said yes first. A second call for the same type on the same branch rewrites that doc. |
-| `get_doc` | Read one doc by `id` or `target`: title, icon, breadcrumb path, Markdown body. A colleague's shared doc: `workspace_doc`. |
+| `get_doc` | Read one doc by `id` or `target`: title, icon, breadcrumb path, Markdown body. An `id` this workspace does not hold is looked up in the workspaces you belong to: a doc shared there comes back with `shared: true`, its author and `updated_at` (needs a cloud sign-in). Old name `workspace_doc` still answers for one release. |
 | `append_to_doc` | Append Markdown to a doc, by `id` or `target`. Replies with id, title and path. |
 
 Find docs with `recall` and `kind: "docs"`. Plain docs, rename, move and trash are app-only ([why](https://liozelmalem-star.github.io/slate-releases/docs/features/mcp-server/tool-rules.md#what-an-agent-cannot-do-over-mcp)).
@@ -4601,21 +4641,16 @@ Find docs with `recall` and `kind: "docs"`. Plain docs, rename, move and trash a
 
 | Tool | Purpose |
 | --- | --- |
-| `remember` | Save one typed memory (`kind`: `decision`, `preference`, `state`, `fact`, `lesson`), filed by `cwd`. A near-duplicate strengthens an existing memory; a new claim on the same slot replaces the old. `replaces`: refs this corrects and retires. `when` makes a lesson fire on a matching tool call: `{tool: "shell", match}` or `{tool: "read" \| "edit", path}` (a match-everything pattern is refused). `index: true` pins it into the project index; `unindex` removes refs. Reply: `saved`, `memory`, up to 3 `neighbours`. Refused, with reason, when: the text is passing status, a git snapshot or a tool call's markup; a `decision` has no reason; an agent memory holds 3+ numbers (put them in `reason`); a `state` has no `subject`; the project's [memory settings](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/decisions-and-facts.md#what-a-project-keeps) turn off that writer, kind or word; AI memory care is on and `reason` is under 4 words; or the workspace is read-only for you. A title-like line is kept with a `warning`. A claim contradicting a firmer memory waits for review in Memory. |
-| `recall` | The one search. When the query is about the branch (names it, or asks what is open or in progress) the first result is the branch brief, with the `target_doc_id` writes file under. Then memories (BM25 over sentence, tags, citation, reason, plus small recency and confidence lifts), then docs whose text matches (not title-only matches or captured session docs). A memory under 0.7 of the best memory's score is left out. Each memory is a line with `ref` (`m:7f3a2b1c`) and citation, marked `weak` for a thin match and `citation: changed` or `gone` when its code moved. Default 8 results, max 25, at most half memories. `scope: "all"` searches every project. `also`: up to 3 other phrasings, merged by rank. Then up to 2 artifacts matching every word (`artifact_id`, title, snippet, `link`). `kind: "docs"`: docs only, up to 20 hits with snippets. `as_of` (`2026-08-01`): memories only, as believed at the end of that day, later-replaced ones marked `until`. |
+| `remember` | Save one typed memory (`kind`: `decision`, `preference`, `state`, `fact`, `lesson`), filed by `cwd`. With `kind: "decision"` it also takes `rejected` (the options turned down) and `confidence` (`high`, the default, `medium`, `low`: 0.95, 0.8, 0.6), and writes a decision doc with the full reasoning under the project; the reply's `id` is that doc. Old name `record_decision` (`title`, `reasoning`, `alternatives`, `confidence`, `outcome`) still answers for one release. A near-duplicate strengthens an existing memory; a new claim on the same slot replaces the old. `replaces`: refs this corrects and retires. `when` makes a lesson fire on a matching tool call: `{tool: "shell", match}` or `{tool: "read" \| "edit", path}` (a match-everything pattern is refused). `index: true` pins it into the project index; `unindex` removes refs. Reply: `saved`, `memory`, up to 3 `neighbours`. Refused, with reason, when: the text is passing status, a git snapshot or a tool call's markup; a `decision` has no reason; an agent memory holds 3+ numbers (put them in `reason`); a `state` has no `subject`; the project's [memory settings](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/decisions-and-facts.md#what-a-project-keeps) turn off that writer, kind or word; AI memory care is on and `reason` is under 4 words; or the workspace is read-only for you. A title-like line is kept with a `warning`. A claim contradicting a firmer memory waits for review in Memory. |
+| `recall` | The one search. When the query is about the branch (names it, or asks what is open or in progress) the first result is the branch brief, with the `target_doc_id` writes file under. Then memories (BM25 over sentence, tags, citation, reason, plus small recency and confidence lifts), then docs whose text matches (not title-only matches or captured session docs). A memory under 0.7 of the best memory's score is left out. Each memory is a line with `ref` (`m:7f3a2b1c`) and citation, marked `weak` for a thin match and `citation: changed` or `gone` when its code moved. Default 8 results, max 25, at most half memories. `scope: "all"` searches every project. `scope: "workspaces"` searches what others shared across your workspaces instead (see below). `also`: up to 3 other phrasings, merged by rank. Then up to 2 artifacts matching every word (`artifact_id`, title, snippet, `link`). `kind: "docs"`: docs only, up to 20 hits with snippets. `as_of` (`2026-08-01`): memories only, as believed at the end of that day, later-replaced ones marked `until`. |
 | `get_memory` | Read memories in full by `refs` (max 20): claim, reason, `citation` (`same`, `changed`, `gone`, `unchecked`), `evidence` (tools that confirmed it), `history` (what it replaced and was replaced by). Unknown refs return under `unknown`. |
 | `list_memories` | For a tidy the person agreed to: the project's memories, oldest first, max 100 per call from `offset`, each with ref, kind, text, whether resting. Memories hidden from sessions are left out. |
-| `propose_memory_change` | Propose a `merge` (2–50 `refs` into one `text`), a `retire`, a `lesson` (`refs` into one lesson `text` with its `when`), or a `skill` (a lesson as a skill file in the project folder; Slate offers these itself). Nothing changes until the person accepts it in Memory → Needs review. `proposal_refused`: ref outside the project (unplaced refs under `unknown`), merge or lesson with no text, lesson with no `when`, or text the save rules refuse. |
+| `propose_memory_change` | Propose a `merge` (2–50 `refs` into one `text`), a `retire`, a `lesson` (`refs` into one lesson `text` with its `when`), or a `skill` (a lesson as a skill file in the project folder; Slate offers these itself). Nothing changes until the person accepts it in Memory → Needs review, or in the [Review view](#views-in-apps-that-draw-them) of an app that draws views. `proposal_refused`: ref outside the project (unplaced refs under `unknown`), merge or lesson with no text, lesson with no `when`, or text the save rules refuse. |
 | `log_mission_progress` | Report a session's work on its branch: `cwd`, `summary`, optional `branch` (if the work was on another git branch), `goal`, `open_items`, `decisions`. The summary becomes a session entry, goal and open items feed the branch's next brief, each decision becomes a memory, all labelled with the branch. Each item passes the memory policy and admission rules; refusals come back in `refused`. Makes no doc. |
 
 ## Workspaces
 
-| Tool | Purpose |
-| --- | --- |
-| `recall_workspaces` | Search what others published across your workspaces: `memory` (one sentence each, with author) and `pages` (title, doc type, author, excerpt). Default 8 each, max 25. |
-| `workspace_doc` | Read one shared doc in full as plain text, by the `id` `recall_workspaces` returned. |
-
-Both read the [cloud](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces.md), need a cloud sign-in and are read-only. For a workspace you are not in, Row Level Security returns an empty result. Signed out, they say so.
+`recall` with `scope: "workspaces"` searches what others published across your workspaces: `memory` (one sentence each, with author) and `docs` (title, doc type, author, excerpt). Default 8 each, max 25. `get_doc` reads one of those docs in full by its `id`. Both read the [cloud](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces.md), need a cloud sign-in and are read-only. For a workspace you are not in, Row Level Security returns an empty result. Signed out, they say so. Old name `recall_workspaces` still answers for one release.
 
 ## Activity
 
@@ -4648,11 +4683,10 @@ Both need Slate open (else `slate_not_running`) and read only the apps of the fo
 
 When another agent works in the same project, Slate says so once at the start of a turn, with that session's own words and a doc id. Agents talk by notes: `handoff` with a `to` is a message, and a reply is another `handoff` addressed back. A note with no `to` is for everyone working here. There is no channel, inbox or queue.
 
-## Decisions and artifacts
+## Artifacts and widgets
 
 | Tool | Purpose |
 | --- | --- |
-| `record_decision` | Record a decision: `title`, `reasoning`, `confidence` (`high`, `medium`, `low`; all required), optional `alternatives`, `outcome`, `source_ref`. Writes a decision memory (confidence 0.95, 0.8 or 0.6) and a decision doc with the full reasoning. Returns the doc `id` and the memory `id` under `memory`. |
 | `publish_artifact` | Publish a doc in the **Artifacts** tab. Send `content` (whole doc), `file_path` (a file the tool wrote, inside its `cwd` or the system temp folder) or `edits` (`{old, new}` changes to the newest version; each `old` must appear exactly once). Dot files, files in dot folders below home (such as `.ssh`) and a `cwd` of home or `/` are refused. A new artifact needs `title` and `kind` (`html` or `markdown`); a new version passes the earlier `artifact_id` and keeps both unless given. Optional `description` and `live: true` (the artifact reads this workspace with `slate.query`: docs, a doc, memories, sessions of its project, read-only, up to 5,000 rows each; served with no network, scripts only from cdnjs, jsDelivr, unpkg). Changing `live` adds a version; identical content adds none. Returns `artifact_id`, `version`, `link` (a `slate://` address). `invalid_artifact`: empty title or content, over 5,000,000 characters, file outside the two folders, dot file, too-wide `cwd`, or an edit whose old text is missing or repeated. |
 | `get_artifact` | Read before changing: `artifact_id`, optional older `version`. Returns title, kind, description, version read, newest version number and full `content`. Without `artifact_id`: every artifact, newest first. Unknown id: `artifact_not_found`. |
 | `publish_widget` | Build and publish a [widget](https://liozelmalem-star.github.io/slate-releases/docs/features/widgets.md) (React files Slate builds and runs in **Widgets**). New: `files` (`[{path, content}]`) and `title`. New version: `widget_id`, only changed files (the rest kept), `delete_paths` to remove. A build error answers `build_failed` with each error's file, line, text and saves nothing. Optional `description`. Returns `widget_id`, `version`, `built_ms`, `published` (false if no file changed), `link`, and `render`: whether the window ran the new version without error (`status` `ok`, `failed`, `pending`; on failure `problems` and a one-line `next`). |
@@ -4666,20 +4700,43 @@ A widget's id given to `get_artifact` or `publish_artifact` answers `is_a_widget
 | --- | --- |
 | `propose_setup_change` | Suggest a change to the project's AI setup: `kind` (`fix`, `copy`, `create`, `improve`, `remove`), `item_kind` (`skill`, `command`, `subagent`, `mcp`), item name, `evidence` (the sentence the person reads). Optional `tool` (for `copy`), `file`, `draft` (whole file, for a skill or subagent `create`). Waits in Toolkit › Suggestions; writes nothing until accepted. Refused: `not_a_project` (`cwd` not a folder here); `invalid_proposal` (a `copy` without `tool`, a `draft` on anything but a skill or subagent `create`, a name not lower-case letters, digits, `-`, `_`); `already_offered` (same suggestion waiting or answered). |
 
+## Automations
+
+| Tool | Purpose |
+| --- | --- |
+| `run_automation` | Without `id`: this workspace's [automations](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md), each with `id`, `name`, `description`, `trigger`, `enabled`, `last_run`, `last_error`. With `id`: start that automation now, as **Run now** does, and get `run_id`; a run already going is joined (`started: false`). The run shows in Slate and asks before it acts, as any run does. Needs Slate open (else `slate_not_running`); an automation that cannot start answers `run_not_startable` with the reason. Making or changing an automation is done in Slate. |
+
 ## Agent runs
 
 Only for a session a Slate agent run started (first prompt "Slate task … (token)"). Listed in every session; outside a run `get_agent_run` answers `no_task`.
 
 | Tool | Purpose |
 | --- | --- |
-| `get_agent_run` | The run's current step, attempt and instructions. Takes `cwd` and the `token` from the first prompt, or a `task_id`. A blocked run returns why and tells the agent to wait. |
+| `get_agent_run` | The run's current step, attempt and instructions; on the first step, the task's [card](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/session-start-brief.md#a-session-started-from-a-task). Takes `cwd` and the `token` from the first prompt, or a `task_id`. A blocked run returns why and tells the agent to wait. |
 | `report_agent_run_step` | Report the step `get_agent_run` gave: `task_id`, `step`, `attempt`, an `outcome` (done, blocked, needs_input, failed), a short `summary`, optional `body` as JSON text. A report for an old step is refused and names the current one. |
+
+## Views in apps that draw them
+
+Some apps can draw a small view inside their chat: Claude Desktop and VS Code today, and Cursor and Goose by their own docs (the MCP Apps standard). When an app says so at connect time, three answers are drawn as a view in Slate's own look, light or dark:
+
+* `live_sessions` as **Needs you**: the sessions waiting on you, and a count of the rest.
+* `my_tasks` as **Tasks**: your list, with a box to tick a line done (it calls `update_my_task`).
+* `memory_proposals` as **Review**: the memory proposals waiting for you, drawn as Memory's own review.
+
+Only such an app also gets these two tools:
+
+| Tool | Purpose |
+| --- | --- |
+| `memory_proposals` | The memory proposals waiting for you: merges, retirements and lessons, with the memories each one touches. No arguments. Says so in a sentence when none wait. |
+| `resolve_memory_proposal` | Accept or reject one proposal: `id`, `accept`. Only the Review view calls it, when you click. The app keeps it from the model, so an AI cannot accept a proposal by itself. |
+
+A terminal cannot draw a view. It gets the same tools and the same text as before, and neither of the two above. A view loads nothing from the network; it reaches Slate only through the tools the app calls for it.
 
 ## Contract
 
 | Tool | Purpose |
 | --- | --- |
-| `slate_capabilities` | Contract version, tools, access levels, approval policies, schema hash. Read-only, no arguments. A tool's access level is its `readOnlyHint`, so they cannot disagree. |
+| `slate_capabilities` | Contract version, every place in Slate with its tools (or `view`: the person decides it in Slate, or `app-only`) and why, each tool's access level and approval policy, schema hash. Read-only, no arguments. A tool's access level is its `readOnlyHint`, so they cannot disagree. |
 
 ## See also
 
@@ -4698,11 +4755,11 @@ Rules for every call in the [Tool Reference](https://liozelmalem-star.github.io/
 
 ## Which workspace a call reaches
 
-**One session, one workspace.** The first call with a `cwd` ties the session to that folder's workspace; later calls without `cwd` run there. If that folder is later added to a project in another workspace, or taken out of one, the session follows it to the folder's new workspace. A `cwd` that names a different folder in another workspace is refused with `wrong_workspace` and the session's workspace name: start a session in that workspace's folder instead. A folder matches its project however it is spelled: through a symlink, with `..`, or by its real path. Before the first `cwd`, a call without one gets Personal. Only `live_sessions`, `recall_workspaces` and `workspace_doc` cross workspaces. An agent run's agent reaches its task by the task's token, or from inside the task's folder, wherever the task lives. No tool is marked as reaching outside Slate.
+**One session, one workspace.** The first call with a `cwd` ties the session to that folder's workspace; later calls without `cwd` run there. If that folder is later added to a project in another workspace, or taken out of one, the session follows it to the folder's new workspace. A `cwd` that names a different folder in another workspace is refused with `wrong_workspace` and the session's workspace name: start a session in that workspace's folder instead. A folder matches its project however it is spelled: through a symlink, with `..`, or by its real path. Before the first `cwd`, a call without one gets Personal. Only `live_sessions` crosses workspaces on this machine; `recall` with `scope: "workspaces"` and `get_doc` on a shared doc read the cloud, where Row Level Security decides. An agent run's agent reaches its task by the task's token, or from inside the task's folder, wherever the task lives. No tool is marked as reaching outside Slate.
 
 ## Secrets
 
-Slate replaces recognised keys, tokens and passwords with `[secret]` in what an agent writes through `remember`, `record_decision`, `create_doc`, `append_to_doc`, `log_mission_progress`, `update_my_task` and the summary of `report_agent_run_step`. It does not do this for `publish_artifact` and `publish_widget` (they carry code) or the `body` of `report_agent_run_step`.
+Slate replaces recognised keys, tokens and passwords with `[secret]` in what an agent writes through `remember`, `create_doc`, `append_to_doc`, `log_mission_progress`, `update_my_task` and the summary of `report_agent_run_step`. It does not do this for `publish_artifact` and `publish_widget` (they carry code) or the `body` of `report_agent_run_step`.
 
 ## What an agent cannot do over MCP
 
@@ -4751,9 +4808,13 @@ A read tool runs at once. A write asks first, except under Auto-edit and Full au
 
 ## Both halves of memory
 
-Home reads this workspace's memory (`recall_memory`) and what colleagues wrote in every [workspace](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces.md) you belong to, even ones this machine has not materialised (`recall_workspaces`, then `workspace_doc`). Questions like "what does the team know about retries" or "has anyone solved this before" reach the shared half; "what do I know about…" stays local. A shared answer names its author.
+Home reads this workspace's memory (`recall_memory`) and what colleagues wrote in every [workspace](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces.md) you belong to, even ones this machine has not materialised (`recall_workspaces`, then `workspace_doc`). Your own agents reach the same two over MCP as `recall` with `scope: "workspaces"` and `get_doc`. Questions like "what does the team know about retries" or "has anyone solved this before" reach the shared half; "what do I know about…" stays local. A shared answer names its author.
 
 Naming a workspace routes to the shared tools, scoped to it, with no MCP connection needed ("what data do I have in my Apollo workspace"). The name counts only beside a team word (*workspace*, *team*, *shared*), so "fix the Apollo timeout bug" stays ordinary.
+
+## The same abilities over MCP
+
+Home's commands are Slate's in-app tools. Your own agents get Slate's abilities through its MCP server instead, place by place: the [Tool Reference](https://liozelmalem-star.github.io/slate-releases/docs/features/mcp-server/tools.md) lists them, and `packages/catalog/src/en/mcpCoverage.json` says which tools each part of Slate serves, or why one stays in the app (ADR 0127). **Run an automation** is `run_automation` there; **Create an automation** has no MCP tool.
 
 See also: [Home](https://liozelmalem-star.github.io/slate-releases/docs/features/agent.md), [Connected MCP Tools](https://liozelmalem-star.github.io/slate-releases/docs/features/agent/connected-tools.md), [Agents & Model Providers](https://liozelmalem-star.github.io/slate-releases/docs/features/agent/brains.md).
 
@@ -5120,7 +5181,7 @@ Four exceptions run without a click each time: the agent CLIs, sharing, the upda
 | --- | --- | --- |
 | Agent CLIs | Your prompt and context, sent by the CLI to its model. For a [cloud session](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/cloud.md#cloud-sessions), also the project's code | An [agent](https://liozelmalem-star.github.io/slate-releases/docs/features/agent/brains.md) (any of the 16) runs a CLI you installed, under its own sign-in, for Home, Sessions, agent runs and automations: when you ask it to, or on a schedule you set |
 | [Workspace sharing](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces.md) | Everything in a shared or joined workspace, except what [Workspaces](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces.md#what-actually-leaves-your-machine) lists as never sent | Only after you switch a workspace (Personal too) to shared, or join one |
-| Update check | App version, system, CPU, prerelease flag and an **install id**. Reveals your IP and that you run Slate | 8 seconds after the window opens, then every 4 hours, and on **Check now** in Settings → About. Turn off with Automatic updates in [Automations › Built-in](https://liozelmalem-star.github.io/slate-releases/docs/features/automations.md); the manual check still works |
+| Update check | App version, system, CPU, prerelease flag and an **install id**. Reveals your IP and that you run Slate | 8 seconds after the window opens, then every 4 hours, and on **Check now** in Settings → About. A Slate [started at login](https://liozelmalem-star.github.io/slate-releases/docs/features/automations.md#starting-at-login) and not opened checks about 10 minutes in, then about every 4 hours. Turn off with Automatic updates in [Automations › Built-in](https://liozelmalem-star.github.io/slate-releases/docs/features/automations.md); the manual check still works |
 | Telemetry | Opt-in counts, three events: Slate launched, a session saved, a memory recalled. A saved session and a recalled memory carry the tool's name (one of the 16, or `other`). Crash reports are a separate opt-in: error type and call stack (function, file names, line numbers) | Off until you turn it on in **Settings → About**. Never doc, session or file content, never the error's own text |
 
 - **Agents.** Slate brokers no tokens and runs no web-search proxy. Rust starts the CLI as a child process, so credentials never reach the webview.
@@ -5189,7 +5250,7 @@ No server holds your workspace, only the docs you hand it. A model sees only wha
 | Docs, sessions, memories, decisions | Inside that file |
 | Which workspaces this machine has | A local registry (names, colours, your role) so the switcher reads offline |
 | [Tasks](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks.md) from other tools | One line per task in the workspace file. Never description, comment or message text; never shared. For a tool learned by Teach Slate: how to read it (tool name, arguments, field paths), never its answer |
-| [Agent run](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks.md#agent-runs-beta) drafts | PR text, ticket update, review comments or reply, so Approve to ship shows them word for word. In the owning store, removed 30 days after the run closes, never shared. The task description is never stored |
+| [Agent run](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks.md#agent-runs) drafts | PR text, ticket update, review comments or reply, so Approve to ship shows them word for word. In the owning store, removed 30 days after the run closes, never shared. The task description is never stored |
 | [Receipts](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks.md#receipts) | One per session, in the file of the workspace holding its folder: last reply's first paragraph, each run's command and result counts, edited paths, commit ids and subjects. Read from the transcript with no model. Never a run's full output; never shared |
 | Agent run rules file | Small JSON in the run worktree's own git folder (never committed), or in the run's folder under app data for a reply |
 | [Activity](https://liozelmalem-star.github.io/slate-releases/docs/features/activity.md#where-the-numbers-come-from) | Per session and model response: times, token counts, model, the tool's own cost. Never prompt or reply text. In `machine.db`, so never shared |
@@ -5281,6 +5342,7 @@ Protections around Slate's local server, the files it writes and your databases,
 - [Workspace isolation](#workspace-isolation)
 - [Encryption and the webview](#encryption-and-the-webview)
 - [Writes, backups and restore](#writes-backups-and-restore)
+- [Managed Macs](#managed-macs)
 
 ## Keys and tool configs
 
@@ -5316,7 +5378,7 @@ Each workspace stays in its own file and Slate refuses to mix them.
 - Slate's own code cannot open a workspace file without naming it.
 - An agent session works in the workspace of the first folder it names and is refused another workspace's folder.
 - Each file records its workspace, so a misplaced file does not open as another workspace.
-- Sessions shows every workspace at once, and so does the `live_sessions` tool: an agent in any workspace sees every running session, with its title, last reply, goal and folder. `recall_workspaces` and `workspace_doc` read the cloud copy of every workspace you belong to. Nothing else crosses workspaces.
+- Sessions shows every workspace at once, and so does the `live_sessions` tool: an agent in any workspace sees every running session, with its title, last reply, goal and folder. `recall` with `scope: "workspaces"`, and `get_doc` on a doc shared with you, read the cloud copy of every workspace you belong to. Nothing else crosses workspaces.
 - A test plants a marker in one workspace and asks every part of the server and every agent read for it from another. It must never come back.
 
 ## Encryption and the webview
@@ -5330,6 +5392,14 @@ Each workspace stays in its own file and Slate refuses to mix them.
 - **Transactions.** Every change is a SQLite transaction; WAL mode lets reads continue during writes.
 - **Backups.** Slate copies a database aside before any schema migration and keeps the last three per store. Leaving or deleting a workspace forever also keeps a copy.
 - **Restore.** **Settings → Workspaces → (the workspace) → Storage → Restore a backup** lists them. It applies at the next launch, and the workspace it replaces is kept too. If a connected agent still has the workspace open, the restore is refused; quit those tools and retry.
+
+## Managed Macs
+
+For IT teams that deploy Slate with an MDM (Jamf, Kandji, Intune and others).
+
+- **Start at login is a managed preference.** Push a configuration profile for the domain `app.slate.workspace` with the key `StartAtLogin`, a boolean. `true` starts Slate at login on every Mac and `false` keeps it off. Slate reads the key only when the profile forces it. The switch in Automations › Built-in then shows your answer, says **Managed by your organization** and cannot be changed, and Slate never asks the person.
+- **What the login item is.** An SMAppService agent registered by the signed app, from a plist inside the bundle (`Contents/Library/LaunchAgents/app.slate.workspace.login.plist`). Slate writes nothing to `~/Library/LaunchAgents`. The item shows under Slate's name in System Settings → Login Items. A Login Items profile (`com.apple.servicemanagement`) can allow it with a `Label` rule for `app.slate.workspace.login` or a `BundleIdentifier` rule for `app.slate.workspace`, so the person is not asked to approve it. Slate is signed with its own certificate, not an Apple Developer ID, so there is no team identifier to match.
+- **What runs at login.** The app with no window, its menu bar icon and its local server, so agents can reach Slate's MCP server. A signed-out Slate opens its window to ask for sign-in.
 
 ---
 
@@ -5524,6 +5594,10 @@ Each number is the most Slate may use. Each limit was set from the median of sev
 | Trash | 0.6% |
 | Settings | 1.5% |
 | Window hidden | 3% |
+
+### Started at login, no window
+
+When Slate starts at login, it loads no window until you open it: only the app, its menu bar icon and the server run. Together they use at most 0.2% of one core and 278 MB of memory, with no webview loaded.
 
 ### Slate's server, idle
 

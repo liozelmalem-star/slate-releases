@@ -19,8 +19,12 @@ A read tool runs at once. A write asks first, except under Auto-edit and Full au
 
 ## Both halves of memory
 
-Home reads this workspace's memory (`recall_memory`) and what colleagues wrote in every [workspace](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces.md) you belong to, even ones this machine has not materialised (`recall_workspaces`, then `workspace_doc`). Questions like "what does the team know about retries" or "has anyone solved this before" reach the shared half; "what do I know about…" stays local. A shared answer names its author.
+Home reads this workspace's memory (`recall_memory`) and what colleagues wrote in every [workspace](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces.md) you belong to, even ones this machine has not materialised (`recall_workspaces`, then `workspace_doc`). Your own agents reach the same two over MCP as `recall` with `scope: "workspaces"` and `get_doc`. Questions like "what does the team know about retries" or "has anyone solved this before" reach the shared half; "what do I know about…" stays local. A shared answer names its author.
 
 Naming a workspace routes to the shared tools, scoped to it, with no MCP connection needed ("what data do I have in my Apollo workspace"). The name counts only beside a team word (*workspace*, *team*, *shared*), so "fix the Apollo timeout bug" stays ordinary.
+
+## The same abilities over MCP
+
+Home's commands are Slate's in-app tools. Your own agents get Slate's abilities through its MCP server instead, place by place: the [Tool Reference](https://liozelmalem-star.github.io/slate-releases/docs/features/mcp-server/tools.md) lists them, and `packages/catalog/src/en/mcpCoverage.json` says which tools each part of Slate serves, or why one stays in the app (ADR 0127). **Run an automation** is `run_automation` there; **Create an automation** has no MCP tool.
 
 See also: [Home](https://liozelmalem-star.github.io/slate-releases/docs/features/agent.md), [Connected MCP Tools](https://liozelmalem-star.github.io/slate-releases/docs/features/agent/connected-tools.md), [Agents & Model Providers](https://liozelmalem-star.github.io/slate-releases/docs/features/agent/brains.md).

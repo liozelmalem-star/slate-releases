@@ -9,6 +9,7 @@ Protections around Slate's local server, the files it writes and your databases,
 - [Workspace isolation](#workspace-isolation)
 - [Encryption and the webview](#encryption-and-the-webview)
 - [Writes, backups and restore](#writes-backups-and-restore)
+- [Managed Macs](#managed-macs)
 
 ## Keys and tool configs
 
@@ -44,7 +45,7 @@ Each workspace stays in its own file and Slate refuses to mix them.
 - Slate's own code cannot open a workspace file without naming it.
 - An agent session works in the workspace of the first folder it names and is refused another workspace's folder.
 - Each file records its workspace, so a misplaced file does not open as another workspace.
-- Sessions shows every workspace at once, and so does the `live_sessions` tool: an agent in any workspace sees every running session, with its title, last reply, goal and folder. `recall_workspaces` and `workspace_doc` read the cloud copy of every workspace you belong to. Nothing else crosses workspaces.
+- Sessions shows every workspace at once, and so does the `live_sessions` tool: an agent in any workspace sees every running session, with its title, last reply, goal and folder. `recall` with `scope: "workspaces"`, and `get_doc` on a doc shared with you, read the cloud copy of every workspace you belong to. Nothing else crosses workspaces.
 - A test plants a marker in one workspace and asks every part of the server and every agent read for it from another. It must never come back.
 
 ## Encryption and the webview
@@ -58,3 +59,11 @@ Each workspace stays in its own file and Slate refuses to mix them.
 - **Transactions.** Every change is a SQLite transaction; WAL mode lets reads continue during writes.
 - **Backups.** Slate copies a database aside before any schema migration and keeps the last three per store. Leaving or deleting a workspace forever also keeps a copy.
 - **Restore.** **Settings → Workspaces → (the workspace) → Storage → Restore a backup** lists them. It applies at the next launch, and the workspace it replaces is kept too. If a connected agent still has the workspace open, the restore is refused; quit those tools and retry.
+
+## Managed Macs
+
+For IT teams that deploy Slate with an MDM (Jamf, Kandji, Intune and others).
+
+- **Start at login is a managed preference.** Push a configuration profile for the domain `app.slate.workspace` with the key `StartAtLogin`, a boolean. `true` starts Slate at login on every Mac and `false` keeps it off. Slate reads the key only when the profile forces it. The switch in Automations › Built-in then shows your answer, says **Managed by your organization** and cannot be changed, and Slate never asks the person.
+- **What the login item is.** An SMAppService agent registered by the signed app, from a plist inside the bundle (`Contents/Library/LaunchAgents/app.slate.workspace.login.plist`). Slate writes nothing to `~/Library/LaunchAgents`. The item shows under Slate's name in System Settings → Login Items. A Login Items profile (`com.apple.servicemanagement`) can allow it with a `Label` rule for `app.slate.workspace.login` or a `BundleIdentifier` rule for `app.slate.workspace`, so the person is not asked to approve it. Slate is signed with its own certificate, not an Apple Developer ID, so there is no team identifier to match.
+- **What runs at login.** The app with no window, its menu bar icon and its local server, so agents can reach Slate's MCP server. A signed-out Slate opens its window to ask for sign-in.
