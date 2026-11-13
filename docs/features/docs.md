@@ -6,6 +6,10 @@ The line under a title ends with who can read it: **Private** in Personal, **Sha
 
 **The open screen stays current.** When an agent writes over MCP (appends to the doc you read, renames, files a doc, saves a memory) the screen updates within seconds. If you are typing on that doc, your text is kept and a "changed elsewhere" notice offers **Copy my text**, **Keep my version** (asks once, then overwrites the newer one) and **Reload doc**.
 
+**A save that fails says so.** Typing saves within half a second. If a save does not reach the store (Slate's server is down, or it refused the write), the header shows **Not saved** where it shows **Edited …**. Slate tries again on your next edit, every 5 seconds while the server answers, and at once when it comes back; the word goes when a save lands. A retry never overwrites a newer copy: if the doc changed meanwhile, you get the "changed elsewhere" notice instead. Unsaved edits live in the open window only, so they do not survive quitting Slate.
+
+While the server is down, a red strip at the top reads **Slate isn't responding**. It says your work is safe only while no doc has unsaved edits; otherwise it says some edits are not saved yet. After a minute it says **Still trying. Restart Slate if this stays.** with **Open logs**.
+
 ## The block editor
 
 [BlockNote](https://www.blocknotejs.org); content is stored as BlockNote JSON in `content`.

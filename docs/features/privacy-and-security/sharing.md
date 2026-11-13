@@ -14,7 +14,7 @@ Assume everything is shared: docs, memories, git activity, a record that a sessi
 
 | Withheld | Detail |
 | --- | --- |
-| Machine-specific | The `properties` bag with a project's folder path; the absolute path on a commit (the normalised git remote goes instead); per-file path lists from a filesystem watch or `.git/index`; your local sibling ordering |
+| Machine-specific | The `properties` bag with a project's folder path (only a doc's branch label, a branch name, goes); the absolute path on a commit (the normalised git remote goes instead); per-file path lists from a filesystem watch or `.git/index`; your local sibling ordering |
 | Content | Transcript content; the reasoning body behind a memory |
 | Never sent | The doc of a captured AI session; a memory that belongs to no doc (global); a memory you hid from sessions; a memory a widget saved |
 

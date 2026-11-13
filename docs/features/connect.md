@@ -22,7 +22,7 @@ Order, always: Claude Code, Codex, Cursor, GitHub Copilot, Antigravity, OpenCode
 | Connected (Slate installed, workspace runs on it) | a small green dot at the right edge | **Disconnect**, on hover |
 | On this Mac, not connected | none | **Connect** |
 | Not on this Mac | none (greyed out) | **Install** |
-| Slate installed, nothing runs on it | a grey line, *Sessions recorded · not used for tasks* | **Remove Slate**, **Connect** on hover |
+| Slate installed, nothing runs on it | a grey line, *Not turned on · sessions not recorded* | **Remove Slate**, **Connect** on hover |
 | Running here, Slate not installed, or last session used another Slate install | a grey line with an amber dot in front | **Connect** or **Disconnect** |
 | Config could not be read | a grey line with an amber dot in front | **Connect** |
 
@@ -57,7 +57,7 @@ A turn that cannot find a tool's CLI names the same command.
 
 **Connect** installs Slate into the tool's config directory (sessions captured, workspace readable and writable) and records that this workspace runs on the tool (Home, automations and skills use it). **Disconnect** undoes both ([how](https://liozelmalem-star.github.io/slate-releases/docs/features/connect/how-slate-installs.md)).
 
-* If only one half is true the row says so, behind an amber dot, and **Connect** repairs it: *Sessions recorded · not used for tasks* (in grey, since its sessions are still recorded), or *Runs here, but Slate is not installed — sessions are not captured*.
+* If only one half is true the row says so, behind an amber dot, and **Connect** repairs it: *Not turned on · sessions not recorded* (in grey: Slate records only the agents a workspace turns on, so this one is a leftover), or *Runs here, but Slate is not installed — sessions are not captured*.
 * **Remove Slate** removes Slate from a tool this workspace does not run, leaving the workspace as is. The dialog names the config file Slate writes. Nothing is written until you connect, on first launch too.
 * **Capture** switch (Claude Code, Codex, Gemini; the ten newest have none yet): off stops recording that tool's sessions, and it stays connected. Cursor has **Capture sessions** / **Stop capturing**; OpenCode has none. **Auto-capture** in Automations › [Built-in](https://liozelmalem-star.github.io/slate-releases/docs/features/automations.md) stops all.
 * **A profile exists once per computer.** If another workspace runs the same tool on the same profile, the row says *Slate is installed here for Work* and offers no **Remove Slate** (it would break that workspace); disconnecting only stops this workspace, and says so first.

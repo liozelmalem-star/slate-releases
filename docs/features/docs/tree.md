@@ -4,7 +4,7 @@ The Docs tree nests groups and projects with docs as leaves; any doc can hold ch
 
 ## Overview
 
-Under the project picker, above the Docs and Code tabs, **Overview** shows a card per project, grouped as the tree: **On their own**, then each group by name (empty groups hidden).
+Under the project picker, above the Docs and Code tabs, **Overview** shows a card per project, grouped as the tree: **On their own**, then each group by name (empty groups hidden). With no group at all, the cards stand without a heading.
 
 - Card picture: the project's README (first heading and paragraph), else its doc; with neither, the card has no picture.
 - Below: name, folder's branch, worktree count if more than one (still one card), last worked time. Green dot = a session is working in it.
@@ -47,7 +47,7 @@ A doc goes in the picked project. On All projects **Blank doc** is off and says 
 
 **Trash** lists each doc with when and from where ("Moved to Trash 2 days ago · from slate"), with a title filter.
 
-- Row: **Restore**, **Delete forever…** icon.
+- Row: **Restore**, **Delete forever…** icon, shown on hover or focus.
 - Tick rows: **Restore (N)**, **Delete forever (N)**. Nothing ticked: **Empty Trash**, or **Delete forever · N shown** while the filter hides some. Delete forever always asks.
 - Widgets in Trash have their own **Widgets** heading with **Restore** and **Delete forever…**.
 - Click a doc to read it, read-only, with a **Restore** bar. A link to a vanished doc says so and offers **Open Trash**.

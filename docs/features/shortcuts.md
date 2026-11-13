@@ -6,7 +6,7 @@ Keys are written for a Mac. On Windows and Linux, ⌘ is Ctrl. Shortcuts with �
 
 ## Rebind a shortcut
 
-**Settings → Keyboard** lists every command in the palette. Click a command's key to record a new one. A key another command held moves over, and a note ("⌘X moved from A to B.") offers **Undo**. Unbind takes a key away; Reset restores the default. One key per command, no multi-key sequences. The palette, the cheatsheet and tooltips read the same list, so they follow a key you rebind. The shortcuts in the tables below marked "fixed" are not in that list.
+**Settings → Keyboard** lists every command in the palette. Click a command's key to record a new one. A key another command held moves over, and a note ("⌘X moved from A to B.") offers **Undo**. Unbind takes a key away; Reset restores the default. **Reset all** restores every key and offers **Undo**. One key per command, no multi-key sequences. The palette, the cheatsheet and tooltips read the same list, so they follow a key you rebind. The shortcuts in the tables below marked "fixed" are not in that list.
 
 ## Anywhere
 
@@ -20,8 +20,8 @@ These are the commands in Settings → Keyboard, grouped as the cheatsheet group
 | ⌘P | **Go to file or doc** |
 | ⌘⇧F | **Search docs and files** |
 | ⌘⇧K | **Go to Home** |
-| ⌘⇧O | **Operations** |
 | ⌘J | **Ask AI** |
+| ⌘⇧O | **Steps Ask AI ran** |
 | ⌘⇧J | The session that has waited on you longest; again for the next. After the sessions come tasks waiting on you, then back to the first session |
 | ⌘[ and ⌘] | **Back** and **Forward** |
 | ⌘\` and ⌘⇧\` | **Switch to next workspace** and **Switch to previous workspace** |
@@ -90,7 +90,9 @@ These gestures are fixed. See [Tabs](https://liozelmalem-star.github.io/slate-re
 | ⌘-click a row | **Open beside** |
 | ⇧⌘\\ | **Unsplit** the columns |
 
-On a focused row of the rail ([The keyboard](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions.md#the-keyboard)), with focus inside the rail and no text field active:
+⌥⌘B and ⌥⌘I are in Settings → Keyboard and work while the Sessions panel is on screen.
+
+On a focused row of the rail ([The keyboard](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions.md#the-keyboard)), with focus inside the rail and no text field active. The cheatsheet lists these under **Session list**; they are fixed:
 
 | Key | What it does |
 | --- | --- |
@@ -118,7 +120,7 @@ Over a focused terminal, every ⌘ chord belongs to the app except these. On Win
 
 ## Files and the editor
 
-In a file ([Reading a file](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/files.md#reading-a-file)):
+In a file ([Reading a file](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/files.md#reading-a-file)). ⌥H and ⌥1‥⌥4 are in Settings → Keyboard and act on the file that has focus; like every ⌥ shortcut, they wait while you type in the editor:
 
 | Keys | What it does |
 | --- | --- |

@@ -23,7 +23,7 @@ It runs under the project's profile. Slate asks that account's CLI whether it ca
 
 | Tool | Controls |
 | --- | --- |
-| Claude | **Send** a follow-up (queued, answered on claude.ai). **Bring back** opens it in a new worktree with the whole conversation, as a normal session |
+| Claude | **Send** a follow-up (Enter sends, Shift+Enter adds a line; queued, answered on claude.ai). **Bring back** opens it in a new worktree with the whole conversation, as a normal session |
 | Codex | No Send. **Show diff** (read-only). **Apply in a worktree** lands the changes, uncommitted, in a new worktree and opens its changes |
 | Both | **Open on** the tool's site; **Remove from Slate** (it stays on the site). Neither tool offers Stop, and the doc says so |
 

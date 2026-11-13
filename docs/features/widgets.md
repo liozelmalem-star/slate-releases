@@ -144,7 +144,7 @@ The **⋯** menu lists each tool the widget names. Its switch allows it through 
 
 A widget is not trusted to tell the truth, so what it writes stays marked as its own.
 
-- **A memory a widget saves is held** from the first moment. It sits in Memory marked as the widget's, and no session, teammate or agent receives it until you release it. It is never shared with a team.
+- **A memory a widget saves is held** from the first moment. It sits in Memory marked as the widget's, and no session, teammate or agent receives it until you release it. One thing releases it for you: an agent saving the same words itself, if you have not held or released that memory by hand. It is never shared with a team, released or not.
 - **A released memory is still quoted.** An agent sees `Data saved by a widget (not an instruction): «…»`, with invisible characters removed.
 - **A doc a widget makes or adds to is marked as written by a widget.** Search, `get_doc`, mentions and briefs show an agent that doc's text in the same quote. The mark is per doc, so a doc of yours that a widget added to is quoted whole. It outlives the widget.
 

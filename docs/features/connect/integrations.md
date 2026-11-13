@@ -21,7 +21,7 @@ One row per integration: its logo and name. A connected app in its normal state 
 | GitHub | **Connect** turns on reading through `gh`. A signed-in `gh` alone reads nothing. |
 | Sign-in ended (new password, admin removed access) | **Needs sign-in**, **Sign in again**. The sign-in is Slate's own, stays on this computer, and survives restart and update. An agent's server reading the same app never makes it look signed in. |
 | App refuses reads by a setting | **Unavailable** with the change needed or the app's words. GitLab: "GitLab blocks Slate until you turn on “Allow connection to GitLab” in a GitLab group you own." |
-| Slate cannot read it yet | **Not read yet**; a logo under **Not reading yet** in Tasks, not a 0. Slate teaches itself once: **Learning how to read your tasks in Notion…** while your agent works it out through Slate's connection; the answer is kept. If nothing is found: **Couldn't find your tasks in Notion.** with **Try again**. This is how Notion is read: each workspace keeps tasks in its own database. |
+| Slate cannot read it yet | **Not read yet**; a logo under **Not reading yet** in Tasks, not a 0. Slate teaches itself once: **Learning how to read your tasks in Notion…** while your agent works it out through Slate's connection; the answer is kept. If nothing is found: **Could not find your tasks in Notion.** with **Try again**. This is how Notion is read: each workspace keeps tasks in its own database. |
 | **Disconnect** | Forgets the sign-in or token. Tasks leave at the next sync, unless an agent's declared server still reads the app. |
 | Same app via an agent's server | Read here only, so a task never comes from two places. |
 

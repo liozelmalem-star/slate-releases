@@ -42,7 +42,7 @@ Tab reaches the rail's rows (cloud rows included); Enter opens one. ↑/↓ or *
 
 ## Stopping a session
 
-Each row whose session can end has a **Stop** button. The first click arms it (*Click Stop or press s again to end it*); the second click, or **s**, ends it. Mouse and keyboard share one arm, which resets after four seconds.
+Each row whose session can end has an **End** button. The first click arms it: it turns red and reads **End?** (*Click End? or press s again to end it*), and stays shown while armed; the second click, or **s**, ends it. Mouse and keyboard share one arm, which resets after four seconds.
 
 | Session | Stop does |
 | --- | --- |

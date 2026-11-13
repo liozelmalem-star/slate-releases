@@ -13,6 +13,8 @@ title to read it first.
 
 ## Restore, or delete forever
 
+A row shows **Restore** and **Delete forever…** when the pointer is on it or focus is in it, so Tab still reaches them.
+
 - **Restore** puts the doc back where it was, with everything that went to the Trash with it. A doc inside it that you had moved to the Trash on its own, earlier, stays in the Trash. If its parent is in the Trash too, it stays there with it until the parent comes back.
 - **Delete forever…** asks first and cannot be undone. A doc's nested docs go with it. A widget loses every version and the data it kept. If another Mac restored the same doc or widget and has not synced since, delete forever still wins: your next sync makes that Mac move its copy to its Trash. A restore made on that Mac after it has seen that stays restored.
 

@@ -75,5 +75,5 @@ A copy has its own transcript, so the two never interleave. Its row says **Copy 
 **Hand back to my terminal**, in a row's **⋯** (*Keeps running; you get the command to resume it*), detaches a session Slate runs and leaves it running. Only Claude Code supports it, so the item shows only on a Claude Code session Slate runs.
 
 1. Slate sends the tool's detach input (`/bg` for Claude Code), waits about 1.5 seconds and closes the session's terminal.
-2. A message gives the resume command with **Copy resume**: `claude attach <handle>`, prefixed with the account where there is one.
+2. A message gives the resume command with **Copy resume command**: `claude attach <handle>`, prefixed with the account where there is one.
 3. If Slate cannot name the command, the message says *It keeps running in the background*.

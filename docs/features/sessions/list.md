@@ -43,7 +43,7 @@ A click opens a temporary tab the next click replaces; **double-click** keeps it
 - **PR #118**, once origin has a pull request for the branch: opens it in your browser.
 - **Hand back to my terminal**, on a Claude Code session Slate runs ([Moving a session back to your terminal](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/start.md#moving-a-session-back-to-your-terminal)).
 
-Below a rule: **New session**, **New worktree** (project row with several git repositories), **Copy path**, **Make a project** (row in **No project**), **Copy resume** (the tool's resume command, such as `claude --resume <id>`; first six tools only, the ten newest have none yet).
+Below a rule: **New session**, **New worktree** (project row with several git repositories), **Copy path**, **Make a project** (row in **No project**), **Copy resume command** (the tool's resume command, such as `claude --resume <id>`; first six tools only, the ten newest have none yet).
 
 **Park** hides a *checked out, nothing running* checkout without removing it, in a **Parked · n** line at the end of its project with **Unpark** beside each. A checkout with a running session, or a [branch waiting for review](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/review.md#branches-waiting-for-review), is never hidden. Parked state is kept on this machine only.
 

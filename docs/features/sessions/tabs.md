@@ -49,7 +49,7 @@ Renaming the tab renames the session in its own tool, so its resume list shows t
 
 ## Agents that know about each other
 
-With two or more sessions in one project, Slate tells each the others exist, once, at the start of a turn, in the message carrying the branch brief. The rail says so under the group: *each told the other is here*.
+With two or more sessions in one project, Slate tells each the others exist, once, at the start of a turn, in the message carrying the branch brief. The rail says so under the group: *Told about 1 other session here*, or the count of the others.
 
 Each agent gets the other's **own words**: tool, branch, state, what it was asked and its last message, plus the doc id. The branch goal is omitted (agents on one branch share it). Slate never says a session **is running**, only *last active six minutes ago*. It asks for nothing; the agents decide.
 

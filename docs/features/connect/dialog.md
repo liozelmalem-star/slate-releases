@@ -13,7 +13,7 @@ The dialog lists the servers the tool declares, read from the profile this works
 | Server | States | Buttons |
 |---|---|---|
 | Read by Slate | **Live**, **Needs sign-in**, **Not turned on**, **Unavailable**, **Not read yet** (a failure says when it last worked) | **Turn on**; **Let an agent read it**, or **Read with Claude Code** when only your Claude account reaches it |
-| Not read by Slate | What the tool last reported: **Connected in Claude Code**, **Needs sign-in in Claude Code**, **Claude Code couldn't connect**. Neither spoke: **Set up, not checked** | none |
+| Not read by Slate | What the tool last reported: **Connected in Claude Code**, **Needs sign-in in Claude Code**, **Claude Code could not connect**. Neither spoke: **Set up, not checked** | none |
 
 **Sign in** uses the sign-in Tasks uses for a tool Slate reads. For a server only an agent reaches, it runs that tool's own login. **Refresh** and any waiting sign-in sit above the list.
 

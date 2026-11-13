@@ -9,6 +9,7 @@ A session that only talked (no check, no changed file, no commit) gets none. The
 - **It said**: first paragraph of the last reply.
 - **Checked against the transcript**: where said and ran disagree, with evidence; *What it said matches what it ran* otherwise.
 - **What it ran**: every test, gate, lint, typecheck and build, in order, with passed and failed counts or exit code.
+  A run fails when its summary counts a failure or an error (vitest's `Errors  1 error`, pytest's `2 errors`), or when the command exited with an error even though every test passed. A filter such as `| tail` owns the exit code, so then the counts decide.
 - **What changed**: files edited.
 - **Outcome**: commits its own `git commit` reported, and whether they are on the default branch or were reverted there within 30 days. Checked when you open agent runs, at most every 10 minutes per receipt.
 

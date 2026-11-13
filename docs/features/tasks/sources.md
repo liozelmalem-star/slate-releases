@@ -42,7 +42,7 @@ Only [read-only tools](https://liozelmalem-star.github.io/slate-releases/docs/fe
 | --- | --- |
 | Jira | Issues assigned to you, not done, by Jira status |
 | Slack | Direct messages and mentions from the last 7 days you have not answered |
-| Gmail | Unread emails from the last 7 days, up to 30, by subject and sender; at most 15 new opened per read, the rest later. Outlook is not read this way |
+| Gmail | Unread emails from the last 7 days, up to 30, by subject and sender; at most 15 new opened per read, the rest later. A row opens in the Google account the gateway reads; when no email names that account, the row says so and opens your first signed-in account. Outlook is not read this way |
 
 ## Apps read with a pasted token
 

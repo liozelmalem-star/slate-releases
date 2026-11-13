@@ -45,7 +45,7 @@ For approvals, autonomy and Stop see [Approvals, Stop and Agent Differences](htt
 
 ## The Set up Slate card
 
-In a workspace with no agent set, Home is a doc: *{workspace} is ready for an agent*. One card shows the agents and what connecting one unlocks (Ask here, Memory, Activity, Automations, Widgets), with **Open Connect** and what works without AI: Tasks, Projects and Artifacts. See [Connect](https://liozelmalem-star.github.io/slate-releases/docs/features/connect.md#agents).
+In a workspace with no agent set, Home is a doc: *{workspace} is ready for an agent*. One card shows the 16 agents as small tiles, four to a row, and what connecting one unlocks (Ask here, Memory, Activity, Automations, Widgets), with **Open Connect** and what works without AI: Tasks, Projects and Artifacts. See [Connect](https://liozelmalem-star.github.io/slate-releases/docs/features/connect.md#agents).
 
 Once a tool is set, Home starts with a **Set up Slate** card of three steps, each with one button:
 
@@ -55,7 +55,7 @@ Once a tool is set, Home starts with a **Set up Slate** card of three steps, eac
 | **Start a session** | **New session** (runs your tool in a folder) | A session has been captured |
 | **See your first memory** | **Open Memory** | A memory is saved |
 
-Ticks come from what is in the workspace, so a step done elsewhere ticks itself. Until an agent is connected, the first step lists every agent Slate works with; once it is done, it names only the connected ones. The first open step has the main button; the header counts progress ("1 of 3 done"). The card goes when all three are done or on **Skip setup**, and does not return in that workspace (other workspaces are unaffected). A line under it reads *A workspace holds your projects. A project is a folder you open.* and names your workspace.
+Ticks come from what is in the workspace, so a step done elsewhere ticks itself. The first step names no agent until one is connected; then it names only the connected ones. The first open step has the main button; the header counts progress ("1 of 3 done"). The card goes when all three are done or on **Skip setup**, and does not return in that workspace (other workspaces are unaffected). A line under it reads *A workspace holds your projects. A project is a folder you open.* and names your workspace.
 
 ## Resuming a past session
 

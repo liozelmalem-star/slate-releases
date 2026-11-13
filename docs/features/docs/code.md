@@ -11,7 +11,7 @@ A tree like an editor's explorer.
 - Files changed since the last commit show **M**, **A** or **D**, with a dot on their folders. Find a file by name with ⌘K.
 - Hover a checkout's row: **New file**, **New folder**, **Refresh**, **Collapse all**.
 - Right-click a file, folder or the space below: **New file**, **New folder**, **Open terminal here**, **Start session here**, **Copy path**, **Reveal in Finder**, **Rename**, **Move to Trash**. Names are typed in place. These wait while an agent works in that project.
-- Rename or trash can be undone from its message or from Turns; a trashed file is also in the macOS Trash.
+- Rename or trash can be undone from its message or from Turns; a trashed file is also in the system Trash (the Recycle Bin on Windows). A file on another disk than the Trash, or on a Windows network share or removable drive, is refused and stays where it was.
 
 ## Changes
 
