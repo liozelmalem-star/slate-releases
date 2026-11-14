@@ -12,23 +12,28 @@ Part of [Recall & Remember](https://liozelmalem-star.github.io/slate-releases/do
 
 ## The brief
 
-Tools with Slate's hooks get a short brief at session start, under 1,500 characters. It says where the session is and carries no memory, in this order:
+Tools with Slate's hooks get a short brief at session start. It says where the session is and what memory matters most here, in this order:
 
 * **Scope:** the project, the branch, and the branch's goal when one was written down (a plan or a saved goal, never one guessed from the branch name).
 * **Open:** the branch's open items, the pull requests and issues waiting on you in this project (from [Tasks](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks.md)), and on the main branch the other branches that still hold uncommitted work.
 * **Others:** other AI sessions working in this project right now.
 * **Rules:** up to 5 of your own rules for this project (see below).
+* **Memory index:** at most 12 memories, each with its ref. First the ones you pinned, then the project's decisions and lessons that the most sessions cited. Never chosen by the words of a prompt. None outside a project.
 * One line telling the session to call `recall` with its task in its own words once it knows the task.
 
-Memory is looked up for the task, not given at the start. Measured on 2026-11-13 over 30 days, sessions used 1.2% of the memories the old brief gave them (55 of 4,544), and 66% of Claude Code sessions started on the main branch or with no branch, where a brief cannot know the task.
+The first four parts stay under 1,500 characters; the index has its own 2,800. The rest of memory is looked up for the task. Without any index, only 24 of 280 sessions called `recall`; the old 24-memory index was used 1.2% of the time (55 of 4,544, 2026-11-13). The index now holds only what you pinned and what sessions here actually cited.
+
+Tools without a start hook (Goose, Cline, Hermes, Antigravity and any host Slate does not know) get the same index from Slate's MCP server when they connect, after its rules.
 
 **The first prompt** of a session not started from a task asks it to call `recall` with the task in its own words before it starts, unless the request is trivial. Later prompts do not repeat it. A prompt shorter than 8 characters is not counted as the first. When the project's memory needs a [tidy](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/tidy-and-measure.md#tidying-a-projects-memory) (more than 300 non-resting memories, or at least 5 preferences and decisions and no lesson with a trigger), the first prompt also asks the session to offer one, at most weekly and not while proposals wait.
 
-**At the end of a turn**, a session that changed files and never called `recall` is sent back once to look the task up. It is never asked twice, and a session that did call `recall` is not asked. Neither ask reaches a session started from a task: its memory came with its card.
+**Before the first read or edit**, a session the first-prompt ask reached waits: its first call that reads, edits or runs a shell command in the project is refused with one line asking it to call `recall` first, then try again. Once it has called `recall` nothing is held again. A session with no Slate tools is never held: Slate is not running, or (in Claude Code) its Slate server failed to connect or was removed. Where that cannot be told, a session that cannot reach the tools is held at most twice and then let through. A trivial first prompt, a held-out session and a session started from a task are never held, by the same rule as the ask. It runs wherever Slate's rules hook runs before a tool call, so every tool with that event gets it.
+
+**At the end of a turn**, a session that changed files and never called `recall` is sent back once to look the task up. It is never asked twice, and a session that did call `recall` is not asked. A session that did call `recall` and passed Slate no refs in `used` is asked once instead, at its first turn end after the lookup: pass the refs that shaped the answer in `used` on one `recall` call, or skip it, and keep them out of the reply. That is how Slate counts which memory was used (median 3.4 s per session on the real-session gate). Kiro and Cline never get this ask, and Cursor gets it only in an interactive session: the tool discards what a hook says at Kiro's `Stop`, Cline's `TaskComplete` and Cursor's `sessionEnd`, and Cursor's `stop` does not fire in print mode. There, use is counted only when the session passes `used` on its own. Neither ask reaches a session started from a task: its memory came with its card, nor a session with no Slate tools to answer with (the same test as the hold above).
 
 Other prompts get nothing added, except a note when the branch changed, another agent works in the project or left a note, or a plan or review is ahead.
 
-**The holdout:** one session in four is not pointed at memory. It gets the brief without the `recall` line, no first-prompt ask and no end-of-turn ask, so the [memory report](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/tidy-and-measure.md) can compare the two groups.
+**The holdout:** one session in four is not pointed at memory. It gets the brief without the memory index and the `recall` line, no first-prompt ask and no end-of-turn ask, so the [memory report](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/tidy-and-measure.md) can compare the two groups.
 
 No hook calls a model or the network. Each hook run adds one line (time, hook, tool, milliseconds) to `hook-runs.log` in Slate's data folder. The budgets are 500 ms for the start and prompt hooks and 50 ms for a tool call that matches no lesson.
 
@@ -52,7 +57,7 @@ The index is up to 12 lines, one memory each, about 220 characters a line. It is
 
 | Place | How it gets the index |
 | --- | --- |
-| Session in an agent | Not at the start: the session finds memory with `recall` (see above). |
+| Session in an agent | A smaller index in the start brief: pinned, then most cited (see above). The rest through `recall`. |
 | [Task](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks.md) (agent run) | Not the index: its [card](#a-session-started-from-a-task) carries up to 5 memories about the task's files, then the pinned ones. |
 | [Automation](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md) run | As `@memory` in its brief step, then also the memories sessions leave to search, newest first (an automation that tidies memory needs them). |
 | In-app agent (Home, Ask AI) | In its system prompt, for the project you are in. |

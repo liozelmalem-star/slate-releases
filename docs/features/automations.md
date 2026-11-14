@@ -12,7 +12,7 @@ Ten switches are app-wide: off stops it in every workspace. They pause things yo
 
 | Automation | Does | Off means |
 | --- | --- | --- |
-| **Scheduled automations** | Starts your automations at their times and those that run when a session ends; files each report under its group or project. Open workspace only, while Slate is open and the computer awake | Nothing runs on a schedule; automations stay listed and run by hand |
+| **Scheduled automations** | Starts your automations at their times and those that run when a session ends; files each report under its group or project. Every workspace on this computer, while Slate runs (window open or not) and the computer is awake | Nothing runs on a schedule; automations stay listed and run by hand |
 | **Shared workspace sync** | At startup, then every two minutes: pushes your docs in a shared workspace, pulls others'. Needs sign-in. After repeated failures waits longer, up to an hour | Shared workspaces stop updating both ways; **Sync now** still works |
 | **agent runs** | Adds **Run with AI…** to a task (branch, folder, guided run). Every two minutes checks if a shipped run's pull request merged; for 30 days after shipping, hourly checks for a revert | Task card offers only **Just open a session**; started runs keep their rules; no merge or revert checks |
 | **Reminders** | Rings when a task with a time comes due, in every workspace on this computer | Nothing rings; times stay |

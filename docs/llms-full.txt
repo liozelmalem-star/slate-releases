@@ -1091,18 +1091,21 @@ A session gets memory three ways: an index at the start, a search it runs, and a
 ## `recall` and `get_memory`: search in two steps
 
 ```
-recall({ query, cwd })
+recall({ query, also, cwd })
 recall({ query, cwd, as_of: "2026-08-01" })
 get_memory({ refs })
 ```
 
-`recall` searches the project's memories and docs and returns one line per memory with ref and citation. Default 8 results, 25 at most, memories at most half, docs the rest. When the query is about the branch (it names the branch, or asks what is open or in progress) the first result is the branch brief: goal, open items, recent sessions and commits, from records labelled with the branch and from git. A memory scoring under 0.7 of the best memory's score is left out; the best one always stays. A doc matches when its text holds all the query's words; a doc found by its title alone, and captured session docs, are not returned. `kind: "pages"` searches docs only, up to 20 results.
+`recall` searches the project's memories, its docs in Slate, and the project's own files, and returns one line per memory with ref and citation. The project's own files are the ones at the root of the project folder the `cwd` is in (the nearest folder holding `.git`: `AGENTS.md`, `CLAUDE.md`, `README.md`, `CONTRIBUTING.md`) and every `.md` file under `docs/`, `doc/`, `adr/` and `decisions/`, read from disk on each call, for any project, not only Slate. A file hit carries its `path` in the project folder; read the file for the whole text. It comes after the memories unless it matches the question at least twice as well as the best memory does. A tool asks with the person's question in `query`, as asked, and 3–6 keywords of its own as the first entry of `also`; the question is never replaced by the keywords. It gets a shortlist: 15 candidates by default, 25 at most, memories and files together, best first, each one line with its id or path and kind. After the list comes one line asking it to pick the ones that answer its task, or say none fits, and to pass the refs it relied on in `used` on its next `recall`, `remember` or `log_mission_progress`, never in its reply. The choosing is the AI's. Measured on real sessions (`yarn memory:gate`, ADR 0130), the session's AI picked a right item as often from this list as from the old 8, and handled more questions nothing answers when the list kept the cut below. The app's own calls (the in-app agent, a task's memory) get 8 results, memories at most half, docs the rest. When the query is about the branch (it names the branch, or asks what is open or in progress) the first result is the branch brief: goal, open items, recent sessions and commits, from records labelled with the branch and from git. A memory scoring under 0.7 of the best memory's score is left out, on a tool's shortlist too; the best one always stays. A doc matches by one section: the doc is cut at its headings, and a section counts when it, with the doc's title and its own heading, covers the query's rarest words (a title or heading word counts more than a body word). Words scattered over a long doc do not make it a match. A doc found by its title alone is not returned, and neither is a log: a captured session, or a doc an older Slate wrote as a running session log or a pile of old notes ("Session log — …", "Earlier notes on main, …"). Those stay in the app and its search. `kind: "docs"` searches doc text only, up to 20 results, logs left out.
+
+When nothing matches well enough, `recall` says so in one line and names up to three docs whose titles match, as places to read, never as answers. Every `recall` is logged with how many memories and docs it returned, the empty ones too, so Slate can count the sessions that looked something up and found nothing. When the session ends, its transcript ties each of its lookups to it, and a memory it names afterwards counts as that lookup's use.
 
 ### How results are ranked
 
 Memories are ranked lexically and locally with BM25. No model is called and nothing is downloaded.
 
-* Each query word counts by its rarity among your memories. Sentence (counts most), tags, citation and reason are read; words match by stem ("refused" finds "refusal"), and case, accents and punctuation do not matter ("preproduction" finds "préproduction").
+* Each query word counts by its rarity among your memories. Sentence and keywords (count most), reason, tags and citation are read, in that order of weight; words match by stem ("refused" finds "refusal"), and case, accents and punctuation do not matter ("preproduction" finds "préproduction").
+* `remember` takes `keywords`: 5 to 10 words or short phrases a later question would use that the sentence does not (synonyms, other names, an acronym and its spelling out). They count like the sentence, and only for the memory they are written on: a query is never widened with another memory's keywords.
 * Recent memories are lifted slightly; a newer near-tie on the same subject comes first.
 * From 200 memories in a workspace, a match is lifted (at most doubled) by how close its words sit to the query's in your store (latent semantic analysis, fitted in memory). It only re-orders keyword matches; a memory sharing no word is never added.
 * Your acts on the code move a match, at most doubled or halved: merges and Confirms lift, reverts and discards of the code its sessions wrote lower (see [Citing](#citing-how-slate-learns-what-helped)).
@@ -1167,23 +1170,28 @@ Part of [Recall & Remember](https://liozelmalem-star.github.io/slate-releases/do
 
 ## The brief
 
-Tools with Slate's hooks get a short brief at session start, under 1,500 characters. It says where the session is and carries no memory, in this order:
+Tools with Slate's hooks get a short brief at session start. It says where the session is and what memory matters most here, in this order:
 
 * **Scope:** the project, the branch, and the branch's goal when one was written down (a plan or a saved goal, never one guessed from the branch name).
 * **Open:** the branch's open items, the pull requests and issues waiting on you in this project (from [Tasks](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks.md)), and on the main branch the other branches that still hold uncommitted work.
 * **Others:** other AI sessions working in this project right now.
 * **Rules:** up to 5 of your own rules for this project (see below).
+* **Memory index:** at most 12 memories, each with its ref. First the ones you pinned, then the project's decisions and lessons that the most sessions cited. Never chosen by the words of a prompt. None outside a project.
 * One line telling the session to call `recall` with its task in its own words once it knows the task.
 
-Memory is looked up for the task, not given at the start. Measured on 2026-11-13 over 30 days, sessions used 1.2% of the memories the old brief gave them (55 of 4,544), and 66% of Claude Code sessions started on the main branch or with no branch, where a brief cannot know the task.
+The first four parts stay under 1,500 characters; the index has its own 2,800. The rest of memory is looked up for the task. Without any index, only 24 of 280 sessions called `recall`; the old 24-memory index was used 1.2% of the time (55 of 4,544, 2026-11-13). The index now holds only what you pinned and what sessions here actually cited.
+
+Tools without a start hook (Goose, Cline, Hermes, Antigravity and any host Slate does not know) get the same index from Slate's MCP server when they connect, after its rules.
 
 **The first prompt** of a session not started from a task asks it to call `recall` with the task in its own words before it starts, unless the request is trivial. Later prompts do not repeat it. A prompt shorter than 8 characters is not counted as the first. When the project's memory needs a [tidy](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/tidy-and-measure.md#tidying-a-projects-memory) (more than 300 non-resting memories, or at least 5 preferences and decisions and no lesson with a trigger), the first prompt also asks the session to offer one, at most weekly and not while proposals wait.
 
-**At the end of a turn**, a session that changed files and never called `recall` is sent back once to look the task up. It is never asked twice, and a session that did call `recall` is not asked. Neither ask reaches a session started from a task: its memory came with its card.
+**Before the first read or edit**, a session the first-prompt ask reached waits: its first call that reads, edits or runs a shell command in the project is refused with one line asking it to call `recall` first, then try again. Once it has called `recall` nothing is held again. A session with no Slate tools is never held: Slate is not running, or (in Claude Code) its Slate server failed to connect or was removed. Where that cannot be told, a session that cannot reach the tools is held at most twice and then let through. A trivial first prompt, a held-out session and a session started from a task are never held, by the same rule as the ask. It runs wherever Slate's rules hook runs before a tool call, so every tool with that event gets it.
+
+**At the end of a turn**, a session that changed files and never called `recall` is sent back once to look the task up. It is never asked twice, and a session that did call `recall` is not asked. A session that did call `recall` and passed Slate no refs in `used` is asked once instead, at its first turn end after the lookup: pass the refs that shaped the answer in `used` on one `recall` call, or skip it, and keep them out of the reply. That is how Slate counts which memory was used (median 3.4 s per session on the real-session gate). Kiro and Cline never get this ask, and Cursor gets it only in an interactive session: the tool discards what a hook says at Kiro's `Stop`, Cline's `TaskComplete` and Cursor's `sessionEnd`, and Cursor's `stop` does not fire in print mode. There, use is counted only when the session passes `used` on its own. Neither ask reaches a session started from a task: its memory came with its card, nor a session with no Slate tools to answer with (the same test as the hold above).
 
 Other prompts get nothing added, except a note when the branch changed, another agent works in the project or left a note, or a plan or review is ahead.
 
-**The holdout:** one session in four is not pointed at memory. It gets the brief without the `recall` line, no first-prompt ask and no end-of-turn ask, so the [memory report](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/tidy-and-measure.md) can compare the two groups.
+**The holdout:** one session in four is not pointed at memory. It gets the brief without the memory index and the `recall` line, no first-prompt ask and no end-of-turn ask, so the [memory report](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/tidy-and-measure.md) can compare the two groups.
 
 No hook calls a model or the network. Each hook run adds one line (time, hook, tool, milliseconds) to `hook-runs.log` in Slate's data folder. The budgets are 500 ms for the start and prompt hooks and 50 ms for a tool call that matches no lesson.
 
@@ -1207,7 +1215,7 @@ The index is up to 12 lines, one memory each, about 220 characters a line. It is
 
 | Place | How it gets the index |
 | --- | --- |
-| Session in an agent | Not at the start: the session finds memory with `recall` (see above). |
+| Session in an agent | A smaller index in the start brief: pinned, then most cited (see above). The rest through `recall`. |
 | [Task](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks.md) (agent run) | Not the index: its [card](#a-session-started-from-a-task) carries up to 5 memories about the task's files, then the pinned ones. |
 | [Automation](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md) run | As `@memory` in its brief step, then also the memories sessions leave to search, newest first (an automation that tidies memory needs them). |
 | In-app agent (Home, Ask AI) | In its system prompt, for the project you are in. |
@@ -1397,7 +1405,9 @@ The index went from up to 40 short lines to 12 whole ones on 2026-11-07. To comp
 
 `yarn memory:health` prints the live usefulness number from a read-only copy of your store: for the last 7 days (`--days N`), per channel (`brief`, `recall`, `trigger` for lessons), the memories given to sessions, how many were judged, how many a session cited, how many still wait for their session's transcript (**pending**) and how many belong to no session (**unowned**, a screen's brief: no verdict will come), and the used share (cited over judged; a row still waiting for its transcript is not counted as ignored). Under it, the 10 most-given memories no session ever cited. A `recall` the session asked is judged from its transcript, cited or not. `--days` is a whole number from 1 to 365. `--db <file>` reads another store; `--json` prints the data. The app serves the same data at `GET /memory/usefulness`.
 
-`yarn memory:eval --cwd <project>` runs `recall` on fixed questions and prints recall@5 and MRR per kind (plain, updated, time, unanswerable). The set quotes your memory, so it lives at `memory-eval/questions.json` in Slate's data folder. `--half tune` / `--half report` score odd / even questions; `--also <file>` passes other phrasings.
+`yarn memory:eval` asks a fixed set of real questions through the real MCP `recall`, against a fresh copy of a store snapshot, and prints two columns: the question as typed (plain) and as the keywords an AI would search with. Rows: hit@1, hit@5, MRR, the share of returned memories that are relevant, junk answers (ones carrying a session log or a pile of old notes), questions nothing answers that still got items, and answerable questions that got nothing. Each question names the memories and project files that answer it, and the set is split into a tune half and a held-out half (`--half tune` / `--half held-out`). It quotes your work, so it lives in Slate's data folder: `memory-eval/golden.json` and the snapshot `memory-eval/store-pristine/` (`--golden`, `--store`, `--cwd` override them; `--out` keeps every reply). The plain column is the one that counts.
+
+`yarn memory:gate` asks the same questions of real sessions. It runs a first turn of Claude Code (`claude -p`; `--tool codex` for Codex, `--codex-bin` to pick its CLI) on each question, with Slate's hooks and MCP server from this checkout's build, on a fresh copy of the snapshot per session, with read-only tools and no transcript written, and scores three things from what the session did: it called `recall` before its first read or edit, what it relied on is right (or nothing, for a question nothing answers; a judge model lists what the answer used of what it was offered), and it passed Slate the refs it relied on in `used`. `--arm B` puts the project's whole memory in the start context and `--arm C` re-ranks every recall reply with a model; both are measurement only. Runs land in `memory-eval/gate/`; `--rescore <run>` scores one again, `--half` picks a half, `--only 2,5` picks questions.
 
 ---
 
@@ -1654,14 +1664,14 @@ Every project has **Overview**, **Suggestions** (with the waiting count) and one
 | **Subagents** | Agents a session can hand work to | `.claude/agents`, `.cursor/agents`, `.gemini/agents`, `.opencode/agent(s)`, `.codex/agents` (TOML) |
 | **Rules** | When-to-apply rules | `.cursor/rules/*.mdc`, `.claude/rules`, `.codex/rules/*.rules` |
 | **Instructions** | What every session reads first | `AGENTS.md`, `AGENTS.override.md`, `CLAUDE.md`, `.claude/CLAUDE.md`, `CLAUDE.local.md`, `GEMINI.md`, `.cursorrules` |
-| **MCP servers** | One row per server, marked with every tool that has it | `.mcp.json`, `.cursor/mcp.json`, `.gemini/settings.json`, `.codex/config.toml`, `opencode.json`, `opencode.jsonc`, `.opencode/opencode.json` |
+| **MCP servers** | One row per server, led by the server's own logo (Slate's own server by Slate's mark, a server with no known logo by its initials) and marked with every tool that has it | `.mcp.json`, `.cursor/mcp.json`, `.gemini/settings.json`, `.codex/config.toml`, `opencode.json`, `opencode.jsonc`, `.opencode/opencode.json` |
 | **Hooks** | One row per event and matcher | `.claude/settings.json`, `.claude/settings.local.json`, `.cursor/hooks.json`, `.gemini/settings.json` |
 | **Plugins** | What the project turns on | `.claude/settings.json`, `.codex/config.toml`, `opencode.json`, `.opencode/opencode.json`, `.opencode/plugin(s)` |
 | **Config files** | Each agent's config file | `.claude/settings.json`, `.claude/settings.local.json`, `.cursor/hooks.json`, `.cursor/cli.json`, `.gemini/settings.json`, `.codex/config.toml`, `opencode.json`, `opencode.jsonc`, `.opencode/opencode.json` |
 
 **Output styles** (`.claude/output-styles`) has a tab too.
 
-An empty kind keeps its tab and a **New …** button. Only tools this workspace connects get a mark. A personal file such as `settings.local.json` is marked **this computer only**. A config that does not parse is listed with the reason and what its tool does (Gemini CLI and OpenCode refuse to start).
+An empty kind keeps its tab and a **New …** button. Every tool whose file holds an item gets a mark, in the same order on every row. A tool this workspace is not connected to is greyed, and its label says **Not connected in this workspace**. **No agent reads it** shows only when no tool holds the item at all. A personal file such as `settings.local.json` is marked **this computer only**. A config that does not parse is listed with the reason and what its tool does (Gemini CLI and OpenCode refuse to start).
 
 Links into an item: a session's **Setup used**, the skill a kind of work runs in Tasks' **Workflow**, the skill an accepted lesson became (Memory), a subagent's type under a session, each skill in the composer's **/** list.
 
@@ -1768,7 +1778,7 @@ A trash icon titled **Remove <name>** asks first (**Remove <name>?**, **Keep it*
 
 A skill behind a tool folder linked to a shared folder elsewhere is not removed there; Slate names the folder.
 
-An **MCP server** row lists each connected tool with **Remove from** (has it) or **Add to** (does not). It says when a server will not load yet: Claude Code waits for approval of a `.mcp.json` server; Codex reads `.codex/config.toml` only in a trusted project. Slate never approves a server. **Add to** keeps an SSE server SSE; Codex and Grok Build take only streamable HTTP, so an SSE server is refused there with the reason, and Suggestions never offers that copy. When the other tool has no place for a setting (`cwd`, `timeout`, a server turned off), the copy says which ones it left out. A JSON file with comments is never rewritten. A trailing comma or a byte-order mark is not a comment: that file is edited, the mark kept and the comma dropped. Variables and headers never reach the screen. A **hook** row opens its commands, each with **Remove**. The first click arms it (**Remove?**); the second removes. Remove checks that the command is still the one shown; if a tool or an editor changed the file since, nothing is removed and the list reloads.
+An **MCP server** row opens a dialog titled with the server's logo. It lists every tool that has the server and each connected tool that could, with **Remove from** (has it) or **Add to** (does not). A tool this workspace is not connected to is greyed and says **not connected in this workspace**, as the row draws it. It says when a server will not load yet: Claude Code waits for approval of a `.mcp.json` server; Codex reads `.codex/config.toml` only in a trusted project. Slate never approves a server. **Add to** keeps an SSE server SSE; Codex and Grok Build take only streamable HTTP, so an SSE server is refused there with the reason, and Suggestions never offers that copy. When the other tool has no place for a setting (`cwd`, `timeout`, a server turned off), the copy says which ones it left out. A JSON file with comments is never rewritten. A trailing comma or a byte-order mark is not a comment: that file is edited, the mark kept and the comma dropped. Variables and headers never reach the screen. A **hook** row opens its commands, each with **Remove**. The first click arms it (**Remove?**); the second removes. Remove checks that the command is still the one shown; if a tool or an editor changed the file since, nothing is removed and the list reloads.
 
 ## Your agents
 
@@ -2926,7 +2936,7 @@ Starts on its own only while **Runs on its own** (under **Starts**) is on. A lin
 - **Asleep at due time**: runs once on wake. For time-bound reports switch on **Skip a run that is more than two hours late** ("· skips late runs").
 - **One at a time**; never started twice. **Slate stops mid-run**: marked failed; a scheduled one reruns minutes after return.
 
-An automation belongs to the workspace it was made in and runs **while Slate is open on it**. It needs a project:
+An automation belongs to the workspace it was made in and runs on this computer while Slate runs, in every workspace, with or without a window. An automation in a shared workspace runs only on the computer of the person who made it: automations do not sync, so teammates never have a copy to run. One that runs when a session ends starts for a session in its workspace's folders. It needs a project:
 
 - New ones open in the project Automations is narrowed to and cannot be saved without one. With none picked, **Runs in** says **Pick a project**, listing only groups and projects.
 - The six seeded ones have no project: **Run now** and **Turn on** ask, save, then go on. **Turn off** never asks.
@@ -3101,7 +3111,7 @@ Ten switches are app-wide: off stops it in every workspace. They pause things yo
 
 | Automation | Does | Off means |
 | --- | --- | --- |
-| **Scheduled automations** | Starts your automations at their times and those that run when a session ends; files each report under its group or project. Open workspace only, while Slate is open and the computer awake | Nothing runs on a schedule; automations stay listed and run by hand |
+| **Scheduled automations** | Starts your automations at their times and those that run when a session ends; files each report under its group or project. Every workspace on this computer, while Slate runs (window open or not) and the computer is awake | Nothing runs on a schedule; automations stay listed and run by hand |
 | **Shared workspace sync** | At startup, then every two minutes: pushes your docs in a shared workspace, pulls others'. Needs sign-in. After repeated failures waits longer, up to an hour | Shared workspaces stop updating both ways; **Sync now** still works |
 | **agent runs** | Adds **Run with AI…** to a task (branch, folder, guided run). Every two minutes checks if a shipped run's pull request merged; for 30 days after shipping, hourly checks for a revert | Task card offers only **Just open a session**; started runs keep their rules; no merge or revert checks |
 | **Reminders** | Rings when a task with a time comes due, in every workspace on this computer | Nothing rings; times stay |

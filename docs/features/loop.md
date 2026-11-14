@@ -25,7 +25,7 @@ Starts on its own only while **Runs on its own** (under **Starts**) is on. A lin
 - **Asleep at due time**: runs once on wake. For time-bound reports switch on **Skip a run that is more than two hours late** ("· skips late runs").
 - **One at a time**; never started twice. **Slate stops mid-run**: marked failed; a scheduled one reruns minutes after return.
 
-An automation belongs to the workspace it was made in and runs **while Slate is open on it**. It needs a project:
+An automation belongs to the workspace it was made in and runs on this computer while Slate runs, in every workspace, with or without a window. An automation in a shared workspace runs only on the computer of the person who made it: automations do not sync, so teammates never have a copy to run. One that runs when a session ends starts for a session in its workspace's folders. It needs a project:
 
 - New ones open in the project Automations is narrowed to and cannot be saved without one. With none picked, **Runs in** says **Pick a project**, listing only groups and projects.
 - The six seeded ones have no project: **Run now** and **Turn on** ask, save, then go on. **Turn off** never asks.

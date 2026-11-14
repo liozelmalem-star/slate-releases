@@ -74,14 +74,14 @@ Every project has **Overview**, **Suggestions** (with the waiting count) and one
 | **Subagents** | Agents a session can hand work to | `.claude/agents`, `.cursor/agents`, `.gemini/agents`, `.opencode/agent(s)`, `.codex/agents` (TOML) |
 | **Rules** | When-to-apply rules | `.cursor/rules/*.mdc`, `.claude/rules`, `.codex/rules/*.rules` |
 | **Instructions** | What every session reads first | `AGENTS.md`, `AGENTS.override.md`, `CLAUDE.md`, `.claude/CLAUDE.md`, `CLAUDE.local.md`, `GEMINI.md`, `.cursorrules` |
-| **MCP servers** | One row per server, marked with every tool that has it | `.mcp.json`, `.cursor/mcp.json`, `.gemini/settings.json`, `.codex/config.toml`, `opencode.json`, `opencode.jsonc`, `.opencode/opencode.json` |
+| **MCP servers** | One row per server, led by the server's own logo (Slate's own server by Slate's mark, a server with no known logo by its initials) and marked with every tool that has it | `.mcp.json`, `.cursor/mcp.json`, `.gemini/settings.json`, `.codex/config.toml`, `opencode.json`, `opencode.jsonc`, `.opencode/opencode.json` |
 | **Hooks** | One row per event and matcher | `.claude/settings.json`, `.claude/settings.local.json`, `.cursor/hooks.json`, `.gemini/settings.json` |
 | **Plugins** | What the project turns on | `.claude/settings.json`, `.codex/config.toml`, `opencode.json`, `.opencode/opencode.json`, `.opencode/plugin(s)` |
 | **Config files** | Each agent's config file | `.claude/settings.json`, `.claude/settings.local.json`, `.cursor/hooks.json`, `.cursor/cli.json`, `.gemini/settings.json`, `.codex/config.toml`, `opencode.json`, `opencode.jsonc`, `.opencode/opencode.json` |
 
 **Output styles** (`.claude/output-styles`) has a tab too.
 
-An empty kind keeps its tab and a **New …** button. Only tools this workspace connects get a mark. A personal file such as `settings.local.json` is marked **this computer only**. A config that does not parse is listed with the reason and what its tool does (Gemini CLI and OpenCode refuse to start).
+An empty kind keeps its tab and a **New …** button. Every tool whose file holds an item gets a mark, in the same order on every row. A tool this workspace is not connected to is greyed, and its label says **Not connected in this workspace**. **No agent reads it** shows only when no tool holds the item at all. A personal file such as `settings.local.json` is marked **this computer only**. A config that does not parse is listed with the reason and what its tool does (Gemini CLI and OpenCode refuse to start).
 
 Links into an item: a session's **Setup used**, the skill a kind of work runs in Tasks' **Workflow**, the skill an accepted lesson became (Memory), a subagent's type under a session, each skill in the composer's **/** list.
 
