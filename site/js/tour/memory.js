@@ -6,7 +6,7 @@ export const memory = {
   title: "Memory",
   place: "Memory",
   icon: '<path d="M12 18V5"/><path d="M15 13a4.17 4.17 0 0 1-3-4 4.17 4.17 0 0 1-3 4"/><path d="M17.598 6.5A3 3 0 1 0 12 5a3 3 0 1 0-5.598 1.5"/><path d="M17.997 5.125a4 4 0 0 1 2.526 5.77"/><path d="M18 18a4 4 0 0 0 2-7.464"/><path d="M19.967 17.483A4 4 0 1 1 12 18a4 4 0 1 1-7.967-.517"/><path d="M6 18a4 4 0 0 1-2-7.464"/><path d="M6.003 5.125a4 4 0 0 0-2.526 5.77"/>',
-  links: [{ match: { text: "decisions" }, step: 8 }],
+  links: [{ match: { text: "Decisions", exact: true }, step: 2 }],
   steps: [
     {
       screen: "memory-m",
@@ -16,23 +16,31 @@ export const memory = {
     },
     {
       screen: "memory-m",
-      spot: { text: "used this month", up: 1 },
-      title: "How much of it is earning its place",
-      body: "<p>The chips along the top are the colour key and the filters: <strong>used this month</strong> in green, <strong>never used</strong> in amber, <strong>new this week</strong> in blue.</p><p>A memory nobody uses is a hint it can go. Click a chip to see only those.</p>",
+      spot: { text: "Decisions", exact: true },
+      title: "Memories by kind",
+      body: "<p>The side panel lists memories in a folder per kind: <strong>Facts</strong>, <strong>Preferences</strong>, <strong>Decisions</strong>, <strong>Status notes</strong> and <strong>Lessons</strong>, each with its count. One folder is open at a time.</p><p>Open one and the map shows only that kind.</p>",
+      try: "Open <strong>Decisions</strong>.",
+      click: true,
+    },
+    {
+      screen: "memory-decisions",
+      spot: { text: "Token bucket over sliding wi", up: 1 },
+      title: "Every decision, with its reason",
+      body: "<p>Only decisions now, on the map and in the folder. Each was saved with the reason it was made, so the next tool knows not just <em>what</em> was chosen but <em>why</em>.</p><p><strong>All</strong>, at the top of the list, brings every kind back.</p>",
     },
     {
       screen: "memory-m",
       spot: { text: "Click a folder to go into it", up: 1 },
       title: "A map of your code, not a list",
-      body: "<p>Each memory sits on the folder it cites, so the map looks like your project: <strong>acme-api</strong>, <strong>Other</strong>, and <strong>General</strong> for memories that cite no file.</p><p>A green dot was used in the last 30 days, a blue one was written this week, and a grey one was used before that. A hollow ring was never used.</p>",
-      try: "Click a folder to go into it.",
+      body: "<p>Each project is an island on the map, here <strong>atlas</strong>, <strong>acme-api</strong> and <strong>blog</strong>, with <strong>Global</strong> for what every project gets. Inside, each memory sits on the folder it cites, so the map looks like your code.</p><p>A green dot was used in the last 30 days, a blue one was written this week, and a grey one was used before that. A hollow ring was never used.</p>",
+      try: "Click an island to go into it.",
       click: { css: "main canvas" },
     },
     {
       screen: "memory-card",
       spot: { text: "Prefer aria attributes over custom data-* attributes", up: 2 },
       title: "One memory, in full",
-      body: "<p>Click any dot to open its card: the sentence, how many sessions were <strong>given</strong> it and how many <strong>used</strong> it, what it is linked to, and the <strong>Session that wrote it</strong>.</p><p><strong>Pin</strong> keeps it in front, <strong>Hide from sessions</strong> stops handing it out, <strong>Protect</strong> keeps tidying away from it.</p>",
+      body: "<p>Click a memory, on the map or in its folder, to open its card: the sentence, how many sessions were <strong>given</strong> it and how many <strong>used</strong> it, what it is linked to, and the <strong>Session that wrote it</strong>.</p><p><strong>Pin</strong> keeps it in front, <strong>Hide from sessions</strong> stops handing it out, <strong>Protect</strong> keeps tidying away from it.</p>",
     },
     {
       screen: "memory-m",
@@ -64,22 +72,8 @@ export const memory = {
     {
       screen: "memory-country",
       spot: { text: "Migrations are additive only", up: 2 },
-      title: "Reading a memory",
-      body: "<p>Each row shows its kind — <strong>decision</strong>, <strong>preference</strong>, <strong>fact</strong>, <strong>lesson</strong> or <strong>status note</strong> — the sentence, its ref (<code>m:…</code>, which sessions cite it by), the agent that wrote it, and how often it was used and by whom.</p><p>Wrong? Click <strong>edit</strong> and fix it; the next session reads the correction.</p>",
-    },
-    {
-      screen: "memory-m",
-      spot: { text: "Kind", exact: true },
-      title: "Filter by kind",
-      body: "<p><strong>Kind</strong>, above the graph, narrows everything to one kind: <strong>facts</strong>, <strong>preferences</strong>, <strong>decisions</strong>, <strong>lessons</strong> or <strong>status notes</strong>, each with its count.</p>",
-      try: "Pick <strong>decisions</strong> under <strong>Kind</strong>.",
-      click: true,
-    },
-    {
-      screen: "memory-decisions",
-      spot: { text: "Filters:", up: 1 },
-      title: "Every decision, with its reason",
-      body: "<p>Only decisions now — each one saved with the reason it was made, so the next tool knows not just <em>what</em> was chosen but <em>why</em>. <strong>Clear all</strong> brings the rest back.</p>",
+      title: "Inside one project",
+      body: "<p>Click an island and the map goes into that project: its folders, with each memory on the one it cites. The side panel lists only that project's memories, by kind.</p><p>Wrong? Open the memory, click <strong>Edit</strong> and fix it; the next session reads the correction. <strong>Esc</strong> goes back out.</p>",
     },
     {
       screen: "memory-search",

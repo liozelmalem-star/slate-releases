@@ -14,7 +14,7 @@ export const home = {
       title: "Home is what needs you, right now",
       body:
         "<p>Home counts what is waiting on you and shows it one card at a time. Below sits the box you start everything from.</p>" +
-        "<p>Sessions that are working and need nothing show as small pills above the box. Click one to open it. When nothing waits, the headline says <strong>All clear.</strong></p>",
+        "<p>When nothing waits, the headline says <strong>All clear.</strong></p>",
     },
     {
       screen: "home",
@@ -39,24 +39,16 @@ export const home = {
       spot: { css: "textarea", up: 3 },
       title: "Ask, find, or make anything",
       body:
-        "<p>The box at the bottom talks to your agent, with your Slate memory and docs to work from. Ask a question, find something, or have it make a doc or a change.</p>" +
+        "<p>The box at the bottom talks to your agent, with the memory and docs of every project in the workspace to work from. Ask a question, find something, or have it make a doc or a change.</p>" +
         "<p><kbd>Enter</kbd> sends. Drop a file on the box to attach it.</p>",
       type: [{ css: "textarea" }, ASK],
-    },
-    {
-      screen: "home-scope",
-      spot: { text: "atlas", exact: true },
-      title: "Scope: what the AI thinks with",
-      body:
-        "<p><strong>Scope</strong> picks one project, or <strong>All projects</strong> in this workspace. The agent works in that project's folder and searches its memory first.</p>" +
-        "<p>The scope is not saved, so last week's pick never hides an answer.</p>",
     },
     {
       screen: "home-typed",
       spot: { text: "Ask first", exact: true },
       title: "Which tool answers, and how freely",
       body:
-        "<p>Beside the scope, the composer names the agent that will answer, here <strong>Claude Code</strong>. When the project has more than one tool, you can pick another for this message.</p>" +
+        "<p>In the box, the composer names the agent that will answer, here <strong>Claude Code</strong>. When the project has more than one tool, you can pick another for this message.</p>" +
         "<p>The pill decides how much it may do without asking. <strong>Ask first</strong> reads freely and asks before it edits a file or runs a command.</p>",
       try: "Click <strong>Ask first</strong>.",
       click: true,
@@ -66,7 +58,7 @@ export const home = {
       spot: { text: "Auto-edit", exact: true },
       title: "Auto-edit",
       body:
-        "<p><strong>Auto-edit</strong> applies file edits inside the scoped project without asking. It still asks before a shell command.</p>" +
+        "<p><strong>Auto-edit</strong> applies file edits without asking. It still asks before a shell command.</p>" +
         "<p>The change applies to the conversation you are already having.</p>",
       try: "Click <strong>Auto-edit</strong>.",
       click: true,
@@ -78,14 +70,6 @@ export const home = {
       body:
         "<p><strong>Full auto</strong> runs file edits and shell commands without asking, so stepping into it needs a second click within a few seconds.</p>" +
         "<p>One more click goes back to <strong>Ask first</strong>, and so does <strong>New chat</strong>. The same pill sits in the <kbd>⌘J</kbd> panel.</p>",
-    },
-    {
-      screen: "home-slash",
-      spot: { text: "/checkout-qa", up: 1 },
-      title: "/ for skills",
-      body:
-        "<p>Type <kbd>/</kbd> at the start of the box to list the skills the agent loads in the scoped project, then the tool's own commands.</p>" +
-        "<p>Pick one and it waits as a chip in front of your words. On send, the tool reads that skill and follows it.</p>",
     },
     {
       screen: "home-mention",
@@ -108,8 +92,8 @@ export const home = {
       spot: { text: "Ask AI", exact: true, up: 2 },
       title: "⌘J asks about the doc you are on",
       body:
-        "<p>On any doc, <kbd>⌘J</kbd> opens the <strong>Ask AI</strong> panel beside it, with that doc as its context. Ask about it, or tell the AI what to change.</p>" +
-        "<p>It opens only on a doc. Anywhere else, <kbd>⌘J</kbd> says to open a doc first.</p>",
+        "<p>On a doc you write, <kbd>⌘J</kbd> opens the <strong>Ask AI</strong> panel beside it, with that doc as its context. Ask about it, or tell the AI what to change.</p>" +
+        "<p>It opens only on such a doc. Anywhere else, <kbd>⌘J</kbd> says to open one first.</p>",
     },
     {
       screen: "home-chat",
@@ -125,8 +109,8 @@ export const home = {
       title: "Try it: ask, then approve the fix",
       body:
         "<p>In <strong>Ask first</strong>, an edit or a command waits on a card that shows exactly what will change. <strong>Approve</strong> runs that one call. <strong>Skip</strong> refuses it and tells the agent why.</p>" +
-        "<p>Set the scope to a project, ask why something is broken, read what it found, and approve the fix.</p>",
-      try: `Pick a project in <strong>Scope</strong> and ask: <em>${ASK}</em>`,
+        "<p>Ask why something is broken, read what it found, and approve the fix.</p>",
+      try: `Ask: <em>${ASK}</em>`,
     },
   ],
 };
