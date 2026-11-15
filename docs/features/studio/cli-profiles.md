@@ -20,7 +20,6 @@ A group or project covers its own folder and the folder of every project in it. 
 ## What it governs
 
 * **Sessions started from Slate.** A session runs as the workspace its place belongs to, whichever workspace the window shows. A work project started from Personal runs on the work account.
-* **Home**, when scoped to the group or project.
 * **Automations and skills** that belong to it, including scheduled runs nobody watches.
 * **Sessions you start in a terminal.** Slate installs hooks into each account, through the tool's own plugin or config file. They refuse the first prompt of a session running under an account the group or project does not use.
 
@@ -36,7 +35,7 @@ A model is a starting point, not a limit. A group or project can set a default m
 
 ## How you know it's working
 
-A group's doc, and the doc of a standalone project, shows one line above its tabs: "3 captured sessions ran under the accounts this project assigns." When some did not: "1 of 3 captured sessions ran under an account this project does not assign." **Review** lists up to five, each with the account it ran under and the one expected. The line appears once the group or project has an environment and one captured session.
+A session under the wrong account is stopped at its first prompt, and the message names the account to use: *Work runs claude under Work.* A group or project doc shows no report of past sessions' accounts.
 
 ## See also
 

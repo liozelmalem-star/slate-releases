@@ -67,7 +67,7 @@ The index is up to 12 lines, one memory each, about 220 characters a line. It is
 | Where | Control |
 |---|---|
 | Automation, **What it knows** tab | **What it gets from memory** lists the next run's lines with why. **Always give this here** puts one first; **Not relevant here** keeps it out. |
-| Home composer, **What it knows** beside the project picker | Same list and choices, for Home's AI and the picked project. |
+| Home composer, **What it knows** | Same list and choices, for Home's AI across every project. |
 | Agent run, **What Slate knows** row | **Never for agent runs**, beside the **×** that leaves a memory out of one run. |
 | Memory card in [Memory](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/map.md) | Lists every such decision, each with an undo. |
 

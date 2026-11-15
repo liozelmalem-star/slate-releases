@@ -16,8 +16,7 @@ Each folder is a **country**: a tinted region with name, memory count and share 
 * **Each memory is a dot**, gathered by its cited file. Solid and bright: used this month or new this week. Faint hollow ring: never used. A country of hollow rings is dead weight to clean up.
 * **No lines.** What sits inside what is the structure.
 * **Click a country to go in.** The map shows it alone, files with three or more memories named and ringed; the list shows and follows only its memories. If a retire or project switch removes the country, both go back out. Go back via the path (`slate › server`), empty space, or Escape (which first closes anything in front, such as ⌘K or a field you edit).
-* **Counts are lenses.** Click one in "80 used this month · 984 never used · …" to light and list only those; click again to clear. A count of zero is not drawn.
-* **One session's memories.** A session in Sessions says how many memories it was given, used and wrote. Click that line to see exactly those, with a row "Showing “…” — 3 given · 1 used · 2 written". **Clear**, or a use filter, shows all.
+* **One session's memories.** A session in Sessions says how many memories it was given, used and wrote. Click that line to see exactly those, with a row "Showing “…” — 3 given · 1 used · 2 written". **Clear** shows all.
 * **Graph and list are one selection.** A list row goes into its country and opens its card; a dot scrolls the list to its row.
 
 The map is fixed: no zoom, pan or scroll. On the whole map a click enters a country even over a dot; inside one, a click on a dot opens its card.
@@ -30,22 +29,20 @@ Shows its travel ("Given to 57 sessions, used in 0 · used 1× · last 2026-09-2
 
 * **Pin:** every session in its project starts with it.
 * **Hide from sessions** (undo: **Give to sessions again**): stays in Memory, but no reply a connected agent reads carries it (recall, briefs, index, `remember`'s neighbours, `get_memory`, `list_memories`, lessons, handoff notes).
-* **Protect:** AI memory care never reads it and **Retire all** never takes it.
+* **Protect:** AI memory care never reads it and **Retire session** never takes it.
 * **Retire**, **Bring back** (active again unless a newer memory replaced it; covers a memory [AI memory care](https://liozelmalem-star.github.io/slate-releases/docs/features/automations.md) retired). **Retire session** retires everything the session wrote, after a preview; pinned and protected memories stay.
 
 ## The list
 
 Graph and list share one scope, the **project picker** at the head of the side panel.
 
-* **Search** needs every typed word in the memory's text, tags, cited file or `m:` ref; the graph lights matches.
-* **Kind** over the graph counts each kind (`577 facts`, `389 decisions`, `40 status notes`; a status note is kind `state`) and filters the list only. **Every kind** clears it.
-* A row shows kind, about two lines, and last-confirmed day, and marks **cited file gone** when recall holds it back.
-* **Filters:** use count, country, kind, search words and likely duplicates are chips on one **Filters:** line; click one to drop it, or **Clear all**. No match: "No memory matches these filters." and, in one project, **Search all projects**.
+Under it, the side panel is a tree, like a project's folders in Docs: **All** first, then one folder per kind that has memories, each with its kind's icon in grey, as every list's categories are, and its count (`Facts 577`, `Decisions 389`, `Status notes 40`; a status note is kind `state`), and **Retired** last, set apart. The kinds' colours stay on the map. Folders start closed, and one is open at a time: opening **Lessons** closes **Decisions**. Click a folder to pick it and open it; click the picked folder again to close it. An open folder lists its memories one line each, newest first, the claim cut short (the whole claim on hover), with **Show N older** past the newest 10. Click a memory to open its card on the map. The picked row is lit and stays picked after a reload (it is in the address, `/memory?kind=decision`). The map follows the row: pick **Decisions** and the map draws only that kind, each bubble counting only it; **Retired** draws what was retired in the last month, and a retired memory's card offers **Bring back**.
+
+* **Search** needs every typed word in the memory's text, tags, cited file or `m:` ref; the folders keep only what matches, open, with their counts, and the graph lights matches.
+* **Filters:** country, search words and likely duplicates are chips on one **Filters:** line; click one to drop it, or **Clear all**. No match: "No memory matches these filters." and, in one project, **Search all projects**.
 * **Likely duplicates:** a line above the graph; click to list only those, then open one for **Merge**.
 
-**Retire a whole list.** Under **never used** or **not used this month**, **Retire all** says how many first. Pinned and protected stay (counted apart, "· 1 protected stays"). **Undo** reverses all at once.
-
-The **retired** chip shows what was retired in the last 30 days that nothing replaced (up to 50) in the picked project, each with **Bring back**. A status note that lapsed after 14 days was never retired; it stays in the main list. The chip serves retirements whose Undo is gone or that AI memory care made overnight.
+**Retired** lists what was retired in the last 30 days that nothing replaced (up to 50) in the picked project; open one for **Bring back**. With none, it says *Nothing retired in the last 30 days.* A status note that lapsed after 14 days was never retired; it stays in the main list. The row serves retirements whose Undo is gone or that AI memory care made overnight.
 
 ## Needs review
 

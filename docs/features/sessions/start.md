@@ -42,7 +42,7 @@ A row in **No project** offers **Make a project** under **⋯**. With several wo
 
 A branch, project or group doc has **Start session** in its header. It runs the tool its group (or project) has connected, in the doc's folder, under the account its group or project assigns that tool, and opens it. A doc with a folder also has a plain terminal button.
 
-A doc **Goal** is seeded into the CLI prompt with the next unchecked plan item (`Continue on feat/x: … — next: …`): typed, never sent, always one line (a newline would send). If a CLI's startup repaint swallows it, the terminal says so and offers **Insert it** or copy.
+A doc's goal is seeded into the CLI prompt with the next unchecked plan item (`Continue on feat/x: … — next: …`): typed, never sent, always one line (a newline would send). If a CLI's startup repaint swallows it, the terminal says so and offers **Insert it** or copy.
 
 A refusal names the fix: *"Acme does not use gemini. Sessions under /code/acme use: claude. Add it in Connect → Agents to allow it here."* A doc with no folder is refused the same way.
 

@@ -1,10 +1,16 @@
 # Typed Docs & Hierarchy
 
-`doc_type` says what kind a doc is; `status` says where it stands. Together they give memory tools a structure to navigate.
+`doc_type` says what kind a doc is. It gives memory tools a structure to navigate. A doc has no status: no draft, active or done on screen, and no tool sets one.
 
 ## Doc types
 
-A new doc is a plain **Doc**. The chip under the title (**Doc ▾**) changes its type any time, listing the seven types a person writes: Doc, Plan, Design, Review, Meeting, Test Plan, Bug Report. A change appends the new type's template headings after the existing text, once. Group, project and branch are made by Slate from folders and sessions, so they are not in the menu. The `DocType` enum is in `@slate/schema` (`doc-type/types.ts`):
+A new doc is a plain **Doc**, and every new doc starts empty, whatever its type: you write it, or ask your agent to. A doc's type is set when it is made and never changes after: for a different type, make another doc. The label under the title shows the type with its icon; it is not a control. A person writes seven types: Doc, Plan, Design, Meeting, Review, Test, Bug. You choose one when you make the doc:
+
+- the **+** on a type folder in Projects → Docs (Plans, Reviews…) makes an empty doc of that type in that project;
+- ⌘N makes a plain Doc, and ⌘K has **New Plan**, **New Review** and the rest;
+- **Write with AI** picks the type from what you ask for, and an agent names it in `create_doc`'s `doc_type`.
+
+The new doc opens with the caret in its title, and the tree shows it in its folder. Group, project and branch are made by Slate from folders and sessions. The `DocType` enum is in `@slate/schema` (`doc-type/types.ts`):
 
 | DocType | Purpose |
 | --- | --- |
@@ -19,9 +25,21 @@ A new doc is a plain **Doc**. The chip under the title (**Doc ▾**) changes its
 | `project` | One folder, usually a git repository, in a group or alone |
 | `mission` | Legacy; work now files under its project ([`mission` docs](missions.md)) |
 
-## Status
+## The line under the title
 
-From `DOC_STATUSES`: `draft` (started, not active), `active` (in progress), `done`, `canceled` (abandoned).
+Some types show one quiet line under the title that says where the doc stands. Nothing in it needs a migration: the counts are read from the doc's checklist when drawn, and the fields live in the doc's `properties` JSON beside its branch label (`DocHeader` in `@slate/schema`, `doc-type/header.ts`).
+
+| Type | The line | Set by |
+| --- | --- | --- |
+| Plan | **Steps done: 7 of 12**, counted from its checklist; ticking a step moves it at once | the checklist |
+| Test Plan | **3 pass · 2 open**: a ticked case passed, the rest are open | the checklist |
+| Bug Report | Severity **S1**, **S2** or **S3** (the words GitHub Issues use) and state **Open** or **Closed** | you, or an agent |
+| Design | **Decision:** one line | you, or an agent |
+| Review | Verdict **Approved** or **Changes needed** | you, or an agent |
+
+Doc and Meeting have no line. A plan or a test with no checklist shows none. On a doc you can write, an unset field shows its name (**Severity**, **State**) to click; someone reading a teammate's doc sees only the fields that are set.
+
+An agent sets the same fields through MCP: `create_doc` and `append_to_doc` take `severity`, `state`, `decision` and `verdict`. `append_to_doc` accepts a field with no Markdown, so it can close a bug without touching its text. The shape each type expects (a plan's phases with `- [ ]` steps, a bug's steps and evidence) is in `create_doc`'s description, so the agent writes it; Slate never puts it into your doc.
 
 ## The hierarchy
 

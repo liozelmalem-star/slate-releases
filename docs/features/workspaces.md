@@ -22,7 +22,7 @@ Switching off withdraws them (they were readable in between).
 
 ## What follows a switch
 
-Per workspace: open tabs, favourites, recents, expanded sections, what Home is scoped to, automations (they belong to a group or project doc). What you were still typing when you switched, a title or a doc's text, is saved in the workspace you left. The same everywhere, kept in `machine.db`: theme, sidebar and rail widths, running AI sessions, the CLI accounts your tools use.
+Per workspace: open tabs, favourites, recents, expanded sections, automations (they belong to a group or project doc). What you were still typing when you switched, a title or a doc's text, is saved in the workspace you left. The same everywhere, kept in `machine.db`: theme, sidebar and rail widths, running AI sessions, the CLI accounts your tools use.
 
 ## Using it
 

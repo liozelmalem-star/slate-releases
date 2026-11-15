@@ -51,7 +51,7 @@ A new install starts with one doc, **Getting Started**. It lists where to start:
 
 Create a doc, give it an icon and title, and type. The editor is block-based (headings, lists, to-dos, code, quotes) with a slash menu and drag-to-reorder.
 
-For real work use a [typed document](https://liozelmalem-star.github.io/slate-releases/docs/features/docs/typed-docs.md): a **group** to hold several projects, a **project** and a **branch** under it, and a **plan** or **design** doc under either. A project can stand without a group. Typed docs pre-fill a template.
+For real work use a [typed document](https://liozelmalem-star.github.io/slate-releases/docs/features/docs/typed-docs.md): a **group** to hold several projects, a **project** and a **branch** under it, and a **plan** or **design** doc under either. A project can stand without a group. A new doc starts empty: you write it, or ask your agent to.
 
 Press <kbd>⌘K</kbd> any time to open the [command palette](https://liozelmalem-star.github.io/slate-releases/docs/features/search.md): jump to a doc, run an action, or search every title and body.
 

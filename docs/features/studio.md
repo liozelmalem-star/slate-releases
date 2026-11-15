@@ -63,9 +63,9 @@ Edits are committed in **Projects → Code → Changes**.
 
 The side panel's picker starts with **Your agents** ([what each keeps for every project](https://liozelmalem-star.github.io/slate-releases/docs/features/studio/editing-and-agents.md#your-agents)), then projects that have a folder, by group, with or without `.slate/`. Groups and plain docs are not projects. An unreadable folder is reported in the doc. A project with more than one `.slate/` gets a second picker named by folder.
 
-Every project has **Overview**, **Suggestions** (with the waiting count) and one tab per non-empty kind with its count. Hover a tab to see when a tool loads that kind: a skill when the task matches, a command on `/name`, a rule when the file in use matches, instructions at session start. **+** in the title row asks which kind to add ([Adding](https://liozelmalem-star.github.io/slate-releases/docs/features/studio/adding.md)).
+Every project has **Suggestions** (with the waiting count) and one tab per non-empty kind with its count. Hover a tab to see when a tool loads that kind: a skill when the task matches, a command on `/name`, a rule when the file in use matches, instructions at session start. **+** in the title row asks which kind to add ([Adding](https://liozelmalem-star.github.io/slate-releases/docs/features/studio/adding.md)).
 
-**Overview** is where Toolkit opens: one row per non-empty kind (name, first five items in one grey line, count) that opens its tab. When suggestions wait, a top card gives the count and **Review**. Your agents has no Overview and opens on Skills.
+Toolkit opens on **Suggestions** while any wait, and on **Skills** otherwise.
 
 | Tab | What it lists | Where Slate reads it |
 | --- | --- | --- |

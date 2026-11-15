@@ -11,9 +11,10 @@ Part of [Toolkit](https://liozelmalem-star.github.io/slate-releases/docs/feature
 
 ## Editing
 
-Markdown opens drawn: header fields on top, text below, a **Preview / Markdown** switch. A rule, subagent, command or output style shows the New form's fields above its text.
+Markdown opens drawn: header fields on top, text below, a **Preview / Markdown** switch. The rules file (`AGENTS.md`, under **Instructions**) opens the same way, with its line count. A rule, subagent, command or output style shows the New form's fields above its text. The breadcrumb leads back to the tab the file was opened from. Comments (`<!-- … -->`) are not drawn.
 
-* A choice saves at once; text saves when you stop typing or leave the box; the rules file on leaving the box, ⌘S, closing the editor or quitting. A save that fails as the editor closes says so in a message.
+* A choice saves at once; text saves when you stop typing, on ⌘S, or when you quit. A save that fails says so beside the switch.
+* A file `studio sync` writes (it starts with Slate's generated comment) opens read-only, with the comment as a note and no fields: the next sync would overwrite an edit. Edit `.slate/` instead.
 * Only the keys a field writes change; other keys, comments and order stay. A model the three choices do not name (`sonnet`) stays until you pick one.
 * A header that does not parse hides the fields until fixed in the text. A config that would no longer parse is not saved, parsed as its tool does: Gemini's `settings.json` and OpenCode's `opencode.json` may carry comments; Claude Code's and Cursor's JSON may not.
 * With `.slate/`, editing the rules file syncs every tool.

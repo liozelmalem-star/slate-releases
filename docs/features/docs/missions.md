@@ -4,7 +4,6 @@ A `mission` doc was Slate's first container for a piece of work. No new ones are
 
 An old `mission` doc (`doc_type = mission`) keeps nesting, breadcrumbs and the editor, and:
 
-- the type chip shows its **status**: `draft`, `active`, `done`, `canceled`;
 - a new empty one starts from the old outline: Goal, Checklist, Session log, Decisions, Notes;
 - a list above the text shows docs filed under it; a project may hold one without a tree warning.
 

@@ -7,7 +7,7 @@ Home is the doc Slate opens on. It shows what needs you, and it has an agent bui
 - [What Home shows](#what-home-shows)
 - [The Set up Slate card](#the-set-up-slate-card)
 - [Resuming a past session](#resuming-a-past-session)
-- [Scope, and dropping a file in](#scope-and-dropping-a-file-in)
+- [Every project, and dropping a file in](#every-project-and-dropping-a-file-in)
 - [Skills and mentions](#skills-and-mentions)
 - [In this section](#in-this-section)
 
@@ -32,13 +32,12 @@ The card title is one plain line: the question the reply ends on, or its first s
 - **Later** sets a card aside until you restart Slate; a session set aside returns when it says something new. **Mark seen** does the same for a finished session.
 - Move between cards with the arrows, the dots, ← and →, a sideways swipe or a drag. A line under the dots says where you are ("4 of 7 · Automation asks").
 - The deck's card is compact at every window size: a title line, then its buttons. A card behind the front one takes no height.
-- Working sessions that need nothing show as pills that open the session, always in one row; more slide sideways, with a fade on the side that hides some. Only the open workspace's sessions are listed; one pill counts other workspaces and links to [Sessions](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions.md).
 - Every time on Home, in Sessions and in Tasks says **just now** under a minute. A card that waits on you says how long: *waiting 2 min*, *waiting 3 hours*, *waiting 2 days*.
-- **A short window keeps the composer in view.** Home sizes itself to the window's height. Below about 900 px the mark hides, and the headline and the widgets get smaller. Below about 560 px the mark, date and subline hide, the widgets shrink further, the pager keeps only its dots, and the running pill under the deck hides (Sessions still shows it). While a card waits, the composer stays at the foot and only the part above it scrolls. The next card peeks in at the side and fades out, and the window edge never cuts it.
+- **A short window keeps the composer in view.** Home sizes itself to the window's height. Below about 900 px the mark hides, and the headline and the widgets get smaller. Below about 560 px the mark, date and subline hide, the widgets shrink further, and the pager keeps only its dots. While a card waits, the composer stays at the foot and only the part above it scrolls. The next card peeks in at the side and fades out, and the window edge never cuts it.
 - With nothing waiting, the headline says **All clear.** and the composer moves to the middle. Past sessions are in Sessions, under **All past sessions**.
 - If Home could not read what waits (tasks, agent runs or held calls), it says so under the headline, with **Try again**. With no card to show, the headline says *Could not check what waits for you.*, never **All clear.**
 - A chat opens over Home. **Home** (top left of the chat) returns to Home and keeps the chat; **Back to the chat** returns. A streaming reply does not pull you back; sending a message does.
-- **⌘J** opens the **Ask AI** panel beside a doc; elsewhere it shows *The AI panel opens on a doc. Open a doc first.* **Write with AI** in the slash menu drafts text straight into the doc. Waiting setup changes are in [Toolkit › Suggestions](https://liozelmalem-star.github.io/slate-releases/docs/features/studio.md#suggestions).
+- **⌘J**, or the round button at the bottom right, opens the **Ask AI** panel beside a doc you write: a plan, design, meeting, review, test, bug, note or general doc. Only those docs show the button. Anywhere else, a project, a group and a session included, ⌘J shows *The AI panel opens on a doc you write, like a plan, a design or a review.* Waiting setup changes are in [Toolkit › Suggestions](https://liozelmalem-star.github.io/slate-releases/docs/features/studio.md#suggestions).
 - Your [widgets](https://liozelmalem-star.github.io/slate-releases/docs/features/widgets.md) for Home sit in the gaps between Home's parts (under the greeting, above or below the box), each at the size its setup in Widgets chose (a third, a half or the whole width). They read what Home shows (running AI sessions, for the project picked here). A new one appears below the box once built. Home has no control that adds or moves a widget: open it in Widgets and click a line on its preview.
 
 For approvals, autonomy and Stop see [Approvals, Stop and Agent Differences](https://liozelmalem-star.github.io/slate-releases/docs/features/agent/approvals.md).
@@ -65,9 +64,9 @@ Ticks come from what is in the workspace, so a step done elsewhere ticks itself.
 
 The chat starts with what you first asked and, under **Summary**, what Slate saved of the session (Slate's record, not a new tool reply).
 
-## Scope, and dropping a file in
+## Every project, and dropping a file in
 
-The composer's **Scope** control (folder icon) lists your **projects** (not workspaces; the rail's switcher picks those), resting at **All projects**. The tool's searches, the memories Home hands it (**What it knows**), the tool picker and the widgets follow it. Scope is not saved.
+Home always covers every project in the open workspace: the tool's searches, the memories Home hands it (**What it knows**) and the widgets read all of them. There is no project to pick; the rail's switcher picks the workspace. Sessions that are working and need nothing are not on Home: the rail and [Sessions](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions.md) show them.
 
 **Drag a file onto the composer** to attach it, as a paste does. An image shows as a thumbnail; on send Slate saves it in an `attachments` folder in its app-data folder and gives the tool the path. An image unused for 30 days is removed. A text or code file is inlined under its name, cut at 20,000 characters. The same limits hold for a drop, a paste and the paperclip: an image up to 8 MB, a text file up to 1 MB. A larger file, a binary (a PDF, a zip) or a file that is not UTF-8 text is not attached, and a message names it; the other files still attach. This also works in a session's **Conversation** prompt. Dropping a file elsewhere in the app imports a folder as docs.
 

@@ -8,9 +8,9 @@ Almost every tool takes an optional **`cwd`** (your working directory), resolved
 
 | Tool | Purpose |
 | --- | --- |
-| `create_doc` | Create a typed doc: `title`, `doc_type`, `user_approved:true`, `markdown`, optional `parent_id`, `source_ref`. Without `parent_id` it files under the project holding `cwd`, labelled with the checked-out git branch. Refused without `markdown` or unless the user said yes first. A second call for the same type on the same branch rewrites that doc. |
+| `create_doc` | Create a typed doc: `title`, `doc_type`, `user_approved:true`, `markdown`, optional `parent_id`, `source_ref`. Without `parent_id` it files under the project holding `cwd`, labelled with the checked-out git branch. Refused without `markdown` or unless the user said yes first. In `markdown`, `- [pass] text` (or `[fail]`, `[blocked]`, `[open]`) writes a check item with that result. A second call for the same type on the same branch rewrites that doc. |
 | `get_doc` | Read one doc by `id` or `target`: title, icon, breadcrumb path, Markdown body. An `id` this workspace does not hold is looked up in the workspaces you belong to: a doc shared there comes back with `shared: true`, its author and `updated_at` (needs a cloud sign-in). Old name `workspace_doc` still answers for one release. |
-| `append_to_doc` | Append Markdown to a doc, by `id` or `target`. Replies with id, title and path. |
+| `append_to_doc` | Append Markdown to a doc, by `id` or `target`; a check item is written as in `create_doc`. Replies with id, title and path. A ```` ```mermaid ```` fence, here or in `create_doc`, shows as a diagram ([Docs](https://liozelmalem-star.github.io/slate-releases/docs/features/docs.md#the-block-editor)). |
 
 Find docs with `recall` and `kind: "docs"`. Plain docs, rename, move and trash are app-only ([why](https://liozelmalem-star.github.io/slate-releases/docs/features/mcp-server/tool-rules.md#what-an-agent-cannot-do-over-mcp)).
 

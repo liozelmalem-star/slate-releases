@@ -2,33 +2,30 @@
 
 The Docs tree nests groups and projects with docs as leaves; any doc can hold children to any depth. With a project picked it starts inside it; on All projects it shows every group and project. For Code see [Files and Changes](https://liozelmalem-star.github.io/slate-releases/docs/features/docs/code.md).
 
-## Overview
+## Nothing open
 
-Under the project picker, above the Docs and Code tabs, **Overview** shows a card per project, grouped as the tree: **On their own**, then each group by name (empty groups hidden). With no group at all, the cards stand without a heading.
-
-- Card picture: the project's README (first heading and paragraph), else its doc; with neither, the card has no picture.
-- Below: name, folder's branch, worktree count if more than one (still one card), last worked time. Green dot = a session is working in it.
-- Click a card to pick that project on Docs and Code: Overview keeps its one card, drawn larger; the side panel lists only it. Click that card to open the project's doc. The picker narrows Overview the same way.
-- Projects with no doc open lands here. No project: one sentence with a **New project** button; the side panel says nothing more.
+Projects with no doc open shows one quiet line in the main area: **Open a doc from the list** (on Code, **Open a file from the list**). Groups and projects are folders in the list, never screens of their own ([Groups and projects are folders](https://liozelmalem-star.github.io/slate-releases/docs/features/docs.md#groups-and-projects-are-folders)). Until 2026-11-15 this was an Overview of project cards.
 
 ## Docs or Code
 
-The tabs under the picker choose what the side panel lists. A project opens on its doc. **Code** on the doc switches the panel to Code → Files with that project's files open. On Code, the doc icon at the end of a project's row returns to Docs. The choice lasts while the app is open; every launch starts on Docs.
+The tabs under the picker choose what the side panel lists. **Show code** on a project's ⋯ menu in Docs switches the panel to Code → Files with that project's files open. On Code, the doc icon at the end of a project's row returns to Docs with its folder open. The choice lasts while the app is open; every launch starts on Docs.
 
 ## Add a doc or project
 
-The side panel's **+** (title row, Docs and Code):
+The side panel's **+** (title row, Docs and Code) makes a **new project**, at once.
 
-- **Blank doc** (⌘N, caret in title).
-- **Write it with AI…** (⌘⇧G): an agent drafts from your description.
-- **New project…**.
+A doc is made where it goes:
 
-A doc goes in the picked project. On All projects **Blank doc** is off and says why (a doc lives in a project; pick one first). The tooltip names the destination: "New doc in slate". With no project, a top line says: *A workspace holds your projects. A project is a folder you open. A group collects related projects.* Each row's icon shows its type, changeable later ([Typed Docs](https://liozelmalem-star.github.io/slate-releases/docs/features/docs/typed-docs.md#doc-types)).
+- The **+** on a type folder (Plans, Designs, …) in the tree: an empty doc of that type. A doc's type is fixed once made ([Typed Docs](https://liozelmalem-star.github.io/slate-releases/docs/features/docs/typed-docs.md#doc-types)).
+- **⌘N**: a blank doc, caret in the title.
+- **⌘K**: New doc, New Plan and each other type, or **Generate a doc** (⌘⇧G), where an agent drafts from your description.
+
+A doc goes in the picked project. On All projects ⌘N makes nothing and says why (a doc lives in a project; pick one first). With no project, a top line says: *A workspace holds your projects. A project is a folder you open. A group collects related projects.* Each row's icon shows its type, which is fixed once the doc is made ([Typed Docs](https://liozelmalem-star.github.io/slate-releases/docs/features/docs/typed-docs.md#doc-types)).
 
 ## What the tree shows
 
-- **Breadcrumbs**: `Grandparent / Parent / Title`. **Icon**: a [Lucide](https://lucide.dev) name or an emoji.
-- **Captured sessions are not rows**; a project lists them under **Sessions · N**; [Sessions](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions.md) lists all.
+- **Breadcrumbs**: where the doc sits, as the tree shows it: `Group / Project / Plans / Title`. The type folder (Plans, Designs, Meetings, Reviews, Tests, Bugs, Notes, General) comes after the project, with the tree's icon and name. A click on the type folder's crumb shows that folder in the tree, open and scrolled to, and the doc stays open. A group's or project's crumb shows its folder ([Groups and projects are folders](https://liozelmalem-star.github.io/slate-releases/docs/features/docs.md#groups-and-projects-are-folders)); a doc's crumb opens that doc. **Icon**: a [Lucide](https://lucide.dev) name or an emoji.
+- **Captured sessions are not rows**; [Sessions](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions.md) lists them.
 - **Notes are counted**: a doc an agent wrote as a note is not a row. A doc holding some shows a **Notes** row with the count; it lists them in the main area, newest change first, with a title filter. They open, link and edit like any doc. A note holding docs stays a row.
 - **Decisions are not in Docs**: each is a memory listed in [Memory](https://liozelmalem-star.github.io/slate-releases/docs/features/memory.md). A decision holding docs stays a row.
 - **Same-named projects** show folder ends: `lq  Documents/lq`, `lq  Private/lq`.
@@ -60,16 +57,19 @@ A doc goes in the picked project. On All projects **Blank doc** is off and says 
 
 ## A project's docs by type
 
-Docs and Code share one skeleton: groups you made holding projects, and standalone projects. In Docs an open project has one folder per doc type it holds, with a count, in order: Plans, Designs, Meetings, Reviews, Test Plans, Bug Reports, **Notes**, General Docs.
+Docs and Code share one skeleton: groups you made holding projects, and standalone projects. In Docs an open project has one folder per doc type it holds, with a count, in order: Plans, Designs, Meetings, Reviews, Tests, Bugs, **Notes**, General.
 
-- Folders start closed and stay as left; the open doc opens its folder.
+- **One project open at a time**, in Docs and in Code: opening a project closes the one that was open. The groups above it stay open, and inside a project its folders (and in Code its worktrees and file folders) stay as you left them.
+- Folders start closed and stay as left.
+- A type folder's **+** (on hover) makes an empty doc of that type in that project and opens it. Notes have none: agents write them.
 - Inside, newest first: the ten most recent, then **Show N older**.
+- The doc on screen is always shown in the list, however it was opened (the list, ⌘K, a link, a tab, app start). Its group, project and type folder open (and the project that was open closes), the type folder lists its older docs when the doc is one of them, and its row is marked and scrolled into view. This happens once each time a different doc opens, so a folder you close afterwards stays closed. Nothing takes the keyboard focus.
 - Every doc written in the project is there, whichever branch, whether or not git still has it. Hover a doc for its branch.
 - Code keeps **Files** and **Changes**, with a group's projects under its row.
 
 ## Settings
 
-A group doc or standalone project has a **Settings** button in its header (a project in a group uses its group's). One sheet:
+A group or standalone project has **Settings…** on its row's ⋯ menu (a project in a group uses its group's). One sheet:
 
 - its folder; the agents and accounts it uses;
 - worktree commands: **Set up**, **Preview**, **On remove**, **Carry over**;

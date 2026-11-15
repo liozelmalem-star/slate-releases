@@ -114,15 +114,12 @@ Standup, Shutdown, Weekly review and Retro also write decisions to memory (up to
 
 ## The Automations place
 
-Opens on **Overview**:
-
-- **Latest**: newest report per automation, plus a live card for a run in progress.
-- **History**: every report by automation, newest first. The find box matches automation name, a word in a report's title or opening, or a date ("Oct 8", "2026-10-08"); every word must match. A renamed automation keeps its history. A report opens only when picked. Unreadable reports: **Try again**; **No reports yet** only when none exist.
+Opens on **Overview**. Its one list, **Latest**, holds the newest report per automation, plus a live card for a run in progress. Picking one opens that automation's **Thread** at that run, where its earlier runs are. A renamed automation keeps its reports. Unreadable reports: **Try again**; **No reports yet** only when none exist.
 
 Under Overview is **Built-in**: what Slate runs itself, each with a switch (`/loop?view=built-in`); see [Built-in automations](https://liozelmalem-star.github.io/slate-releases/docs/features/automations.md). Below are yours, grouped by trigger: **Running**, **On a schedule**, **When a session ends**, **When a task arrives**, **By hand**. Pick one for tabs **Thread**, **Setup** (job, start, where it works, what it may do, steps) and **What it knows**; **Run now**, **Edit** and the on/off switch sit above. **Edit** opens the editor; **Overview** returns.
 
 Reports **go for good, not to Trash**: **Delete forever…** asks once ("Delete forever?"); the automation can run again. Deleting an automation forever keeps its reports. **⌘K** searches reports (title and body), under **Reports** (at most four) then **Artifacts**.
 
-**When a run finishes**: an OS notification with the report's opening line (cut at 180 characters) and a **Report ready** toast. A failure shows an **Automation failed** toast, and the error stays under **Last run**. If your agent's own sign-in lapses you get one notification, on the first run failing that way. A report opens **in Automations**, beside earlier runs, from anywhere.
+**When a run finishes**: an OS notification with the report's opening line (cut at 180 characters) and a **Report ready** toast. A failure shows an **Automation failed** toast, and the error stays under **Last run**. If your agent's own sign-in lapses you get one notification, on the first run failing that way. Its **Open** goes to the automation's **Thread** at that run, as a report row in Activity does. In the thread, a long report shows its opening and **Read the whole report** opens it alone, with chips for the other runs; a **⌘K** hit opens it alone too, since the search matched that report's own text.
 
 See also: [Home](https://liozelmalem-star.github.io/slate-releases/docs/features/agent.md), [Built-in automations](https://liozelmalem-star.github.io/slate-releases/docs/features/automations.md), [Sessions](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions.md).

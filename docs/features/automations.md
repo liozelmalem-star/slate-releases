@@ -35,7 +35,7 @@ A switch applies on the next tick, not next launch: within a minute for the auto
 - Each is read twice, separately, against the code it cites.
 - Skipped: pinned or protected memories, lessons with a trigger, preferences, memories with a proposal waiting, any read in the last 90 days.
 - One group or project per night: the one with the most memories, on its own agent and account.
-- A memory both readings call wrong is retired (**Bring back** under the **retired** chip in Memory undoes it for 30 days). A disagreement waits in Memory → **Needs review**, at most 10 at once.
+- A memory both readings call wrong is retired (**Bring back** under the **Retired** row in Memory undoes it for 30 days). A disagreement waits in Memory → **Needs review**, at most 10 at once.
 - Turning it on shows the cost and asks a monthly token cap: 1 million, 4 million or none. It stops for the month when the next night would pass it.
 - Runs as an automation named **Memory care**, so **Scheduled automations** must be on.
 

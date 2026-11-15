@@ -54,6 +54,8 @@ Top to bottom: **Sessions** first, on its own tile: every AI session on this com
 
 A short line separates Sessions from **the workspace**: its tile (the workspace's mark in grey with a small dot in its colour, name on hover), then Home, Projects, Tasks and the rest, with **Connect** and **Trash** as round buttons at the foot. A second short line sets **Settings** last. Outside the lines, items are the same in every workspace; between them, all belong to the open one. Account, sign-in and docs are in Settings.
 
+The icons carry no words: rest the pointer on one and its name shows, with its shortcut when it has one. While a list floats beside the rail, its title names the section instead.
+
 Where you are sits on a filled tile and is the only icon in colour: Slate's green, in a few tones. Every other icon is grey. The workspace tile is grey too, with one small dot in the workspace's colour. In a short window, overflow folds into **More**.
 
 ## Tabs
