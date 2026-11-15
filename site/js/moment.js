@@ -1,6 +1,6 @@
-/* The hero film: one fixed story told over five real screens of Slate (Mint captures of the
- * running app, never redrawn). One requestAnimationFrame loop drives everything from a
- * virtual clock that stops while the film is hovered or the tab is hidden:
+/* The hero film: one fixed story told over five real screens of Slate (landing-page shots the
+ * tour refresh captures from the running app, never redrawn). One requestAnimationFrame loop
+ * drives everything from a virtual clock that stops while the film is hovered or the tab is hidden:
  *   - each screen is its own stacked layer; only opacity and transform change;
  *   - a layer's drift (a slow zoom toward its region) runs on the layer's own clock from the
  *     moment it starts to fade in until it has faded out, so motion never restarts on screen;
@@ -10,7 +10,7 @@
 const SCENES = [
   { day: "Monday", mode: "Without Slate",
     story: "You tell Claude Code: \u201cUse pnpm in Atlas, not npm.\u201d It says it got it.",
-    real: "In Slate: the Claude Code session, live, with its terminal, progress and links." },
+    real: "In Slate: the Claude Code session working in Atlas, live, with its progress and context." },
   { day: "Tuesday", mode: "Without Slate",
     story: "Codex starts fresh in Atlas. It never heard it.",
     real: "In Slate: every live session on this Mac, by project. Amber needs you, lime is working." },
@@ -19,10 +19,10 @@ const SCENES = [
     real: "In Slate: Home puts the session that is asking you something first." },
   { day: "Thursday", mode: "With Slate",
     story: "With Slate, it is saved once, as a memory.",
-    real: "In Slate: Memory. \u201cUse pnpm in Atlas, not npm\u201d is one of six memories every agent can recall." },
+    real: "In Slate: Memory. Every project's memories, \u201cUse pnpm in Atlas, not npm\u201d among them, for every agent to recall." },
   { day: "Every day after", mode: "With Slate",
     story: "Claude Code and Codex both start with it. Explained once.",
-    real: "In Slate: Activity. Three sessions across Claude Code and Codex, and the memory they learned." }
+    real: "In Slate: Activity. Every session across Claude Code, Codex and the rest, and the memories they learned." }
 ];
 const HOLD = 4500;   // how long a scene owns the frame
 const FADE = 1200;   // crossfade length

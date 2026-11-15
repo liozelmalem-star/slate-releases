@@ -1045,7 +1045,7 @@ h2.mid { font-size: clamp(26px, 3.2vw, 34px); line-height: 1.12; margin: 0 0 16p
 .film-tag { margin-left: auto; display: inline-flex; gap: 8px; align-items: center; font: 12px var(--mono); color: var(--muted); }
 .film-tag b { color: rgb(var(--text)); font-weight: 600; }
 .film.with .film-tag span { color: var(--brand); }
-.film-view { position: relative; aspect-ratio: 1600 / 940; overflow: hidden; background: #141416; }
+.film-view { position: relative; aspect-ratio: 1320 / 860; overflow: hidden; background: #141416; }
 .film-shot { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: translate3d(0,0,0) scale(1); will-change: transform, opacity; backface-visibility: hidden; }
 .film-shot:first-child { opacity: 1; }
 .film-cap { display: grid; gap: 4px; padding: 14px 16px 16px; border-top: 1px solid var(--line); background: var(--panel); min-height: 92px; }
