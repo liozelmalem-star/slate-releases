@@ -61,9 +61,9 @@ yarn studio prove    # sources, adapters, symlinks, and a live probe of each ins
 
 Edits are committed in **Projects → Code → Changes**.
 
-The side panel's picker starts with **Your agents** ([what each keeps for every project](https://liozelmalem-star.github.io/slate-releases/docs/features/studio/editing-and-agents.md#your-agents)), then projects that have a folder, by group, with or without `.slate/`. Groups and plain docs are not projects. An unreadable folder is reported in the doc. A project with more than one `.slate/` gets a second picker named by folder.
+The side panel's picker starts with **All projects**, Toolkit's home: a card per project with what its agents read and the suggestions waiting ([Suggestions](https://liozelmalem-star.github.io/slate-releases/docs/features/studio/suggestions.md)). Then **User** `~`: what each agent keeps in your home folder and loads in every project ([User](https://liozelmalem-star.github.io/slate-releases/docs/features/studio/editing-and-agents.md#user)), then projects that have a folder: a project on its own by its name, a group's projects under the group's name, with or without `.slate/`. Groups and plain docs are not projects. An unreadable folder is reported in the doc. A project with more than one `.slate/` gets a second picker named by folder.
 
-Every project has **Suggestions** (with the waiting count) and one tab per non-empty kind with its count. Hover a tab to see when a tool loads that kind: a skill when the task matches, a command on `/name`, a rule when the file in use matches, instructions at session start. **+** in the title row asks which kind to add ([Adding](https://liozelmalem-star.github.io/slate-releases/docs/features/studio/adding.md)).
+Each project has **Suggestions** (with the waiting count) and one tab per non-empty kind with its count. Hover a tab to see when a tool loads that kind: a skill when the task matches, a command on `/name`, a rule when the file in use matches, instructions at session start. **+** in the title row asks which kind to add ([Adding](https://liozelmalem-star.github.io/slate-releases/docs/features/studio/adding.md)).
 
 Toolkit opens on **Suggestions** while any wait, and on **Skills** otherwise.
 
@@ -85,7 +85,7 @@ An empty kind keeps its tab and a **New …** button. Every tool whose file hold
 
 Links into an item: a session's **Setup used**, the skill a kind of work runs in Tasks' **Workflow**, the skill an accepted lesson became (Memory), a subagent's type under a session, each skill in the composer's **/** list.
 
-More: [usage counts, changes chip and sync pill](https://liozelmalem-star.github.io/slate-releases/docs/features/studio/usage-and-sync.md); [adding](https://liozelmalem-star.github.io/slate-releases/docs/features/studio/adding.md); [editing, removing and Your agents](https://liozelmalem-star.github.io/slate-releases/docs/features/studio/editing-and-agents.md).
+More: [usage counts, changes chip and sync pill](https://liozelmalem-star.github.io/slate-releases/docs/features/studio/usage-and-sync.md); [adding](https://liozelmalem-star.github.io/slate-releases/docs/features/studio/adding.md); [editing, removing and User](https://liozelmalem-star.github.io/slate-releases/docs/features/studio/editing-and-agents.md).
 
 ## Suggestions
 

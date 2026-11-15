@@ -8,7 +8,7 @@ The [doc](https://liozelmalem-star.github.io/slate-releases/docs/features/docs.m
 
 ## 2. Typed documents give work structure
 
-A doc can be [typed](https://liozelmalem-star.github.io/slate-releases/docs/features/docs/typed-docs.md): `group`, `project`, `branch`, `plan`, `design`, `review`, `meeting`, `test-plan`, `bug-report`, `mission` or plain `general`. The type says what kind of doc it is and limits where the doc can live. A `branch` sits under a `project`. A `project` sits under a `group` or stands alone. Knowledge docs (plans, designs, reviews) hang off any of them, so memory tools resolve "the plan for the branch I'm on" without an id.
+A doc can be [typed](https://liozelmalem-star.github.io/slate-releases/docs/features/docs/typed-docs.md): `group`, `project`, `branch`, `plan`, `design`, `review`, `bug-report`, `mission` or plain `note`. The type says what kind of doc it is and limits where the doc can live. A `branch` sits under a `project`. A `project` sits under a `group` or stands alone. Knowledge docs (plans, designs, reviews) hang off any of them, so memory tools resolve "the plan for the branch I'm on" without an id.
 
 ## 3. One memory, shared over MCP
 

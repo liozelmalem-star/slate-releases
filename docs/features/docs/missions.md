@@ -28,7 +28,7 @@ recall  →  work the task  →  log_mission_progress(summary, goal, open_items,
 
 ## Slate offers the doc at each milestone
 
-At a milestone (plan, review, test plan, bug report, design) Slate has your agent ask in chat whether to keep it as a doc. It tells the tool to use its own click-to-answer question tool, so where that tool shows choices you click one; the wording is the tool's.
+At a milestone (plan, review or test pass, bug report, design) Slate has your agent ask in chat whether to keep it as a doc. It tells the tool to use its own click-to-answer question tool, so where that tool shows choices you click one; the wording is the tool's.
 
 | Tool | Asks with | Reminded when you ask for a milestone | Sent back to ask if a plan was never offered |
 | --- | --- | --- | --- |
@@ -38,7 +38,7 @@ At a milestone (plan, review, test plan, bug report, design) Slate has your agen
 | OpenCode | `question` | yes | yes; its end-of-turn event cannot reply, so Slate's plugin sends the ask as a new prompt when the turn goes idle |
 | Cursor | `AskQuestion` | sent from Cursor's prompt event, which does not run in print mode (`cursor-agent -p`) | yes in the interactive app; its stop event does not run in print mode |
 
-Choose save and the tool saves the doc in the project, labelled with the branch; choose not and nothing is saved. If the branch already has that doc, the choice is to add to it, keeping what is there. Every tool also carries a standing instruction to ask before saving a plan, review, test plan, bug report or design.
+Choose save and the tool saves the doc in the project, labelled with the branch; choose not and nothing is saved. If the branch already has a doc of that type, the choice is to add to it, keeping what is there. Every tool also carries a standing instruction to ask before saving a plan, review, bug report or design. A test plan is saved as a Review.
 
 **A plan from plan mode is kept** as the branch's Plan doc, in the project, labelled with the branch. A later plan on the same branch replaces the one Slate made. A Plan doc you wrote is never changed.
 

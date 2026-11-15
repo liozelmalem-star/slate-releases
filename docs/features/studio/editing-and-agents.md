@@ -1,4 +1,4 @@
-# Editing, removing and Your agents
+# Editing, removing and User
 
 Part of [Toolkit](https://liozelmalem-star.github.io/slate-releases/docs/features/studio.md). A row opens its file on its own tab.
 
@@ -7,7 +7,7 @@ Part of [Toolkit](https://liozelmalem-star.github.io/slate-releases/docs/feature
 - [Editing](#editing)
 - [A `.slate/` skill](#a-slate-skill)
 - [Removing](#removing)
-- [Your agents](#your-agents)
+- [User](#user)
 
 ## Editing
 
@@ -48,7 +48,7 @@ A skill behind a tool folder linked to a shared folder elsewhere is not removed 
 
 An **MCP server** row opens a dialog titled with the server's logo. It lists every tool that has the server and each connected tool that could, with **Remove from** (has it) or **Add to** (does not). A tool this workspace is not connected to is greyed and says **not connected in this workspace**, as the row draws it. It says when a server will not load yet: Claude Code waits for approval of a `.mcp.json` server; Codex reads `.codex/config.toml` only in a trusted project. Slate never approves a server. **Add to** keeps an SSE server SSE; Codex and Grok Build take only streamable HTTP, so an SSE server is refused there with the reason, and Suggestions never offers that copy. When the other tool has no place for a setting (`cwd`, `timeout`, a server turned off), the copy says which ones it left out. A JSON file with comments is never rewritten. A trailing comma or a byte-order mark is not a comment: that file is edited, the mark kept and the comma dropped. Variables and headers never reach the screen. A **hook** row opens its commands, each with **Remove**. The first click arms it (**Remove?**); the second removes. Remove checks that the command is still the one shown; if a tool or an editor changed the file since, nothing is removed and the list reloads.
 
-## Your agents
+## User
 
 What each agent keeps for every project, in its config folder and plugins, with the project tabs and counts. Home folders have no git and nothing to publish.
 

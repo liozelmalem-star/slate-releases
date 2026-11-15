@@ -46,12 +46,14 @@ Under it, the side panel is a tree, like a project's folders in Docs: **All** fi
 
 ## Needs review
 
-Contradicting claims and tidy proposals wait at the top. When something waits, one amber line shows the count ("15 to review"); click it for a popup:
+Only what Slate may not decide alone waits at the top: a claim that disagrees with a surer memory, a memory the two readings of AI memory care disagree on, a lesson from what you declined, and a tidy change the save rules refused. A tidy's merges, retirements and lessons apply by themselves ([Tidied this week](#tidied-this-week)). When something waits, one amber line shows the count ("3 to review"); click it for a popup. With nothing waiting, the line is gone.
 
-* One line says what waits and who proposed it ("12 merges and 3 retirements, proposed by Claude Code (14) and memory care (1).") and how many claims disagree with a surer memory.
-* **Accept all** applies every proposal; **Undo** reverses the batch.
-* A lesson that became a skill is named; the name opens it in Toolkit.
-* Each proposal and disagreement has its own buttons ([Repairing memory by hand](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/decisions-and-facts.md#repairing-memory-by-hand)). The popup closes when empty, or on Esc.
+* One line says what waits and who proposed it ("2 retirements, proposed by memory care (2).") and how many claims disagree with a surer memory.
+* Each item has its own buttons ([Repairing memory by hand](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/decisions-and-facts.md#repairing-memory-by-hand)); each needs a choice, so there is no Accept all. The popup closes when empty, or on Esc.
+
+## Tidied this week
+
+A tidy's merges, retirements and lessons apply the moment a session or the **Memory pass** proposes them. **Tidied this week**, one quiet line under **Learned this week**, says what they changed in the last 7 days (*3 merges and 2 retirements*) with one **Undo**. Undo retires what the tidies wrote and brings back what they retired; nothing comes back to review. A week with no tidy draws nothing.
 
 **Learned this week**, above the card, is one line on the last seven days: memories you accepted, lessons that became skills, decisions an agent run closed, declines kept (and how many were said more than once), and what your acts taught (*3 memories confirmed by your merges, 1 contradicted by a revert*; undone acts do not count). A quiet week draws nothing.
 

@@ -180,7 +180,7 @@ downloads, is on the [Releases page](https://github.com/liozelmalem-star/slate-r
 Linux and Windows are early builds.
 
 <!-- slate:readme-platforms -->
-Latest release: **0.1.69**.
+Latest release: **0.1.71**.
 
 | Platform | Status |
 | --- | --- |

@@ -13,7 +13,7 @@
 
 **Look back**: days of sessions read, 1 to 365, starting at 7.
 
-**Write decisions back to memory**: the report may end with a `memories` block, saved as memory (at most five per run) and removed from the report you read. The same switch lets a `memory-proposals` block propose merges and retirements of the memories shown, by ref; each waits in Memory under **Needs review** until accepted. Only an automation scoped to a group or project can file one.
+**Write decisions back to memory**: the report may end with a `memories` block, saved as memory (at most five per run) and removed from the report you read. The same switch lets a `memory-proposals` block merge and retire the memories shown, by ref; each applies at once and shows in Memory under **Tidied this week**, with an Undo. Only an automation scoped to a group or project can file one.
 
 It can also search the workspace and your connected tools; what it may change follows the automation's rules ([What it may do](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md#what-it-may-do)).
 

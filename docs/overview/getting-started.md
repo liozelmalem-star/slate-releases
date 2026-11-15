@@ -57,7 +57,7 @@ Press <kbd>⌘K</kbd> any time to open the [command palette](https://liozelmalem
 
 ## 3. Connect an agent to your workspace
 
-Open **Connect → Agents** and turn on the tools this workspace uses, choosing the account each one runs under. Every project or group inherits that and may override it. The CLIs Slate can drive, their models and defaults are on [Agents & Model Providers](https://liozelmalem-star.github.io/slate-releases/docs/features/agent/brains.md).
+Open **Connect → Agents** and turn on the tools this workspace uses, choosing the account each one runs under. Each project or group inherits that and may override it. The CLIs Slate can drive, their models and defaults are on [Agents & Model Providers](https://liozelmalem-star.github.io/slate-releases/docs/features/agent/brains.md).
 
 Slate uses the CLI you already signed in to, so there is nothing to paste. If you keep separate work and personal CLI configs, set up a [project environment](https://liozelmalem-star.github.io/slate-releases/docs/features/studio/cli-profiles.md) for each.
 
@@ -88,7 +88,7 @@ The [session watcher](https://liozelmalem-star.github.io/slate-releases/docs/fea
 
 A **shared workspace** is a second store its members read. Create or join one in **Settings → Workspaces**, then switch into it from the top of the rail. The whole app follows, and everything you do there belongs to its members.
 
-Sharing needs the Team plan, which is coming soon. Accounts that already shared keep sharing at no charge until Team ships. Every workspace has the same sharing switch, Personal included, and turning it on first counts what it would publish. A captured AI session's doc is never published. To share one project rather than a whole workspace, move it: its ⋯ menu offers **Move to <workspace>**, and the subtree goes with its memory. Nobody can edit your docs, whatever their role. See [Workspaces](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces.md).
+Sharing needs the Team plan, which is coming soon. Accounts that already shared keep sharing at no charge until Team ships. Every workspace has the same sharing switch, Personal included, and turning it on first counts what it would publish. A captured AI session's doc is never published. To share one project rather than a whole workspace, open its folder in a shared workspace; nothing moves between workspaces. Nobody can edit your docs, whatever their role. See [Workspaces](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces.md).
 
 ***
 

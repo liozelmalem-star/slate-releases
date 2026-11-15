@@ -6,6 +6,8 @@ Each says what was counted and has one button, plus **Dismiss** (**Keep** for a 
 
 A dismissed suggestion never returns. An accepted **Fix** or **Improve** can return after 30 days.
 
+**All projects**, the first entry in Toolkit's project picker and where Toolkit opens, shows a card for User and for every project: what its agents read, and an amber count of the suggestions waiting there. A card opens that project, on its Suggestions while some wait.
+
 | Kind | When it is suggested | The button |
 | --- | --- | --- |
 | **Fix** | An MCP server failed 3 of its last 5 calls. It shows the last error | **Open server** opens MCP servers |

@@ -28,7 +28,7 @@ After you accept an **Improve**, Slate keeps the 30 days before (runs, runs stop
 
 ## The changes chip
 
-With Toolkit changes the header shows **N changes to commit in Code** (opens Changes on that project). It counts every file Toolkit writes, live. Your agents has none (not in git). Files that can hold secrets or local paths (`.mcp.json`, `.cursor/mcp.json`, `.claude/settings.json` and the like) are listed unticked with a note; tick one only to commit it.
+With Toolkit changes the header shows **N changes to commit in Code** (opens Changes on that project). It counts every file Toolkit writes, live. User has none (not in git). Files that can hold secrets or local paths (`.mcp.json`, `.cursor/mcp.json`, `.claude/settings.json` and the like) are listed unticked with a note; tick one only to commit it.
 
 ## The sync pill
 

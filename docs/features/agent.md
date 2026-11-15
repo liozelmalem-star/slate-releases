@@ -7,7 +7,7 @@ Home is the doc Slate opens on. It shows what needs you, and it has an agent bui
 - [What Home shows](#what-home-shows)
 - [The Set up Slate card](#the-set-up-slate-card)
 - [Resuming a past session](#resuming-a-past-session)
-- [Every project, and dropping a file in](#every-project-and-dropping-a-file-in)
+- [All projects, and dropping a file in](#all-projects-and-dropping-a-file-in)
 - [Skills and mentions](#skills-and-mentions)
 - [In this section](#in-this-section)
 
@@ -37,7 +37,7 @@ The card title is one plain line: the question the reply ends on, or its first s
 - With nothing waiting, the headline says **All clear.** and the composer moves to the middle. Past sessions are in Sessions, under **All past sessions**.
 - If Home could not read what waits (tasks, agent runs or held calls), it says so under the headline, with **Try again**. With no card to show, the headline says *Could not check what waits for you.*, never **All clear.**
 - A chat opens over Home. **Home** (top left of the chat) returns to Home and keeps the chat; **Back to the chat** returns. A streaming reply does not pull you back; sending a message does.
-- **⌘J**, or the round button at the bottom right, opens the **Ask AI** panel beside a doc you write: a plan, design, meeting, review, test, bug, note or general doc. Only those docs show the button. Anywhere else, a project, a group and a session included, ⌘J shows *The AI panel opens on a doc you write, like a plan, a design or a review.* Waiting setup changes are in [Toolkit › Suggestions](https://liozelmalem-star.github.io/slate-releases/docs/features/studio.md#suggestions).
+- **⌘J**, or the round button at the bottom right, opens the **Ask AI** panel beside a doc you write: a plan, design, review, bug or note. Only those docs show the button. Anywhere else, a project, a group and a session included, ⌘J shows *The AI panel opens on a doc you write, like a plan, a design or a review.* Waiting setup changes are in [Toolkit › Suggestions](https://liozelmalem-star.github.io/slate-releases/docs/features/studio.md#suggestions).
 - Your [widgets](https://liozelmalem-star.github.io/slate-releases/docs/features/widgets.md) for Home sit in the gaps between Home's parts (under the greeting, above or below the box), each at the size its setup in Widgets chose (a third, a half or the whole width). They read what Home shows (running AI sessions, for the project picked here). A new one appears below the box once built. Home has no control that adds or moves a widget: open it in Widgets and click a line on its preview.
 
 For approvals, autonomy and Stop see [Approvals, Stop and Agent Differences](https://liozelmalem-star.github.io/slate-releases/docs/features/agent/approvals.md).
@@ -64,7 +64,7 @@ Ticks come from what is in the workspace, so a step done elsewhere ticks itself.
 
 The chat starts with what you first asked and, under **Summary**, what Slate saved of the session (Slate's record, not a new tool reply).
 
-## Every project, and dropping a file in
+## All projects, and dropping a file in
 
 Home always covers every project in the open workspace: the tool's searches, the memories Home hands it (**What it knows**) and the widgets read all of them. There is no project to pick; the rail's switcher picks the workspace. Sessions that are working and need nothing are not on Home: the rail and [Sessions](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions.md) show them.
 

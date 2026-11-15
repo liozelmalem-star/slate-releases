@@ -11,7 +11,7 @@ Agents reach it over streamable HTTP on the running app, `http://127.0.0.1:47366
 Every connected model gets a standing instruction (within Claude Code's 2,048-character limit); tool descriptions hold the detail.
 
 * **Start.** If no brief opened the session and no direct tool answers, call `recall({ query: "current branch goal and context", cwd })` for decisions, conventions, memories and the branch brief.
-* **During.** `remember` with `kind: "decision"` keeps a decision, its reason and what it turned down. At a milestone the agent asks whether to save a plan, review, test plan, bug report or design, and calls `create_doc` only after a yes. It lists the refs of memories that shaped its work in `used`, never in its reply. If a memory's `citation` says `changed`, it reads the code first, and calls `remember` with `replaces` if the memory is wrong.
+* **During.** `remember` with `kind: "decision"` keeps a decision, its reason and what it turned down. At a milestone the agent asks whether to save a plan, review, bug report or design, and calls `create_doc` only after a yes. It lists the refs of memories that shaped its work in `used`, never in its reply. If a memory's `citation` says `changed`, it reads the code first, and calls `remember` with `replaces` if the memory is wrong.
 * **End.** The agent must call `log_mission_progress` once before its final reply, and saves at most two memories, only what will change how a future agent acts.
 
 How the two verbs rank, stay silent and dedupe is in [Recall & Remember](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/recall-remember.md).

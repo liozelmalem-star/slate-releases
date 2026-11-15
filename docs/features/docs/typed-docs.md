@@ -4,22 +4,20 @@
 
 ## Doc types
 
-A new doc is a plain **Doc**, and every new doc starts empty, whatever its type: you write it, or ask your agent to. A doc's type is set when it is made and never changes after: for a different type, make another doc. The label under the title shows the type with its icon; it is not a control. A person writes seven types: Doc, Plan, Design, Meeting, Review, Test, Bug. You choose one when you make the doc:
+A plain doc is a **Note**, and every new doc starts empty, whatever its type: you write it, or ask your agent to. A doc's type is set when it is made and never changes after: for a different type, make another doc. The tree's folder and the breadcrumb name the type; the open doc does not repeat it. A person writes five: Plan, Design, Review, Bug and Note. A Note is the plain doc, filed with the notes agents write. A test pass is a Review: one check item per case. A project holds any number of docs of each type, on any branch. You choose one when you make the doc:
 
 - the **+** on a type folder in Projects → Docs (Plans, Reviews…) makes an empty doc of that type in that project;
-- ⌘N makes a plain Doc, and ⌘K has **New Plan**, **New Review** and the rest;
+- ⌘N makes a Note, and ⌘K has **New Plan**, **New Review** and the rest;
 - **Write with AI** picks the type from what you ask for, and an agent names it in `create_doc`'s `doc_type`.
 
 The new doc opens with the caret in its title, and the tree shows it in its folder. Group, project and branch are made by Slate from folders and sessions. The `DocType` enum is in `@slate/schema` (`doc-type/types.ts`):
 
 | DocType | Purpose |
 | --- | --- |
-| `general` | Plain knowledge doc |
+| `note` | A note: the plain doc, shown in the Notes folder. Sessions and decisions are notes too, told apart by `properties.kind` |
 | `design` | Design doc |
 | `plan` | Implementation or work plan |
-| `review` | Review write-up |
-| `meeting` | Meeting notes |
-| `test-plan` | Test plan |
+| `review` | A review or a test pass: a verdict and one check item per finding or case |
 | `bug-report` | Bug report |
 | `group` | Set of projects you made and named; no folder of its own |
 | `project` | One folder, usually a git repository, in a group or alone |
@@ -32,14 +30,13 @@ Some types show one quiet line under the title that says where the doc stands. N
 | Type | The line | Set by |
 | --- | --- | --- |
 | Plan | **Steps done: 7 of 12**, counted from its checklist; ticking a step moves it at once | the checklist |
-| Test Plan | **3 pass · 2 open**: a ticked case passed, the rest are open | the checklist |
 | Bug Report | Severity **S1**, **S2** or **S3** (the words GitHub Issues use) and state **Open** or **Closed** | you, or an agent |
 | Design | **Decision:** one line | you, or an agent |
-| Review | Verdict **Approved** or **Changes needed** | you, or an agent |
+| Review | Verdict **Approved** or **Changes needed**, then **3 pass · 2 open** when it has check items: a ticked item passed, the rest are open | you or an agent; the counts from the checklist |
 
-Doc and Meeting have no line. A plan or a test with no checklist shows none. On a doc you can write, an unset field shows its name (**Severity**, **State**) to click; someone reading a teammate's doc sees only the fields that are set.
+A note has no line. A plan with no checklist shows none, and a review with no checklist shows only its verdict. On a doc you can write, an unset field shows its name (**Severity**, **State**) to click; someone reading a teammate's doc sees only the fields that are set.
 
-An agent sets the same fields through MCP: `create_doc` and `append_to_doc` take `severity`, `state`, `decision` and `verdict`. `append_to_doc` accepts a field with no Markdown, so it can close a bug without touching its text. The shape each type expects (a plan's phases with `- [ ]` steps, a bug's steps and evidence) is in `create_doc`'s description, so the agent writes it; Slate never puts it into your doc.
+An agent sets the same fields through MCP: `create_doc` and `append_to_doc` take `severity`, `state`, `decision` and `verdict`. A repeat `create_doc` with the same type, branch and title updates that doc; another title makes another doc. The names before 2026-11-15 still work: `general` and `meeting` make a note, `test-plan` a review. `append_to_doc` accepts a field with no Markdown, so it can close a bug without touching its text. The shape each type expects (a plan's phases with `- [ ]` steps, a bug's steps and evidence) is in `create_doc`'s description, so the agent writes it; Slate never puts it into your doc.
 
 ## The hierarchy
 
@@ -50,7 +47,7 @@ group
 └── project
     └── branch
         └── knowledge docs
-            (plan | design | test-plan | bug-report | review | meeting | general)
+            (plan | design | review | bug-report | note)
 ```
 
 A project may stand at top level with no group. Knowledge docs may sit directly under a `group` or `project`. `ALLOWED_DOC_CHILDREN` says what nests under what; for groups, projects and branches it is enforced on move (a `project` dropped in a `branch` is refused). A knowledge doc in an unusual place shows a tree warning.

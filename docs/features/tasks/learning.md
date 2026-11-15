@@ -31,7 +31,7 @@ A connected app in Connect → Integrations with no reader shows **Not read yet*
 ## What is stored
 
 - **Per task**: one line with tool, key (`acme/api#412`), title, state, person, link, a few counts, the tracker's type (Bug, Story), reminder time. Never description, comment or message text. A line you wrote is the same row with no tool. In the workspace's local file, never shared, even in a shared workspace.
-- **Meetings**: never on disk; in memory until the day ends or Slate quits.
+- **Calendar meetings**: never on disk; in memory until the day ends or Slate quits.
 - **Per project**: only the skills you picked (a name per kind), in the file of the workspace holding the project's doc. Skill text never copied.
 - **Per learned tool**: name, arguments, your id in that app, where each field sits in the answer; never the answer. For an app Teach Slate found nothing in: when.
 - **Receipts**: see [Receipts](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks/receipts.md#what-is-stored).

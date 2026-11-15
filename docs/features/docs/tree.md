@@ -16,15 +16,17 @@ The side panel's **+** (title row, Docs and Code) makes a **new project**, at on
 
 A doc is made where it goes:
 
+- The **+** on a project's row lists the types (Plan, Design, Review, Bug, Note): an empty doc of the one you pick, in that project. A project holds any number of each.
 - The **+** on a type folder (Plans, Designs, …) in the tree: an empty doc of that type. A doc's type is fixed once made ([Typed Docs](https://liozelmalem-star.github.io/slate-releases/docs/features/docs/typed-docs.md#doc-types)).
-- **⌘N**: a blank doc, caret in the title.
+- A doc row has no **+**: a doc is never made inside another doc.
+- **⌘N**: a blank note, caret in the title.
 - **⌘K**: New doc, New Plan and each other type, or **Generate a doc** (⌘⇧G), where an agent drafts from your description.
 
 A doc goes in the picked project. On All projects ⌘N makes nothing and says why (a doc lives in a project; pick one first). With no project, a top line says: *A workspace holds your projects. A project is a folder you open. A group collects related projects.* Each row's icon shows its type, which is fixed once the doc is made ([Typed Docs](https://liozelmalem-star.github.io/slate-releases/docs/features/docs/typed-docs.md#doc-types)).
 
 ## What the tree shows
 
-- **Breadcrumbs**: where the doc sits, as the tree shows it: `Group / Project / Plans / Title`. The type folder (Plans, Designs, Meetings, Reviews, Tests, Bugs, Notes, General) comes after the project, with the tree's icon and name. A click on the type folder's crumb shows that folder in the tree, open and scrolled to, and the doc stays open. A group's or project's crumb shows its folder ([Groups and projects are folders](https://liozelmalem-star.github.io/slate-releases/docs/features/docs.md#groups-and-projects-are-folders)); a doc's crumb opens that doc. **Icon**: a [Lucide](https://lucide.dev) name or an emoji.
+- **Breadcrumbs**: where the doc sits, as the tree shows it: `Group / Project / Plans / Title`. The type folder (Plans, Designs, Reviews, Bugs, Notes) comes after the project, with the tree's icon and name. The crumbs are text, not links: they say where the doc is, and the tree is where you go elsewhere. **Icon**: the tree shows a doc's type icon, or the icon a doc already carries (a [Lucide](https://lucide.dev) name or an emoji); a doc's icon is no longer picked in the doc.
 - **Captured sessions are not rows**; [Sessions](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions.md) lists them.
 - **Notes are counted**: a doc an agent wrote as a note is not a row. A doc holding some shows a **Notes** row with the count; it lists them in the main area, newest change first, with a title filter. They open, link and edit like any doc. A note holding docs stays a row.
 - **Decisions are not in Docs**: each is a memory listed in [Memory](https://liozelmalem-star.github.io/slate-releases/docs/features/memory.md). A decision holding docs stays a row.
@@ -35,7 +37,8 @@ A doc goes in the picked project. On All projects ⌘N makes nothing and says wh
 
 - **Order**: docs keep your order.
 - **Drag to reorder** rewrites one row (fractional `position`); after about 52 drops into one gap, that parent's children are renumbered once. `position` is local, never pushed.
-- **Move / nest**: drag under a new parent. A group goes at the top; a project at the top or in a group; other drops are refused with the reason and nothing moves. Other docs go anywhere.
+- **Move**: drag onto a new parent, or **Move to project…** on a doc's ⋯ (**Move to…** on a group's or project's). A doc goes only into another project, and its type keeps it in that project's folder for its type; it never goes inside another doc or a group. A project goes into a group or to the top; a group stays at the top. A drop anywhere else draws no target.
+- **Not to another workspace**: no doc, project or memory moves between workspaces. To work on a project in a shared workspace, open its folder there.
 - **Group projects**: shift-click two or more standalone projects, **Group…** on ⋯ or right-click, name it; they move in.
 
 ## Trash
@@ -57,7 +60,7 @@ A doc goes in the picked project. On All projects ⌘N makes nothing and says wh
 
 ## A project's docs by type
 
-Docs and Code share one skeleton: groups you made holding projects, and standalone projects. In Docs an open project has one folder per doc type it holds, with a count, in order: Plans, Designs, Meetings, Reviews, Tests, Bugs, **Notes**, General.
+Docs and Code share one skeleton: groups you made holding projects, and standalone projects. In Docs an open project has one folder per doc type it holds, with a count, in order: Plans, Designs, Reviews, Bugs, **Notes**. A plain doc is a note, so it is listed under Notes.
 
 - **One project open at a time**, in Docs and in Code: opening a project closes the one that was open. The groups above it stay open, and inside a project its folders (and in Code its worktrees and file folders) stay as you left them.
 - Folders start closed and stay as left.

@@ -84,7 +84,7 @@ Press <kbd>⌘K</kbd> any time to open the [command palette](https://liozelmalem
 
 ## 3. Connect an agent to your workspace
 
-Open **Connect → Agents** and turn on the tools this workspace uses, choosing the account each one runs under. Every project or group inherits that and may override it. The CLIs Slate can drive, their models and defaults are on [Agents & Model Providers](https://liozelmalem-star.github.io/slate-releases/docs/features/agent/brains.md).
+Open **Connect → Agents** and turn on the tools this workspace uses, choosing the account each one runs under. Each project or group inherits that and may override it. The CLIs Slate can drive, their models and defaults are on [Agents & Model Providers](https://liozelmalem-star.github.io/slate-releases/docs/features/agent/brains.md).
 
 Slate uses the CLI you already signed in to, so there is nothing to paste. If you keep separate work and personal CLI configs, set up a [project environment](https://liozelmalem-star.github.io/slate-releases/docs/features/studio/cli-profiles.md) for each.
 
@@ -115,7 +115,7 @@ The [session watcher](https://liozelmalem-star.github.io/slate-releases/docs/fea
 
 A **shared workspace** is a second store its members read. Create or join one in **Settings → Workspaces**, then switch into it from the top of the rail. The whole app follows, and everything you do there belongs to its members.
 
-Sharing needs the Team plan, which is coming soon. Accounts that already shared keep sharing at no charge until Team ships. Every workspace has the same sharing switch, Personal included, and turning it on first counts what it would publish. A captured AI session's doc is never published. To share one project rather than a whole workspace, move it: its ⋯ menu offers **Move to <workspace>**, and the subtree goes with its memory. Nobody can edit your docs, whatever their role. See [Workspaces](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces.md).
+Sharing needs the Team plan, which is coming soon. Accounts that already shared keep sharing at no charge until Team ships. Every workspace has the same sharing switch, Personal included, and turning it on first counts what it would publish. A captured AI session's doc is never published. To share one project rather than a whole workspace, open its folder in a shared workspace; nothing moves between workspaces. Nobody can edit your docs, whatever their role. See [Workspaces](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces.md).
 
 ***
 
@@ -139,7 +139,7 @@ The [doc](https://liozelmalem-star.github.io/slate-releases/docs/features/docs.m
 
 ## 2. Typed documents give work structure
 
-A doc can be [typed](https://liozelmalem-star.github.io/slate-releases/docs/features/docs/typed-docs.md): `group`, `project`, `branch`, `plan`, `design`, `review`, `meeting`, `test-plan`, `bug-report`, `mission` or plain `general`. The type says what kind of doc it is and limits where the doc can live. A `branch` sits under a `project`. A `project` sits under a `group` or stands alone. Knowledge docs (plans, designs, reviews) hang off any of them, so memory tools resolve "the plan for the branch I'm on" without an id.
+A doc can be [typed](https://liozelmalem-star.github.io/slate-releases/docs/features/docs/typed-docs.md): `group`, `project`, `branch`, `plan`, `design`, `review`, `bug-report`, `mission` or plain `note`. The type says what kind of doc it is and limits where the doc can live. A `branch` sits under a `project`. A `project` sits under a `group` or stands alone. Knowledge docs (plans, designs, reviews) hang off any of them, so memory tools resolve "the plan for the branch I'm on" without an id.
 
 ## 3. One memory, shared over MCP
 
@@ -1369,11 +1369,11 @@ Slate calls no model to shrink memory: the session you are in proposes and you a
 
 1. `list_memories` reads the project's memories, 100 at a time, with refs (hidden ones are not listed).
 2. `propose_memory_change` proposes a **merge** (refs become one claim), a **retirement** (wrong or outdated refs) or a **lesson** (refs forming a rule about an action, with its `when`). Every ref must belong to that project, and none may be a memory you pinned or protected: that one is yours. A merge or lesson follows [`remember`](remember.md)'s save rules.
-3. Each proposal waits in [Memory](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/map.md) under **Needs review**, with what it changes and why. **Merge**, **Retire** or **Make it a lesson** applies it; **Dismiss** drops it; **Accept all** applies every one, **Undo** reverses the batch. A memory you pinned or protected after the proposal still stays: a retirement leaves it out, and a merge or lesson naming it waits for you.
+3. The change applies at once, through the same save rules as an accept. [Memory](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/map.md#tidied-this-week) says what was tidied in the last 7 days, with one **Undo**. A change the save rules refuse waits under **Needs review**, where **Merge**, **Retire** or **Make it a lesson** applies it and **Dismiss** drops it. A memory you pinned or protected since the proposal still stays: a retirement leaves it out, and a merge or lesson naming it waits for you.
 
 **AI memory care.** Turn on at the **Memory care** row in [Memory](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/map.md) (see [Automations](https://liozelmalem-star.github.io/slate-releases/docs/features/automations.md)). Each night it reads up to 50 memories of one project or group (the largest) twice, separately, with its own agent and the code each cites, and retires only what both readings call wrong. Disagreements wait under **Needs review**. It shows its cost before turning on and stops at a monthly token cap you set. Each reading counts toward the cap as it ends, so a night that fails halfway still counts what it spent. A retired memory nothing replaced returns with **Bring back** under the **Retired** row for 30 days. With it on, an agent's new memory must say in `reason` why it changes what a future agent does.
 
-**Your own schedule.** Save the **Memory pass** [automation](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md#the-ceremonies). Each morning it reads yesterday's sessions and up to 30 of the project's memories (pinned and cited first, then freshest, cut to a size budget) on the project's agent. It adds at most five memories and files merges and retirements under **Needs review**.
+**Your own schedule.** Save the **Memory pass** [automation](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md#the-ceremonies). Each morning it reads yesterday's sessions and up to 30 of the project's memories (pinned and cited first, then freshest, cut to a size budget) on the project's agent. It adds at most five memories and merges and retires through the same tidy, so its changes show under **Tidied this week**.
 
 ## Learning from what you decline
 
@@ -1383,11 +1383,11 @@ A no is never a memory alone. It becomes a proposal under **Memory → Needs rev
 
 ## When a lesson becomes a skill
 
-A lesson used in at least three sessions is a way of working. Daily, at most three, Slate proposes one as a skill under **Memory → Needs review**. **Make it a skill** writes `.claude/skills/<name>/SKILL.md` in the project's folder, linked from `.agents/skills/<name>`, with the lesson and reason.
+A lesson used in at least three sessions is a way of working. Daily, at most three, Slate proposes one as a skill in **Toolkit › Suggestions**. **Make it a skill** writes `.claude/skills/<name>/SKILL.md` in the project's folder, linked from `.agents/skills/<name>`, with the lesson and reason.
 
 * A branch's lesson goes to the project's folder, not the worktree. A lesson with no project folder here is never proposed.
 * The lesson then leaves the index (not read twice). A dismissed proposal is not asked again.
-* The proposal also waits in **Toolkit › Suggestions**; accepting in either place writes the skill once. Other setup changes (fix, copy, remove) are only in Toolkit: Memory reviews what Slate remembers, Toolkit what agents load.
+* Memory does not list it: Memory reviews what Slate remembers, Toolkit what agents load.
 
 ## Logging progress mid-run
 
@@ -1502,7 +1502,7 @@ A citation whose project folder is not on this machine, or that is not a file pa
 
 * **Needs review.** A claim contradicting a firmer memory waits here, never overwriting it: **Keep existing**, **Replace it** or **Keep both**.
 * **Retire session.** Retires everything a session wrote but what you pinned or protected, after showing each; the **Retired** row lists them for 30 days.
-* **Tidy proposals.** [Tidy](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/tidy-and-measure.md#tidying-a-projects-memory) merges and retirements wait under **Needs review** with what they change and why. The **to review** row says what waits and who proposed it. **Accept all**, with **Undo**. The rail's Memory icon counts them.
+* **Tidied this week.** [Tidy](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/tidy-and-measure.md#tidying-a-projects-memory) merges, retirements and lessons apply by themselves. One quiet line says what they changed in the last 7 days, with **Undo**. Only what Slate may not decide alone waits under **Needs review**: AI memory care's disagreements, a lesson from what you declined, and a tidy change the save rules refused.
 * **Pin.** Puts the memory atop its project's index for every session.
 * **Hide from sessions.** The memory stays stored and listed but is not given out: not to a session, a teammate (one already shared is withdrawn), AI memory care, an @-mention or an app.
   * Words copied into docs when it was saved (Preferences, a branch doc, a note, a decision doc) stay as you wrote them for you; wherever a doc leaves your hands (agent, app, teammate) they become `[held memory]`.
@@ -1567,12 +1567,14 @@ Under it, the side panel is a tree, like a project's folders in Docs: **All** fi
 
 ## Needs review
 
-Contradicting claims and tidy proposals wait at the top. When something waits, one amber line shows the count ("15 to review"); click it for a popup:
+Only what Slate may not decide alone waits at the top: a claim that disagrees with a surer memory, a memory the two readings of AI memory care disagree on, a lesson from what you declined, and a tidy change the save rules refused. A tidy's merges, retirements and lessons apply by themselves ([Tidied this week](#tidied-this-week)). When something waits, one amber line shows the count ("3 to review"); click it for a popup. With nothing waiting, the line is gone.
 
-* One line says what waits and who proposed it ("12 merges and 3 retirements, proposed by Claude Code (14) and memory care (1).") and how many claims disagree with a surer memory.
-* **Accept all** applies every proposal; **Undo** reverses the batch.
-* A lesson that became a skill is named; the name opens it in Toolkit.
-* Each proposal and disagreement has its own buttons ([Repairing memory by hand](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/decisions-and-facts.md#repairing-memory-by-hand)). The popup closes when empty, or on Esc.
+* One line says what waits and who proposed it ("2 retirements, proposed by memory care (2).") and how many claims disagree with a surer memory.
+* Each item has its own buttons ([Repairing memory by hand](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/decisions-and-facts.md#repairing-memory-by-hand)); each needs a choice, so there is no Accept all. The popup closes when empty, or on Esc.
+
+## Tidied this week
+
+A tidy's merges, retirements and lessons apply the moment a session or the **Memory pass** proposes them. **Tidied this week**, one quiet line under **Learned this week**, says what they changed in the last 7 days (*3 merges and 2 retirements*) with one **Undo**. Undo retires what the tidies wrote and brings back what they retired; nothing comes back to review. A week with no tidy draws nothing.
 
 **Learned this week**, above the card, is one line on the last seven days: memories you accepted, lessons that became skills, decisions an agent run closed, declines kept (and how many were said more than once), and what your acts taught (*3 memories confirmed by your merges, 1 contradicted by a revert*; undone acts do not count). A quiet week draws nothing.
 
@@ -1650,9 +1652,9 @@ yarn studio prove    # sources, adapters, symlinks, and a live probe of each ins
 
 Edits are committed in **Projects → Code → Changes**.
 
-The side panel's picker starts with **Your agents** ([what each keeps for every project](https://liozelmalem-star.github.io/slate-releases/docs/features/studio/editing-and-agents.md#your-agents)), then projects that have a folder, by group, with or without `.slate/`. Groups and plain docs are not projects. An unreadable folder is reported in the doc. A project with more than one `.slate/` gets a second picker named by folder.
+The side panel's picker starts with **All projects**, Toolkit's home: a card per project with what its agents read and the suggestions waiting ([Suggestions](https://liozelmalem-star.github.io/slate-releases/docs/features/studio/suggestions.md)). Then **User** `~`: what each agent keeps in your home folder and loads in every project ([User](https://liozelmalem-star.github.io/slate-releases/docs/features/studio/editing-and-agents.md#user)), then projects that have a folder: a project on its own by its name, a group's projects under the group's name, with or without `.slate/`. Groups and plain docs are not projects. An unreadable folder is reported in the doc. A project with more than one `.slate/` gets a second picker named by folder.
 
-Every project has **Suggestions** (with the waiting count) and one tab per non-empty kind with its count. Hover a tab to see when a tool loads that kind: a skill when the task matches, a command on `/name`, a rule when the file in use matches, instructions at session start. **+** in the title row asks which kind to add ([Adding](https://liozelmalem-star.github.io/slate-releases/docs/features/studio/adding.md)).
+Each project has **Suggestions** (with the waiting count) and one tab per non-empty kind with its count. Hover a tab to see when a tool loads that kind: a skill when the task matches, a command on `/name`, a rule when the file in use matches, instructions at session start. **+** in the title row asks which kind to add ([Adding](https://liozelmalem-star.github.io/slate-releases/docs/features/studio/adding.md)).
 
 Toolkit opens on **Suggestions** while any wait, and on **Skills** otherwise.
 
@@ -1674,7 +1676,7 @@ An empty kind keeps its tab and a **New …** button. Every tool whose file hold
 
 Links into an item: a session's **Setup used**, the skill a kind of work runs in Tasks' **Workflow**, the skill an accepted lesson became (Memory), a subagent's type under a session, each skill in the composer's **/** list.
 
-More: [usage counts, changes chip and sync pill](https://liozelmalem-star.github.io/slate-releases/docs/features/studio/usage-and-sync.md); [adding](https://liozelmalem-star.github.io/slate-releases/docs/features/studio/adding.md); [editing, removing and Your agents](https://liozelmalem-star.github.io/slate-releases/docs/features/studio/editing-and-agents.md).
+More: [usage counts, changes chip and sync pill](https://liozelmalem-star.github.io/slate-releases/docs/features/studio/usage-and-sync.md); [adding](https://liozelmalem-star.github.io/slate-releases/docs/features/studio/adding.md); [editing, removing and User](https://liozelmalem-star.github.io/slate-releases/docs/features/studio/editing-and-agents.md).
 
 ## Suggestions
 
@@ -1728,7 +1730,7 @@ Each takes a name, a few fields and the tools' folders, written in each tool's s
 
 ---
 
-# Editing, removing and Your agents
+# Editing, removing and User
 
 Source: https://liozelmalem-star.github.io/slate-releases/docs/features/studio/editing-and-agents.md
 
@@ -1739,7 +1741,7 @@ Part of [Toolkit](https://liozelmalem-star.github.io/slate-releases/docs/feature
 - [Editing](#editing)
 - [A `.slate/` skill](#a-slate-skill)
 - [Removing](#removing)
-- [Your agents](#your-agents)
+- [User](#user)
 
 ## Editing
 
@@ -1780,7 +1782,7 @@ A skill behind a tool folder linked to a shared folder elsewhere is not removed 
 
 An **MCP server** row opens a dialog titled with the server's logo. It lists every tool that has the server and each connected tool that could, with **Remove from** (has it) or **Add to** (does not). A tool this workspace is not connected to is greyed and says **not connected in this workspace**, as the row draws it. It says when a server will not load yet: Claude Code waits for approval of a `.mcp.json` server; Codex reads `.codex/config.toml` only in a trusted project. Slate never approves a server. **Add to** keeps an SSE server SSE; Codex and Grok Build take only streamable HTTP, so an SSE server is refused there with the reason, and Suggestions never offers that copy. When the other tool has no place for a setting (`cwd`, `timeout`, a server turned off), the copy says which ones it left out. A JSON file with comments is never rewritten. A trailing comma or a byte-order mark is not a comment: that file is edited, the mark kept and the comma dropped. Variables and headers never reach the screen. A **hook** row opens its commands, each with **Remove**. The first click arms it (**Remove?**); the second removes. Remove checks that the command is still the one shown; if a tool or an editor changed the file since, nothing is removed and the list reloads.
 
-## Your agents
+## User
 
 What each agent keeps for every project, in its config folder and plugins, with the project tabs and counts. Home folders have no git and nothing to publish.
 
@@ -1826,7 +1828,7 @@ After you accept an **Improve**, Slate keeps the 30 days before (runs, runs stop
 
 ## The changes chip
 
-With Toolkit changes the header shows **N changes to commit in Code** (opens Changes on that project). It counts every file Toolkit writes, live. Your agents has none (not in git). Files that can hold secrets or local paths (`.mcp.json`, `.cursor/mcp.json`, `.claude/settings.json` and the like) are listed unticked with a note; tick one only to commit it.
+With Toolkit changes the header shows **N changes to commit in Code** (opens Changes on that project). It counts every file Toolkit writes, live. User has none (not in git). Files that can hold secrets or local paths (`.mcp.json`, `.cursor/mcp.json`, `.claude/settings.json` and the like) are listed unticked with a note; tick one only to commit it.
 
 ## The sync pill
 
@@ -1845,6 +1847,8 @@ Source: https://liozelmalem-star.github.io/slate-releases/docs/features/studio/s
 Each says what was counted and has one button, plus **Dismiss** (**Keep** for a removal).
 
 A dismissed suggestion never returns. An accepted **Fix** or **Improve** can return after 30 days.
+
+**All projects**, the first entry in Toolkit's project picker and where Toolkit opens, shows a card for User and for every project: what its agents read, and an amber count of the suggestions waiting there. A card opens that project, on its Suggestions while some wait.
 
 | Kind | When it is suggested | The button |
 | --- | --- | --- |
@@ -1957,7 +1961,7 @@ Home is the doc Slate opens on. It shows what needs you, and it has an agent bui
 - [What Home shows](#what-home-shows)
 - [The Set up Slate card](#the-set-up-slate-card)
 - [Resuming a past session](#resuming-a-past-session)
-- [Every project, and dropping a file in](#every-project-and-dropping-a-file-in)
+- [All projects, and dropping a file in](#all-projects-and-dropping-a-file-in)
 - [Skills and mentions](#skills-and-mentions)
 - [In this section](#in-this-section)
 
@@ -1987,7 +1991,7 @@ The card title is one plain line: the question the reply ends on, or its first s
 - With nothing waiting, the headline says **All clear.** and the composer moves to the middle. Past sessions are in Sessions, under **All past sessions**.
 - If Home could not read what waits (tasks, agent runs or held calls), it says so under the headline, with **Try again**. With no card to show, the headline says *Could not check what waits for you.*, never **All clear.**
 - A chat opens over Home. **Home** (top left of the chat) returns to Home and keeps the chat; **Back to the chat** returns. A streaming reply does not pull you back; sending a message does.
-- **⌘J**, or the round button at the bottom right, opens the **Ask AI** panel beside a doc you write: a plan, design, meeting, review, test, bug, note or general doc. Only those docs show the button. Anywhere else, a project, a group and a session included, ⌘J shows *The AI panel opens on a doc you write, like a plan, a design or a review.* Waiting setup changes are in [Toolkit › Suggestions](https://liozelmalem-star.github.io/slate-releases/docs/features/studio.md#suggestions).
+- **⌘J**, or the round button at the bottom right, opens the **Ask AI** panel beside a doc you write: a plan, design, review, bug or note. Only those docs show the button. Anywhere else, a project, a group and a session included, ⌘J shows *The AI panel opens on a doc you write, like a plan, a design or a review.* Waiting setup changes are in [Toolkit › Suggestions](https://liozelmalem-star.github.io/slate-releases/docs/features/studio.md#suggestions).
 - Your [widgets](https://liozelmalem-star.github.io/slate-releases/docs/features/widgets.md) for Home sit in the gaps between Home's parts (under the greeting, above or below the box), each at the size its setup in Widgets chose (a third, a half or the whole width). They read what Home shows (running AI sessions, for the project picked here). A new one appears below the box once built. Home has no control that adds or moves a widget: open it in Widgets and click a line on its preview.
 
 For approvals, autonomy and Stop see [Approvals, Stop and Agent Differences](https://liozelmalem-star.github.io/slate-releases/docs/features/agent/approvals.md).
@@ -2014,7 +2018,7 @@ Ticks come from what is in the workspace, so a step done elsewhere ticks itself.
 
 The chat starts with what you first asked and, under **Summary**, what Slate saved of the session (Slate's record, not a new tool reply).
 
-## Every project, and dropping a file in
+## All projects, and dropping a file in
 
 Home always covers every project in the open workspace: the tool's searches, the memories Home hands it (**What it knows**) and the widgets read all of them. There is no project to pick; the rail's switcher picks the workspace. Sessions that are working and need nothing are not on Home: the rail and [Sessions](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions.md) show them.
 
@@ -2381,7 +2385,7 @@ A connected app in Connect → Integrations with no reader shows **Not read yet*
 ## What is stored
 
 - **Per task**: one line with tool, key (`acme/api#412`), title, state, person, link, a few counts, the tracker's type (Bug, Story), reminder time. Never description, comment or message text. A line you wrote is the same row with no tool. In the workspace's local file, never shared, even in a shared workspace.
-- **Meetings**: never on disk; in memory until the day ends or Slate quits.
+- **Calendar meetings**: never on disk; in memory until the day ends or Slate quits.
 - **Per project**: only the skills you picked (a name per kind), in the file of the workspace holding the project's doc. Skill text never copied.
 - **Per learned tool**: name, arguments, your id in that app, where each field sits in the answer; never the answer. For an app Teach Slate found nothing in: when.
 - **Receipts**: see [Receipts](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks/receipts.md#what-is-stored).
@@ -2617,7 +2621,7 @@ Source: https://liozelmalem-star.github.io/slate-releases/docs/features/docs.md
 
 A doc is Slate's one unit: a note, design doc, project and captured AI session are all rows in one `doc` table, so nesting, reordering, icons and Trash work the same. Each has an id, `parent_id`, title, icon, fractional `position`, block content and metadata (`doc_type`, `status`, `archived`, timestamps).
 
-The line under a title ends with who can read it: **Private** in Personal, **Shared · <workspace>** in a shared one.
+**A quiet doc.** An open doc shows its title once, then the body: a body an agent opened with `# <title>` does not draw that heading (create_doc drops it from a new body; an older body keeps it stored, hidden). Under the title: what the doc links to (branch, PR, ticket), the one line its type keeps (a bug's severity and state, a review's verdict, a plan's steps done), and **Shared · <workspace>** in a shared workspace. Its type, its icon and **Private** are not repeated there: the tree and the breadcrumb name them, and a workspace is private unless it says otherwise.
 
 **The open screen stays current.** When an agent writes over MCP (appends to the doc you read, renames, files a doc, saves a memory) the screen updates within seconds. If you are typing on that doc, your text is kept and a "changed elsewhere" notice offers **Copy my text**, **Keep my version** (asks once, then overwrites the newer one) and **Reload doc**.
 
@@ -2633,17 +2637,17 @@ The editor is kept quiet: it offers the few things docs are written with, and th
 
 - **`/`** opens the slash menu with 14 items: Text, Heading 1–3, Bullet, Numbered and Check list, Quote, Code, Table, Image, **Callout**, **Check item** and **Link to doc**. The editor has no AI of its own (removed 2026-11-15); ask your agent in a session instead.
 - **Selected text** gets four controls: Bold, Italic, Code and Link. Tab and Shift-Tab nest and unnest.
-- **A block's handle** opens one item, which removes the block (on a table, also its header row and column switches).
+- **Nothing shows beside a block** or on a table's edges, and the body has no frame: a doc shows its text until you type or select. Code in a table stays on one line, and a wide table scrolls sideways.
 - **An empty doc** shows one line, **Write here, or ask your agent to fill it.** The line is drawn by the editor, never stored in the doc.
 
-Older block types stay readable. A doc that already holds a heading 4–6, a toggle heading or list, a divider, a video, audio or file block, or a **doc card** (an embedded doc) still opens and draws it; the menus only stop offering them. A callout is a plain note; only the ⚠️ emoji draws it in the warning colour, and clicking the emoji cycles the ten offered. Markdown shortcuts (`#`, `-`, `[]`, ```` ``` ````) still turn a line into its block.
+Older block types stay readable. A doc that already holds a heading 4–6, a toggle heading or list, a divider, or a video, audio or file block still opens and draws it; the menus only stop offering them. A callout is a plain note; only the ⚠️ emoji draws it in the warning colour, and clicking the emoji cycles the ten offered. Markdown shortcuts (`#`, `-`, `[]`, ```` ``` ````) still turn a line into its block.
 
 A **check item** is one line of a Review or a Test doc that carries a result: open (grey circle), pass (green tick), fail (red cross) or blocked (amber sign). Click the mark to step to the next result. The result is stored in the doc body with the block, so nothing else records it. A test case's steps, expected result and evidence go under the item (Tab nests them); a pasted screenshot is stored in the doc like any pasted image. In a doc you cannot edit, the mark only shows. `countCheckItems` in `@slate/shared` counts a body's items per result.
 
 **Diagrams.** A code block in the `mermaid` language draws as the diagram it describes: a flowchart, a sequence, a state chart and the other kinds [Mermaid](https://mermaid.js.org) knows. Agents write one as a ```` ```mermaid ```` fence through `create_doc` or `append_to_doc`; in the editor, type ```` ```mermaid ```` and a space. The drawing uses the app's greys and follows the light or dark theme. The code button at its top right, on hover, shows the source to read or edit, and the drawing follows the edit once you stop typing. A source Mermaid cannot read stays as text, under one grey line: "This diagram did not draw. Its source is below." Mermaid loads only when a doc holds a diagram. A diagram is stored as the code block it is, so its Markdown is the fence it came from.
 
 - **@** links a doc inline; **/Link to doc** opens the same list (loose matching, recent first, arrows and Enter).
-- Drag blocks by handle or move by keyboard.
+- Move a block with ⌘⇧↑ and ⌘⇧↓, or cut and paste it. Select one and press Backspace to remove it.
 - Pasted Markdown replaces a selection, fills an empty block, or splits a paragraph at the cursor.
 - Right-click menus open with their corner at the pointer.
 
@@ -2665,7 +2669,7 @@ In Projects, Automations, Activity, Artifacts and Memory a **project picker** un
 In Projects → Docs a group or a project is a folder, as a directory is in Code. Clicking its row opens or closes it; only a doc opens in the main area. With nothing open, the main area says **Open a doc from the list** (on Code, **Open a file from the list**). The welcome doc, which a new install opens on, is the one project that opens as a doc.
 
 - **Its ⋯ menu** (or right-click) carries what its own screen used to: **Start session**, **Open a terminal here**, **Show code** (when it has a folder), **Link a folder** or **Change folder**, and **Settings…** on a group or a project on its own ([Settings](https://liozelmalem-star.github.io/slate-releases/docs/features/docs/tree.md#settings)).
-- **A link to it** (a breadcrumb, ⌘K, an MCP `open` link, a tab saved by an older version) shows its folder in the tree, open, instead of a screen of its own. A tab saved on one is closed.
+- **A link to it** (⌘K, an MCP `open` link, a tab saved by an older version) shows its folder in the tree, open, instead of a screen of its own. A tab saved on one is closed.
 - Its sessions are in [Sessions](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions.md), its memories in [Memory](https://liozelmalem-star.github.io/slate-releases/docs/features/memory.md).
 
 Changed 2026-11-15, when the owner said "everything got their tab, we dont need it here, its only docs": a group or project used to open its own screen with a description and Docs, Sessions and Memory tabs.
@@ -2683,7 +2687,7 @@ A check item is a task line whose box holds the result: `- [pass] Sign in with G
 - [Typed Docs & Hierarchy](https://liozelmalem-star.github.io/slate-releases/docs/features/docs/typed-docs.md): `doc_type` and group → project nesting.
 - [Legacy work docs](https://liozelmalem-star.github.io/slate-releases/docs/features/docs/missions.md): the legacy work container and branch progress.
 
-Which workspace holds a doc decides whether it is shared. Its ⋯ menu moves it, with everything nested under it, into another workspace (a real move between two SQLite files): [Working in a Shared Workspace](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces/sharing.md).
+Which workspace holds a doc decides whether it is shared, and a doc stays in the workspace it was made in: nothing moves between workspaces. See [Working in a Shared Workspace](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces/sharing.md).
 
 See also: [Memory](https://liozelmalem-star.github.io/slate-releases/docs/features/memory.md), [Workspaces](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces.md).
 
@@ -2709,15 +2713,17 @@ The side panel's **+** (title row, Docs and Code) makes a **new project**, at on
 
 A doc is made where it goes:
 
+- The **+** on a project's row lists the types (Plan, Design, Review, Bug, Note): an empty doc of the one you pick, in that project. A project holds any number of each.
 - The **+** on a type folder (Plans, Designs, …) in the tree: an empty doc of that type. A doc's type is fixed once made ([Typed Docs](https://liozelmalem-star.github.io/slate-releases/docs/features/docs/typed-docs.md#doc-types)).
-- **⌘N**: a blank doc, caret in the title.
+- A doc row has no **+**: a doc is never made inside another doc.
+- **⌘N**: a blank note, caret in the title.
 - **⌘K**: New doc, New Plan and each other type, or **Generate a doc** (⌘⇧G), where an agent drafts from your description.
 
 A doc goes in the picked project. On All projects ⌘N makes nothing and says why (a doc lives in a project; pick one first). With no project, a top line says: *A workspace holds your projects. A project is a folder you open. A group collects related projects.* Each row's icon shows its type, which is fixed once the doc is made ([Typed Docs](https://liozelmalem-star.github.io/slate-releases/docs/features/docs/typed-docs.md#doc-types)).
 
 ## What the tree shows
 
-- **Breadcrumbs**: where the doc sits, as the tree shows it: `Group / Project / Plans / Title`. The type folder (Plans, Designs, Meetings, Reviews, Tests, Bugs, Notes, General) comes after the project, with the tree's icon and name. A click on the type folder's crumb shows that folder in the tree, open and scrolled to, and the doc stays open. A group's or project's crumb shows its folder ([Groups and projects are folders](https://liozelmalem-star.github.io/slate-releases/docs/features/docs.md#groups-and-projects-are-folders)); a doc's crumb opens that doc. **Icon**: a [Lucide](https://lucide.dev) name or an emoji.
+- **Breadcrumbs**: where the doc sits, as the tree shows it: `Group / Project / Plans / Title`. The type folder (Plans, Designs, Reviews, Bugs, Notes) comes after the project, with the tree's icon and name. The crumbs are text, not links: they say where the doc is, and the tree is where you go elsewhere. **Icon**: the tree shows a doc's type icon, or the icon a doc already carries (a [Lucide](https://lucide.dev) name or an emoji); a doc's icon is no longer picked in the doc.
 - **Captured sessions are not rows**; [Sessions](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions.md) lists them.
 - **Notes are counted**: a doc an agent wrote as a note is not a row. A doc holding some shows a **Notes** row with the count; it lists them in the main area, newest change first, with a title filter. They open, link and edit like any doc. A note holding docs stays a row.
 - **Decisions are not in Docs**: each is a memory listed in [Memory](https://liozelmalem-star.github.io/slate-releases/docs/features/memory.md). A decision holding docs stays a row.
@@ -2728,7 +2734,8 @@ A doc goes in the picked project. On All projects ⌘N makes nothing and says wh
 
 - **Order**: docs keep your order.
 - **Drag to reorder** rewrites one row (fractional `position`); after about 52 drops into one gap, that parent's children are renumbered once. `position` is local, never pushed.
-- **Move / nest**: drag under a new parent. A group goes at the top; a project at the top or in a group; other drops are refused with the reason and nothing moves. Other docs go anywhere.
+- **Move**: drag onto a new parent, or **Move to project…** on a doc's ⋯ (**Move to…** on a group's or project's). A doc goes only into another project, and its type keeps it in that project's folder for its type; it never goes inside another doc or a group. A project goes into a group or to the top; a group stays at the top. A drop anywhere else draws no target.
+- **Not to another workspace**: no doc, project or memory moves between workspaces. To work on a project in a shared workspace, open its folder there.
 - **Group projects**: shift-click two or more standalone projects, **Group…** on ⋯ or right-click, name it; they move in.
 
 ## Trash
@@ -2750,7 +2757,7 @@ A doc goes in the picked project. On All projects ⌘N makes nothing and says wh
 
 ## A project's docs by type
 
-Docs and Code share one skeleton: groups you made holding projects, and standalone projects. In Docs an open project has one folder per doc type it holds, with a count, in order: Plans, Designs, Meetings, Reviews, Tests, Bugs, **Notes**, General.
+Docs and Code share one skeleton: groups you made holding projects, and standalone projects. In Docs an open project has one folder per doc type it holds, with a count, in order: Plans, Designs, Reviews, Bugs, **Notes**. A plain doc is a note, so it is listed under Notes.
 
 - **One project open at a time**, in Docs and in Code: opening a project closes the one that was open. The groups above it stay open, and inside a project its folders (and in Code its worktrees and file folders) stay as you left them.
 - Folders start closed and stay as left.
@@ -2780,14 +2787,14 @@ A failed move, rename, duplicate, Move to Trash or restore (doc gone, workspace 
 
 Source: https://liozelmalem-star.github.io/slate-releases/docs/features/docs/code.md
 
-**Code** lists every project with a git folder on this computer (the picked one, or all) with two views on its left edge: **Files** and **Changes**. A project with no folder here says so. Open it with **Show code** on a project's ⋯ menu in Docs ([The doc tree](https://liozelmalem-star.github.io/slate-releases/docs/features/docs/tree.md#docs-or-code)).
+**Code** lists every project with a git folder on this computer (the picked one, or all) with two views on its left edge: **Files** and **Changes**. Changes carries a lime count of the files waiting to be committed (99+ past 99). A project with no folder here says so. Open it with **Show code** on a project's ⋯ menu in Docs ([The doc tree](https://liozelmalem-star.github.io/slate-releases/docs/features/docs/tree.md#docs-or-code)).
 
 ## Files
 
 A tree like an editor's explorer.
 
 - One-folder project: one row (name and branch) with files under it. With one project picked the row goes: files start at the top under a bar with the branch and the row's buttons.
-- Two or more git worktrees: a group headed like **slate · 2 worktrees**, a row per worktree named by branch (hover for folder). The first project starts open, worktrees shut; all stays as left, with one project open at a time ([The doc tree](https://liozelmalem-star.github.io/slate-releases/docs/features/docs/tree.md#a-projects-docs-by-type)).
+- Two or more git worktrees: a group headed like **slate · 2 worktrees**, a row per worktree named by branch (hover for folder). The first project starts open, worktrees shut; all stays as left, with one project and one worktree open at a time: opening a worktree closes the one that was open ([The doc tree](https://liozelmalem-star.github.io/slate-releases/docs/features/docs/tree.md#a-projects-docs-by-type)).
 - Files changed since the last commit show **M**, **A** or **D**, with a dot on their folders. Find a file by name with ⌘K.
 - Hover a checkout's row: **New file**, **New folder**, **Refresh**, **Collapse all**.
 - Right-click a file, folder or the space below: **New file**, **New folder**, **Open terminal here**, **Start session here**, **Copy path**, **Reveal in Finder**, **Rename**, **Move to Trash**. Names are typed in place. These wait while an agent works in that project.
@@ -2795,7 +2802,7 @@ A tree like an editor's explorer.
 
 ## Changes
 
-One section per checkout with files waiting to be committed, named by project and branch (branch named once). Source control as VS Code lays it out: one-line message, full-width **Commit** with **Commit & Push** in its ▾, files waiting (each committed unless unticked), same as a session's Changes ([Sessions](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/review.md#source-control)). The icon counts all waiting files. A worktree removed in a terminal leaves the list within about half a minute, or at once on returning to the window.
+One source-control panel per checkout with files waiting to be committed, all at one level. Each is named by where it is, `group / project / worktree` (the group and the worktree when there is one), then the branch it commits on, named once. Source control as VS Code lays it out: one-line message, full-width **Commit** with **Commit & Push** in its ▾, files waiting (each committed unless unticked), same as a session's Changes ([Sessions](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/review.md#source-control)). The icon counts all waiting files. A worktree removed in a terminal leaves the list within about half a minute, or at once on returning to the window.
 
 ## A file in a tab
 
@@ -2815,22 +2822,20 @@ Source: https://liozelmalem-star.github.io/slate-releases/docs/features/docs/typ
 
 ## Doc types
 
-A new doc is a plain **Doc**, and every new doc starts empty, whatever its type: you write it, or ask your agent to. A doc's type is set when it is made and never changes after: for a different type, make another doc. The label under the title shows the type with its icon; it is not a control. A person writes seven types: Doc, Plan, Design, Meeting, Review, Test, Bug. You choose one when you make the doc:
+A plain doc is a **Note**, and every new doc starts empty, whatever its type: you write it, or ask your agent to. A doc's type is set when it is made and never changes after: for a different type, make another doc. The tree's folder and the breadcrumb name the type; the open doc does not repeat it. A person writes five: Plan, Design, Review, Bug and Note. A Note is the plain doc, filed with the notes agents write. A test pass is a Review: one check item per case. A project holds any number of docs of each type, on any branch. You choose one when you make the doc:
 
 - the **+** on a type folder in Projects → Docs (Plans, Reviews…) makes an empty doc of that type in that project;
-- ⌘N makes a plain Doc, and ⌘K has **New Plan**, **New Review** and the rest;
+- ⌘N makes a Note, and ⌘K has **New Plan**, **New Review** and the rest;
 - **Write with AI** picks the type from what you ask for, and an agent names it in `create_doc`'s `doc_type`.
 
 The new doc opens with the caret in its title, and the tree shows it in its folder. Group, project and branch are made by Slate from folders and sessions. The `DocType` enum is in `@slate/schema` (`doc-type/types.ts`):
 
 | DocType | Purpose |
 | --- | --- |
-| `general` | Plain knowledge doc |
+| `note` | A note: the plain doc, shown in the Notes folder. Sessions and decisions are notes too, told apart by `properties.kind` |
 | `design` | Design doc |
 | `plan` | Implementation or work plan |
-| `review` | Review write-up |
-| `meeting` | Meeting notes |
-| `test-plan` | Test plan |
+| `review` | A review or a test pass: a verdict and one check item per finding or case |
 | `bug-report` | Bug report |
 | `group` | Set of projects you made and named; no folder of its own |
 | `project` | One folder, usually a git repository, in a group or alone |
@@ -2843,14 +2848,13 @@ Some types show one quiet line under the title that says where the doc stands. N
 | Type | The line | Set by |
 | --- | --- | --- |
 | Plan | **Steps done: 7 of 12**, counted from its checklist; ticking a step moves it at once | the checklist |
-| Test Plan | **3 pass · 2 open**: a ticked case passed, the rest are open | the checklist |
 | Bug Report | Severity **S1**, **S2** or **S3** (the words GitHub Issues use) and state **Open** or **Closed** | you, or an agent |
 | Design | **Decision:** one line | you, or an agent |
-| Review | Verdict **Approved** or **Changes needed** | you, or an agent |
+| Review | Verdict **Approved** or **Changes needed**, then **3 pass · 2 open** when it has check items: a ticked item passed, the rest are open | you or an agent; the counts from the checklist |
 
-Doc and Meeting have no line. A plan or a test with no checklist shows none. On a doc you can write, an unset field shows its name (**Severity**, **State**) to click; someone reading a teammate's doc sees only the fields that are set.
+A note has no line. A plan with no checklist shows none, and a review with no checklist shows only its verdict. On a doc you can write, an unset field shows its name (**Severity**, **State**) to click; someone reading a teammate's doc sees only the fields that are set.
 
-An agent sets the same fields through MCP: `create_doc` and `append_to_doc` take `severity`, `state`, `decision` and `verdict`. `append_to_doc` accepts a field with no Markdown, so it can close a bug without touching its text. The shape each type expects (a plan's phases with `- [ ]` steps, a bug's steps and evidence) is in `create_doc`'s description, so the agent writes it; Slate never puts it into your doc.
+An agent sets the same fields through MCP: `create_doc` and `append_to_doc` take `severity`, `state`, `decision` and `verdict`. A repeat `create_doc` with the same type, branch and title updates that doc; another title makes another doc. The names before 2026-11-15 still work: `general` and `meeting` make a note, `test-plan` a review. `append_to_doc` accepts a field with no Markdown, so it can close a bug without touching its text. The shape each type expects (a plan's phases with `- [ ]` steps, a bug's steps and evidence) is in `create_doc`'s description, so the agent writes it; Slate never puts it into your doc.
 
 ## The hierarchy
 
@@ -2861,7 +2865,7 @@ group
 └── project
     └── branch
         └── knowledge docs
-            (plan | design | test-plan | bug-report | review | meeting | general)
+            (plan | design | review | bug-report | note)
 ```
 
 A project may stand at top level with no group. Knowledge docs may sit directly under a `group` or `project`. `ALLOWED_DOC_CHILDREN` says what nests under what; for groups, projects and branches it is enforced on move (a `project` dropped in a `branch` is refused). A knowledge doc in an unusual place shows a tree warning.
@@ -2908,7 +2912,7 @@ recall  →  work the task  →  log_mission_progress(summary, goal, open_items,
 
 ## Slate offers the doc at each milestone
 
-At a milestone (plan, review, test plan, bug report, design) Slate has your agent ask in chat whether to keep it as a doc. It tells the tool to use its own click-to-answer question tool, so where that tool shows choices you click one; the wording is the tool's.
+At a milestone (plan, review or test pass, bug report, design) Slate has your agent ask in chat whether to keep it as a doc. It tells the tool to use its own click-to-answer question tool, so where that tool shows choices you click one; the wording is the tool's.
 
 | Tool | Asks with | Reminded when you ask for a milestone | Sent back to ask if a plan was never offered |
 | --- | --- | --- | --- |
@@ -2918,7 +2922,7 @@ At a milestone (plan, review, test plan, bug report, design) Slate has your agen
 | OpenCode | `question` | yes | yes; its end-of-turn event cannot reply, so Slate's plugin sends the ask as a new prompt when the turn goes idle |
 | Cursor | `AskQuestion` | sent from Cursor's prompt event, which does not run in print mode (`cursor-agent -p`) | yes in the interactive app; its stop event does not run in print mode |
 
-Choose save and the tool saves the doc in the project, labelled with the branch; choose not and nothing is saved. If the branch already has that doc, the choice is to add to it, keeping what is there. Every tool also carries a standing instruction to ask before saving a plan, review, test plan, bug report or design.
+Choose save and the tool saves the doc in the project, labelled with the branch; choose not and nothing is saved. If the branch already has a doc of that type, the choice is to add to it, keeping what is there. Every tool also carries a standing instruction to ask before saving a plan, review, bug report or design. A test plan is saved as a Review.
 
 **A plan from plan mode is kept** as the branch's Plan doc, in the project, labelled with the branch. A later plan on the same branch replaces the one Slate made. A Plan doc you wrote is never changed.
 
@@ -3073,7 +3077,7 @@ Source: https://liozelmalem-star.github.io/slate-releases/docs/features/loop/rec
 
 **Look back**: days of sessions read, 1 to 365, starting at 7.
 
-**Write decisions back to memory**: the report may end with a `memories` block, saved as memory (at most five per run) and removed from the report you read. The same switch lets a `memory-proposals` block propose merges and retirements of the memories shown, by ref; each waits in Memory under **Needs review** until accepted. Only an automation scoped to a group or project can file one.
+**Write decisions back to memory**: the report may end with a `memories` block, saved as memory (at most five per run) and removed from the report you read. The same switch lets a `memory-proposals` block merge and retire the memories shown, by ref; each applies at once and shows in Memory under **Tidied this week**, with an Undo. Only an automation scoped to a group or project can file one.
 
 It can also search the workspace and your connected tools; what it may change follows the automation's rules ([What it may do](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md#what-it-may-do)).
 
@@ -4102,7 +4106,7 @@ Per workspace: open tabs, favourites, recents, expanded sections, automations (t
 ## Using it
 
 - **Sign in**: **Settings → Account**, GitHub. **Make, share, rename, recolour, leave, remove**: **Settings → Workspaces** (a private one renames at once; inviting needs it shared; Personal keeps its name; a workspace you belong to but have not set up here shows **Add here**). **Switch**: the switcher, whose last row **Manage workspaces…** opens Settings → Workspaces.
-- **Move a doc in**: right-click or ⋯, **Move to <workspace>** ([sharing](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces/sharing.md)). Others' docs sit in your tree with their avatar, read-only.
+- **Bring a project in**: open its folder in the workspace, as you would anywhere ([sharing](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces/sharing.md)). Nothing moves between workspaces: a doc, project or memory stays in the workspace it was made in. Others' docs sit in your tree with their avatar, read-only.
 - **Ask your AI**: [`recall` with `scope: "workspaces"` and `get_doc`](../mcp-server/tools.md#workspaces) search and read every workspace you belong to, including ones not set up here; `recall` without that scope stays in the working directory's workspace.
 
 ## How a shared workspace stays in step
@@ -4158,18 +4162,9 @@ A doc you create there is shared at once, as is a decision your AI records, and 
 
 ## Getting existing work in
 
-Groups and projects are moved, not copied. Right-click in the sidebar or use ⋯ in the header, **Move to <workspace>**; Slate first says how many docs move and who can read them. Moving out works the same.
+Nothing moves between workspaces: a doc, project or memory stays in the workspace it was made in, so private work never lands in a shared store by a menu click. To work on a project in a shared workspace, switch into it and open the project's folder there; its sessions, docs and memories from then on belong to that workspace. Docs written earlier in another workspace stay there.
 
-- **Whole subtree**: a group takes its projects; a project takes its branches and their plans and designs.
-- **Ids kept**: a published doc keeps its cloud rows.
-- **Properties come**: the folder path routes the git repository to the workspace.
-- **Memory comes**: memories anchored to the moved docs. A move refuses to carry one anchored to no doc.
-- **Lands at top level**; its old parent stays behind.
-- **Refuses what is not yours**: a subtree with anyone else's docs, memory or activity, or a move where either workspace is read-only for you. Nothing is copied or removed.
-
-Order is read, write, remove. No transaction spans two SQLite files, so a failure between write and remove leaves the docs in both workspaces; re-run.
-
-**One folder, one workspace.** A folder decides where the work done in it goes, so it belongs to one workspace on your Mac. Adding a folder that another workspace already holds is refused, and the message names that workspace: move the project instead. If two workspaces still both have a project on the same folder, the one holding it keeps it, and Personal always wins, so the work stays private.
+**One folder, one workspace.** A folder decides where the work done in it goes, so it belongs to one workspace on your Mac. Adding a folder that another workspace already holds is refused, and the message names that workspace: open it there, or move its project to Trash there first. If two workspaces still both have a project on the same folder, the one holding it keeps it, and Personal always wins, so the work stays private.
 
 ## Read-only, and why there is no merge
 
@@ -4484,7 +4479,7 @@ Agents reach it over streamable HTTP on the running app, `http://127.0.0.1:47366
 Every connected model gets a standing instruction (within Claude Code's 2,048-character limit); tool descriptions hold the detail.
 
 * **Start.** If no brief opened the session and no direct tool answers, call `recall({ query: "current branch goal and context", cwd })` for decisions, conventions, memories and the branch brief.
-* **During.** `remember` with `kind: "decision"` keeps a decision, its reason and what it turned down. At a milestone the agent asks whether to save a plan, review, test plan, bug report or design, and calls `create_doc` only after a yes. It lists the refs of memories that shaped its work in `used`, never in its reply. If a memory's `citation` says `changed`, it reads the code first, and calls `remember` with `replaces` if the memory is wrong.
+* **During.** `remember` with `kind: "decision"` keeps a decision, its reason and what it turned down. At a milestone the agent asks whether to save a plan, review, bug report or design, and calls `create_doc` only after a yes. It lists the refs of memories that shaped its work in `used`, never in its reply. If a memory's `citation` says `changed`, it reads the code first, and calls `remember` with `replaces` if the memory is wrong.
 * **End.** The agent must call `log_mission_progress` once before its final reply, and saves at most two memories, only what will change how a future agent acts.
 
 How the two verbs rank, stay silent and dedupe is in [Recall & Remember](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/recall-remember.md).
@@ -4673,7 +4668,7 @@ Find docs with `recall` and `kind: "docs"`. Plain docs, rename, move and trash a
 | `recall` | The one search. When the query is about the branch (names it, or asks what is open or in progress) the first result is the branch brief, with the `target_doc_id` writes file under. Then memories (BM25 over sentence, tags, citation, reason, plus small recency and confidence lifts), then docs whose text matches (not title-only matches or captured session docs). A memory under 0.7 of the best memory's score is left out. Each memory is a line with `ref` (`m:7f3a2b1c`) and citation, marked `weak` for a thin match and `citation: changed` or `gone` when its code moved. Default 8 results, max 25, at most half memories. `scope: "all"` searches every project. `scope: "workspaces"` searches what others shared across your workspaces instead (see below). `also`: up to 3 other phrasings, merged by rank. Then up to 2 artifacts matching every word (`artifact_id`, title, snippet, `link`). `kind: "docs"`: docs only, up to 20 hits with snippets. `as_of` (`2026-08-01`): memories only, as believed at the end of that day, later-replaced ones marked `until`. |
 | `get_memory` | Read memories in full by `refs` (max 20): claim, reason, `citation` (`same`, `changed`, `gone`, `unchecked`), `evidence` (tools that confirmed it), `history` (what it replaced and was replaced by). Unknown refs return under `unknown`. |
 | `list_memories` | For a tidy the person agreed to: the project's memories, oldest first, max 100 per call from `offset`, each with ref, kind, text, whether resting. Memories hidden from sessions are left out. |
-| `propose_memory_change` | Propose a `merge` (2–50 `refs` into one `text`), a `retire`, a `lesson` (`refs` into one lesson `text` with its `when`), or a `skill` (a lesson as a skill file in the project folder; Slate offers these itself). Nothing changes until the person accepts it in Memory → Needs review, or in the [Review view](#views-in-apps-that-draw-them) of an app that draws views. `proposal_refused`: ref outside the project (unplaced refs under `unknown`), merge or lesson with no text, lesson with no `when`, or text the save rules refuse. |
+| `propose_memory_change` | Propose a `merge` (2–50 `refs` into one `text`), a `retire`, a `lesson` (`refs` into one lesson `text` with its `when`), or a `skill` (a lesson as a skill file in the project folder; Slate offers these itself). A merge, retire or lesson applies at once; the person can undo it in Memory for 7 days. One the save rules refuse, and a `skill`, waits for the person: in Memory → Needs review (a skill in Toolkit), or in the [Review view](#views-in-apps-that-draw-them) of an app that draws views. `proposal_refused`: ref outside the project (unplaced refs under `unknown`), merge or lesson with no text, lesson with no `when`, or text the save rules refuse. |
 | `log_mission_progress` | Report a session's work on its branch: `cwd`, `summary`, optional `branch` (if the work was on another git branch), `goal`, `open_items`, `decisions`. The summary becomes a session entry, goal and open items feed the branch's next brief, each decision becomes a memory, all labelled with the branch. Each item passes the memory policy and admission rules; refusals come back in `refused`. Makes no doc. |
 
 ## Workspaces
@@ -5554,9 +5549,9 @@ Slate is a native macOS app: Tauri 2, a Rust host and a React 19 webview. Linux 
 | Platform | Can you download it? | Status |
 | --- | --- | --- |
 | macOS, Apple Silicon | **Yes** — the `curl` installer | Primary platform, smoke-tested |
-| macOS, Intel | **Yes**, since 0.1.49 | Its own app, built on the release Mac for Intel. Before each release it boots, and its sidecar builds an app, through Rosetta |
-| Linux (x86_64, `.deb`) | **Yes**, from 0.1.58: `Slate_<version>_amd64.deb` in the release's files | Each release builds the `.deb` on Ubuntu 22.04, installs it and boots it, and attaches it only when all three pass. Not used day to day yet |
-| Windows | **Yes**, from 0.1.58: `Slate_<version>_x64-setup.exe` in the release's files | Each release builds it, boots it and runs the tests on a GitHub Windows runner, and attaches an NSIS installer only when that passes. The installer is not signed with a Windows certificate, so SmartScreen warns on first install |
+| macOS, Intel | **Yes** — the `curl` installer | Its own app, built on the release Mac for Intel. Before each release it boots, and its sidecar builds an app, through Rosetta |
+| Linux (x86_64, `.deb`) | Not in the latest release (0.1.71) | A release attaches it only when it builds, installs and boots on Ubuntu 22.04 |
+| Windows 10/11 | Not in the latest release (0.1.71) | Being ported; a release attaches the installer only when its Windows build passes |
 
 Slate needs **macOS 13.5 (Ventura) or later** (bundled server: Node 24). `LSMinimumSystemVersion` in `Info.plist` makes an older Mac refuse to open the app rather than show a window with no server.
 

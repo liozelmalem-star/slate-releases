@@ -6,18 +6,9 @@ A doc you create there is shared at once, as is a decision your AI records, and 
 
 ## Getting existing work in
 
-Groups and projects are moved, not copied. Right-click in the sidebar or use ⋯ in the header, **Move to <workspace>**; Slate first says how many docs move and who can read them. Moving out works the same.
+Nothing moves between workspaces: a doc, project or memory stays in the workspace it was made in, so private work never lands in a shared store by a menu click. To work on a project in a shared workspace, switch into it and open the project's folder there; its sessions, docs and memories from then on belong to that workspace. Docs written earlier in another workspace stay there.
 
-- **Whole subtree**: a group takes its projects; a project takes its branches and their plans and designs.
-- **Ids kept**: a published doc keeps its cloud rows.
-- **Properties come**: the folder path routes the git repository to the workspace.
-- **Memory comes**: memories anchored to the moved docs. A move refuses to carry one anchored to no doc.
-- **Lands at top level**; its old parent stays behind.
-- **Refuses what is not yours**: a subtree with anyone else's docs, memory or activity, or a move where either workspace is read-only for you. Nothing is copied or removed.
-
-Order is read, write, remove. No transaction spans two SQLite files, so a failure between write and remove leaves the docs in both workspaces; re-run.
-
-**One folder, one workspace.** A folder decides where the work done in it goes, so it belongs to one workspace on your Mac. Adding a folder that another workspace already holds is refused, and the message names that workspace: move the project instead. If two workspaces still both have a project on the same folder, the one holding it keeps it, and Personal always wins, so the work stays private.
+**One folder, one workspace.** A folder decides where the work done in it goes, so it belongs to one workspace on your Mac. Adding a folder that another workspace already holds is refused, and the message names that workspace: open it there, or move its project to Trash there first. If two workspaces still both have a project on the same folder, the one holding it keeps it, and Personal always wins, so the work stays private.
 
 ## Read-only, and why there is no merge
 

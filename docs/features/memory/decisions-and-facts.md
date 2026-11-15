@@ -85,7 +85,7 @@ A citation whose project folder is not on this machine, or that is not a file pa
 
 * **Needs review.** A claim contradicting a firmer memory waits here, never overwriting it: **Keep existing**, **Replace it** or **Keep both**.
 * **Retire session.** Retires everything a session wrote but what you pinned or protected, after showing each; the **Retired** row lists them for 30 days.
-* **Tidy proposals.** [Tidy](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/tidy-and-measure.md#tidying-a-projects-memory) merges and retirements wait under **Needs review** with what they change and why. The **to review** row says what waits and who proposed it. **Accept all**, with **Undo**. The rail's Memory icon counts them.
+* **Tidied this week.** [Tidy](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/tidy-and-measure.md#tidying-a-projects-memory) merges, retirements and lessons apply by themselves. One quiet line says what they changed in the last 7 days, with **Undo**. Only what Slate may not decide alone waits under **Needs review**: AI memory care's disagreements, a lesson from what you declined, and a tidy change the save rules refused.
 * **Pin.** Puts the memory atop its project's index for every session.
 * **Hide from sessions.** The memory stays stored and listed but is not given out: not to a session, a teammate (one already shared is withdrawn), AI memory care, an @-mention or an app.
   * Words copied into docs when it was saved (Preferences, a branch doc, a note, a decision doc) stay as you wrote them for you; wherever a doc leaves your hands (agent, app, teammate) they become `[held memory]`.
