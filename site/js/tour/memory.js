@@ -1,5 +1,5 @@
-// Memory — what every connected agent saved, on one map, and the review queue for what
-// they proposed to change. Screens: memory-m, memory-card, memory-country,
+// Memory — what every connected agent saved, on one map, what a tidy changed this week,
+// and the disagreements that wait for a choice. Screens: memory-m, memory-card, memory-country,
 // memory-decisions, memory-search (captured from the seeded demo workspace).
 export const memory = {
   id: "memory",
@@ -44,24 +44,17 @@ export const memory = {
     },
     {
       screen: "memory-m",
-      spot: { text: "2 to review" },
-      title: "Nothing changes behind your back",
-      body: "<p>agents can propose to tidy memory — merge two that say the same thing, retire one that is wrong — but nothing changes until you accept it. What waits for you is counted here: <strong>2 to review</strong>.</p>",
-      try: "Click <strong>2 to review</strong>.",
-      click: true,
+      spot: { text: "Tidied this week", up: 1 },
+      title: "Memory tidies itself",
+      body: "<p>Agents tidy memory as they go: they merge two memories that say the same thing and retire one that is wrong. The change applies at once.</p><p><strong>Tidied this week</strong> says what changed in the last 7 days, here <strong>1 merge</strong>. <strong>Undo</strong> puts it all back.</p>",
     },
     {
-      screen: "memory-review",
-      spot: { text: "Merge these 2 into one?", up: 1 },
-      title: "A merge, proposed by Claude Code",
-      body: "<p>Claude Code found two memories that say the same thing: <strong>Use pnpm in Atlas, not npm</strong> and <strong>atlas installs with pnpm</strong>. Under <strong>Into one</strong> is the one memory that would replace them. The line below it says why.</p>",
-      try: "Click <strong>Merge</strong> to accept it.",
-      click: { text: "Merge", exact: true },
-      after: (root, find) => {
-        const b = find({ text: "Merge", exact: true });
-        const card = b?.closest("div")?.parentElement;
-        if (card) card.style.opacity = ".35";
-      },
+      screen: "memory-m",
+      spot: { text: "1 to review" },
+      title: "Only a disagreement waits for you",
+      body: "<p>One thing needs your choice: a claim that disagrees with a memory Slate already holds. Those are counted here, <strong>1 to review</strong>.</p>",
+      try: "Click <strong>1 to review</strong>.",
+      click: true,
     },
     {
       screen: "memory-review",
@@ -71,7 +64,7 @@ export const memory = {
     },
     {
       screen: "memory-country",
-      spot: { text: "Migrations are additive only", up: 2 },
+      spot: { text: "Click a memory to open it", up: 1 },
       title: "Inside one project",
       body: "<p>Click an island and the map goes into that project: its folders, with each memory on the one it cites. The side panel lists only that project's memories, by kind.</p><p>Wrong? Open the memory, click <strong>Edit</strong> and fix it; the next session reads the correction. <strong>Esc</strong> goes back out.</p>",
     },

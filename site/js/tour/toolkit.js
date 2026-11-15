@@ -5,12 +5,12 @@ export const toolkit = {
   place: "Toolkit",
   icon: '<path d="M10 22V7a1 1 0 0 0-1-1H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5a1 1 0 0 0-1-1H2"/><rect x="14" y="2" width="8" height="8" rx="1"/>',
   links: [
-    { match: { text: "write-tests", exact: true }, step: 4 },
-    { match: { text: "review-pr", exact: true }, step: 4 },
+    { match: { text: "write-tests", exact: true }, step: 5 },
+    { match: { text: "review-pr", exact: true }, step: 5 },
   ],
   steps: [
     {
-      screen: "toolkit",
+      screen: "toolkit-home",
       spot: { css: "main" },
       spotOpts: { dim: false, pad: -4 },
       title: "One setup for every agent",
@@ -19,12 +19,22 @@ export const toolkit = {
         "<p><strong>Toolkit</strong> keeps one copy and publishes it to all of them. You write it once, in the project's <code>.slate/</code> folder and its <code>AGENTS.md</code>, and Slate writes each tool's version for you.</p>",
     },
     {
+      screen: "toolkit-home",
+      spot: { css: 'section[aria-label="Overview"]' },
+      spotOpts: { pad: 6 },
+      click: { css: 'button[aria-label="atlas"]' },
+      title: "Every project at a glance",
+      body:
+        "<p>Toolkit opens on <strong>All projects</strong>: one card for <strong>User</strong> and one for each project. A card counts what its agents read, by kind. Here <strong>atlas</strong> has 4 skills, a rule, its instructions and an MCP server.</p>" +
+        "<p><strong>User</strong> is your home folder, <code>~</code>. What your agents keep there is loaded in every project. When an agent suggests a change, an amber count sits on the card's corner.</p>",
+      try: "Open <strong>atlas</strong>.",
+    },
+    {
       screen: "toolkit-picker",
-      spot: { text: "Your agents", up: 2 },
+      spot: { text: "All projects", exact: true, up: 2 },
       title: "Pick a project",
       body:
-        "<p>Toolkit always shows one project. The picker lists every project with a folder, grouped the way your sidebar groups them. Here <strong>atlas</strong> has 4 skills, <strong>acme-api</strong> 3 and <strong>blog</strong> 2.</p>" +
-        "<p><strong>Your agents</strong> comes first: the skills and setup each tool keeps in your home folder, for every project.</p>",
+        "<p>The picker at the top of the side panel lists the same places: <strong>All projects</strong> first, then <strong>User</strong>, then every project with a folder, grouped the way your sidebar groups them.</p>",
     },
     {
       screen: "toolkit",

@@ -14,13 +14,13 @@ export const projects = {
       spot: { css: "main" },
       spotOpts: { pad: 0 },
       title: "Your work, as docs",
-      body: "<p><strong>Projects</strong> holds everything you and your agents write about your work: plans, designs, bug reports and meeting notes. It is one tree of docs, stored in a single file on your machine.</p><p>The tree is on the left. Pick a doc and it opens here, in a tab.</p>",
+      body: "<p><strong>Projects</strong> holds everything you and your agents write about your work: plans, designs, reviews, bug reports and notes. It is one tree of docs, stored in a single file on your machine.</p><p>The tree is on the left. Pick a doc and it opens here, in a tab.</p>",
     },
     {
       screen: "projects",
       spot: { css: "aside" },
       title: "Groups, projects and type folders",
-      body: "<p>A <strong>project</strong> is a folder you open, usually a git repository: <strong>atlas</strong>. A <strong>group</strong> collects related projects: <strong>Acme</strong>. Both are folders in the tree, and their actions are in the folder's <strong>⋯</strong> menu. One project stays open at a time.</p><p>Inside a project, docs sit in a folder per type: <strong>Plans</strong>, <strong>Designs</strong>, <strong>Meetings</strong>, <strong>Reviews</strong>, <strong>Tests</strong>, <strong>Bugs</strong>, <strong>Notes</strong> and <strong>General</strong>.</p><p><strong>Docs</strong> | <strong>Code</strong>, above the tree, switches the side panel between these docs and the project's own files.</p>",
+      body: "<p>A <strong>project</strong> is a folder you open, usually a git repository: <strong>atlas</strong>. A <strong>group</strong> collects related projects: <strong>Acme</strong>. Both are folders in the tree, and their actions are in the folder's <strong>⋯</strong> menu. One project stays open at a time.</p><p>Inside a project, docs sit in a folder per type: <strong>Plans</strong>, <strong>Designs</strong>, <strong>Reviews</strong>, <strong>Bugs</strong> and <strong>Notes</strong>.</p><p><strong>Docs</strong> | <strong>Code</strong>, above the tree, switches the side panel between these docs and the project's own files.</p>",
     },
     {
       screen: "projects",
@@ -46,7 +46,7 @@ export const projects = {
       screen: "projects-plan",
       spot: { text: "Steps done: 4 of 8", up: 1 },
       title: "Every doc has a type",
-      body: "<p>Under the title is the doc's type, here <strong>Plan</strong>, and one line of what that type tracks: a plan's steps done, a bug's severity and state, a review's verdict.</p><p>A type tells your agents what the doc is for. It is set when the doc is made and stays; for a different type, make another doc.</p>",
+      body: "<p>A doc's type is the folder it sits in, here <strong>Plans</strong>. Under the title is one line of what that type tracks: a plan's steps done, a bug's severity and state, a review's verdict.</p><p>A type tells your agents what the doc is for. It is set when the doc is made and stays; for a different type, make another doc.</p>",
     },
     {
       screen: "projects-type",
