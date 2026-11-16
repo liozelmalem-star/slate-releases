@@ -4,6 +4,7 @@ Every agent you use shares Slate's memory. It is stored as docs you can read.
 
 - **Slate is an MCP server.** A tool that speaks MCP (Claude Code, Codex, Cursor, GitHub Copilot, Antigravity, OpenCode, Gemini, Cline, Grok Build, Kiro, Qwen Code, Droid, Hermes Agent, Goose, Kilo Code, Auggie) starts a session with the project's memory index, searches with `recall` and saves with `remember`. One workspace, many tools.
 - **A watcher fills it in.** It reads the conversation files your agents already write and stores each session as a doc. It also reads the memory folders Claude Code, Gemini CLI and Codex keep for themselves, for the folders you added as projects.
+- **Bring in what other tools remember.** **Import** (the down arrow in Memory's header) reads claude-mem, agentmemory, mem0, Basic Memory, Cline Memory Bank, Codex, Gemini CLI and Claude Code, and shows what it would add first. A memory from a folder that is not a project in this workspace is left out ([Import](https://liozelmalem-star.github.io/slate-releases/docs/features/import.md)).
 - **Memory is your docs.** Sessions, decisions and other memories live in the same local SQLite workspace as everything else. Fix a wrong doc and the next `recall` reads the correction.
 
 ## In this section

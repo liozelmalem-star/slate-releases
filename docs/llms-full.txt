@@ -988,6 +988,7 @@ Every agent you use shares Slate's memory. It is stored as docs you can read.
 
 - **Slate is an MCP server.** A tool that speaks MCP (Claude Code, Codex, Cursor, GitHub Copilot, Antigravity, OpenCode, Gemini, Cline, Grok Build, Kiro, Qwen Code, Droid, Hermes Agent, Goose, Kilo Code, Auggie) starts a session with the project's memory index, searches with `recall` and saves with `remember`. One workspace, many tools.
 - **A watcher fills it in.** It reads the conversation files your agents already write and stores each session as a doc. It also reads the memory folders Claude Code, Gemini CLI and Codex keep for themselves, for the folders you added as projects.
+- **Bring in what other tools remember.** **Import** (the down arrow in Memory's header) reads claude-mem, agentmemory, mem0, Basic Memory, Cline Memory Bank, Codex, Gemini CLI and Claude Code, and shows what it would add first. A memory from a folder that is not a project in this workspace is left out ([Import](https://liozelmalem-star.github.io/slate-releases/docs/features/import.md)).
 - **Memory is your docs.** Sessions, decisions and other memories live in the same local SQLite workspace as everything else. Fix a wrong doc and the next `recall` reads the correction.
 
 ## In this section
@@ -2644,6 +2645,10 @@ Older block types stay readable. A doc that already holds a heading 4–6, a tog
 
 A **check item** is one line of a Review or a Test doc that carries a result: open (grey circle), pass (green tick), fail (red cross) or blocked (amber sign). Click the mark to step to the next result. The result is stored in the doc body with the block, so nothing else records it. A test case's steps, expected result and evidence go under the item (Tab nests them); a pasted screenshot is stored in the doc like any pasted image. In a doc you cannot edit, the mark only shows. `countCheckItems` in `@slate/shared` counts a body's items per result.
 
+**Images.** Paste or drop an image into a doc, or pick **Image** in the `/` menu. Slate saves it once, as a file named by its contents, in the workspace's own folder beside the database (`files/<workspace>/` in the app-data folder). The doc keeps only the image's address, `slate://files/…`, so a save never copies the image and the database stays small. The same image placed twice is one file. PNG, JPEG, GIF, WebP, AVIF and BMP are kept, up to 8 MB; any other file is refused with the reason. In Markdown it is an ordinary image line whose address is `slate://files/…`, so agents read and write it with `get_doc`, `create_doc` and `append_to_doc`. An agent can also place an image from a file: an image line whose address is a file in its working folder or a temp folder (`./login.png`) is stored the same way, and the doc keeps the `slate://files/…` address. A web image and an image an older doc holds inline still draw as before. In a shared workspace, images travel with the docs that name them ([Working in a Shared Workspace](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces/sharing.md#images)).
+
+**Figma designs.** A line that is only a link to a Figma file (a design, file, prototype or board) draws as a card: Figma's mark, the file's name from the link, and **Open in Figma**, which opens your browser. When the next block is an image, such as a snapshot exported from Figma, it draws inside the card, under the link. Slate never embeds Figma and never calls it, so the card works offline. The doc still holds a link line and an image line, so agents read and write it as plain Markdown. A Design's **The screen** section can hold a live mockup an agent published, a screenshot, or a Figma link with its snapshot.
+
 **Diagrams.** A code block in the `mermaid` language draws as the diagram it describes: a flowchart, a sequence, a state chart and the other kinds [Mermaid](https://mermaid.js.org) knows. Agents write one as a ```` ```mermaid ```` fence through `create_doc` or `append_to_doc`; in the editor, type ```` ```mermaid ```` and a space. The drawing uses the app's greys and follows the light or dark theme. The code button at its top right, on hover, shows the source to read or edit, and the drawing follows the edit once you stop typing. A source Mermaid cannot read stays as text, under one grey line: "This diagram did not draw. Its source is below." Mermaid loads only when a doc holds a diagram. A diagram is stored as the code block it is, so its Markdown is the fence it came from.
 
 - **@** links a doc inline; **/Link to doc** opens the same list (loose matching, recent first, arrows and Enter).
@@ -2661,6 +2666,8 @@ Click the workspace mark at the top of the rail, on any tab:
 - **Manage projects…**: the workspace's projects by group. Rename, **Show in Projects** (its folder in the tree), **Move to Trash**.
 
 ⌘K and the foot of every project picker's list offer both.
+
+**Import** (the down arrow beside the **+** in Projects' header) adds the folders your editors opened lately (VS Code, Cursor, Windsurf, JetBrains IDEs) as projects, after showing them to you ([Import](https://liozelmalem-star.github.io/slate-releases/docs/features/import.md)).
 
 In Projects, Automations, Activity, Artifacts and Memory a **project picker** under the side panel's title narrows the feature to one project. It reads **All projects** at rest; a picked project shows its name with **×** to go back. Each feature keeps its own choice and opens on **All projects** (Memory remembers yours). Home always covers every project; Toolkit keeps its own control. Sessions covers the whole computer and picks a workspace first ([Sessions](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions.md#narrowing-to-a-workspace-or-a-project)).
 
@@ -2822,7 +2829,7 @@ Source: https://liozelmalem-star.github.io/slate-releases/docs/features/docs/typ
 
 ## Doc types
 
-A plain doc is a **Note**, and every new doc starts empty, whatever its type: you write it, or ask your agent to. A doc's type is set when it is made and never changes after: for a different type, make another doc. The tree's folder and the breadcrumb name the type; the open doc does not repeat it. A person writes five: Plan, Design, Review, Bug and Note. A Note is the plain doc, filed with the notes agents write. A test pass is a Review: one check item per case. A project holds any number of docs of each type, on any branch. You choose one when you make the doc:
+A plain doc is a **Note**, and every new doc starts empty, whatever its type: you write it, or ask your agent to. A doc's type is set when it is made and never changes after: for a different type, make another doc. The tree's folder and the breadcrumb name the type; the open doc does not repeat it. A person writes five: Plan, Design, Review, Bug and Note. A Note is the plain doc, filed with the notes agents write. A test pass is a Review. A project holds any number of docs of each type, on any branch. You choose one when you make the doc:
 
 - the **+** on a type folder in Projects → Docs (Plans, Reviews…) makes an empty doc of that type in that project;
 - ⌘N makes a Note, and ⌘K has **New Plan**, **New Review** and the rest;
@@ -2833,28 +2840,27 @@ The new doc opens with the caret in its title, and the tree shows it in its fold
 | DocType | Purpose |
 | --- | --- |
 | `note` | A note: the plain doc, shown in the Notes folder. Sessions and decisions are notes too, told apart by `properties.kind` |
-| `design` | Design doc |
-| `plan` | Implementation or work plan |
-| `review` | A review or a test pass: a verdict and one check item per finding or case |
-| `bug-report` | Bug report |
+| `design` | How it will work and look, and what was decided: Need, The screen (a mockup or a flow), Approach, Options considered, Decision |
+| `plan` | What will be built, in what order, and why: Goal, Phases (what each delivers), Decisions, Risks, Out of scope |
+| `review` | What was found and decided: What was reviewed, What holds, What must change (with evidence), Decision |
+| `bug-report` | What is broken and why: What happens, Steps to reproduce, Expected and actual, Why, The fix and the test that guards it |
 | `group` | Set of projects you made and named; no folder of its own |
 | `project` | One folder, usually a git repository, in a group or alone |
 | `mission` | Legacy; work now files under its project ([`mission` docs](missions.md)) |
 
 ## The line under the title
 
-Some types show one quiet line under the title that says where the doc stands. Nothing in it needs a migration: the counts are read from the doc's checklist when drawn, and the fields live in the doc's `properties` JSON beside its branch label (`DocHeader` in `@slate/schema`, `doc-type/header.ts`).
+A doc is the product's source of truth, not a tracker, so a type's line says what the doc decided or how bad a bug is, in words. It never counts steps or results, and it has no state to manage. The fields live in the doc's `properties` JSON beside its branch label (`DocHeader` in `@slate/schema`, `doc-type/header.ts`).
 
-| Type | The line | Set by |
-| --- | --- | --- |
-| Plan | **Steps done: 7 of 12**, counted from its checklist; ticking a step moves it at once | the checklist |
-| Bug Report | Severity **S1**, **S2** or **S3** (the words GitHub Issues use) and state **Open** or **Closed** | you, or an agent |
-| Design | **Decision:** one line | you, or an agent |
-| Review | Verdict **Approved** or **Changes needed**, then **3 pass · 2 open** when it has check items: a ticked item passed, the rest are open | you or an agent; the counts from the checklist |
+| Type | The line |
+| --- | --- |
+| Design | **Decision:** one line, or **Decision: not decided yet** |
+| Bug Report | Its severity in words: **S1 · broken, no way around it**, **S2 · wrong, with a way around it** or **S3 · minor** |
+| Review | Its decision: **Approved** or **Changes needed** |
 
-A note has no line. A plan with no checklist shows none, and a review with no checklist shows only its verdict. On a doc you can write, an unset field shows its name (**Severity**, **State**) to click; someone reading a teammate's doc sees only the fields that are set.
+A plan and a note have no line. A bug or a review shows nothing until its field is written. The line is read-only: an agent writes it, and you change it the way you change anything in the doc, by asking the AI helper.
 
-An agent sets the same fields through MCP: `create_doc` and `append_to_doc` take `severity`, `state`, `decision` and `verdict`. A repeat `create_doc` with the same type, branch and title updates that doc; another title makes another doc. The names before 2026-11-15 still work: `general` and `meeting` make a note, `test-plan` a review. `append_to_doc` accepts a field with no Markdown, so it can close a bug without touching its text. The shape each type expects (a plan's phases with `- [ ]` steps, a bug's steps and evidence) is in `create_doc`'s description, so the agent writes it; Slate never puts it into your doc.
+An agent sets the fields through MCP: `create_doc` and `append_to_doc` take `severity`, `decision` and `verdict`. A repeat `create_doc` with the same type, branch and title updates that doc; another title makes another doc. The names before 2026-11-15 still work: `general` and `meeting` make a note, `test-plan` a review. `append_to_doc` accepts a field with no Markdown. The shape each type expects is in `create_doc`'s description, so the agent writes it; Slate never puts it into your doc.
 
 ## The hierarchy
 
@@ -2873,6 +2879,8 @@ A project may stand at top level with no group. Knowledge docs may sit directly 
 Memory tools work without a doc id: on `recall` or `remember` Slate resolves a **target** by walking from the current project and group. A memory belongs to the project it concerns and says which git branch it was learned on (a label, never a doc). A decision's full reasoning is a decision doc under the project, labelled with its branch; the tree counts them in a **Decisions** row.
 
 ## Filling one in
+
+These docs are the product's source of truth for everyone who builds it: design, product, R&D and UX. They hold no progress, no counts and no status. The shapes above are what agents are told to write (`create_doc`'s description); Slate never puts them into your doc. A small fix is typed in the doc; anything larger you ask the **AI helper** (the lime circle) for, and the agent rewrites the doc. A Design's screen is a published mockup placed in its text ([Artifacts → Inside a Design](https://liozelmalem-star.github.io/slate-releases/docs/features/artifacts.md#finding-one)).
 
 Slate never creates a knowledge doc without asking: at a milestone your agent asks whether to save it ([`mission` docs](missions.md#slate-offers-the-doc-at-each-milestone)). To have an agent write into a doc, use **Start session** on the doc's header or its Sessions tab. The launcher hands the CLI the doc, its lineage (group → project → branch), the branch's goal and next open item, and the project's recorded decisions ([Sessions → Starting a session from a doc](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/start.md#from-a-doc)).
 
@@ -3208,29 +3216,29 @@ A [widget](https://liozelmalem-star.github.io/slate-releases/docs/features/widge
 You ask; you never edit by hand.
 
 1. **Ask for one**: "make me a dashboard of this data as an artifact". Every connected tool is also told to show a chart, table or report this way unprompted.
-2. **Ask for a change**: "make the bars blue", in **Ask for a change** under the title or to any tool.
+2. **Ask for a change**: "make the bars blue", to the **AI helper** (the lime circle at the bottom right of an open artifact) or to any tool.
 3. **Open it**: click the `slate://artifacts` link the tool gives; it names the workspace, so Slate switches first.
 
 Details:
 
 - The tool sends the HTML with a title, or writes a file and sends its path. Files are read only from the working folder or a temp folder, never a file or folder whose name starts with a dot below your home or the working folder (`.env`, `.ssh`). A working folder that is your home folder or wider is not trusted.
-- **Ask for a change** opens a session in the artifact's project, on that project's tool. It reads the HTML with `get_artifact` and sends only the changed parts. That adds a **version**; older stay. Republishing the same HTML adds none.
-- On an older version the box says so ("This change starts from v1, not the newest (v3)") and the tool sends the whole HTML as a new version (edits apply only to the newest).
+- Beside an open artifact the AI helper's **Context** is that artifact, and it works in the project the artifact was made in. Each message tells the agent which artifact is open; it reads the HTML with `get_artifact` and sends only the changed parts. That adds a **version**; older stay. Republishing the same HTML adds none.
 
 ## The Artifacts screen
 
-- **Side panel**: **Overview**, then every artifact in the workspace, newest first, with an HTML or Markdown icon and last-change time. Artifacts belong to the workspace, so no project picker. **Filter artifacts** matches title and description.
-- **Overview**: a card per artifact, newest first, the same cards Widgets draws. An HTML picture is the HTML in a script-free frame in Slate's look and the current theme; script-drawn charts show only what the markup holds. Markdown uses the viewer's renderer. Drawn only while on screen, at most nine at a time.
+- **Side panel**: **Filter artifacts** (title and description), then **All** and each type with its count: **Pages**, **Slides** and **Designs**. A row shows only that type's cards. Artifacts belong to the workspace, so no project picker.
+- **Types**: what an artifact is, the way Claude types its artifacts. One kind is an HTML page to read (a report, a finding, a plan); **slides** a deck, one section per slide; a **design** a mockup of a screen. The tool says which when it publishes; left out, it is a page, or a design when it is made for a Design doc. A new version keeps its type.
+- **Overview**: a card per artifact of the picked type, newest first, the same cards Widgets draws, 24 at a time and 24 more as you reach the end. An HTML picture is the HTML in a script-free frame in Slate's look and the current theme; script-drawn charts show only what the markup holds. Markdown uses the viewer's renderer. Drawn only while on screen, at most nine at a time.
 - **Open artifact**: name, who made it and when, what it is.
 - **Preview | Code**: the HTML or its read-only source (HTML laid out one block per line, indented; only spacing changes). **Copy HTML** copies the HTML as published.
 - **‹ v2 of 3 ›**: steps versions. An older one says "You are looking at v2. The newest is v3." with **Restore this version** (republishes it as a new version; nothing in between is lost).
-- **Ask for a change** shows only on an artifact you published under a project folder (a teammate's has one writer; a folderless one has nowhere to start a session).
 - **⋯**: **Copy HTML** or **Copy Markdown**, **Open in browser** (HTML only), **Rename**, **Delete forever** (asks "Delete every version forever?"). A failed rename or removal keeps the menu open with the reason.
 
 ## Finding one
 
 - **⌘K**: title or description, and Markdown by text, under **ARTIFACTS** after reports. HTML code is not searched.
 - **The doc it was made on**: **Artifacts made here**. A branch shows its own; a project every one made inside it.
+- **Inside a Design**: an agent publishes a mockup with `target_doc_id` set to the Design and places it in the text as an image line whose address is `slate://artifacts?id=<artifact_id>`. The doc draws it there, live, in a script-free frame with its version, who made it and **Open**. A mockup made on a Design but not placed in its text shows under the words. `get_doc` lists a doc's artifacts, so an agent reading the Design sees them.
 - **`recall`**: returns up to 2 artifacts after memories when every word of the question matches one, so a session can find last week's dashboard and change it.
 
 ## How HTML artifacts look
@@ -3739,13 +3747,12 @@ So a range reaching back before an account's first transcript still shows sessio
 
 Source: https://liozelmalem-star.github.io/slate-releases/docs/features/connect.md
 
-**Connect** (base of the rail, beside Trash and Settings) has three tabs, **Agents**, **Integrations** and **Import**. It is **per workspace**. What Slate runs on its own is in **Automations › Built-in** ([Automations](https://liozelmalem-star.github.io/slate-releases/docs/features/automations.md)).
+**Connect** (base of the rail, beside Trash and Settings) has two tabs, **Agents** and **Integrations**. It is **per workspace**. What Slate runs on its own is in **Automations › Built-in** ([Automations](https://liozelmalem-star.github.io/slate-releases/docs/features/automations.md)).
 
 ## Contents
 
 - [Agents](#agents)
 - [Integrations](#integrations)
-- [Import](#import)
 - [What is not here](#what-is-not-here)
 
 ## Agents
@@ -3813,11 +3820,9 @@ More: [MCP servers, profiles and models](https://liozelmalem-star.github.io/slat
 
 The **Integrations** tab holds this workspace's connected apps. Press **Connect**, approve on the app's sign-in page, and what you owe there shows in Tasks. List, states and per-app notes: [Integrations](https://liozelmalem-star.github.io/slate-releases/docs/features/connect/integrations.md).
 
-## Import
-
-The **Import** tab brings in the projects your editors already know: one tile per editor, with one button for the tile picked. **Preview** lists the folders before anything is added. See [Import](https://liozelmalem-star.github.io/slate-releases/docs/features/import.md).
-
 ## What is not here
+
+Importing projects and memory from other tools is in **Projects** and **Memory**, from the **Import** button in each one's header ([Import](https://liozelmalem-star.github.io/slate-releases/docs/features/import.md)).
 
 Settings holds **Account**, **Workspaces**, **Appearance**, **Terminal**, **Keyboard** and **About**. Moving, exporting and restoring a workspace file: **Settings → Workspaces**.
 
@@ -3833,18 +3838,21 @@ Settings holds **Account**, **Workspaces**, **Appearance**, **Terminal**, **Keyb
 
 Source: https://liozelmalem-star.github.io/slate-releases/docs/features/import.md
 
-Slate can bring in the projects you already work in, so Projects does not start empty.
+Slate can bring in what you already have, so Projects and Memory do not start empty. Each brings in its own: the **Import** button (a down arrow) sits in the header of Projects and of Memory, before the **+**.
 
-Your agents' memory needs no import: Slate reads Claude Code's and Gemini CLI's own memory files on its own for every project you add, and keeps them up to date (see [Memory](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/map.md)). Importing notes, docs and past chats from other apps is not offered yet.
+- **Projects › Import** brings in the folders your editors opened, as projects.
+- **Memory › Import** brings in what other tools remember, as memories.
 
-## The Import tab
+Importing notes, docs and past chats from other apps is not offered yet.
 
-**Connect › Import** shows one tile per editor, with its logo. A tile shows one short line: what was found, or how it stands. The button under the tiles is for the tile picked. Import picks the first editor found; click another tile to pick it.
+## The Import dialog
+
+The dialog shows one tile per source, with its logo. A tile shows one short line: what was found, or how it stands. The button under the tiles is for the tile picked. The dialog picks the first source found; click another tile to pick it.
 
 | A tile says | Meaning | The button |
 |---|---|---|
-| A count, such as *4 projects* | Found on this Mac | **Preview** the editor's folders |
-| *Already in Slate* | Every folder it lists is a project already | None |
+| A count, such as *4 projects* | Found on this Mac | **Preview** what it would add |
+| *Already in Slate* | Everything it holds is in Slate already | None |
 | *Not on this Mac* | Slate can read it, and it is not here. The tile is drawn quieter | None |
 | *Soon* | Slate cannot read it yet. The tile is drawn quieter | None |
 
@@ -3864,9 +3872,29 @@ An editor's **Preview** lists the folders that editor opened, with a box to tick
 
 **Setup**'s **Project** step lists the same folders in its own folder list.
 
+## Memory from other tools
+
+| Tool | What Slate reads |
+|---|---|
+| **Claude Code** | Its memory files, one per memory. Most are in Slate already: Slate reads them on its own for every project you add ([Memory](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/map.md)) |
+| **Codex** | Its memory notes |
+| **Gemini CLI** | The memories saved in its `GEMINI.md` |
+| **claude-mem** | Its observations and session summaries, read-only |
+| **agentmemory** | An export file you pick (make one with its `memory_export` command) |
+| **Basic Memory**, **Cline Memory Bank** | Their markdown notes |
+| **mem0** | A JSON file of your memories you pick: download it from mem0's dashboard (**Memory Exports**). Its memories have no folder, so they go where the dialog says |
+
+**Where memories go.** At the top of the dialog, **Memories with no folder go to** picks a project, or this workspace's global memory. It starts on the project Memory shows.
+
+- A memory kept in a project's folder goes to that project.
+- A memory from a folder that is not a project in this workspace is **left out**. Add the project, then import again.
+- A memory with no folder goes where the dialog says.
+
+**Preview** counts each kind before anything is written: new, needs review (it says the same as a memory you have), already here, already read by Slate, and left out. Imported memories start less sure than a session's own, so a memory you wrote wins a disagreement.
+
 ## Nothing is read until you choose
 
-Slate first looks only for whether each editor is on your Mac and how many folders it lists. It reads the list only after you pick the editor, and shows it before anything is added. Slate never writes into an editor's files.
+Slate first looks only for whether each source is on your Mac and how much it holds. It reads a source only after you pick it, and shows what it would add before anything is added. Slate never writes into another tool's files.
 
 ---
 
@@ -4194,6 +4222,10 @@ A removal is a **tombstone**: a row saying "gone", and when. When a teammate's d
 ## Memory
 
 A memory (decision, `fact`, preference or state saved by `remember`) is anchored to a doc; if that doc is in a shared workspace, the memory is the workspace's. What travels: [What actually leaves your machine](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces.md#what-actually-leaves-your-machine). Superseding a decision withdraws the old one on the next pass.
+
+## Images
+
+An image in a shared doc travels beside the doc, never inside it. When your doc goes up, each image it names goes up first, once, into the workspace's private storage in Slate's cloud. A teammate's Mac fetches the images its docs name and keeps one only when its contents match its name. Until an image has arrived, its block draws no image. Only members of the workspace can read the images, and only its owner and editors can add one; nobody can change one. A workspace you have not shared never sends an image. See [Docs](https://liozelmalem-star.github.io/slate-releases/docs/features/docs.md) for how an image is stored on your Mac.
 
 ## Artifacts
 
@@ -5310,7 +5342,7 @@ Sharing does nothing until you switch a workspace to shared. This guide says wha
 
 ## What a shared workspace sends
 
-Assume everything is shared: docs, memories, git activity, a record that a session happened (branch and time), and artifacts.
+Assume everything is shared: docs, memories, git activity, a record that a session happened (branch and time), artifacts, and the images a shared doc names. An image goes to a private storage bucket that only the workspace's members can read; the doc row carries only its address.
 
 | Withheld | Detail |
 | --- | --- |
@@ -5349,6 +5381,8 @@ Every release tests the no-network claim in the built Slate app: a hostile widge
 - **Erase my work** tombstones every row you authored there (blanked, final). Members' copies drop them at the next sync, and sharing again does not bring them back. This is the Article 17 request. It needs you to be an editor or the owner: a viewer or a former member is told so, and nothing is reported as erased. If any row is still shared afterwards, Slate says how many.
 
 > **Warning:** Withdrawal removes the doc from the cloud, not from anyone's memory of it. Reversible, but not retroactive.
+
+> **Warning:** **Images stay in the workspace's storage.** Switching off, moving a doc out and **Erase my work** withdraw the doc rows, but not yet the images those docs named: they stay in the workspace's private bucket, readable only by its members. Removing them is planned (ADR 0132).
 
 ---
 
@@ -5485,6 +5519,8 @@ The file is standard SQLite at a known path, so you can back it up, move it or r
 ## What the export does not contain
 
 **Your cloud session** sits outside the database, in a `0600` file in the app-data folder that stays there when you move Personal, so an export never carries a live refresh token.
+
+**Images in docs** are files beside the database, in `files/<workspace>/` in the app-data folder; the database holds only their `slate://files/…` addresses. An export of the file does not carry the images, so copy that folder with it. They stay in the app-data folder when you move Personal.
 
 Everything else is in the file. Before you share an export, know that:
 

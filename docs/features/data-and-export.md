@@ -56,6 +56,8 @@ The file is standard SQLite at a known path, so you can back it up, move it or r
 
 **Your cloud session** sits outside the database, in a `0600` file in the app-data folder that stays there when you move Personal, so an export never carries a live refresh token.
 
+**Images in docs** are files beside the database, in `files/<workspace>/` in the app-data folder; the database holds only their `slate://files/…` addresses. An export of the file does not carry the images, so copy that folder with it. They stay in the app-data folder when you move Personal.
+
 Everything else is in the file. Before you share an export, know that:
 
 * **A shared workspace's export contains your teammates' work too.** Sync pulls their docs, memories, activity and artifacts into your copy.

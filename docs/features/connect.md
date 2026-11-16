@@ -1,12 +1,11 @@
 # Connect
 
-**Connect** (base of the rail, beside Trash and Settings) has three tabs, **Agents**, **Integrations** and **Import**. It is **per workspace**. What Slate runs on its own is in **Automations › Built-in** ([Automations](https://liozelmalem-star.github.io/slate-releases/docs/features/automations.md)).
+**Connect** (base of the rail, beside Trash and Settings) has two tabs, **Agents** and **Integrations**. It is **per workspace**. What Slate runs on its own is in **Automations › Built-in** ([Automations](https://liozelmalem-star.github.io/slate-releases/docs/features/automations.md)).
 
 ## Contents
 
 - [Agents](#agents)
 - [Integrations](#integrations)
-- [Import](#import)
 - [What is not here](#what-is-not-here)
 
 ## Agents
@@ -74,11 +73,9 @@ More: [MCP servers, profiles and models](https://liozelmalem-star.github.io/slat
 
 The **Integrations** tab holds this workspace's connected apps. Press **Connect**, approve on the app's sign-in page, and what you owe there shows in Tasks. List, states and per-app notes: [Integrations](https://liozelmalem-star.github.io/slate-releases/docs/features/connect/integrations.md).
 
-## Import
-
-The **Import** tab brings in the projects your editors already know: one tile per editor, with one button for the tile picked. **Preview** lists the folders before anything is added. See [Import](https://liozelmalem-star.github.io/slate-releases/docs/features/import.md).
-
 ## What is not here
+
+Importing projects and memory from other tools is in **Projects** and **Memory**, from the **Import** button in each one's header ([Import](https://liozelmalem-star.github.io/slate-releases/docs/features/import.md)).
 
 Settings holds **Account**, **Workspaces**, **Appearance**, **Terminal**, **Keyboard** and **About**. Moving, exporting and restoring a workspace file: **Settings → Workspaces**.
 

@@ -10,7 +10,7 @@ Sharing does nothing until you switch a workspace to shared. This guide says wha
 
 ## What a shared workspace sends
 
-Assume everything is shared: docs, memories, git activity, a record that a session happened (branch and time), and artifacts.
+Assume everything is shared: docs, memories, git activity, a record that a session happened (branch and time), artifacts, and the images a shared doc names. An image goes to a private storage bucket that only the workspace's members can read; the doc row carries only its address.
 
 | Withheld | Detail |
 | --- | --- |
@@ -49,3 +49,5 @@ Every release tests the no-network claim in the built Slate app: a hostile widge
 - **Erase my work** tombstones every row you authored there (blanked, final). Members' copies drop them at the next sync, and sharing again does not bring them back. This is the Article 17 request. It needs you to be an editor or the owner: a viewer or a former member is told so, and nothing is reported as erased. If any row is still shared afterwards, Slate says how many.
 
 > **Warning:** Withdrawal removes the doc from the cloud, not from anyone's memory of it. Reversible, but not retroactive.
+
+> **Warning:** **Images stay in the workspace's storage.** Switching off, moving a doc out and **Erase my work** withdraw the doc rows, but not yet the images those docs named: they stay in the workspace's private bucket, readable only by its members. Removing them is planned (ADR 0132).

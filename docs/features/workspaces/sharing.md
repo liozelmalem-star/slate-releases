@@ -39,6 +39,10 @@ A removal is a **tombstone**: a row saying "gone", and when. When a teammate's d
 
 A memory (decision, `fact`, preference or state saved by `remember`) is anchored to a doc; if that doc is in a shared workspace, the memory is the workspace's. What travels: [What actually leaves your machine](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces.md#what-actually-leaves-your-machine). Superseding a decision withdraws the old one on the next pass.
 
+## Images
+
+An image in a shared doc travels beside the doc, never inside it. When your doc goes up, each image it names goes up first, once, into the workspace's private storage in Slate's cloud. A teammate's Mac fetches the images its docs name and keeps one only when its contents match its name. Until an image has arrived, its block draws no image. Only members of the workspace can read the images, and only its owner and editors can add one; nobody can change one. A workspace you have not shared never sends an image. See [Docs](https://liozelmalem-star.github.io/slate-releases/docs/features/docs.md) for how an image is stored on your Mac.
+
 ## Artifacts
 
 An artifact published in a shared workspace belongs to it and every member sees it in **Artifacts**. Only you can publish a new version, rename or delete it forever; a teammate's shows who wrote it and its menu offers only Copy and Open in browser. Only the newest version travels; members keep versions they received. Removal withdraws it from everyone on the next sync.
