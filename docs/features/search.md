@@ -44,7 +44,7 @@ Press **`?`** for the shortcuts of the current context. The palette opens it too
 
 The icons down the left edge are always there; beside them is the sidebar, the list for the current section, pinned or hidden (remembered). With it hidden, resting the pointer on an icon floats that section's list over the doc without moving it; another icon changes the list; moving away, Escape or a click elsewhere slides it back. With it pinned, an icon shows only its name.
 
-Choosing a section never pins or hides the sidebar. Three things do: clicking the icon of the section you are already in, **⌘\\**, and the sidebar button at the top of the list. While a list floats, **⌘\\** and that button pin it and take you to its section.
+Choosing a section never pins or hides the sidebar. Three things do: clicking the icon of the section you are already in, **⌘B**, and the sidebar button at the top of the list. While a list floats, **⌘B** and that button pin it and take you to its section.
 
 Every icon with a list works this way, Activity's panel (project picker, range, saved views) included. Picking a conversation from the floating Home list opens it in Home. Trash has no list, so it shows only its name.
 

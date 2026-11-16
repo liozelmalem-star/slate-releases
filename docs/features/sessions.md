@@ -58,6 +58,7 @@ A signal is refused when the process is no longer the reported tool (pids are re
 - [The map and the list](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/list.md): map, rows, row menu, parking, past sessions.
 - [Start a session](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/start.md): from the list or a doc, open a folder, chat, plain shell, take over, hand back.
 - [Worktrees](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/worktrees.md): the form, ports, run preview, Pick, cleanup.
+- [Workers](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/workers.md): a session starts agent runs as its workers and waits for them; approving them; limits.
 - [Cloud sessions and phone](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/cloud.md)
 - [The terminal and the side panel](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/terminal.md): terminal, Conversation, Details, Turns, timeline.
 - [Tabs, columns and names](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/tabs.md): side by side, naming, agents that know each other.

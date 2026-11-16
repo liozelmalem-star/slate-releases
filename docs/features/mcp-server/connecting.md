@@ -84,6 +84,8 @@ Generated from the MCP tool registry and checked by `packages/mcp/test/tools/con
 | `propose_setup_change` | write | — |
 | `get_agent_run` | read | — |
 | `report_agent_run_step` | write | — |
+| `start_agent_run` | write | — |
+| `wait_for_runs` | read | — |
 | `run_automation` | write | — |
 | `my_tasks` | read | — |
 | `update_my_task` | write | — |

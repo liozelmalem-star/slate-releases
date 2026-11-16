@@ -47,7 +47,7 @@ These are the commands in Settings → Keyboard, grouped as the cheatsheet group
 | Keys | Command |
 | --- | --- |
 | ⌘F | **Find in doc** |
-| ⌘\\ | **Toggle sidebar** |
+| ⌘B | **Toggle sidebar** (in a doc, ⌘B stays bold) |
 | ⌘⇧M | **Focus mode** (the same keys leave it) |
 | ⌘⇧L | **Toggle light / dark theme** ([Themes](https://liozelmalem-star.github.io/slate-releases/docs/features/theming.md#light-and-dark-with-l)) |
 | ⌘+ and ⌘− | **Increase app size** and **Decrease app size**, 80% to 140% in ten-percent steps ([Themes](https://liozelmalem-star.github.io/slate-releases/docs/features/theming.md#size)) |
@@ -151,3 +151,5 @@ The editor uses VS Code's keys ([Editing](https://liozelmalem-star.github.io/sla
 ## Home
 
 Arrow keys turn the deck of cards on Home; left and right step back and forward.
+
+In the box on Home and in the ⌘J panel, **⇧⇥** moves the mode pill one step, as in Claude Code: **Ask first**, **Auto-edit**, **Full auto**, then Ask first again. Clicking the pill makes the same steps, but the click into Full auto asks you to click again.

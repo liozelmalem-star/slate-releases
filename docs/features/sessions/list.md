@@ -53,4 +53,4 @@ Below a rule: **New session**, **New worktree** (project row with several git re
 
 **Earlier today in \<workspace>** folds every other session from today (local day), minus Just finished and running ones; collapsed with its count. **All past sessions in \<workspace> →** opens the whole history, newest first, at `/sessions?past=1`, no time limit; each row has **Resume**.
 
-A failure (failed Run preview, refused start, failed Stop) shows under its row, or at the head of the list when the row is off screen. The rail is the left side panel: drag its edge to resize; **⌘\\** hides it when a terminal wants the full width.
+A failure (failed Run preview, refused start, failed Stop) shows under its row, or at the head of the list when the row is off screen. The rail is the left side panel: drag its edge to resize; **⌘B** hides it when a terminal wants the full width.

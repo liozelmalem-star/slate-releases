@@ -71,7 +71,7 @@ Its tab is fixed when you make it: its code reads that tab's data. To show the s
 
 ## Using and changing one
 
-A widget opens as a builder under the same header every place has. It reads **Widgets /** and the widget's name; pressing **Widgets** goes back to the Overview. Then the tabs **Preview | Files**, and on the right the chat button, **‹ v2 of 3 ›** (from two versions) and **⋯**. **⌘\\** shows or hides the Widgets list. The chat stays open on the left in every view; **Hide chat** / **Show chat** toggles it, remembered per widget.
+A widget opens as a builder under the same header every place has. It reads **Widgets /** and the widget's name; pressing **Widgets** goes back to the Overview. Then the tabs **Preview | Files**, and on the right the chat button, **‹ v2 of 3 ›** (from two versions) and **⋯**. **⌘B** shows or hides the Widgets list. The chat stays open on the left in every view; **Hide chat** / **Show chat** toggles it, remembered per widget.
 
 - **Preview**: the widget on its tab, updating as the chat works. A widget for Sessions shows in the session's side panel, with the panel's tabs along its top and **Widgets** picked. Drag it, resize it by its edges, or use the bar that shows on it, and a **Move here** band sits in every gap it can go to ([Showing one](#showing-one)). Also **Reload** and **Full size** (Esc returns). A line under it says what it can reach: "Reads Personal. No internet." **Point at it**, then click a part of the widget on the tab, to ask the chat about that part.
 - **Files**: the widget's folder as a tree and an editor. Add a file (a path like `lib/format.ts` makes its folder) or remove one. The save button counts changes ("Save 2 changes", ⌘S); **Discard** puts your edits back.

@@ -1,11 +1,12 @@
 # Import
 
-Slate can bring in what you already have, so Projects and Memory do not start empty. Each brings in its own: the **Import** button (a down arrow) sits in the header of Projects and of Memory, before the **+**.
+Slate can bring in what you already have, so Projects, Memory and Artifacts do not start empty. Each brings in its own: the **Import** button (a down arrow) sits in the header of each, before the **+**.
 
-- **Projects › Import** brings in the folders your editors opened, as projects.
+- **Projects › Import** has two tabs, like Projects itself: **Docs** brings in the docs you keep in other apps, as docs in a project; **Code** brings in the folders your editors opened, as projects. It opens on the tab Projects is showing.
 - **Memory › Import** brings in what other tools remember, as memories.
+- **Artifacts › Import** brings in HTML files and decks you made elsewhere, as artifacts.
 
-Importing notes, docs and past chats from other apps is not offered yet.
+Past chats from ChatGPT or Claude.ai are not imported: those apps keep their own memory, and Slate's comes from your coding sessions.
 
 ## The Import dialog
 
@@ -25,6 +26,27 @@ The dialog shows one tile per source, with its logo. A tile shows one short line
 | **VS Code**, **Cursor**, **Windsurf** | Each editor's list of folders you opened lately |
 | **WebStorm**, **IntelliJ IDEA**, **PyCharm**, **GoLand**, **Rider**, **CLion**, **PhpStorm**, **RubyMine**, **RustRover**, **DataGrip** | Each IDE's `recentProjects.xml`, one tile per JetBrains IDE found. With none here, one **JetBrains IDEs** tile |
 | **Zed** | Soon |
+
+## Docs from other apps
+
+On the **Docs** tab, each source asks for its folder or file, says how many docs it would make, and asks which project they go into. The files are never changed.
+
+| Source | What you pick |
+|---|---|
+| **Markdown folder** | A folder of `.md` files; its folders become folders |
+| **Obsidian** | A vault's folder |
+| **Notion** | Its export: **Settings › Export**, Markdown & CSV (a `.zip`) |
+| **Google Docs** | A Google Takeout Drive folder, or `.docx` files |
+| **Excel and CSV files** | `.xlsx` or `.csv` files; each sheet becomes a table in a doc |
+
+An export imported into a project once adds nothing the second time.
+
+## Artifacts from elsewhere
+
+| Source | How |
+|---|---|
+| **HTML files** | Pick a folder. Each `.html` file becomes an artifact: one whose body is a deck of slides (one `<section>` per slide) becomes **Slides**, any other an HTML page. Each keeps its file's date. A file already in Slate, same title and content, is left out |
+| **claude.ai** | Slate cannot reach claude.ai itself. The dialog gives a prompt to copy into your agent (Claude Code), which lists your claude.ai artifacts, reads each (a deck from its slide files), and publishes it into Slate with its real date |
 
 A project's own rules, skills and MCP servers are not imported here: open the project's [Toolkit](https://liozelmalem-star.github.io/slate-releases/docs/features/studio.md) and use its offer to bring them into `.slate/`.
 

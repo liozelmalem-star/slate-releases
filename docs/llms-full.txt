@@ -333,6 +333,7 @@ A signal is refused when the process is no longer the reported tool (pids are re
 - [The map and the list](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/list.md): map, rows, row menu, parking, past sessions.
 - [Start a session](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/start.md): from the list or a doc, open a folder, chat, plain shell, take over, hand back.
 - [Worktrees](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/worktrees.md): the form, ports, run preview, Pick, cleanup.
+- [Workers](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/workers.md): a session starts agent runs as its workers and waits for them; approving them; limits.
 - [Cloud sessions and phone](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/cloud.md)
 - [The terminal and the side panel](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/terminal.md): terminal, Conversation, Details, Turns, timeline.
 - [Tabs, columns and names](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/tabs.md): side by side, naming, agents that know each other.
@@ -400,7 +401,7 @@ Below a rule: **New session**, **New worktree** (project row with several git re
 
 **Earlier today in \<workspace>** folds every other session from today (local day), minus Just finished and running ones; collapsed with its count. **All past sessions in \<workspace> →** opens the whole history, newest first, at `/sessions?past=1`, no time limit; each row has **Resume**.
 
-A failure (failed Run preview, refused start, failed Stop) shows under its row, or at the head of the list when the row is off screen. The rail is the left side panel: drag its edge to resize; **⌘\\** hides it when a terminal wants the full width.
+A failure (failed Run preview, refused start, failed Stop) shows under its row, or at the head of the list when the row is off screen. The rail is the left side panel: drag its edge to resize; **⌘B** hides it when a terminal wants the full width.
 
 ---
 
@@ -546,6 +547,38 @@ A message at the window's bottom says what was returned, **Cleaned up · stopped
 **Removing a worktree by hand** is under the trash icon on a branch row in **New session**. It stops no processes and counts nothing. It refuses a checkout with uncommitted work unless you choose to discard it, and can remove the branch too. A dirty branch is marked before the click; a worktree whose folder is gone says **missing**, and one git did not answer for says **not read**, never clean.
 
 Reviewing and merging a finished branch: [Review the branch](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/review.md#branches-waiting-for-review).
+
+---
+
+# Workers
+
+Source: https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/workers.md
+
+A session can split its work and hand pieces to **workers**. A worker is an [agent run](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks/agent-runs.md): its own branch, its own worktree, its own rules and a terminal you can see. The session that started it is its **coordinator**. Any agent can coordinate, and any can work: a Claude Code session can start a Codex worker and a Cursor worker.
+
+Slate does not plan the work. You ask your session, in your own words ("fix these three issues, one worker each"), and it uses two tools from Slate's MCP: `start_agent_run` to start a worker, and `wait_for_runs` to wait for them ([MCP tools](https://liozelmalem-star.github.io/slate-releases/docs/features/mcp-server/tools.md)).
+
+## Where workers show
+
+- **Sessions.** Workers are drawn under their coordinator, behind a line like **3 workers · 2 working · 1 needs you**. Each is a full session row, with its terminal, status and controls. A worker is listed only there, not again under its own branch. A worker whose session has not started yet shows **Starting** and its step.
+- **Details.** The coordinator's Details panel starts with **Workers**: how many are done, one bar with a segment per worker, and one row per worker with its step. Amber marks the one that needs you.
+- **Home.** A waiting worker's card says whose worker it is and how its siblings stand.
+
+## Approving a worker
+
+A worker stops for you at the same two points as any agent run: its plan, and its ship. In the coordinator's Details, the worker that needs you opens by itself: one line of what it found, **Approve plan**, **Plan** to read its steps, and **Send back** to write a note. Click another worker's row to open it. A coordinator cannot approve for a worker, and a worker's questions and permission prompts come to you, not to its coordinator.
+
+## How a worker starts
+
+The session asks, and Slate makes the run: branch, worktree and rules. The open Slate window then opens the worker's terminal, the same way Tasks does for a run you start. If Slate is closed, the worker waits and starts when Slate opens. If its terminal cannot open, the run shows **Resume**.
+
+## Limits
+
+- **Three at a time.** A session has at most 3 open workers. A fourth is refused until one finishes.
+- **One level.** A worker cannot start workers.
+- **The open workspace.** The window opens workers of the workspace it shows.
+
+Workers cost what any session costs: a CLI, a worktree and the model's usage. Each is visible in Sessions while it runs.
 
 ---
 
@@ -1404,7 +1437,7 @@ The index went from up to 40 short lines to 12 whole ones on 2026-11-07. To comp
 
 **The quality floor.** A committed, synthetic store (161 memories, 19 docs, 44 questions, none of it yours) runs in the server tests and fails a push when recall or the session-start brief gets noisier. It measures precision@8, recall@5, MRR, how often a question nothing answers gets nothing back, the share of returned items that a rule must keep out (stale state, captured-session docs, title-only docs, another project's rows), the share of returned items and of brief lines that repeat another, the share of brief lines that are stale state, and that a fresh pinned state stays in the brief. A near-duplicate twin of the answer counts as an answer. The numbers are in `packages/server/test/operations/memory/quality/baseline.json`. Each may move one step the wrong way (one question, one returned item or one brief line) before the test fails. After a change that truly improves one, run `MEMORY_BENCH_UPDATE=1 yarn workspace @slate/server vitest run test/operations/memory/quality/quality-benchmark.test.ts`: floors only rise, ceilings only fall, and nothing is written while a check fails. Read the diff of `baseline.json` and commit it with the change. Two questions recall misses today are named as known gaps and pinned as misses. A second table test (`admission-table.test.ts`) pins which kind each kind of write is stored as, or why it is refused.
 
-`yarn memory:health` prints the live usefulness number from a read-only copy of your store: for the last 7 days (`--days N`), per channel (`brief`, `recall`, `trigger` for lessons), the memories given to sessions, how many were judged, how many a session cited, how many still wait for their session's transcript (**pending**) and how many belong to no session (**unowned**, a screen's brief: no verdict will come), and the used share (cited over judged; a row still waiting for its transcript is not counted as ignored). Under it, the 10 most-given memories no session ever cited. A `recall` the session asked is judged from its transcript, cited or not. `--days` is a whole number from 1 to 365. `--db <file>` reads another store; `--json` prints the data. The app serves the same data at `GET /memory/usefulness`.
+`yarn memory:health` prints the live usefulness number from a read-only copy of your store: for the last 7 days (`--days N`), per channel (`brief`, `recall`, `trigger` for lessons), the memories given to sessions, how many were judged, how many a session cited, how many still wait for their session's transcript (**pending**) and how many belong to no session (**unowned**, a screen's brief: no verdict will come), and the used share (cited over judged; a row still waiting for its transcript is not counted as ignored). Under it, the 10 most-given memories no session ever cited. A `recall` the session asked is judged from its transcript, cited or not. `--days` is a whole number from 1 to 365. `--db <file>` reads another store; `--json` prints the data.
 
 `yarn memory:eval` asks a fixed set of real questions through the real MCP `recall`, against a fresh copy of a store snapshot, and prints two columns: the question as typed (plain) and as the keywords an AI would search with. Rows: hit@1, hit@5, MRR, the share of returned memories that are relevant, junk answers (ones carrying a session log or a pile of old notes), questions nothing answers that still got items, and answerable questions that got nothing. Each question names the memories and project files that answer it, and the set is split into a tune half and a held-out half (`--half tune` / `--half held-out`). It quotes your work, so it lives in Slate's data folder: `memory-eval/golden.json` and the snapshot `memory-eval/store-pristine/` (`--golden`, `--store`, `--cwd` override them; `--out` keeps every reply). The plain column is the one that counts.
 
@@ -3207,7 +3240,7 @@ See also: [Privacy & Security](https://liozelmalem-star.github.io/slate-releases
 
 Source: https://liozelmalem-star.github.io/slate-releases/docs/features/artifacts.md
 
-An **artifact** is a web page an agent made for you: an HTML page, dashboard, chart, report or Markdown note. Any connected tool publishes one with the `publish_artifact` MCP tool; it is stored in your workspace on this computer and listed in **Artifacts** in the rail.
+An **artifact** is something an agent made for you to look at: an HTML page (a dashboard, chart or report) or a deck of slides. Any connected tool publishes one with the `publish_artifact` MCP tool; it is stored in your workspace on this computer and listed in **Artifacts** in the rail. Writing in Markdown belongs in a [doc](https://liozelmalem-star.github.io/slate-releases/docs/features/docs.md), not an artifact.
 
 A [widget](https://liozelmalem-star.github.io/slate-releases/docs/features/widgets.md) is different (`get_widget`, `publish_widget`); given a widget, the artifact tools refuse and name those.
 
@@ -3218,6 +3251,7 @@ You ask; you never edit by hand.
 1. **Ask for one**: "make me a dashboard of this data as an artifact". Every connected tool is also told to show a chart, table or report this way unprompted.
 2. **Ask for a change**: "make the bars blue", to the **AI helper** (the lime circle at the bottom right of an open artifact) or to any tool.
 3. **Open it**: click the `slate://artifacts` link the tool gives; it names the workspace, so Slate switches first.
+4. **Bring in what you made elsewhere**: **Import** in the side panel's header takes a folder of HTML files, or gives your agent a prompt that brings your claude.ai artifacts in with their real dates ([Import](https://liozelmalem-star.github.io/slate-releases/docs/features/import.md)). A tool can pass `made_at` to `publish_artifact` for the same.
 
 Details:
 
@@ -3226,17 +3260,19 @@ Details:
 
 ## The Artifacts screen
 
-- **Side panel**: **Filter artifacts** (title and description), then **All** and each type with its count: **Pages**, **Slides** and **Designs**. A row shows only that type's cards. Artifacts belong to the workspace, so no project picker.
-- **Types**: what an artifact is, the way Claude types its artifacts. One kind is an HTML page to read (a report, a finding, a plan); **slides** a deck, one section per slide; a **design** a mockup of a screen. The tool says which when it publishes; left out, it is a page, or a design when it is made for a Design doc. A new version keeps its type.
-- **Overview**: a card per artifact of the picked type, newest first, the same cards Widgets draws, 24 at a time and 24 more as you reach the end. An HTML picture is the HTML in a script-free frame in Slate's look and the current theme; script-drawn charts show only what the markup holds. Markdown uses the viewer's renderer. Drawn only while on screen, at most nine at a time.
-- **Open artifact**: name, who made it and when, what it is.
+- **Side panel**: **Filter artifacts** (title and description), then **Overview**, and each type with its count: **Pages** and **Slides**. Artifacts belong to the workspace, so no project picker.
+- **Types**: an **HTML page** scrolls and fits your window (a report, a finding, a plan). **Slides** are a deck: fixed 16:9 slides, shown one at a time. The tool says which when it publishes; left out, it is an HTML page. A new version keeps its type.
+- **Overview**: **Recent**, the four newest as cards, HTML pages and decks together, with **All 194 pages** and **All 2 slides** beside it (your own counts); then **Earlier**, the next ten as one line each.
+- **Pages** or **Slides**: every artifact of that type as a card, newest first, 24 at a time and 24 more as you reach the end. A card's picture is 16:9: an HTML page shows its top, in a script-free frame in Slate's look and the current theme (script-drawn charts show only what the markup holds); a deck shows its first slide.
+- **Open artifact**: it fills the space beside the side panel, with no byline or title over it; the toolbar keeps Preview, Code, the versions and **⋯**.
+- **A deck**: one slide at a time, scaled whole to fit; **‹ 3 / 12 ›** or the arrow keys move; the strip under it shows every slide; the slide's speaker notes show under the strip; **Present** fills the screen.
 - **Preview | Code**: the HTML or its read-only source (HTML laid out one block per line, indented; only spacing changes). **Copy HTML** copies the HTML as published.
 - **‹ v2 of 3 ›**: steps versions. An older one says "You are looking at v2. The newest is v3." with **Restore this version** (republishes it as a new version; nothing in between is lost).
-- **⋯**: **Copy HTML** or **Copy Markdown**, **Open in browser** (HTML only), **Rename**, **Delete forever** (asks "Delete every version forever?"). A failed rename or removal keeps the menu open with the reason.
+- **⋯**: **Copy HTML**, **Open in browser**, **Rename**, **Delete forever** (asks "Delete every version forever?"). A failed rename or removal keeps the menu open with the reason.
 
 ## Finding one
 
-- **⌘K**: title or description, and Markdown by text, under **ARTIFACTS** after reports. HTML code is not searched.
+- **⌘K**: title or description, under **ARTIFACTS** after reports. The HTML itself is not searched.
 - **The doc it was made on**: **Artifacts made here**. A branch shows its own; a project every one made inside it.
 - **Inside a Design**: an agent publishes a mockup with `target_doc_id` set to the Design and places it in the text as an image line whose address is `slate://artifacts?id=<artifact_id>`. The doc draws it there, live, in a script-free frame with its version, who made it and **Open**. A mockup made on a Design but not placed in its text shows under the words. `get_doc` lists a doc's artifacts, so an agent reading the Design sees them.
 - **`recall`**: returns up to 2 artifacts after memories when every word of the question matches one, so a session can find last week's dashboard and change it.
@@ -3258,13 +3294,13 @@ Published with `live: true`, an artifact reads your workspace while shown, so a 
 
 ## Where it runs
 
-HTML runs its own scripts, served from your workspace on a private local address apart from Slate and your data; it cannot steer the Slate window and nothing is copied to disk. It may load internet scripts and fonts. Markdown is formatted text. A teammate's artifact has no storage of its own (scripts, forms, downloads, popups kept) and cannot read the browser storage of your own artifacts, which keep theirs.
+HTML runs its own scripts, served from your workspace on a private local address apart from Slate and your data; it cannot steer the Slate window and nothing is copied to disk. It may load internet scripts and fonts. A deck's slides run no scripts: each is drawn as it is written. A teammate's artifact has no storage of its own (scripts, forms, downloads, popups kept) and cannot read the browser storage of your own artifacts, which keep theirs.
 
-In a shared workspace every member sees artifacts. One writer, the publisher: a teammate's shows "Written by" and their name, with no Rename or Delete forever. Their new versions reach you on next sync, newest only; you keep versions received; later joiners start at the newest. Moving a group or project to another workspace takes its artifacts along.
+In a shared workspace every member sees artifacts. One writer, the publisher: a teammate's has no Rename or Delete forever. Their new versions reach you on next sync, newest only; you keep versions received; later joiners start at the newest. Moving a group or project to another workspace takes its artifacts along.
 
 ## Limits
 
-One web page per artifact, up to 5,000,000 characters. HTML or Markdown only.
+One HTML document per artifact, up to 5,000,000 characters. A deck needs at least one top-level `<section>`; an `<aside>` inside a section is its speaker notes.
 
 ---
 
@@ -3343,7 +3379,7 @@ Its tab is fixed when you make it: its code reads that tab's data. To show the s
 
 ## Using and changing one
 
-A widget opens as a builder under the same header every place has. It reads **Widgets /** and the widget's name; pressing **Widgets** goes back to the Overview. Then the tabs **Preview | Files**, and on the right the chat button, **‹ v2 of 3 ›** (from two versions) and **⋯**. **⌘\\** shows or hides the Widgets list. The chat stays open on the left in every view; **Hide chat** / **Show chat** toggles it, remembered per widget.
+A widget opens as a builder under the same header every place has. It reads **Widgets /** and the widget's name; pressing **Widgets** goes back to the Overview. Then the tabs **Preview | Files**, and on the right the chat button, **‹ v2 of 3 ›** (from two versions) and **⋯**. **⌘B** shows or hides the Widgets list. The chat stays open on the left in every view; **Hide chat** / **Show chat** toggles it, remembered per widget.
 
 - **Preview**: the widget on its tab, updating as the chat works. A widget for Sessions shows in the session's side panel, with the panel's tabs along its top and **Widgets** picked. Drag it, resize it by its edges, or use the bar that shows on it, and a **Move here** band sits in every gap it can go to ([Showing one](#showing-one)). Also **Reload** and **Full size** (Esc returns). A line under it says what it can reach: "Reads Personal. No internet." **Point at it**, then click a part of the widget on the tab, to ask the chat about that part.
 - **Files**: the widget's folder as a tree and an editor. Add a file (a path like `lib/format.ts` makes its folder) or remove one. The save button counts changes ("Save 2 changes", ⌘S); **Discard** puts your edits back.
@@ -3581,19 +3617,18 @@ A widget can only finish or remind items it made; any other id answers "No task 
 
 ### Acting on GitHub
 
-A widget may act on a pull request in your own lists (`sources.reviews` or `sources.pulls`) with **Act on your GitHub** (`github.act`). Every action shows a card first, every time, with no "always allow". Slate builds the card from what it reads from GitHub, not from the widget: account, git repository, number, title, author and exact words.
+A widget may act on a pull request in your own lists (`sources.reviews` or `sources.pulls`) with **Act on your GitHub** (`github.act`). Every action shows a card first, every time, with no "always allow". Slate builds the card from what it reads from GitHub, not from the widget: account, git repository, number, title and author.
 
 | Call | What it does |
 |---|---|
 | `slate.github.approve({ repo, number })` | Approves a pull request waiting for your review. GitHub approves the commit the card showed. |
 | `slate.github.changes({ repo, number })` | Requests changes on a pull request waiting for your review. |
 | `slate.github.comment({ repo, number })` | Comments on a pull request in either list. |
-| `slate.github.presets()` | Your words for this widget: `[{ id, text }]`. |
 | `slate.github.label({ repo, number, label, remove })` | Adds a label the git repository already has, or with `remove: true` takes off one the pull request has. |
 
 - **The words are yours.** A widget never sends words. You type them on the card.
 - **Only your pull requests.** A git repository or number outside your lists is `bad_request`. Approving and requesting changes need the review list.
-- **The card must still be true.** Slate rereads the pull request when you press the button. If anything changed (commit, title, words, account), nothing is sent and the widget hears `bad_request`.
+- **The card must still be true.** Slate rereads the pull request when you press the button. If anything changed (commit, title, account), nothing is sent and the widget hears `bad_request`.
 - **5 actions an hour per widget, 20 for all widgets**, failed ones included. Past that the call is refused with `too_often`, with no card.
 - **The yes waits.** The button works 0.6 seconds after the card appears; an earlier press restarts the wait.
 
@@ -3838,12 +3873,13 @@ Settings holds **Account**, **Workspaces**, **Appearance**, **Terminal**, **Keyb
 
 Source: https://liozelmalem-star.github.io/slate-releases/docs/features/import.md
 
-Slate can bring in what you already have, so Projects and Memory do not start empty. Each brings in its own: the **Import** button (a down arrow) sits in the header of Projects and of Memory, before the **+**.
+Slate can bring in what you already have, so Projects, Memory and Artifacts do not start empty. Each brings in its own: the **Import** button (a down arrow) sits in the header of each, before the **+**.
 
-- **Projects › Import** brings in the folders your editors opened, as projects.
+- **Projects › Import** has two tabs, like Projects itself: **Docs** brings in the docs you keep in other apps, as docs in a project; **Code** brings in the folders your editors opened, as projects. It opens on the tab Projects is showing.
 - **Memory › Import** brings in what other tools remember, as memories.
+- **Artifacts › Import** brings in HTML files and decks you made elsewhere, as artifacts.
 
-Importing notes, docs and past chats from other apps is not offered yet.
+Past chats from ChatGPT or Claude.ai are not imported: those apps keep their own memory, and Slate's comes from your coding sessions.
 
 ## The Import dialog
 
@@ -3863,6 +3899,27 @@ The dialog shows one tile per source, with its logo. A tile shows one short line
 | **VS Code**, **Cursor**, **Windsurf** | Each editor's list of folders you opened lately |
 | **WebStorm**, **IntelliJ IDEA**, **PyCharm**, **GoLand**, **Rider**, **CLion**, **PhpStorm**, **RubyMine**, **RustRover**, **DataGrip** | Each IDE's `recentProjects.xml`, one tile per JetBrains IDE found. With none here, one **JetBrains IDEs** tile |
 | **Zed** | Soon |
+
+## Docs from other apps
+
+On the **Docs** tab, each source asks for its folder or file, says how many docs it would make, and asks which project they go into. The files are never changed.
+
+| Source | What you pick |
+|---|---|
+| **Markdown folder** | A folder of `.md` files; its folders become folders |
+| **Obsidian** | A vault's folder |
+| **Notion** | Its export: **Settings › Export**, Markdown & CSV (a `.zip`) |
+| **Google Docs** | A Google Takeout Drive folder, or `.docx` files |
+| **Excel and CSV files** | `.xlsx` or `.csv` files; each sheet becomes a table in a doc |
+
+An export imported into a project once adds nothing the second time.
+
+## Artifacts from elsewhere
+
+| Source | How |
+|---|---|
+| **HTML files** | Pick a folder. Each `.html` file becomes an artifact: one whose body is a deck of slides (one `<section>` per slide) becomes **Slides**, any other an HTML page. Each keeps its file's date. A file already in Slate, same title and content, is left out |
+| **claude.ai** | Slate cannot reach claude.ai itself. The dialog gives a prompt to copy into your agent (Claude Code), which lists your claude.ai artifacts, reads each (a deck from its slide files), and publishes it into Slate with its real date |
 
 A project's own rules, skills and MCP servers are not imported here: open the project's [Toolkit](https://liozelmalem-star.github.io/slate-releases/docs/features/studio.md) and use its offer to bring them into `.slate/`.
 
@@ -4372,7 +4429,7 @@ Press **`?`** for the shortcuts of the current context. The palette opens it too
 
 The icons down the left edge are always there; beside them is the sidebar, the list for the current section, pinned or hidden (remembered). With it hidden, resting the pointer on an icon floats that section's list over the doc without moving it; another icon changes the list; moving away, Escape or a click elsewhere slides it back. With it pinned, an icon shows only its name.
 
-Choosing a section never pins or hides the sidebar. Three things do: clicking the icon of the section you are already in, **⌘\\**, and the sidebar button at the top of the list. While a list floats, **⌘\\** and that button pin it and take you to its section.
+Choosing a section never pins or hides the sidebar. Three things do: clicking the icon of the section you are already in, **⌘B**, and the sidebar button at the top of the list. While a list floats, **⌘B** and that button pin it and take you to its section.
 
 Every icon with a list works this way, Activity's panel (project picker, range, saved views) included. Picking a conversation from the floating Home list opens it in Home. Trash has no list, so it shows only its name.
 
@@ -4627,6 +4684,8 @@ Generated from the MCP tool registry and checked by `packages/mcp/test/tools/con
 | `propose_setup_change` | write | — |
 | `get_agent_run` | read | — |
 | `report_agent_run_step` | write | — |
+| `start_agent_run` | write | — |
+| `wait_for_runs` | read | — |
 | `run_automation` | write | — |
 | `my_tasks` | read | — |
 | `update_my_task` | write | — |
@@ -4678,7 +4737,7 @@ Memory lands in the workspace the call's `cwd` belongs to (Personal unless the f
 
 Source: https://liozelmalem-star.github.io/slate-releases/docs/features/mcp-server/tools.md
 
-Slate's MCP server exposes 25 tools, each belonging to one place in Slate (listed with the reason in `packages/catalog/src/en/mcpCoverage.json`, ADR 0127). An app that draws views gets two more ([Views](#views-in-apps-that-draw-them), ADR 0129). Rules for workspace resolution and what an agent may not do: [Tool Rules](https://liozelmalem-star.github.io/slate-releases/docs/features/mcp-server/tool-rules.md).
+Slate's MCP server exposes 27 tools, each belonging to one place in Slate (listed with the reason in `packages/catalog/src/en/mcpCoverage.json`, ADR 0127). An app that draws views gets two more ([Views](#views-in-apps-that-draw-them), ADR 0129). Rules for workspace resolution and what an agent may not do: [Tool Rules](https://liozelmalem-star.github.io/slate-releases/docs/features/mcp-server/tool-rules.md).
 
 Almost every tool takes an optional **`cwd`** (your working directory), resolved to the workspace that owns the folder; only `slate_capabilities` takes none. Every tool carries the standard MCP labels (title, read-only, whether a write can replace). Claude Code loads `recall` and `remember` at session start, the rest on demand.
 
@@ -4734,6 +4793,8 @@ Both need Slate open (else `slate_not_running`) and read only the apps of the fo
 | Tool | Purpose |
 | --- | --- |
 | `handoff` | Leave one note for the other agents in the project, or for one with `to`. Each sees it once at the start of its next turn. Notes that only narrate work in progress are refused, with the reason. |
+| `start_agent_run` | Start a worker: an agent run in its own branch, worktree and terminal, with the tool you name (`claude`, `codex`, `cursor`…), on one task (`title`, `task`, `kind` bug or feature) in the project at `cwd`. The open Slate window opens its terminal; with Slate closed it waits. At most 3 open workers per session, and a worker cannot start workers. The worker's plan, questions and permissions go to the person. See [Workers](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/workers.md). |
+| `wait_for_runs` | Wait until one of your workers stops (a plan or ship waiting for the person, a block, done) or `timeoutSeconds` pass (1–240, default 120), then get every worker's state. It never moves a worker. |
 | `live_sessions` | Every AI session running now: tool, status (working / needs_you / idle), project, git repository, branch, title, last thing said, last active, goal and next unchecked item, doc id (`targetDocId`), folder (`cwd`). Read a session's doc by passing that doc id and `cwd` to `get_doc`. `cwd` limits to your project; your own `sessionId` leaves you out. |
 
 When another agent works in the same project, Slate says so once at the start of a turn, with that session's own words and a doc id. Agents talk by notes: `handoff` with a `to` is a message, and a reply is another `handoff` addressed back. A note with no `to` is for everyone working here. There is no channel, inbox or queue.
@@ -5096,7 +5157,7 @@ These are the commands in Settings → Keyboard, grouped as the cheatsheet group
 | Keys | Command |
 | --- | --- |
 | ⌘F | **Find in doc** |
-| ⌘\\ | **Toggle sidebar** |
+| ⌘B | **Toggle sidebar** (in a doc, ⌘B stays bold) |
 | ⌘⇧M | **Focus mode** (the same keys leave it) |
 | ⌘⇧L | **Toggle light / dark theme** ([Themes](https://liozelmalem-star.github.io/slate-releases/docs/features/theming.md#light-and-dark-with-l)) |
 | ⌘+ and ⌘− | **Increase app size** and **Decrease app size**, 80% to 140% in ten-percent steps ([Themes](https://liozelmalem-star.github.io/slate-releases/docs/features/theming.md#size)) |
@@ -5200,6 +5261,8 @@ The editor uses VS Code's keys ([Editing](https://liozelmalem-star.github.io/sla
 ## Home
 
 Arrow keys turn the deck of cards on Home; left and right step back and forward.
+
+In the box on Home and in the ⌘J panel, **⇧⇥** moves the mode pill one step, as in Claude Code: **Ask first**, **Auto-edit**, **Full auto**, then Ask first again. Clicking the pill makes the same steps, but the click into Full auto asks you to click again.
 
 ---
 

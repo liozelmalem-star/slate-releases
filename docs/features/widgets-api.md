@@ -122,19 +122,18 @@ A widget can only finish or remind items it made; any other id answers "No task 
 
 ### Acting on GitHub
 
-A widget may act on a pull request in your own lists (`sources.reviews` or `sources.pulls`) with **Act on your GitHub** (`github.act`). Every action shows a card first, every time, with no "always allow". Slate builds the card from what it reads from GitHub, not from the widget: account, git repository, number, title, author and exact words.
+A widget may act on a pull request in your own lists (`sources.reviews` or `sources.pulls`) with **Act on your GitHub** (`github.act`). Every action shows a card first, every time, with no "always allow". Slate builds the card from what it reads from GitHub, not from the widget: account, git repository, number, title and author.
 
 | Call | What it does |
 |---|---|
 | `slate.github.approve({ repo, number })` | Approves a pull request waiting for your review. GitHub approves the commit the card showed. |
 | `slate.github.changes({ repo, number })` | Requests changes on a pull request waiting for your review. |
 | `slate.github.comment({ repo, number })` | Comments on a pull request in either list. |
-| `slate.github.presets()` | Your words for this widget: `[{ id, text }]`. |
 | `slate.github.label({ repo, number, label, remove })` | Adds a label the git repository already has, or with `remove: true` takes off one the pull request has. |
 
 - **The words are yours.** A widget never sends words. You type them on the card.
 - **Only your pull requests.** A git repository or number outside your lists is `bad_request`. Approving and requesting changes need the review list.
-- **The card must still be true.** Slate rereads the pull request when you press the button. If anything changed (commit, title, words, account), nothing is sent and the widget hears `bad_request`.
+- **The card must still be true.** Slate rereads the pull request when you press the button. If anything changed (commit, title, account), nothing is sent and the widget hears `bad_request`.
 - **5 actions an hour per widget, 20 for all widgets**, failed ones included. Past that the call is refused with `too_often`, with no card.
 - **The yes waits.** The button works 0.6 seconds after the card appears; an earlier press restarts the wait.
 

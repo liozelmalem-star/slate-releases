@@ -1,6 +1,6 @@
 # Tool Reference
 
-Slate's MCP server exposes 25 tools, each belonging to one place in Slate (listed with the reason in `packages/catalog/src/en/mcpCoverage.json`, ADR 0127). An app that draws views gets two more ([Views](#views-in-apps-that-draw-them), ADR 0129). Rules for workspace resolution and what an agent may not do: [Tool Rules](https://liozelmalem-star.github.io/slate-releases/docs/features/mcp-server/tool-rules.md).
+Slate's MCP server exposes 27 tools, each belonging to one place in Slate (listed with the reason in `packages/catalog/src/en/mcpCoverage.json`, ADR 0127). An app that draws views gets two more ([Views](#views-in-apps-that-draw-them), ADR 0129). Rules for workspace resolution and what an agent may not do: [Tool Rules](https://liozelmalem-star.github.io/slate-releases/docs/features/mcp-server/tool-rules.md).
 
 Almost every tool takes an optional **`cwd`** (your working directory), resolved to the workspace that owns the folder; only `slate_capabilities` takes none. Every tool carries the standard MCP labels (title, read-only, whether a write can replace). Claude Code loads `recall` and `remember` at session start, the rest on demand.
 
@@ -56,6 +56,8 @@ Both need Slate open (else `slate_not_running`) and read only the apps of the fo
 | Tool | Purpose |
 | --- | --- |
 | `handoff` | Leave one note for the other agents in the project, or for one with `to`. Each sees it once at the start of its next turn. Notes that only narrate work in progress are refused, with the reason. |
+| `start_agent_run` | Start a worker: an agent run in its own branch, worktree and terminal, with the tool you name (`claude`, `codex`, `cursor`…), on one task (`title`, `task`, `kind` bug or feature) in the project at `cwd`. The open Slate window opens its terminal; with Slate closed it waits. At most 3 open workers per session, and a worker cannot start workers. The worker's plan, questions and permissions go to the person. See [Workers](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/workers.md). |
+| `wait_for_runs` | Wait until one of your workers stops (a plan or ship waiting for the person, a block, done) or `timeoutSeconds` pass (1–240, default 120), then get every worker's state. It never moves a worker. |
 | `live_sessions` | Every AI session running now: tool, status (working / needs_you / idle), project, git repository, branch, title, last thing said, last active, goal and next unchecked item, doc id (`targetDocId`), folder (`cwd`). Read a session's doc by passing that doc id and `cwd` to `get_doc`. `cwd` limits to your project; your own `sessionId` leaves you out. |
 
 When another agent works in the same project, Slate says so once at the start of a turn, with that session's own words and a doc id. Agents talk by notes: `handoff` with a `to` is a message, and a reply is another `handoff` addressed back. A note with no `to` is for everyone working here. There is no channel, inbox or queue.
