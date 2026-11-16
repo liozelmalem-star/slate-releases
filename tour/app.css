@@ -317,6 +317,7 @@ textarea { overflow-x: hidden; }
 .my-1 { margin-top: 0.25rem; margin-bottom: 0.25rem; }
 .my-12 { margin-top: 3rem; margin-bottom: 3rem; }
 .my-2 { margin-top: 0.5rem; margin-bottom: 0.5rem; }
+.my-3 { margin-top: 0.75rem; margin-bottom: 0.75rem; }
 .my-8 { margin-top: 2rem; margin-bottom: 2rem; }
 .my-auto { margin-top: auto; margin-bottom: auto; }
 .-mb-1 { margin-bottom: -0.25rem; }
@@ -432,6 +433,7 @@ textarea { overflow-x: hidden; }
 .h-\[26px\] { height: 26px; }
 .h-\[32rem\] { height: 32rem; }
 .h-\[46px\] { height: 46px; }
+.h-\[480px\] { height: 480px; }
 .h-\[860px\] { height: 860px; }
 .h-\[min\(640px\,100\%\)\] { height: min(640px, 100%); }
 .h-full { height: 100%; }
@@ -586,7 +588,6 @@ textarea { overflow-x: hidden; }
 .shrink { flex-shrink: 1; }
 .shrink-0 { flex-shrink: 0; }
 .shrink-\[100\] { flex-shrink: 100; }
-.shrink-\[2\] { flex-shrink: 2; }
 .grow { flex-grow: 1; }
 .basis-0 { flex-basis: 0px; }
 .border-collapse { border-collapse: collapse; }
@@ -747,12 +748,14 @@ textarea { overflow-x: hidden; }
 .rounded-lg { border-radius: 8px; }
 .rounded-none { border-radius: 0px; }
 .rounded-xl { border-radius: 14px; }
+.rounded-b-xl { border-bottom-right-radius: 14px; border-bottom-left-radius: 14px; }
 .rounded-e { border-start-end-radius: 4px; border-end-end-radius: 4px; }
 .rounded-e-full { border-start-end-radius: 9999px; border-end-end-radius: 9999px; }
 .rounded-s { border-start-start-radius: 4px; border-end-start-radius: 4px; }
 .rounded-s-full { border-start-start-radius: 9999px; border-end-start-radius: 9999px; }
 .rounded-t { border-top-left-radius: 4px; border-top-right-radius: 4px; }
 .rounded-t-full { border-top-left-radius: 9999px; border-top-right-radius: 9999px; }
+.rounded-t-xl { border-top-left-radius: 14px; border-top-right-radius: 14px; }
 .rounded-bl { border-bottom-left-radius: 4px; }
 .rounded-br { border-bottom-right-radius: 4px; }
 .border { border-width: 1px; }
@@ -761,6 +764,7 @@ textarea { overflow-x: hidden; }
 .border-\[1\.5px\] { border-width: 1.5px; }
 .border-y-0 { border-top-width: 0px; border-bottom-width: 0px; }
 .border-b { border-bottom-width: 1px; }
+.border-b-0 { border-bottom-width: 0px; }
 .border-b-2 { border-bottom-width: 2px; }
 .border-e { border-inline-end-width: 1px; }
 .border-l-2 { border-left-width: 2px; }
@@ -769,6 +773,7 @@ textarea { overflow-x: hidden; }
 .border-s { border-inline-start-width: 1px; }
 .border-s-2 { border-inline-start-width: 2px; }
 .border-t { border-top-width: 1px; }
+.border-t-0 { border-top-width: 0px; }
 .border-dashed { border-style: dashed; }
 .border-attn-200 { --tw-border-opacity: 1; border-color: rgb(var(--attn-200) / var(--tw-border-opacity, 1)); }
 .border-attn-500\/30 { border-color: rgb(var(--attn-500) / 0.3); }
@@ -1198,13 +1203,13 @@ textarea { overflow-x: hidden; }
 .shadow-\[inset_2px_0_0_rgb\(var\(--brand-500\)\)\] { --tw-shadow: inset 2px 0 0 rgb(var(--brand-500)); --tw-shadow-colored: inset 2px 0 0 var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow); }
 .shadow-\[inset_2px_0_0_rgb\(var\(--brand-600\)\)\] { --tw-shadow: inset 2px 0 0 rgb(var(--brand-600)); --tw-shadow-colored: inset 2px 0 0 var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow); }
 .shadow-card { --tw-shadow: 0 1px 3px rgba(18,21,27,0.08), 0 1px 2px rgba(18,21,27,0.06); --tw-shadow-colored: 0 1px 3px var(--tw-shadow-color), 0 1px 2px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow); }
-.shadow-glow { --tw-shadow: 0 0 0 1px rgb(var(--brand-400) / 0.25), 0 6px 24px rgb(var(--brand-400) / 0.30); --tw-shadow-colored: 0 0 0 1px var(--tw-shadow-color), 0 6px 24px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow); }
 .shadow-glow-strong { --tw-shadow: 0 0 0 1px rgb(var(--brand-400) / 0.35), 0 8px 28px rgb(var(--brand-400) / 0.18), 0 0 72px rgb(var(--brand-400) / 0.07); --tw-shadow-colored: 0 0 0 1px var(--tw-shadow-color), 0 8px 28px var(--tw-shadow-color), 0 0 72px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow); }
 .shadow-inner { --tw-shadow: inset 0 2px 4px 0 rgb(0 0 0 / 0.05); --tw-shadow-colored: inset 0 2px 4px 0 var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow); }
 .shadow-lg { --tw-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color), 0 4px 6px -4px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow); }
 .shadow-pop { --tw-shadow: 0 4px 16px rgba(18,21,27,0.10), 0 20px 48px rgba(18,21,27,0.18); --tw-shadow-colored: 0 4px 16px var(--tw-shadow-color), 0 20px 48px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow); }
 .shadow-sm { --tw-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); --tw-shadow-colored: 0 1px 2px 0 var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow); }
 .shadow-xl { --tw-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1); --tw-shadow-colored: 0 20px 25px -5px var(--tw-shadow-color), 0 8px 10px -6px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow); }
+.shadow-black\/30 { --tw-shadow-color: rgb(0 0 0 / 0.3); --tw-shadow: var(--tw-shadow-colored); }
 .outline-none { outline: transparent solid 2px; outline-offset: 2px; }
 .outline { outline-style: solid; }
 .ring { --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color); --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color); box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000); }
@@ -1296,12 +1301,23 @@ textarea { overflow-x: hidden; }
 .bn-container .bn-block-content { line-height: 1.7; }
 .bn-container ::selection { background-color: rgb(var(--brand-500) / 0.25); }
 .bn-container .bn-block-content.ProseMirror-selectednode > *, .bn-container .ProseMirror-selectednode > .bn-block-content > * { outline: none; border-radius: 6px; box-shadow: 0 0 0 2px rgb(var(--brand-400) / 0.4); }
-.bn-block-content[data-content-type="heading"] { --level: 1.85em; letter-spacing: -0.015em; font-family: "Geist Variable", sans-serif; }
-.bn-block-content[data-content-type="heading"][data-level="2"] { --level: 1.4em; }
-.bn-block-content[data-content-type="heading"][data-level="3"] { --level: 1.2em; }
-.bn-block-outer[data-prev-level="1"] { --prev-level: 1.85em; }
-.bn-block-outer[data-prev-level="2"] { --prev-level: 1.4em; }
-.bn-block-outer[data-prev-level="3"] { --prev-level: 1.2em; }
+.bn-block-content[data-content-type="heading"] { --level: 1.5em; letter-spacing: -0.015em; font-family: "Geist Variable", sans-serif; }
+.bn-block-content[data-content-type="heading"][data-level="2"] { --level: 1.15em; }
+.bn-block-content[data-content-type="heading"][data-level="3"] { --level: 1em; }
+.bn-block-outer[data-prev-level="1"] { --prev-level: 1.5em; }
+.bn-block-outer[data-prev-level="2"] { --prev-level: 1.15em; }
+.bn-block-outer[data-prev-level="3"] { --prev-level: 1em; }
+.bn-block-content[data-content-type="table"] th, .bn-block-content[data-content-type="table"] td { border-color: rgb(var(--n-900) / 0.08); }
+.bn-block-content[data-content-type="table"] th:is(.dark *), .bn-block-content[data-content-type="table"] td:is(.dark *) { border-color: rgba(255, 255, 255, 0.07); }
+.bn-block-content[data-content-type="table"] th { font-weight: 500; --tw-text-opacity: 1; color: rgb(var(--n-500) / var(--tw-text-opacity, 1)); }
+.bn-block-content[data-content-type="table"] th:is(.dark *) { --tw-text-opacity: 1; color: rgb(var(--n-400) / var(--tw-text-opacity, 1)); }
+[data-doc-type="plan"] .bn-editor > .bn-block-group > .bn-block-outer > .bn-block > .bn-block-content[data-content-type="numberedListItem"] { font-weight: 600; }
+[data-doc-type="plan"] .bn-editor > .bn-block-group > .bn-block-outer > .bn-block > .bn-block-content[data-content-type="numberedListItem"]::before { box-sizing: border-box; align-items: center; width: 1.6em; min-width: 1.6em; height: 1.6em; margin-top: 0.15em; margin-inline-end: 0.6em; padding: 0px; border-radius: 9999px; font-size: 0.75em; font-weight: 500; border-width: 1px; border-color: rgb(var(--n-900) / 0.15); --tw-text-opacity: 1; color: rgb(var(--n-600) / var(--tw-text-opacity, 1)); }
+[data-doc-type="plan"] .bn-editor > .bn-block-group > .bn-block-outer > .bn-block > .bn-block-content[data-content-type="numberedListItem"]:is(.dark *)::before { border-color: rgba(255, 255, 255, 0.15); --tw-text-opacity: 1; color: rgb(var(--n-300) / var(--tw-text-opacity, 1)); }
+[data-doc-type="plan"] .bn-block-outer:not([data-prev-type]) > .bn-block > .bn-block-content[data-content-type="numberedListItem"]::before, [data-doc-type="plan"] .bn-block-outer[data-prev-type="numberedListItem"] > .bn-block > .bn-block-content[data-content-type="numberedListItem"]::before { content: var(--index); }
+[data-doc-type="plan"] .bn-editor > .bn-block-group > .bn-block-outer > .bn-block:has(> .bn-block-content[data-content-type="numberedListItem"]) > .bn-block-group { margin-inline-start: 0.6em; padding-inline-start: 1.1em; font-weight: 400; border-inline-start-width: 1px; border-color: rgb(var(--n-900) / 0.08); }
+[data-doc-type="plan"] .bn-editor > .bn-block-group > .bn-block-outer > .bn-block:has(> .bn-block-content[data-content-type="numberedListItem"]) > .bn-block-group:is(.dark *) { border-color: rgba(255, 255, 255, 0.07); }
+[data-doc-type="bug-report"] .bn-block-content[data-is-empty-and-focused]:has(.ProseMirror-trailingBreak:only-child)::after { content: var(--bug-hint) !important; }
 .bn-block-group > .bn-block-outer:first-child [data-content-type="heading"] { padding-top: 0px; }
 .bn-editor a { --tw-text-opacity: 1; color: rgb(var(--brand-600) / var(--tw-text-opacity, 1)); text-decoration-line: underline; text-decoration-thickness: 1px; text-underline-offset: 2px; }
 .bn-editor a:is(.dark *) { --tw-text-opacity: 1; color: rgb(var(--brand-400) / var(--tw-text-opacity, 1)); }
@@ -1469,7 +1485,6 @@ html[data-asleep] *, html[data-asleep] ::before, html[data-asleep] ::after { ani
 .hover\:underline:hover { text-decoration-line: underline; }
 .hover\:opacity-100:hover { opacity: 1; }
 .hover\:opacity-80:hover { opacity: 0.8; }
-.hover\:shadow-glow-strong:hover { --tw-shadow: 0 0 0 1px rgb(var(--brand-400) / 0.35), 0 8px 28px rgb(var(--brand-400) / 0.18), 0 0 72px rgb(var(--brand-400) / 0.07); --tw-shadow-colored: 0 0 0 1px var(--tw-shadow-color), 0 8px 28px var(--tw-shadow-color), 0 0 72px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow); }
 .hover\:shadow-md:hover { --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color); box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow); }
 .hover\:ring-2:hover { --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color); --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color); box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000); }
 .hover\:ring-brand-500:hover { --tw-ring-opacity: 1; --tw-ring-color: rgb(var(--brand-500) / var(--tw-ring-opacity, 1)); }
@@ -1502,7 +1517,6 @@ html[data-asleep] *, html[data-asleep] ::before, html[data-asleep] ::after { ani
 .focus-visible\:ring-brand-500\/40:focus-visible { --tw-ring-color: rgb(var(--brand-500) / 0.4); }
 .focus-visible\:ring-brand-500\/50:focus-visible { --tw-ring-color: rgb(var(--brand-500) / 0.5); }
 .focus-visible\:ring-white\/40:focus-visible { --tw-ring-color: rgb(255 255 255 / 0.4); }
-.active\:scale-95:active { --tw-scale-x: .95; --tw-scale-y: .95; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)); }
 .active\:scale-\[0\.97\]:active { --tw-scale-x: 0.97; --tw-scale-y: 0.97; transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)); }
 .enabled\:hover\:text-slate-800:hover:enabled { --tw-text-opacity: 1; color: rgb(var(--n-800) / var(--tw-text-opacity, 1)); }
 .disabled\:pointer-events-none:disabled { pointer-events: none; }
@@ -3366,16 +3380,16 @@ img.ProseMirror-separator { display: inline !important; border-width: medium !im
 .ProseMirror-hideselection ::selection { background: transparent; }
 .ProseMirror-hideselection * { caret-color: transparent; }
 .ProseMirror-focused .ProseMirror-gapcursor { display: block; }
-.placeholder-selector-74b25bda-88d8-4163-8dfc-9636f5fe82af .bn-block-content[data-is-empty-and-focused]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Type '/' for commands, or just start writing…"; }
-.placeholder-selector-74b25bda-88d8-4163-8dfc-9636f5fe82af .bn-block-content[data-is-only-empty-block]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Write here, or ask your agent to fill it."; }
-.placeholder-selector-74b25bda-88d8-4163-8dfc-9636f5fe82af .bn-block-content[data-content-type="comment_reply"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Add comment..."; }
-.placeholder-selector-74b25bda-88d8-4163-8dfc-9636f5fe82af .bn-block-content[data-content-type="edit_comment"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Edit comment..."; }
-.placeholder-selector-74b25bda-88d8-4163-8dfc-9636f5fe82af .bn-block-content[data-content-type="new_comment"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Write a comment..."; }
-.placeholder-selector-74b25bda-88d8-4163-8dfc-9636f5fe82af .bn-block-content[data-content-type="checkListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "To-do"; }
-.placeholder-selector-74b25bda-88d8-4163-8dfc-9636f5fe82af .bn-block-content[data-content-type="numberedListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "List"; }
-.placeholder-selector-74b25bda-88d8-4163-8dfc-9636f5fe82af .bn-block-content[data-content-type="bulletListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "List"; }
-.placeholder-selector-74b25bda-88d8-4163-8dfc-9636f5fe82af .bn-block-content[data-content-type="toggleListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Toggle"; }
-.placeholder-selector-74b25bda-88d8-4163-8dfc-9636f5fe82af .bn-block-content[data-content-type="heading"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Heading"; }
+.placeholder-selector-3817ed71-f1ec-41cc-8ed1-180ae885b218 .bn-block-content[data-is-empty-and-focused]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Type '/' for commands, or just start writing…"; }
+.placeholder-selector-3817ed71-f1ec-41cc-8ed1-180ae885b218 .bn-block-content[data-is-only-empty-block]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Write here, or ask your agent to fill it."; }
+.placeholder-selector-3817ed71-f1ec-41cc-8ed1-180ae885b218 .bn-block-content[data-content-type="comment_reply"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Add comment..."; }
+.placeholder-selector-3817ed71-f1ec-41cc-8ed1-180ae885b218 .bn-block-content[data-content-type="edit_comment"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Edit comment..."; }
+.placeholder-selector-3817ed71-f1ec-41cc-8ed1-180ae885b218 .bn-block-content[data-content-type="new_comment"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Write a comment..."; }
+.placeholder-selector-3817ed71-f1ec-41cc-8ed1-180ae885b218 .bn-block-content[data-content-type="checkListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "To-do"; }
+.placeholder-selector-3817ed71-f1ec-41cc-8ed1-180ae885b218 .bn-block-content[data-content-type="numberedListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "List"; }
+.placeholder-selector-3817ed71-f1ec-41cc-8ed1-180ae885b218 .bn-block-content[data-content-type="bulletListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "List"; }
+.placeholder-selector-3817ed71-f1ec-41cc-8ed1-180ae885b218 .bn-block-content[data-content-type="toggleListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Toggle"; }
+.placeholder-selector-3817ed71-f1ec-41cc-8ed1-180ae885b218 .bn-block-content[data-content-type="heading"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Heading"; }
 @media (max-width: 35.9937em) {
   .mantine-visible-from-xs { display: none !important; }
 }
@@ -3451,46 +3465,46 @@ img.ProseMirror-separator { display: inline !important; border-width: medium !im
 .xterm .xterm-scrollable-element > .shadow.left { display: block; top: 3px; left: 0px; height: 100%; width: 3px; box-shadow: var(--vscode-scrollbar-shadow, #000) 6px 0 6px -6px inset; }
 .xterm .xterm-scrollable-element > .shadow.top-left-corner { display: block; top: 0px; left: 0px; height: 3px; width: 3px; }
 .xterm .xterm-scrollable-element > .shadow.top.left { box-shadow: var(--vscode-scrollbar-shadow, #000) 6px 0 6px -6px inset; }
-.placeholder-selector-165347a2-1948-4f10-a271-e79bfd854060 .bn-block-content[data-is-empty-and-focused]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Type '/' for commands, or just start writing…"; }
-.placeholder-selector-165347a2-1948-4f10-a271-e79bfd854060 .bn-block-content[data-is-only-empty-block]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Write here, or ask your agent to fill it."; }
-.placeholder-selector-165347a2-1948-4f10-a271-e79bfd854060 .bn-block-content[data-content-type="comment_reply"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Add comment..."; }
-.placeholder-selector-165347a2-1948-4f10-a271-e79bfd854060 .bn-block-content[data-content-type="edit_comment"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Edit comment..."; }
-.placeholder-selector-165347a2-1948-4f10-a271-e79bfd854060 .bn-block-content[data-content-type="new_comment"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Write a comment..."; }
-.placeholder-selector-165347a2-1948-4f10-a271-e79bfd854060 .bn-block-content[data-content-type="checkListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "To-do"; }
-.placeholder-selector-165347a2-1948-4f10-a271-e79bfd854060 .bn-block-content[data-content-type="numberedListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "List"; }
-.placeholder-selector-165347a2-1948-4f10-a271-e79bfd854060 .bn-block-content[data-content-type="bulletListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "List"; }
-.placeholder-selector-165347a2-1948-4f10-a271-e79bfd854060 .bn-block-content[data-content-type="toggleListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Toggle"; }
-.placeholder-selector-165347a2-1948-4f10-a271-e79bfd854060 .bn-block-content[data-content-type="heading"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Heading"; }
-.placeholder-selector-2452c872-8bd8-4479-a0c3-e51ab61a48bd .bn-block-content[data-is-empty-and-focused]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Type '/' for commands, or just start writing…"; }
-.placeholder-selector-2452c872-8bd8-4479-a0c3-e51ab61a48bd .bn-block-content[data-is-only-empty-block]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Write here, or ask your agent to fill it."; }
-.placeholder-selector-2452c872-8bd8-4479-a0c3-e51ab61a48bd .bn-block-content[data-content-type="comment_reply"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Add comment..."; }
-.placeholder-selector-2452c872-8bd8-4479-a0c3-e51ab61a48bd .bn-block-content[data-content-type="edit_comment"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Edit comment..."; }
-.placeholder-selector-2452c872-8bd8-4479-a0c3-e51ab61a48bd .bn-block-content[data-content-type="new_comment"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Write a comment..."; }
-.placeholder-selector-2452c872-8bd8-4479-a0c3-e51ab61a48bd .bn-block-content[data-content-type="checkListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "To-do"; }
-.placeholder-selector-2452c872-8bd8-4479-a0c3-e51ab61a48bd .bn-block-content[data-content-type="numberedListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "List"; }
-.placeholder-selector-2452c872-8bd8-4479-a0c3-e51ab61a48bd .bn-block-content[data-content-type="bulletListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "List"; }
-.placeholder-selector-2452c872-8bd8-4479-a0c3-e51ab61a48bd .bn-block-content[data-content-type="toggleListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Toggle"; }
-.placeholder-selector-2452c872-8bd8-4479-a0c3-e51ab61a48bd .bn-block-content[data-content-type="heading"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Heading"; }
-.placeholder-selector-8262c998-6bc5-443a-bc77-0c0ec441316c .bn-block-content[data-is-empty-and-focused]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Type '/' for commands, or just start writing…"; }
-.placeholder-selector-8262c998-6bc5-443a-bc77-0c0ec441316c .bn-block-content[data-is-only-empty-block]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Write here, or ask your agent to fill it."; }
-.placeholder-selector-8262c998-6bc5-443a-bc77-0c0ec441316c .bn-block-content[data-content-type="comment_reply"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Add comment..."; }
-.placeholder-selector-8262c998-6bc5-443a-bc77-0c0ec441316c .bn-block-content[data-content-type="edit_comment"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Edit comment..."; }
-.placeholder-selector-8262c998-6bc5-443a-bc77-0c0ec441316c .bn-block-content[data-content-type="new_comment"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Write a comment..."; }
-.placeholder-selector-8262c998-6bc5-443a-bc77-0c0ec441316c .bn-block-content[data-content-type="checkListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "To-do"; }
-.placeholder-selector-8262c998-6bc5-443a-bc77-0c0ec441316c .bn-block-content[data-content-type="numberedListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "List"; }
-.placeholder-selector-8262c998-6bc5-443a-bc77-0c0ec441316c .bn-block-content[data-content-type="bulletListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "List"; }
-.placeholder-selector-8262c998-6bc5-443a-bc77-0c0ec441316c .bn-block-content[data-content-type="toggleListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Toggle"; }
-.placeholder-selector-8262c998-6bc5-443a-bc77-0c0ec441316c .bn-block-content[data-content-type="heading"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Heading"; }
-.placeholder-selector-4795e607-737c-422a-951b-fe2ee80184b7 .bn-block-content[data-is-empty-and-focused]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Type '/' for commands, or just start writing…"; }
-.placeholder-selector-4795e607-737c-422a-951b-fe2ee80184b7 .bn-block-content[data-is-only-empty-block]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Write here, or ask your agent to fill it."; }
-.placeholder-selector-4795e607-737c-422a-951b-fe2ee80184b7 .bn-block-content[data-content-type="comment_reply"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Add comment..."; }
-.placeholder-selector-4795e607-737c-422a-951b-fe2ee80184b7 .bn-block-content[data-content-type="edit_comment"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Edit comment..."; }
-.placeholder-selector-4795e607-737c-422a-951b-fe2ee80184b7 .bn-block-content[data-content-type="new_comment"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Write a comment..."; }
-.placeholder-selector-4795e607-737c-422a-951b-fe2ee80184b7 .bn-block-content[data-content-type="checkListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "To-do"; }
-.placeholder-selector-4795e607-737c-422a-951b-fe2ee80184b7 .bn-block-content[data-content-type="numberedListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "List"; }
-.placeholder-selector-4795e607-737c-422a-951b-fe2ee80184b7 .bn-block-content[data-content-type="bulletListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "List"; }
-.placeholder-selector-4795e607-737c-422a-951b-fe2ee80184b7 .bn-block-content[data-content-type="toggleListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Toggle"; }
-.placeholder-selector-4795e607-737c-422a-951b-fe2ee80184b7 .bn-block-content[data-content-type="heading"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Heading"; }
+.placeholder-selector-ee77e338-5eeb-4058-b782-980c26198948 .bn-block-content[data-is-empty-and-focused]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Type '/' for commands, or just start writing…"; }
+.placeholder-selector-ee77e338-5eeb-4058-b782-980c26198948 .bn-block-content[data-is-only-empty-block]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Write here, or ask your agent to fill it."; }
+.placeholder-selector-ee77e338-5eeb-4058-b782-980c26198948 .bn-block-content[data-content-type="comment_reply"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Add comment..."; }
+.placeholder-selector-ee77e338-5eeb-4058-b782-980c26198948 .bn-block-content[data-content-type="edit_comment"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Edit comment..."; }
+.placeholder-selector-ee77e338-5eeb-4058-b782-980c26198948 .bn-block-content[data-content-type="new_comment"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Write a comment..."; }
+.placeholder-selector-ee77e338-5eeb-4058-b782-980c26198948 .bn-block-content[data-content-type="checkListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "To-do"; }
+.placeholder-selector-ee77e338-5eeb-4058-b782-980c26198948 .bn-block-content[data-content-type="numberedListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "List"; }
+.placeholder-selector-ee77e338-5eeb-4058-b782-980c26198948 .bn-block-content[data-content-type="bulletListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "List"; }
+.placeholder-selector-ee77e338-5eeb-4058-b782-980c26198948 .bn-block-content[data-content-type="toggleListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Toggle"; }
+.placeholder-selector-ee77e338-5eeb-4058-b782-980c26198948 .bn-block-content[data-content-type="heading"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Heading"; }
+.placeholder-selector-4948e859-2606-4b30-91a7-fa37555c5f4c .bn-block-content[data-is-empty-and-focused]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Type '/' for commands, or just start writing…"; }
+.placeholder-selector-4948e859-2606-4b30-91a7-fa37555c5f4c .bn-block-content[data-is-only-empty-block]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Write here, or ask your agent to fill it."; }
+.placeholder-selector-4948e859-2606-4b30-91a7-fa37555c5f4c .bn-block-content[data-content-type="comment_reply"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Add comment..."; }
+.placeholder-selector-4948e859-2606-4b30-91a7-fa37555c5f4c .bn-block-content[data-content-type="edit_comment"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Edit comment..."; }
+.placeholder-selector-4948e859-2606-4b30-91a7-fa37555c5f4c .bn-block-content[data-content-type="new_comment"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Write a comment..."; }
+.placeholder-selector-4948e859-2606-4b30-91a7-fa37555c5f4c .bn-block-content[data-content-type="checkListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "To-do"; }
+.placeholder-selector-4948e859-2606-4b30-91a7-fa37555c5f4c .bn-block-content[data-content-type="numberedListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "List"; }
+.placeholder-selector-4948e859-2606-4b30-91a7-fa37555c5f4c .bn-block-content[data-content-type="bulletListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "List"; }
+.placeholder-selector-4948e859-2606-4b30-91a7-fa37555c5f4c .bn-block-content[data-content-type="toggleListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Toggle"; }
+.placeholder-selector-4948e859-2606-4b30-91a7-fa37555c5f4c .bn-block-content[data-content-type="heading"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Heading"; }
+.placeholder-selector-5c19b7fb-f51c-471f-afc2-60ad074d60d4 .bn-block-content[data-is-empty-and-focused]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Type '/' for commands, or just start writing…"; }
+.placeholder-selector-5c19b7fb-f51c-471f-afc2-60ad074d60d4 .bn-block-content[data-is-only-empty-block]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Write here, or ask your agent to fill it."; }
+.placeholder-selector-5c19b7fb-f51c-471f-afc2-60ad074d60d4 .bn-block-content[data-content-type="comment_reply"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Add comment..."; }
+.placeholder-selector-5c19b7fb-f51c-471f-afc2-60ad074d60d4 .bn-block-content[data-content-type="edit_comment"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Edit comment..."; }
+.placeholder-selector-5c19b7fb-f51c-471f-afc2-60ad074d60d4 .bn-block-content[data-content-type="new_comment"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Write a comment..."; }
+.placeholder-selector-5c19b7fb-f51c-471f-afc2-60ad074d60d4 .bn-block-content[data-content-type="checkListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "To-do"; }
+.placeholder-selector-5c19b7fb-f51c-471f-afc2-60ad074d60d4 .bn-block-content[data-content-type="numberedListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "List"; }
+.placeholder-selector-5c19b7fb-f51c-471f-afc2-60ad074d60d4 .bn-block-content[data-content-type="bulletListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "List"; }
+.placeholder-selector-5c19b7fb-f51c-471f-afc2-60ad074d60d4 .bn-block-content[data-content-type="toggleListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Toggle"; }
+.placeholder-selector-5c19b7fb-f51c-471f-afc2-60ad074d60d4 .bn-block-content[data-content-type="heading"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Heading"; }
+.placeholder-selector-69b928a9-4e30-4a54-a0aa-e5425e47bd0e .bn-block-content[data-is-empty-and-focused]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Type '/' for commands, or just start writing…"; }
+.placeholder-selector-69b928a9-4e30-4a54-a0aa-e5425e47bd0e .bn-block-content[data-is-only-empty-block]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Write here, or ask your agent to fill it."; }
+.placeholder-selector-69b928a9-4e30-4a54-a0aa-e5425e47bd0e .bn-block-content[data-content-type="comment_reply"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Add comment..."; }
+.placeholder-selector-69b928a9-4e30-4a54-a0aa-e5425e47bd0e .bn-block-content[data-content-type="edit_comment"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Edit comment..."; }
+.placeholder-selector-69b928a9-4e30-4a54-a0aa-e5425e47bd0e .bn-block-content[data-content-type="new_comment"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Write a comment..."; }
+.placeholder-selector-69b928a9-4e30-4a54-a0aa-e5425e47bd0e .bn-block-content[data-content-type="checkListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "To-do"; }
+.placeholder-selector-69b928a9-4e30-4a54-a0aa-e5425e47bd0e .bn-block-content[data-content-type="numberedListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "List"; }
+.placeholder-selector-69b928a9-4e30-4a54-a0aa-e5425e47bd0e .bn-block-content[data-content-type="bulletListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "List"; }
+.placeholder-selector-69b928a9-4e30-4a54-a0aa-e5425e47bd0e .bn-block-content[data-content-type="toggleListItem"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Toggle"; }
+.placeholder-selector-69b928a9-4e30-4a54-a0aa-e5425e47bd0e .bn-block-content[data-content-type="heading"]:has(.ProseMirror-trailingBreak:only-child)::after { content: "Heading"; }
 .ͼ1.cm-focused { outline: rgb(33, 33, 33) dotted 1px; }
 .ͼ1 { box-sizing: border-box; flex-direction: column; position: relative !important; display: flex !important; }
 .ͼ1 .cm-scroller { font-family: monospace; line-height: 1.4; height: 100%; overflow-x: auto; position: relative; z-index: 0; overflow-anchor: none; display: flex !important; align-items: flex-start !important; }
