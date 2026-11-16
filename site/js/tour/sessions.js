@@ -7,7 +7,7 @@ export const sessions = {
   place: "Sessions",
   icon: '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="3"/>',
   links: [
-    { match: { css: 'button[title="Watch this session live (acme-api)"]' }, step: 9 },
+    { match: { css: 'button[title="Watch this session live (acme-api)"]' }, step: 10 },
   ],
   steps: [
     {
@@ -16,7 +16,7 @@ export const sessions = {
       title: "Every AI session on your Mac, live",
       body:
         "<p>Sessions lists every AI coding session running on this computer, from any of the 16 tools Slate supports, whether Slate started it or you did in your own terminal. Nothing to register.</p>" +
-        "<p>The header counts them: <strong>1 need you</strong>, <strong>1 working</strong>, <strong>1 idle</strong>. <kbd>⌘⇧J</kbd> jumps to the one that has waited longest.</p>",
+        "<p>The header counts them: <strong>1 need you</strong>, <strong>1 working</strong>, <strong>4 idle</strong>. <kbd>⌘⇧J</kbd> jumps to the one that has waited longest.</p>",
     },
     {
       screen: "sessions",
@@ -25,6 +25,14 @@ export const sessions = {
       body:
         "<p>Each session sits under its group or project. Its dot says where it stands: amber <strong>Needs you</strong>, green <strong>Working</strong>, grey <strong>Idle</strong>.</p>" +
         "<p>The title is what it was asked to do. The line under it is what it is doing now: its question, its latest step, or the next item of its plan. Those waiting on you come first.</p>",
+    },
+    {
+      screen: "sessions",
+      spot: { text: "2 workers", up: 1 },
+      title: "Hand work to workers",
+      body:
+        "<p>A session can start other agents as its <strong>workers</strong>. Each one gets its own branch and worktree, so none of them edits the same files. They are shown under the session that started them, with a count: <strong>2 workers</strong>.</p>" +
+        "<p>Ask for it in plain words, for example: split these two bugs, one worker each.</p>",
     },
     {
       screen: "sessions",
@@ -127,6 +135,14 @@ export const sessions = {
       body:
         "<p>Point at a row for <strong>⋯</strong> and <strong>Stop</strong>. The menu opens it beside the one you are in, opens a pull request, starts a <strong>Chat</strong>, a <strong>New worktree</strong> or a <strong>Second session here</strong>, runs the dev server with <strong>Run preview</strong>, or copies the resume command.</p>" +
         "<p><strong>Stop</strong> asks for a second click before it ends a session.</p>",
+    },
+    {
+      screen: "sessions-workers",
+      spot: { text: "Approve plan", exact: true, up: 1 },
+      title: "Every stop is yours",
+      body:
+        "<p>Open the session that started them and Details begins with <strong>Workers</strong>: how many are done, and one row for each. The worker that needs you opens by itself.</p>" +
+        "<p>Plans, questions and permissions come to you, never to the session that started them. Read the <strong>Plan</strong>, then <strong>Approve plan</strong> or <strong>Send back</strong> with a note. At most three workers run at once.</p>",
     },
     {
       screen: "sessions-changes",
