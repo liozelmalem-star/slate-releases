@@ -1,5 +1,5 @@
 // Artifacts: docs your agents publish for you to look at, with every version kept.
-// Screens: artifacts-overview, artifacts, artifacts-code, artifacts-old, artifacts-menu, artifacts-md, artifacts-live
+// Screens: artifacts-overview, artifacts, artifacts-code, artifacts-old, artifacts-menu, artifacts-deck, artifacts-live
 // (each artifact's doc is captured into its iframe as srcdoc).
 
 export const artifacts = {
@@ -14,7 +14,7 @@ export const artifacts = {
       spot: { css: "main" },
       spotOpts: { pad: 0 },
       title: "Every artifact at a glance",
-      body: "<p>Artifacts opens on its <strong>Overview</strong>: a card for each artifact, newest first, with a preview of the doc.</p><p>The side panel sorts them by what they are: <strong>Pages</strong>, <strong>Slides</strong> and <strong>Designs</strong>, each with its count. Click a card to open it.</p>",
+      body: "<p>Artifacts opens on its <strong>Overview</strong>: <strong>Recent</strong>, the four newest as cards with a picture, then <strong>Earlier</strong>, the next ten as one line each.</p><p>The side panel sorts them by what they are: <strong>Pages</strong> and <strong>Slides</strong>, each with its count. Click a card to open it.</p>",
       click: { text: "Checkout funnel", exact: true, within: { css: "main" } },
       try: "Click the <strong>Checkout funnel</strong> card.",
     },
@@ -23,7 +23,7 @@ export const artifacts = {
       spot: { css: "main" },
       spotOpts: { pad: 0 },
       title: "Docs your agents made for you",
-      body: "<p>An <strong>artifact</strong> is a doc an agent made for you to look at: a dashboard, a chart, a report, or a note in Markdown. It is kept in your workspace, on this computer, with every version.</p><p>You never edit one by hand. You ask, and the tool publishes it again. Above the doc: who made it and when (<strong>Codex · 10 hours ago</strong>), its title, and what it is.</p>",
+      body: "<p>An <strong>artifact</strong> is something an agent made for you to look at: a dashboard, a chart, a report, or a deck of slides. It is kept in your workspace, on this computer, with every version.</p><p>You never edit one by hand. You ask, and the tool publishes it again. Open, it fills the whole space; the toolbar above keeps what you can do with it.</p>",
     },
     {
       screen: "artifacts",
@@ -78,13 +78,13 @@ export const artifacts = {
       screen: "artifacts-menu",
       spot: { css: '[role="menu"]' },
       title: "The ⋯ menu",
-      body: "<p><strong>Copy HTML</strong> (or <strong>Copy Markdown</strong>), <strong>Open in browser</strong> for an HTML doc, and <strong>Rename</strong>.</p><p><strong>Delete forever</strong> asks once more, then removes every version.</p>",
+      body: "<p><strong>Copy HTML</strong>, <strong>Open in browser</strong> and <strong>Rename</strong>.</p><p><strong>Delete forever</strong> asks once more, then removes every version.</p>",
     },
     {
-      screen: "artifacts-md",
-      spot: { text: "Release notes 0.9", exact: true },
-      title: "Markdown artifacts",
-      body: "<p>Not every artifact is a web doc. <strong>Release notes 0.9</strong> is Markdown, shown as formatted text. It has versions, and the AI helper changes it like any other.</p><p>Search with <kbd>⌘K</kbd> finds a Markdown artifact by its text, too.</p>",
+      screen: "artifacts-deck",
+      spot: { css: '[data-testid="deck"]' },
+      title: "Decks of slides",
+      body: "<p>A deck is shown the way slides are: one 16:9 slide at a time. <strong>‹ 1 / 4 ›</strong> or the arrow keys move, the strip under it shows every slide, and each slide's speaker notes sit below.</p><p><strong>Present</strong> fills the screen. Ask your agent for a deck, and it publishes one.</p>",
     },
     {
       screen: "artifacts-live",
