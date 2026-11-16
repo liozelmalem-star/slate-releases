@@ -12,7 +12,7 @@ const CAPTIONS = {
   artifacts: "Artifacts keeps what your agents publish — a dashboard, a report, a page — with every version, and a box to ask for a change.",
   toolkit: "Toolkit keeps one set of skills, rules and MCP servers, and keeps every agent in sync with it.",
   home: "Home opens on what needs you — a session waiting on an answer, an automation asking first — and a box to ask anything.",
-  sessions: "Sessions shows every AI session on your Mac, by project and branch: who is working, who is waiting on you.",
+  sessions: "Sessions shows every AI session on your Mac, by project and branch: who is working, who is waiting on you. A session can hand work to other agents, each on its own branch, and every plan or question still comes to you.",
   memory: "Memory maps what your tools learned onto the files it cites, tidies itself with an Undo, and asks you only when two memories disagree.",
   standup: "Automations work through what you owe and write to a thread you can answer. This one posts a standup every weekday at 7:00.",
   tasks: "Tasks gathers what you owe — reviews, issues, replies — beside your own to-dos, with reminders.",
