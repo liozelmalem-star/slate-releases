@@ -9,19 +9,16 @@ export const artifacts = {
   title: "Artifacts",
   place: "Artifacts",
   icon: '<path d="M8.3 10a.7.7 0 0 1-.626-1.079L11.4 3a.7.7 0 0 1 1.198-.043L16.3 8.9a.7.7 0 0 1-.572 1.1Z"/><rect x="3" y="14" width="7" height="7" rx="1"/><circle cx="17.5" cy="17.5" r="3.5"/>',
-  links: [
-    { match: { text: "Release notes 0.9", exact: true }, step: 10 },
-    { match: { text: "Acme sessions by tool", exact: true }, step: 11 },
-  ],
+  links: [],
   steps: [
     {
       screen: "artifacts-overview",
       spot: { css: "main" },
       spotOpts: { pad: 0 },
       title: "Every artifact at a glance",
-      body: "<p>Artifacts opens on its <strong>Overview</strong>: a card for each artifact, newest first, with a preview of the doc.</p><p>Click a card, or a name in the side panel, to open it.</p>",
-      click: { text: "Checkout funnel", exact: true, within: { css: "aside" } },
-      try: "Click <strong>Checkout funnel</strong> in the side panel.",
+      body: "<p>Artifacts opens on its <strong>Overview</strong>: a card for each artifact, newest first, with a preview of the doc.</p><p>The side panel sorts them by what they are: <strong>Pages</strong>, <strong>Slides</strong> and <strong>Designs</strong>, each with its count. Click a card to open it.</p>",
+      click: { text: "Checkout funnel", exact: true, within: { css: "main" } },
+      try: "Click the <strong>Checkout funnel</strong> card.",
     },
     {
       screen: "artifacts",
@@ -34,7 +31,7 @@ export const artifacts = {
       screen: "artifacts",
       spot: { css: "aside" },
       title: "How one gets here",
-      body: "<p>In any session, ask any connected agent to <strong>publish this as an artifact</strong>. It sends the doc through Slate's <code>publish_artifact</code> MCP tool, and it lands at the top of this list.</p><p>Tools also publish a chart, a table or a report this way on their own. The list is newest first. <strong>Filter artifacts</strong> narrows it; <kbd>⌘K</kbd> finds one from anywhere.</p>",
+      body: "<p>In any session, ask any connected agent to <strong>publish this as an artifact</strong>. It sends the doc through Slate's <code>publish_artifact</code> MCP tool, and it lands first on the Overview.</p><p>Tools also publish a chart, a table or a report this way on their own. The side panel shows one type at a time, and its search narrows the cards by title; <kbd>⌘K</kbd> finds one from anywhere.</p>",
     },
     {
       screen: "artifacts",
