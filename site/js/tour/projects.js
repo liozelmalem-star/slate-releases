@@ -44,9 +44,9 @@ export const projects = {
     },
     {
       screen: "projects-plan",
-      spot: { text: "Steps done: 4 of 8", up: 1 },
+      spot: { text: "Plans", exact: true },
       title: "Every doc has a type",
-      body: "<p>A doc's type is the folder it sits in, here <strong>Plans</strong>. Under the title is one line of what that type tracks: a plan's steps done, a bug's severity and state, a review's verdict.</p><p>A type tells your agents what the doc is for. It is set when the doc is made and stays; for a different type, make another doc.</p>",
+      body: "<p>A doc's type is the folder it sits in, here <strong>Plans</strong>. Some types say under the title what the doc decided: a design's decision, a bug's severity, a review's verdict. Your agents write that line; to change it, ask the AI helper.</p><p>A type tells your agents what the doc is for. It is set when the doc is made and stays; for a different type, make another doc.</p>",
     },
     {
       screen: "projects-type",

@@ -2,8 +2,6 @@
 // Screens: artifacts-overview, artifacts, artifacts-code, artifacts-old, artifacts-menu, artifacts-md, artifacts-live
 // (each artifact's doc is captured into its iframe as srcdoc).
 
-const ASK = { css: 'input[placeholder^="Ask for a change"]' };
-
 export const artifacts = {
   id: "artifacts",
   title: "Artifacts",
@@ -60,14 +58,13 @@ export const artifacts = {
       screen: "artifacts-old",
       spot: { text: "Restore this version", up: 1 },
       title: "Look back, or bring one back",
-      body: "<p>An older version says so: <strong>You are looking at v2. The newest is v3.</strong></p><p><strong>Restore this version</strong> publishes that doc again as a new version, v4, so nothing in between is lost. A change asked for here starts from v2, and the box says so.</p>",
+      body: "<p>An older version says so: <strong>You are looking at v2. The newest is v3.</strong></p><p><strong>Restore this version</strong> publishes that doc again as a new version, v4, so nothing in between is lost.</p>",
     },
     {
       screen: "artifacts",
-      spot: ASK,
-      type: [ASK, "Make the bars blue and add the v2 funnel next to the old one"],
+      spot: { css: 'button[title^="Ask AI"]' },
       title: "Ask for a change",
-      body: "<p>Type what you want in plain words and press <strong>Change</strong>. Slate starts a session in the project the artifact was made in, on that project's tool (here <strong>Claude Code in atlas</strong>), and opens it.</p><p>The tool reads the doc, sends only what changes, and a new version appears here.</p>",
+      body: "<p>Open the <strong>AI helper</strong>, the lime circle at the bottom right (<kbd>⌘J</kbd>). Beside an open artifact it knows which one you mean. Say what you want in plain words; it runs in the project the artifact was made in, on that project's tool.</p><p>The tool reads the doc, sends only what changes, and a new version appears here.</p>",
     },
     {
       screen: "artifacts",
@@ -87,7 +84,7 @@ export const artifacts = {
       screen: "artifacts-md",
       spot: { text: "Release notes 0.9", exact: true },
       title: "Markdown artifacts",
-      body: "<p>Not every artifact is a web doc. <strong>Release notes 0.9</strong> is Markdown, shown as formatted text. It has versions and <strong>Ask for a change</strong> like any other.</p><p>Search with <kbd>⌘K</kbd> finds a Markdown artifact by its text, too.</p>",
+      body: "<p>Not every artifact is a web doc. <strong>Release notes 0.9</strong> is Markdown, shown as formatted text. It has versions, and the AI helper changes it like any other.</p><p>Search with <kbd>⌘K</kbd> finds a Markdown artifact by its text, too.</p>",
     },
     {
       screen: "artifacts-live",
@@ -99,7 +96,7 @@ export const artifacts = {
       screen: "artifacts",
       spot: { css: "aside" },
       title: "Try it",
-      body: "<p>In a session with your data open, ask: <em>“Make a chart of checkout drop-off by step and publish it as an artifact.”</em> Open it here, then ask for a change in the box and watch <strong>v2 of 2</strong> appear.</p><p>A dashboard you want to stay current? Ask for it <em>live</em>.</p>",
+      body: "<p>In a session with your data open, ask: <em>“Make a chart of checkout drop-off by step and publish it as an artifact.”</em> Open it here, then ask the AI helper for a change and watch <strong>v2 of 2</strong> appear.</p><p>A dashboard you want to stay current? Ask for it <em>live</em>.</p>",
     },
   ],
 };
