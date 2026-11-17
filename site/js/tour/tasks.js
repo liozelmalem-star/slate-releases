@@ -58,21 +58,21 @@ export const tasks = {
       screen: "tasks-bug",
       spot: { css: 'button[aria-label^="Run "]' },
       title: "Open a task, run it with AI",
-      body: "<p>Click any row to open it beside the list. It says where it came from, and <strong>Slate remembers</strong> shows notes from your memory about it.</p><p>The big button says what would run: the steps (here <strong>Slate's own steps</strong> for a bug) and the agent (<strong>Claude Code</strong>). Pressing it starts an AI run. Under <strong>…</strong> are <strong>Open in GitHub</strong>, <strong>Remind me…</strong> and <strong>Hide from Tasks</strong>, which takes it off this list only.</p>",
+      body: "<p>Click any row to open it beside the list. It says where it came from, and <strong>Slate remembers</strong> shows notes from your memory about it.</p><p>The big button says what would run: the flow (here <strong>Fix a bug</strong>) and the agent (<strong>Claude Code</strong>). Pressing it starts the run at once. Under <strong>…</strong> are <strong>Open in GitHub</strong>, <strong>Remind me…</strong> and <strong>Hide from Tasks</strong>, which takes it off this list only.</p>",
     },
     {
       screen: "tasks-bug",
-      spot: { css: 'button[aria-label="Choose the agent and the skill"]' },
+      spot: { css: 'button[aria-label="Choose the automation and the agent"]' },
       click: true,
-      title: "Pick the tool and the skill",
+      title: "Pick the agent and the flow",
       body: "<p>The arrow beside it opens the two choices before anything runs.</p>",
       try: "Click the arrow.",
     },
     {
       screen: "tasks-bug-run",
       spot: { text: "Runs with", exact: true, clickable: false, up: 2 },
-      title: "This run, and every bug after it",
-      body: "<p><strong>Runs with</strong> picks the agent for this run only. <strong>Skill for bugs</strong> picks the steps it follows: Slate's own, or one of the project's skills, such as <strong>checkout-qa</strong>. That choice is saved for every bug in the project.</p><p>A run works on a branch and a folder of its own, and stops for you before anything is pushed, posted or sent.</p>",
+      title: "This run, and the flow behind it",
+      body: "<p><strong>Runs with</strong> picks the agent for this run only. <strong>Automation</strong> lists the flows that take this item; a flow holds the steps, and <strong>Edit in Automations</strong> changes them for every run.</p><p>A run works on a branch and a folder of its own, and stops for you before anything is pushed, posted or sent.</p>",
     },
     {
       screen: "tasks-review",
@@ -83,8 +83,8 @@ export const tasks = {
     {
       screen: "tasks-runs",
       spot: { text: "Fix: Cart total off by one cent", up: 1 },
-      title: "AI runs, step by step",
-      body: "<p><strong>Agent runs</strong> lists every run from the last two weeks, with the steps each one took. A run waits for you before it ships, and shows exactly what will leave your machine before it does.</p><p>This one shipped and is <strong>Waiting for merge</strong>; it finishes when the pull request merges, or when you press <strong>Mark done</strong>.</p>",
+      title: "Every run, in one place",
+      body: "<p>A run lives on its own task: each step it reports and both approvals show in that task's timeline. <strong>Activity</strong> keeps the last two weeks of runs together, with what they cost.</p><p>This one shipped and is <strong>Waiting for merge</strong>; it finishes when the pull request merges.</p>",
     },
     {
       screen: "tasks",
