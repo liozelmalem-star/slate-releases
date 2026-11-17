@@ -118,9 +118,9 @@ export const automations = {
     },
     {
       screen: "automations-edit",
-      spot: { text: "When a task arrives", exact: true, up: 2 },
+      spot: { text: "On a schedule", exact: true, up: 2 },
       title: "Try it: change when it runs",
-      body: "<p>Press <strong>Edit</strong> on any automation. Under <strong>Starts</strong>, pick <strong>By hand</strong>, <strong>On a schedule</strong>, <strong>When a session ends</strong> or <strong>When a task arrives</strong>, and set <strong>Runs on its own</strong>.</p><p>Try it now: open <strong>Weekly review</strong>, set it to Fridays at 4 PM, save, and press <strong>Run now</strong> to read this week's report right away.</p>",
+      body: "<p>Press <strong>Edit</strong> on any automation. Under <strong>When</strong>, pick <strong>On a schedule</strong> and its time, or <strong>By hand</strong>. A flow, such as Code Review, has no time: it runs on a task.</p><p>Try it now: open <strong>Weekly review</strong>, set it to Fridays at 4 PM, save, and press <strong>Run now</strong> to read this week's report right away.</p>",
     },
   ],
 };
