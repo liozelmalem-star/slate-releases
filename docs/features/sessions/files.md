@@ -4,7 +4,7 @@ A file a session changed opens as a tab beside it. Read it with blame and histor
 
 ## Open a file beside the session
 
-**Changed**, at the foot of **Details**, lists every file the session's own tool calls wrote, read from its transcript. Another agent in the same folder never appears on it. Each file opens as a tab beside the session (icon by kind and language); the rail stays on Sessions. A path printed in the terminal opens at that line.
+Changed, at the foot of **Details**, lists every file the session's own tool calls wrote, read from its transcript. Another agent in the same folder never appears on it. Each file opens as a tab beside the session (icon by kind and language); the rail stays on Sessions. A path printed in the terminal opens at that line.
 
 **⌘P finds a file by name in every checkout.** After two letters it lists, beside matching docs, files from every tracked project and each of its worktrees, grouped by checkout and branch (`FILES · acme · main`, `FILES · acme-feat-x · feat/x`).
 

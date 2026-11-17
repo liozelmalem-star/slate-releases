@@ -2,7 +2,7 @@
 
 A receipt is what an AI session ran, checked against what it said. Slate writes one from the transcript when a turn ends, in any captured agent, with no model and nothing leaving this computer.
 
-A session that only talked (no check, no changed file, no commit) gets none. The **Agent runs** count is flagged receipts not yet reviewed.
+A session that only talked (no check, no changed file, no commit) gets none. The number on Activity's [Agent runs](https://liozelmalem-star.github.io/slate-releases/docs/features/activity.md#agent-runs) is flagged receipts not yet reviewed.
 
 ## What it shows
 
@@ -11,7 +11,7 @@ A session that only talked (no check, no changed file, no commit) gets none. The
 - **What it ran**: every test, gate, lint, typecheck and build, in order, with passed and failed counts or exit code.
   A run fails when its summary counts a failure or an error (vitest's `Errors  1 error`, pytest's `2 errors`), or when the command exited with an error even though every test passed. A filter such as `| tail` owns the exit code, so then the counts decide.
 - **What changed**: files edited.
-- **Outcome**: commits its own `git commit` reported, and whether they are on the default branch or were reverted there within 30 days. Checked when you open agent runs, at most every 10 minutes per receipt.
+- **Outcome**: commits its own `git commit` reported, and whether they are on the default branch or were reverted there within 30 days. Checked when a list of receipts is read (Activity's **Agent runs**, or a finished run's **Receipt** on its task), at most every 10 minutes per receipt.
 
 ## Flags
 

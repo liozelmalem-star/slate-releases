@@ -13,7 +13,7 @@ Connecting installs Slate once, by plugin or config hooks, plus one MCP entry. S
 
 ## Two ways in, one at a time
 
-A **plugin** is a directory the tool owns, with five hooks (six for Claude Code) and four slash commands. The tool's own uninstall removes it all. The MCP server is separate: every tool reaches it through one `slate` entry in its config.
+A **plugin** is a directory the tool owns, with five hooks (six for Claude Code) and four slash commands. The tool's own uninstall removes it all. The MCP server is separate: every tool reaches it via one `slate` entry in its config.
 
 * OpenCode and GitHub Copilot have no plugin route, so hooks go into their config. So for Claude Code, Gemini and Cursor when the plugin cannot be installed or run.
 * Codex takes no config hooks. Without its plugin it keeps only the MCP entry.
@@ -64,7 +64,7 @@ The plugin adds these to the `/` menu (type `/slate` in Claude Code):
 
 | Command | What it does |
 |---|---|
-| `/slate:brief` | What Slate knows about this project, in a few lines |
+| `/slate:brief` | Slate's brief on this project, in a few lines |
 | `/slate:recall <what>` | Search your memory, and check any code it cites |
 | `/slate:remember <fact>` | Save one memory, in your words |
 | `/slate:open` | Open this project in the Slate app |

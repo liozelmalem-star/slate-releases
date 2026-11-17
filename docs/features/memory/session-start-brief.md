@@ -41,7 +41,7 @@ Text a [widget](https://liozelmalem-star.github.io/slate-releases/docs/features/
 
 ## A session started from a task
 
-**Run with AI…** on a [task](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks/agent-runs.md) starts the one kind of session whose goal Slate knows before the first word. Instead of the brief, that session gets a card of up to 4,000 characters, in this order:
+**Run <automation>** on a [task](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks/agent-runs.md) starts the one kind of session whose goal Slate knows before the first word. Instead of the brief, that session gets a card of up to 4,000 characters, in this order:
 
 * **Scope:** the task's title, its goal (the note you typed when you started it), the project and the branch.
 * **Open** and **Others:** the same lines as the brief.
@@ -68,7 +68,6 @@ The index is up to 12 lines, one memory each, about 220 characters a line. It is
 |---|---|
 | Automation, **What it knows** tab | **What it gets from memory** lists the next run's lines with why. **Always give this here** puts one first; **Not relevant here** keeps it out. |
 | Home composer, **What it knows** | Same list and choices, for Home's AI across every project. |
-| Agent run, **What Slate knows** row | **Never for agent runs**, beside the **×** that leaves a memory out of one run. |
 | Memory card in [Memory](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/map.md) | Lists every such decision, each with an undo. |
 
 A memory kept out of a project or group never reaches it (index, lesson or widget read). A pinned memory comes first, but a held memory or stale `state` stays out. A replacing memory keeps its predecessor's decisions.

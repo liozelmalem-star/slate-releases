@@ -18,11 +18,11 @@ Slate calls no model to shrink memory: the session you are in proposes and you a
 
 **AI memory care.** Turn on at the **Memory care** row in [Memory](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/map.md) (see [Automations](https://liozelmalem-star.github.io/slate-releases/docs/features/automations.md)). Each night it reads up to 50 memories of one project or group (the largest) twice, separately, with its own agent and the code each cites, and retires only what both readings call wrong. Disagreements wait under **Needs review**. It shows its cost before turning on and stops at a monthly token cap you set. Each reading counts toward the cap as it ends, so a night that fails halfway still counts what it spent. A retired memory nothing replaced returns with **Bring back** under the **Retired** row for 30 days. With it on, an agent's new memory must say in `reason` why it changes what a future agent does.
 
-**Your own schedule.** Save the **Memory pass** [automation](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md#the-ceremonies). Each morning it reads yesterday's sessions and up to 30 of the project's memories (pinned and cited first, then freshest, cut to a size budget) on the project's agent. It adds at most five memories and merges and retires through the same tidy, so its changes show under **Tidied this week**.
+**Your own schedule.** Add the **Memory care** [starter](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md#the-starters). Each night it reads yesterday's sessions and up to 30 of the project's memories (pinned and cited first, then freshest, cut to a size budget) on the project's agent. It adds at most five memories and merges and retires through the same tidy, so its changes show under **Tidied this week**.
 
 ## Learning from what you decline
 
-Slate keeps your no to an AI proposal: an automation's held call answered **No**, a step sent back, a held call denied, a run cancelled with a reason, an app card declined, a Home agent tool call skipped.
+Slate keeps your no to an AI proposal: an automation's held call answered **No**, a step sent back, a held call denied, an app card declined, a Home agent tool call skipped.
 
 A no is never a memory alone. It becomes a proposal under **Memory → Needs review** when you wrote a reason (**Why? (optional)** beside each no) or declined the same action twice in 30 days in the same place. Accepting saves a lesson pinned to the automation, agent runs or app that produced it. At most five such proposals wait per project.
 

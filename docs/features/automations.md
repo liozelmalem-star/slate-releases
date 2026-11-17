@@ -12,9 +12,9 @@ Ten switches are app-wide: off stops it in every workspace. They pause things yo
 
 | Automation | Does | Off means |
 | --- | --- | --- |
-| **Scheduled automations** | Starts your automations at their times and those that run when a session ends; files each report under its group or project. Every workspace on this computer, while Slate runs (window open or not) and the computer is awake | Nothing runs on a schedule; automations stay listed and run by hand |
+| **Scheduled automations** | Starts your scheduled automations at their times; files each report under its group or project. Every workspace on this computer, while Slate runs (window open or not) and the computer is awake | Nothing runs on a schedule; automations stay listed and run by hand or on an item |
 | **Shared workspace sync** | At startup, then every two minutes: pushes your docs in a shared workspace, pulls others'. Needs sign-in. After repeated failures waits longer, up to an hour | Shared workspaces stop updating both ways; **Sync now** still works |
-| **agent runs** | Adds **Run with AI…** to a task (branch, folder, guided run). Every two minutes checks if a shipped run's pull request merged; for 30 days after shipping, hourly checks for a revert | Task card offers only **Just open a session**; started runs keep their rules; no merge or revert checks |
+| **agent runs** | Adds **Run <automation>** to a task (branch, folder, guided run). Every two minutes checks if a shipped run's pull request merged; for 30 days after shipping, hourly checks for a revert | Task card opens only a plain session; started runs keep their rules; no merge or revert checks |
 | **Reminders** | Rings when a task with a time comes due, in every workspace on this computer | Nothing rings; times stay |
 | **AI memory care** (per workspace) | [Below](#ai-memory-care) | Free rules only: memories whose code is gone or whose state expired are hidden, badly shaped new ones refused; nothing spent |
 | **Automatic updates** | Checks for a version, downloads in background, installs on next quit | Keep your version until you check in Settings → About |
@@ -42,7 +42,7 @@ A switch applies on the next tick, not next launch: within a minute for the auto
 ## What reaches the network
 
 - **Slate's own account** ([Privacy & Security](https://liozelmalem-star.github.io/slate-releases/docs/features/privacy-and-security.md)): the update check (release manifest) and shared-workspace sync.
-- **Through your agent's CLI, under its auth**: scheduled automations, session-end automations, agent runs, AI memory care.
+- **Through your agent's CLI, under its auth**: scheduled automations, automations run on an item, agent runs, AI memory care.
 - **Your own `gh` or `glab`**: agent run merge check and revert search (revert search is GitHub only).
 - Everything else is local.
 

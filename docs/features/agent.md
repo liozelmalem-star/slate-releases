@@ -21,12 +21,12 @@ Each card has a badge for its kind; the deck is ordered by it, blocking first. T
 |---|---|---|---|
 | 1 | **Needs permission** (amber) | The agent wants to run a tool call and waits for your yes | The command in a code box, **Open to allow**, **Later** |
 | 2 | **Asks you** (amber) | The session's last turn ends on a question | If Slate runs the session: a **Reply** box, **Send**, **Open**, **Later**. For a terminal Slate does not own: **Open session**, **Later**, and a line saying the answer is typed there |
-| 3 | **Automation asks** (amber) | A call an automation's rules held ([Automations](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md#when-it-asks-first)) | The call, **Yes, do it**, **No** with an optional reason, **Open the thread**, **Later** |
+| 3 | **Automation asks** (amber) | A call an automation held ([Automations](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md#when-it-asks-first)) | The call, **Yes, do it**, **No** with an optional reason, **Open the thread**, **Later** |
 | 4 | **Review asked** or **Task** (grey) | A task in Tasks that needs you | **Open in Tasks**, **Open in {app}** (such as GitHub), **Later** |
 | 5 | **Reminder** (amber) | A reminder you set on a task | **Open in Tasks**, **Done**, **Later** |
 | 6 | **Finished** (grey) | The session's turn is a report: nothing blocks | **Open session**, **Mark seen**, **Later** |
 
-The card title is one plain line: the question the reply ends on, or its first sentence. Below it the reply shows as markdown, about four lines; **Read the whole reply** opens the session. Only Claude Code's transcripts show a pending tool call today, so other tools are **Asks you** or **Finished**, never **Needs permission**.
+The card title is one plain line: the question the reply ends on, or its first sentence. A **Finished** card shows only that title. Other cards add at most one plain line of the reply, cut at a word. **Open session** shows the whole reply. Only Claude Code's transcripts show a pending tool call today, so other tools are **Asks you** or **Finished**, never **Needs permission**.
 
 - **Send** on an **Asks you** card removes it and you stay on Home. For agents not proved to send on Enter, the answer is typed into the prompt and not sent, and the card says *Typed — press Enter in the session to send it.*
 - **Later** sets a card aside until you restart Slate; a session set aside returns when it says something new. **Mark seen** does the same for a finished session.
@@ -89,7 +89,7 @@ Home always covers every project in the open workspace: the tool's searches, the
 | Automation | Its steps |
 | Report | Its text |
 
-If Slate cannot read one, the conversation says so instead of sending without it. `/` and `@` also work in a session's **Conversation** prompt and in **Run with AI**'s *What to type in*.
+If Slate cannot read one, the conversation says so instead of sending without it. `/` and `@` also work in a session's **Conversation** prompt and in *What to type in* when Run with AI opens a plain session for a task no automation takes.
 
 ## In this section
 

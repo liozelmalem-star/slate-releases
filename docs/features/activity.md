@@ -32,6 +32,10 @@ Your [widgets](https://liozelmalem-star.github.io/slate-releases/docs/features/w
 
 The side panel holds the **project picker** (All projects, or one), the **range** (7d, 30d, 90d, 1y, All) and **saved views** (range, filter and project kept under a name; the view on screen is marked; **Remove view** offers **Undo**). Drag across the trend chart to zoom; click a breakdown row to filter the board to it.
 
+## Agent runs
+
+Runs started from Tasks, Automations or another session in the last 14 days, newest first: status, steps, approvals and the session's [receipt](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks/receipts.md). A line above sums runs started, done, pull requests and estimated cost. The number on the title is flagged receipts not yet reviewed. A session you ran yourself is not here (see **Details** in [Sessions](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions.md)). A run in progress also shows on its task in [Tasks](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks.md).
+
 ## Where the numbers come from
 
 Slate's watcher reads each agent's own files: the session transcripts of Claude Code, Codex, Gemini, Cursor and the other tools that write them, and the databases of tools that keep sessions in SQLite (OpenCode, Kiro, Hermes Agent, Goose and Kilo Code).

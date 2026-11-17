@@ -1,45 +1,38 @@
-# Agent runs: Workflow
+# Agent runs: which automation runs
 
-Each kind of [agent run](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks/agent-runs.md) runs **one skill per project**. This guide lists the kinds, skill sources and how to change a rule.
+A run on a task is a run of one of your [automations](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md). The automation holds the process. Tasks only picks the automation and the item.
 
-## The six kinds
+## Which automation fits
 
-| Kind | How it is known | Steps |
-| --- | --- | --- |
-| **Bug** | Ticket type Bug or Defect (Jira), or GitHub issue with a bug label | Read it, Plan, you approve, Build, Check, Draft, you approve, Ship |
-| **Feature** | Any other ticket | As bug |
-| **Someone else's PR** | You were asked to review it | Read it, Review, you approve, Post |
-| **My PR** | Yours; a reviewer asked for changes | Read the comments, Plan, you approve, Build, Check, Draft, you approve, Push and comment. Then done; the next review round is a new run |
-| **My PR, checks failing** | Yours; checks fail | Read the checks, then as **My PR** |
-| **My PR, ready to merge** | Approved, checks pass, no conflicts | Read it, then as **My PR**: updates the branch and pushes. The merge is yours; a run never merges |
+The input the item has decides which automations the Run menu lists. With none of your own that take it, the menu lists the starters below that do; the first run adds one to Automations.
 
-Your pull request awaiting reviewers or running checks has no kind yet; you can pick one. A pull request you opened counts as yours even if assigned to yourself.
+| The item is | Input | Starter that fits | Steps |
+| --- | --- | --- | --- |
+| An issue (a bug) | **An issue** | **Fix a bug** | Reproduce, find the cause, failing test and fix, pull request |
+| A ticket | **A ticket** | **Implement** | Plan, build in small steps, test, pull request |
+| A pull request asked of you | **A pull request** | **Code Review** | Read it, check the rules, run the checks, write the review |
+| Your pull request | **A pull request** | **Answer review** | Read each comment and failing check, change the code or reply, run the checks, push |
+| A question or an issue to look into | **A question** | **Research** | Look it up, write the finding, change nothing |
+| A message | **A message** | **Draft a reply** | Look it up, draft, send only when you approve |
 
-## Skills
+Your pull request awaiting reviewers or running checks has nothing to run yet. A pull request you opened counts as yours even if assigned to yourself. A run never merges.
 
-A skill is one the project keeps (`fix-bug`, `dev-flow`, `code-review`) or **Slate's own steps**. Skills are read from `.claude/skills`, `.agents/skills`, `.cursor/skills`, `.gemini/skills`, `.opencode/skills`, also in sub-packages. A folder with no `SKILL.md` is not a skill.
+You can change a starter or make your own: [Automations](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md#make-an-automation).
 
-Slate suggests by skill **name**, best first, never by description. No match: Slate's own steps run until you pick.
+## A project skill can replace the steps
 
-| Kind | Names looked for |
+If the project keeps a skill for the same work (`fix-bug`, `development`, `code-review`, `address-review`), the automation can follow it instead of its plain steps. Pick it in the automation, under **Do**. Slate looks for these names, best first, when it suggests one:
+
+| Work | Names looked for |
 | --- | --- |
-| Bugs | `fix-bug`, `bugfix`, `fix` |
-| Features | `dev-flow`, `development` |
-| Reviews | `code-review`, `review` |
-| Your pull request | `address-review`, `fix-pr` |
-| Failing checks | `fix-checks`, `fix-ci` |
-| Ready to merge | `git-merge`, `merge`, `land` |
+| Fix a bug | `fix-bug`, `bugfix`, `fix`, `hotfix`, `debug` |
+| Implement | `development`, `dev-flow`, `feature`, `implement` |
+| Code Review | `code-review`, `review`, `pr-review`, `review-pr` |
+| Answer review | `address-review`, `address-comments`, `pr-feedback`, `fix-pr`, `respond` |
+| Research | `research`, `investigate` |
 
-## Change a rule
-
-1. Open **Workflow**, the folded box atop Issues and Reviews: that section's rules for one project (*Bugs → fix-bug*), with a project picker.
-2. Pick a skill. The run button's menu and the start dialog change the same rule.
-3. It saves at once for every task of that kind in that project. A changed rule says **Changed** and resets in one click.
-
-If a picked skill leaves the project, the rule says so and Slate's own steps run. **Open** shows the skill in Toolkit; the rule shows its use in the last 30 days (**ran 4× · 1 stopped by you**).
-
-A kind with no skill shows **Slate's own steps** and **New review skill** (or **New bug skill**). It opens [Toolkit](https://liozelmalem-star.github.io/slate-releases/docs/features/studio.md)'s New skill form on that project with name and description filled. **Create** writes the skill, makes it the rule and returns to Tasks; **Cancel** writes nothing. Offered for a project, not a group.
+Skills are read from `.claude/skills`, `.agents/skills`, `.cursor/skills`, `.gemini/skills` and `.opencode/skills`, also in sub-packages. A folder with no `SKILL.md` is not a skill. If the skill leaves the project, the editor says so and the plain steps run until you pick another.
 
 ## Steps and approvals stay
 
-A whole-process skill still runs inside Slate's steps: each step opens the skill's `SKILL.md` and follows it for that step only. The plan still waits for approval; nothing ships before it. The skill lives in the run's folder (a committed one already does; an uncommitted one is copied in with its files), so the agent does not ask permission per step. Skill text is never copied into a prompt. A run keeps its starting skill; a rule change affects the next run.
+A skill still runs inside Slate's steps: each step opens the skill's `SKILL.md` and follows it for that step only. The plan still waits for your approval; nothing ships before it. The skill lives in the run's folder, so the agent does not ask permission per step. Skill text is never copied into a prompt. A run keeps its starting skill; a change to the automation affects the next run.

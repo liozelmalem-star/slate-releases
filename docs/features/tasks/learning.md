@@ -26,7 +26,7 @@ A connected app in Connect → Integrations with no reader shows **Not read yet*
 
 **Write-word check.** Every tool is checked when picked, when kept and on every read. Refused: any tool with a write word in its name (send, create, update, remove, add, move, post, reply, comment, merge, close, assign, set, mark, upload, write and about fifty more), or belonging to another app. Filter words pass: `get_assigned_issues` yes, `assign_issue` no.
 
-**Tools only your Claude account reaches** (a claude.ai connector such as monday.com): read by Claude (Haiku) only when you press **Sync** (at most every 2 minutes). Opening Tasks never starts a model call, so your Claude usage is spent only when you ask. Never a tool Slate reads itself; no background timer.
+**Tools only your Claude account reaches** (a connector in claude.ai, such as monday.com): read by Claude (Haiku) only when you press **Sync** (at most every 2 minutes). Opening Tasks never starts a model call, so your Claude usage is spent only when you ask. Never a tool Slate reads itself; no background timer.
 
 ## What is stored
 

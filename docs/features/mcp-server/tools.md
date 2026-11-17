@@ -83,7 +83,7 @@ A widget's id given to `get_artifact` or `publish_artifact` answers `is_a_widget
 
 | Tool | Purpose |
 | --- | --- |
-| `run_automation` | Without `id`: this workspace's [automations](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md), each with `id`, `name`, `description`, `trigger`, `enabled`, `last_run`, `last_error`. With `id`: start that automation now, as **Run now** does, and get `run_id`; a run already going is joined (`started: false`). The run shows in Slate and asks before it acts, as any run does. Needs Slate open (else `slate_not_running`); an automation that cannot start answers `run_not_startable` with the reason. Making or changing an automation is done in Slate. |
+| `run_automation` | Without `id`: this workspace's [automations](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md), each with `id`, `name`, `description`, `trigger`, `enabled`, `last_run`, `last_error`. With `id`: start that automation now, as **Run now** does, and get `run_id`; a run already going is joined (`started: false`). The run shows in Slate and asks before it acts, as any run does. Needs Slate open (else `slate_not_running`); an automation that cannot start answers `run_not_startable` with the reason. An automation that takes an item (a flow) starts only with `item`, on that item; without one, or on an item it does not take, it answers `invalid_request` with Slate's reason. Making or changing an automation is done in Slate. |
 
 ## Agent runs
 

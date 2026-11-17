@@ -25,7 +25,7 @@ A session groups under the group or project its folder is filed under. One in a 
 
 | Part | Shows |
 | --- | --- |
-| Title | The **branch**, with what its checkout holds and its pull request (`ui/hotfixes ↑4`); also heads the doc and tab. Tooltip: what it was asked (or its name) and the branch goal. No branch: the name, else the opening prompt. Claude Code's default name (`slate-66`) counts as none. Home cards are titled by what was asked |
+| Title | The **branch**, with what its checkout holds and its pull request (`ui/hotfixes ↑4`); also heads the doc and tab. The branch is the one that session last edited a file on, else the one it started on, so two sessions sharing a folder can show different branches. A session that lands its branch and goes back to `main` keeps that branch's name until it edits a file on `main`. Tooltip: what it was asked (or its name) and the branch goal. No branch: the name, else the opening prompt. Claude Code's default name (`slate-66`) counts as none. Home cards are titled by what was asked |
 | Live line | The question when it waits on you; what it said it was doing when it works; the next unticked plan item when it went quiet with work left |
 | Meta line | Tool mark, time since it moved, how it runs, context fill, [flow](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/flow.md) strip with its current word ("Build", "Check", "Waiting") or plan progress (`0/4`) before any flow. Terminal glyph: Slate runs it and you can type. Eye: your own terminal, Slate only follows. **Flagged** badge: an unseen transcript flag; point at it for each flag and its run |
 

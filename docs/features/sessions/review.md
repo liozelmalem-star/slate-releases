@@ -27,7 +27,7 @@ After Merge or Discard the next waiting branch opens, oldest first. If `main` mo
 
 ## What the branch changed
 
-**Changed** is one session's own work. The panel's **Changes** is everything the branch holds that its base lacks, whoever wrote it: the question before a merge. It counts from where the branch left its base (later base commits never count) and **includes uncommitted work**.
+Changed is one session's own work. The panel's **Changes** is everything the branch holds that its base lacks, whoever wrote it: the question before a merge. It counts from where the branch left its base (later base commits never count) and **includes uncommitted work**.
 
 Changes shows the worktree of the agent you work in: branch once on its row, then source control. With no agent selected, each worktree with a session is a one-line section (branch, lines waiting to commit); **▸** opens it. The branch name opens the whole review. A worktree's files and search are in Projects' Code.
 

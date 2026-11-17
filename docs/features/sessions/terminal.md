@@ -27,7 +27,8 @@ A session's tab has no doc chrome. One line above the terminal gives plan progre
 | Keys ([list](https://liozelmalem-star.github.io/slate-releases/docs/features/shortcuts.md#terminal)) | ⌘F searches scrollback too; ⌘C, ⌘V, ⌘+/−/0 zoom (remembered). `Ctrl-C` still interrupts: every other app chord (⌘K, ⌘P, ⌘W) reaches the app, not the CLI. Shift+Enter adds a line. Option is Meta: ⌥←/⌥→ jump a word, ⌥⌫ removes one |
 | Mouse | Selecting copies (a switch in Settings → Terminal); middle button pastes; right-click: Copy, Paste, Select all, Clear (⌥⌘K), **Remember on *doc*** |
 | Scrolling up | Output keeps arriving; a **Newest output** pill returns you. Past the scrollback limit: *earlier output is no longer kept* |
-| Links | A local server address (`http://localhost:5173`) opens in Slate's browser as a tab beside the session; other URLs open in your browser. A printed `slate://page/<id>` opens that doc beside the session. A printed path like `src/x.ts:42` opens that file at that line, resolved against where the session runs |
+| Links | A local server address (`http://localhost:5173`) opens in Slate's browser as a tab beside the session; other URLs open in your browser. A printed `slate://page/<id>` opens that doc beside the session. A printed path like `src/x.ts:42` (or a screenshot's `.png`) opens that file at that line, resolved against where the session runs. A hyperlink a CLI writes (OSC 8), `file://` included, opens the same way, with the same label on hover; nothing asks first. Conversation opens links by the same rules |
+| Pictures | A picture a CLI draws in the terminal (sixel, or the iTerm2 inline-image protocol that `imgcat` uses) shows in place. Each terminal keeps up to 32 MB of them; past that the oldest becomes a placeholder |
 | Settings → Terminal | Font, size, line height, cursor shape and blink (only the terminal you type in blinks), copy-on-select, scrollback (5,000 lines default). Changes reach sessions on screen |
 | Hidden terminals | Behind another tab or a hidden window they keep the last 1,000 lines; on return, full scrollback again |
 | Remember a selection | A bar appears over the foot: **Copy**, or **Remember**, which files the selection as a memory under the session's doc. Nothing is captured automatically |
@@ -49,7 +50,7 @@ One panel on the right shows what the session in your active column (blue line o
 
 ### Details
 
-Four sections: **Environment** (tool, project, branch, folder, other agents there), **Progress** ([flow](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/flow.md) as one line such as "Check · 4 of 5", "27m in", and a bar), **Context** (fill; for a tool that states no window, past 200k tokens is read against a 1M window) and **Links**. The foot holds what the branch is for (doc, goal, documents under it), **Changed**, **Recorded** and **Given**. A session ends from its tab.
+Four sections: **Environment** (tool, project, branch, folder, other agents there), **Progress** ([flow](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/flow.md) as one line such as "Check · 4 of 5", "27m in", and a bar), **Context** (fill; for a tool that states no window, past 200k tokens is read against a 1M window) and **Links**. The foot holds what the branch is for (doc, goal, documents under it), Changed, **Recorded** and **Given**. A session ends from its tab.
 
 **Links** is what the branch is attached to. Shut: `PR #142 · #138`. Opened: a row per source mark (GitHub, Jira, Linear, Slate); click to open. The PR number comes from your remote with no sign-in. A PR's title, checks and reviews, and a GitHub issue, are read with your own `gh` only after you press Connect on GitHub's card; before that the card shows the number alone.
 
@@ -71,5 +72,9 @@ Nothing attached: no card.
 - The agent's plan (Claude Code's todo list, Codex's plan) sits on top with items done.
 - Last 60 turns shown. Step output over 4,000 characters keeps its first and last 2,000.
 - Claude Code, Codex, Gemini and OpenCode record each call with its output. Cursor records calls only; its timeline says so.
+- A picture a tool returned (a screenshot, a website a browser tool looked at, an image a script made) shows under its step; click it for full size. Claude Code and Codex record these. Each picture up to about 1.1 MB is kept, about 4.4 MB a turn in all; past that the step says how many were not kept.
+- Links in what the agent said open as in the terminal: `slate://page/<id>` opens the doc beside the session, and a path, in backticks or in a sentence (`src/x.ts:42`), opens the file at that line, resolved against the folder the session started in.
+- An image the agent put in its reply, such as a chart it saved to disk, shows from disk, up to 8 MB, and only from a folder Slate may read. An image on the web is never loaded: it shows as a card you click to open it.
+- A ```` ```mermaid ```` block is drawn as a diagram, as in a doc.
 
 A [receipt](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks.md#receipts) is read from the same timeline.

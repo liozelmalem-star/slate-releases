@@ -1,6 +1,54 @@
 # Where tasks come from
 
-A normal read uses no agent and no tokens. This guide lists the source for each tool, how often it is read, and how Messages is limited to the workspace.
+A normal read uses no agent and no tokens. No model runs on any sync. This guide lists the source for each tool, how often it is read, and how Messages is limited to the workspace.
+
+## What Tasks takes from each tool
+
+What Tasks takes from a tool is a list of **reads** in the workspace. A read is one way Slate asks a tool what needs you: GitHub's search for reviews asked of you, a Jira query, Gmail's unread search, Slack's waiting rule. The word "read" is not on screen; the panel beside the Overview's map says what the tool sends to Tasks.
+
+- **Defaults.** Slate writes its own list once per workspace: GitHub's six searches, Jira's query, Gmail's unread search, Slack's waiting rule, one on/off line for each app with a read card and for each token app, and every recipe Slate learned. A default can be turned off, never edited. Once turned off it stays off.
+- **Each task knows its read.** The read that found a task is kept with it. That is what the reason line, the counts and the rules below use.
+- **A read that fails keeps its last tasks.** Slate shows its failure and does not clear them.
+- **Turn one off** and its tasks leave on the next sync. A task you dismissed or set a reminder on stays hidden, as under "When a source really goes away".
+- **When two reads find one item**, the earlier read keeps it: defaults first, then the ones you added, in the order you added them.
+- **At most 5 reads of your own** per integration in a workspace.
+
+Open the list in Tasks: on the Overview, click an integration (or point at a working app in Connect and use **Choose what Tasks shows**). See [Choose what Tasks shows](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks.md#choose-what-tasks-shows).
+
+### Where each tool looks
+
+Step 1 of the panel narrows every read of one tool to what you tick there. The choice is kept per workspace and per tool; it changes no read, only what each one asks.
+
+| Tool | Step 1 lists | How it narrows the read |
+| --- | --- | --- |
+| GitHub | A git repository you own or belong to | Each search is narrowed to the ticked git repositories |
+| Jira | A project | Each JQL query starts with `project in (…)` |
+| Gmail | "From people" you work with, a label, or "Anything else that names a project" | A label adds a `label:` term; the other two choose which half of the workspace filter in [Messages stay in this workspace](#messages-stay-in-this-workspace) keeps a message |
+| Slack, Zulip, Rocket.Chat, Mattermost | A channel | Only messages in ticked channels are kept |
+| Token apps, and apps read through their own MCP server | The value their project word takes | Passed as that argument of the call |
+
+Until you change it, Slate works the choice out on each sync and saves nothing. GitHub reads only the workspace's own git repositories, and Gmail keeps its workspace filter. A tracker or chat app shows the projects or channels your current tasks come from as ticked, but is not narrowed until you change a tick, so a new project still comes in. When Slate's choice comes out empty (a workspace with no git remote), the read is not narrowed. Reads Slate learned (recipes) and read cards are narrowed too, when they call the tool whose project, board or space step 1 lists: that tool is asked once for each one you ticked. A read whose call already names one is left as it is. Untick everything there and the tool sends nothing. These lists are read at most every 10 minutes and show the first 200.
+
+### What you can add
+
+An addition is a sentence with words you fill in. The sentence becomes the tool's own query, and the exact text shows under **Other ways**.
+
+| Tool | Sentences | Becomes |
+| --- | --- | --- |
+| GitHub | **Issues with a label**, **Pull requests with a label**, **Your pull requests with failing checks**, **Pull requests that change a folder** | A GitHub search. GitHub's search cannot filter by folder, so a folder read searches the project and then checks the files of those pull requests |
+| Jira | **Issues with a status**, **Issues with a label**, **Issues of one type** (in a project) | A JQL query |
+| Gmail | **Mail from someone**, **Mail with a label** (from the last N days), **Recent unread mail** | A Gmail search. Like every Gmail read, it keeps the workspace filter in [Messages stay in this workspace](#messages-stay-in-this-workspace) |
+| Slack | **Messages in a channel**, **Direct messages**, **Mentions of you**, each over the last N days | Slack's waiting rule with that channel, kind and window. Whether you answered is still decided by Slate: a newer message of yours in the channel. A channel you pick is not narrowed by the workspace filter |
+| YouTrack | **Issues in a project**, **Issues from a search** | YouTrack's own query: `project: <key> #Unresolved`, or the text you type |
+| Gitea, Forgejo, Bitbucket, Gerrit | **Reviews in a project** | The same "waiting on you" read, narrowed to one project. While the default line is on it finds nothing new; it matters once that line is off |
+| Zulip, Rocket.Chat | **Messages in a channel** | Unread messages in that stream or room, one row per topic |
+| Linear, ClickUp, Notion, and any app Slate learned to read | **By <argument>**, one per argument the app's read-only tool takes | The same tool call as the default, with that argument set. The arguments and their values are read off the tool's own input description and, where the app has a read-only list tool, its list. No model chooses them. A tool that is not read-only offers nothing |
+
+Typed text under **Other ways** works for these tools too. A GitHub read that GitHub refuses (a bad query) fails alone and keeps its last tasks. A sign-in or rate-limit failure still stops the whole GitHub read.
+
+monday.com offers no sentence: its read tool takes one GraphQL query that Slate fixes, so its line is on or off only. Typed text under **Other ways** is for GitHub, Jira and Gmail.
+
+Adding, changing or turning off a read starts a sync at once.
 
 ## GitHub
 
@@ -11,7 +59,7 @@ Read through the **GitHub CLI** (`gh`) once you press **Connect** on its card in
 - Every AI session started in a project runs `gh` as the sign-in reaching that project. An agent run shows GitHub connected only when one of your sign-ins reaches the project.
 - A write made in your name (an app's card) runs as exactly the login shown, with that login's token for that one call. If `gh` cannot confirm that login, the write is refused and asks you to sign in.
 - Read on opening Tasks, and on returning to the window after a minute. Each read first asks GitHub whether anything changed; a full read follows a change, a last read over ten minutes old, or **Sync**.
-- Six lists: reviews asked of you, pull requests assigned to you, your open pull requests, issues assigned to you, and on git repositories your account owns, pull requests nobody reviewed or took (**On your projects**) and unassigned issues. A task on several lists shows once.
+- Six default lists: reviews asked of you, pull requests assigned to you, your open pull requests, issues assigned to you, and on repositories your account owns, pull requests nobody reviewed or took (**On repositories you own**) and unassigned issues. A task on several lists shows once. Each list is a read you can see, turn off or add to (above).
 - One more read gets your open pull requests' state (review decision, checks, can merge). If it fails they show under **Waiting on review**.
 - No `gh`: **Unavailable**. Signed out, or no sign-in sees the workspace's git repositories: **Sign in** (`gh auth login`). A workspace whose docs name no GitHub git repository shows no GitHub row.
 

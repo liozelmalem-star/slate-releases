@@ -25,7 +25,7 @@ The agent can read files, edit files and run shell commands in the project you s
 - **Always allow** appears only when the CLI offered a rule. A question card has no **Approve**: each answer is a button.
 - Several calls at once queue and show one at a time. An answer belongs to its own card, so a double click cannot approve the next one unseen.
 - Slate's own tools (reading docs, writing memory) skip the card. Everything else asks, including MCP servers you connected.
-- Background work (an automation's run) shows no card while running. Its rules decide, and a call that changes something is held and appears on Home as an **Automation asks** card after the run ([Automations](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md#when-it-asks-first)).
+- Background work (an automation's run) shows no card while running. The automation holds what changes something, and a call that changes something is held and appears on Home as an **Automation asks** card after the run ([Automations](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md#when-it-asks-first)).
 
 ## Autonomy
 

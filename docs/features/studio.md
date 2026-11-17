@@ -81,7 +81,7 @@ Toolkit opens on **Suggestions** while any wait, and on **Skills** otherwise.
 
 **Output styles** (`.claude/output-styles`) has a tab too.
 
-An empty kind keeps its tab and a **New …** button. Every tool whose file holds an item gets a mark, in the same order on every row. A tool this workspace is not connected to is greyed, and its label says **Not connected in this workspace**. **No agent reads it** shows only when no tool holds the item at all. A personal file such as `settings.local.json` is marked **this computer only**. A config that does not parse is listed with the reason and what its tool does (Gemini CLI and OpenCode refuse to start).
+An empty kind keeps its tab and a **New …** button. Every tool whose file holds an item gets a mark, in the same order on every row. A tool this workspace is not connected to is greyed, and its label says it is not connected in this workspace. **No agent reads it** shows only when no tool holds the item at all. A personal file such as `settings.local.json` is marked **this computer only**. A config that does not parse is listed with the reason and what its tool does (Gemini CLI and OpenCode refuse to start).
 
 Links into an item: a session's **Setup used**, the skill a kind of work runs in Tasks' **Workflow**, the skill an accepted lesson became (Memory), a subagent's type under a session, each skill in the composer's **/** list.
 

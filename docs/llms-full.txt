@@ -373,7 +373,7 @@ A session groups under the group or project its folder is filed under. One in a 
 
 | Part | Shows |
 | --- | --- |
-| Title | The **branch**, with what its checkout holds and its pull request (`ui/hotfixes ↑4`); also heads the doc and tab. Tooltip: what it was asked (or its name) and the branch goal. No branch: the name, else the opening prompt. Claude Code's default name (`slate-66`) counts as none. Home cards are titled by what was asked |
+| Title | The **branch**, with what its checkout holds and its pull request (`ui/hotfixes ↑4`); also heads the doc and tab. The branch is the one that session last edited a file on, else the one it started on, so two sessions sharing a folder can show different branches. A session that lands its branch and goes back to `main` keeps that branch's name until it edits a file on `main`. Tooltip: what it was asked (or its name) and the branch goal. No branch: the name, else the opening prompt. Claude Code's default name (`slate-66`) counts as none. Home cards are titled by what was asked |
 | Live line | The question when it waits on you; what it said it was doing when it works; the next unticked plan item when it went quiet with work left |
 | Meta line | Tool mark, time since it moved, how it runs, context fill, [flow](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/flow.md) strip with its current word ("Build", "Check", "Waiting") or plan progress (`0/4`) before any flow. Terminal glyph: Slate runs it and you can type. Eye: your own terminal, Slate only follows. **Flagged** badge: an unseen transcript flag; point at it for each flag and its run |
 
@@ -673,7 +673,8 @@ A session's tab has no doc chrome. One line above the terminal gives plan progre
 | Keys ([list](https://liozelmalem-star.github.io/slate-releases/docs/features/shortcuts.md#terminal)) | ⌘F searches scrollback too; ⌘C, ⌘V, ⌘+/−/0 zoom (remembered). `Ctrl-C` still interrupts: every other app chord (⌘K, ⌘P, ⌘W) reaches the app, not the CLI. Shift+Enter adds a line. Option is Meta: ⌥←/⌥→ jump a word, ⌥⌫ removes one |
 | Mouse | Selecting copies (a switch in Settings → Terminal); middle button pastes; right-click: Copy, Paste, Select all, Clear (⌥⌘K), **Remember on *doc*** |
 | Scrolling up | Output keeps arriving; a **Newest output** pill returns you. Past the scrollback limit: *earlier output is no longer kept* |
-| Links | A local server address (`http://localhost:5173`) opens in Slate's browser as a tab beside the session; other URLs open in your browser. A printed `slate://page/<id>` opens that doc beside the session. A printed path like `src/x.ts:42` opens that file at that line, resolved against where the session runs |
+| Links | A local server address (`http://localhost:5173`) opens in Slate's browser as a tab beside the session; other URLs open in your browser. A printed `slate://page/<id>` opens that doc beside the session. A printed path like `src/x.ts:42` (or a screenshot's `.png`) opens that file at that line, resolved against where the session runs. A hyperlink a CLI writes (OSC 8), `file://` included, opens the same way, with the same label on hover; nothing asks first. Conversation opens links by the same rules |
+| Pictures | A picture a CLI draws in the terminal (sixel, or the iTerm2 inline-image protocol that `imgcat` uses) shows in place. Each terminal keeps up to 32 MB of them; past that the oldest becomes a placeholder |
 | Settings → Terminal | Font, size, line height, cursor shape and blink (only the terminal you type in blinks), copy-on-select, scrollback (5,000 lines default). Changes reach sessions on screen |
 | Hidden terminals | Behind another tab or a hidden window they keep the last 1,000 lines; on return, full scrollback again |
 | Remember a selection | A bar appears over the foot: **Copy**, or **Remember**, which files the selection as a memory under the session's doc. Nothing is captured automatically |
@@ -695,7 +696,7 @@ One panel on the right shows what the session in your active column (blue line o
 
 ### Details
 
-Four sections: **Environment** (tool, project, branch, folder, other agents there), **Progress** ([flow](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/flow.md) as one line such as "Check · 4 of 5", "27m in", and a bar), **Context** (fill; for a tool that states no window, past 200k tokens is read against a 1M window) and **Links**. The foot holds what the branch is for (doc, goal, documents under it), **Changed**, **Recorded** and **Given**. A session ends from its tab.
+Four sections: **Environment** (tool, project, branch, folder, other agents there), **Progress** ([flow](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/flow.md) as one line such as "Check · 4 of 5", "27m in", and a bar), **Context** (fill; for a tool that states no window, past 200k tokens is read against a 1M window) and **Links**. The foot holds what the branch is for (doc, goal, documents under it), Changed, **Recorded** and **Given**. A session ends from its tab.
 
 **Links** is what the branch is attached to. Shut: `PR #142 · #138`. Opened: a row per source mark (GitHub, Jira, Linear, Slate); click to open. The PR number comes from your remote with no sign-in. A PR's title, checks and reviews, and a GitHub issue, are read with your own `gh` only after you press Connect on GitHub's card; before that the card shows the number alone.
 
@@ -717,6 +718,10 @@ Nothing attached: no card.
 - The agent's plan (Claude Code's todo list, Codex's plan) sits on top with items done.
 - Last 60 turns shown. Step output over 4,000 characters keeps its first and last 2,000.
 - Claude Code, Codex, Gemini and OpenCode record each call with its output. Cursor records calls only; its timeline says so.
+- A picture a tool returned (a screenshot, a website a browser tool looked at, an image a script made) shows under its step; click it for full size. Claude Code and Codex record these. Each picture up to about 1.1 MB is kept, about 4.4 MB a turn in all; past that the step says how many were not kept.
+- Links in what the agent said open as in the terminal: `slate://page/<id>` opens the doc beside the session, and a path, in backticks or in a sentence (`src/x.ts:42`), opens the file at that line, resolved against the folder the session started in.
+- An image the agent put in its reply, such as a chart it saved to disk, shows from disk, up to 8 MB, and only from a folder Slate may read. An image on the web is never loaded: it shows as a card you click to open it.
+- A ```` ```mermaid ```` block is drawn as a diagram, as in a doc.
 
 A [receipt](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks.md#receipts) is read from the same timeline.
 
@@ -814,7 +819,7 @@ After Merge or Discard the next waiting branch opens, oldest first. If `main` mo
 
 ## What the branch changed
 
-**Changed** is one session's own work. The panel's **Changes** is everything the branch holds that its base lacks, whoever wrote it: the question before a merge. It counts from where the branch left its base (later base commits never count) and **includes uncommitted work**.
+Changed is one session's own work. The panel's **Changes** is everything the branch holds that its base lacks, whoever wrote it: the question before a merge. It counts from where the branch left its base (later base commits never count) and **includes uncommitted work**.
 
 Changes shows the worktree of the agent you work in: branch once on its row, then source control. With no agent selected, each worktree with a session is a one-line section (branch, lines waiting to commit); **▸** opens it. The branch name opens the whole review. A worktree's files and search are in Projects' Code.
 
@@ -869,7 +874,7 @@ A file a session changed opens as a tab beside it. Read it with blame and histor
 
 ## Open a file beside the session
 
-**Changed**, at the foot of **Details**, lists every file the session's own tool calls wrote, read from its transcript. Another agent in the same folder never appears on it. Each file opens as a tab beside the session (icon by kind and language); the rail stays on Sessions. A path printed in the terminal opens at that line.
+Changed, at the foot of **Details**, lists every file the session's own tool calls wrote, read from its transcript. Another agent in the same folder never appears on it. Each file opens as a tab beside the session (icon by kind and language); the rail stays on Sessions. A path printed in the terminal opens at that line.
 
 **⌘P finds a file by name in every checkout.** After two letters it lists, beside matching docs, files from every tracked project and each of its worktrees, grouped by checkout and branch (`FILES · acme · main`, `FILES · acme-feat-x · feat/x`).
 
@@ -1233,7 +1238,7 @@ Text a [widget](https://liozelmalem-star.github.io/slate-releases/docs/features/
 
 ## A session started from a task
 
-**Run with AI…** on a [task](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks/agent-runs.md) starts the one kind of session whose goal Slate knows before the first word. Instead of the brief, that session gets a card of up to 4,000 characters, in this order:
+**Run <automation>** on a [task](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks/agent-runs.md) starts the one kind of session whose goal Slate knows before the first word. Instead of the brief, that session gets a card of up to 4,000 characters, in this order:
 
 * **Scope:** the task's title, its goal (the note you typed when you started it), the project and the branch.
 * **Open** and **Others:** the same lines as the brief.
@@ -1260,7 +1265,6 @@ The index is up to 12 lines, one memory each, about 220 characters a line. It is
 |---|---|
 | Automation, **What it knows** tab | **What it gets from memory** lists the next run's lines with why. **Always give this here** puts one first; **Not relevant here** keeps it out. |
 | Home composer, **What it knows** | Same list and choices, for Home's AI across every project. |
-| Agent run, **What Slate knows** row | **Never for agent runs**, beside the **×** that leaves a memory out of one run. |
 | Memory card in [Memory](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/map.md) | Lists every such decision, each with an undo. |
 
 A memory kept out of a project or group never reaches it (index, lesson or widget read). A pinned memory comes first, but a held memory or stale `state` stays out. A replacing memory keeps its predecessor's decisions.
@@ -1407,11 +1411,11 @@ Slate calls no model to shrink memory: the session you are in proposes and you a
 
 **AI memory care.** Turn on at the **Memory care** row in [Memory](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/map.md) (see [Automations](https://liozelmalem-star.github.io/slate-releases/docs/features/automations.md)). Each night it reads up to 50 memories of one project or group (the largest) twice, separately, with its own agent and the code each cites, and retires only what both readings call wrong. Disagreements wait under **Needs review**. It shows its cost before turning on and stops at a monthly token cap you set. Each reading counts toward the cap as it ends, so a night that fails halfway still counts what it spent. A retired memory nothing replaced returns with **Bring back** under the **Retired** row for 30 days. With it on, an agent's new memory must say in `reason` why it changes what a future agent does.
 
-**Your own schedule.** Save the **Memory pass** [automation](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md#the-ceremonies). Each morning it reads yesterday's sessions and up to 30 of the project's memories (pinned and cited first, then freshest, cut to a size budget) on the project's agent. It adds at most five memories and merges and retires through the same tidy, so its changes show under **Tidied this week**.
+**Your own schedule.** Add the **Memory care** [starter](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md#the-starters). Each night it reads yesterday's sessions and up to 30 of the project's memories (pinned and cited first, then freshest, cut to a size budget) on the project's agent. It adds at most five memories and merges and retires through the same tidy, so its changes show under **Tidied this week**.
 
 ## Learning from what you decline
 
-Slate keeps your no to an AI proposal: an automation's held call answered **No**, a step sent back, a held call denied, a run cancelled with a reason, an app card declined, a Home agent tool call skipped.
+Slate keeps your no to an AI proposal: an automation's held call answered **No**, a step sent back, a held call denied, an app card declined, a Home agent tool call skipped.
 
 A no is never a memory alone. It becomes a proposal under **Memory → Needs review** when you wrote a reason (**Why? (optional)** beside each no) or declined the same action twice in 30 days in the same place. Accepting saves a lesson pinned to the automation, agent runs or app that produced it. At most five such proposals wait per project.
 
@@ -1706,7 +1710,7 @@ Toolkit opens on **Suggestions** while any wait, and on **Skills** otherwise.
 
 **Output styles** (`.claude/output-styles`) has a tab too.
 
-An empty kind keeps its tab and a **New …** button. Every tool whose file holds an item gets a mark, in the same order on every row. A tool this workspace is not connected to is greyed, and its label says **Not connected in this workspace**. **No agent reads it** shows only when no tool holds the item at all. A personal file such as `settings.local.json` is marked **this computer only**. A config that does not parse is listed with the reason and what its tool does (Gemini CLI and OpenCode refuse to start).
+An empty kind keeps its tab and a **New …** button. Every tool whose file holds an item gets a mark, in the same order on every row. A tool this workspace is not connected to is greyed, and its label says it is not connected in this workspace. **No agent reads it** shows only when no tool holds the item at all. A personal file such as `settings.local.json` is marked **this computer only**. A config that does not parse is listed with the reason and what its tool does (Gemini CLI and OpenCode refuse to start).
 
 Links into an item: a session's **Setup used**, the skill a kind of work runs in Tasks' **Workflow**, the skill an accepted lesson became (Memory), a subagent's type under a session, each skill in the composer's **/** list.
 
@@ -1730,7 +1734,7 @@ Source: https://liozelmalem-star.github.io/slate-releases/docs/features/studio/a
 
 A line under the cards names every tool that will read it.
 
-**New skill** also opens from a kind of work in Tasks' **Workflow** ([Tasks](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks.md#workflow)) and an automation's **Follows** ([Automations](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md#what-it-follows)), with name and description filled in. **Create** writes the skill, binds it to what asked, and goes back. **Cancel** writes nothing.
+**New skill** also opens from an automation's **Do** part ([Automations](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md#a-project-skill-can-replace-the-steps)), with name and description filled in. **Create** writes the skill, binds it to what asked, and goes back. **Cancel** writes nothing.
 
 ## Skill
 
@@ -2009,12 +2013,12 @@ Each card has a badge for its kind; the deck is ordered by it, blocking first. T
 |---|---|---|---|
 | 1 | **Needs permission** (amber) | The agent wants to run a tool call and waits for your yes | The command in a code box, **Open to allow**, **Later** |
 | 2 | **Asks you** (amber) | The session's last turn ends on a question | If Slate runs the session: a **Reply** box, **Send**, **Open**, **Later**. For a terminal Slate does not own: **Open session**, **Later**, and a line saying the answer is typed there |
-| 3 | **Automation asks** (amber) | A call an automation's rules held ([Automations](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md#when-it-asks-first)) | The call, **Yes, do it**, **No** with an optional reason, **Open the thread**, **Later** |
+| 3 | **Automation asks** (amber) | A call an automation held ([Automations](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md#when-it-asks-first)) | The call, **Yes, do it**, **No** with an optional reason, **Open the thread**, **Later** |
 | 4 | **Review asked** or **Task** (grey) | A task in Tasks that needs you | **Open in Tasks**, **Open in {app}** (such as GitHub), **Later** |
 | 5 | **Reminder** (amber) | A reminder you set on a task | **Open in Tasks**, **Done**, **Later** |
 | 6 | **Finished** (grey) | The session's turn is a report: nothing blocks | **Open session**, **Mark seen**, **Later** |
 
-The card title is one plain line: the question the reply ends on, or its first sentence. Below it the reply shows as markdown, about four lines; **Read the whole reply** opens the session. Only Claude Code's transcripts show a pending tool call today, so other tools are **Asks you** or **Finished**, never **Needs permission**.
+The card title is one plain line: the question the reply ends on, or its first sentence. A **Finished** card shows only that title. Other cards add at most one plain line of the reply, cut at a word. **Open session** shows the whole reply. Only Claude Code's transcripts show a pending tool call today, so other tools are **Asks you** or **Finished**, never **Needs permission**.
 
 - **Send** on an **Asks you** card removes it and you stay on Home. For agents not proved to send on Enter, the answer is typed into the prompt and not sent, and the card says *Typed — press Enter in the session to send it.*
 - **Later** sets a card aside until you restart Slate; a session set aside returns when it says something new. **Mark seen** does the same for a finished session.
@@ -2077,7 +2081,7 @@ Home always covers every project in the open workspace: the tool's searches, the
 | Automation | Its steps |
 | Report | Its text |
 
-If Slate cannot read one, the conversation says so instead of sending without it. `/` and `@` also work in a session's **Conversation** prompt and in **Run with AI**'s *What to type in*.
+If Slate cannot read one, the conversation says so instead of sending without it. `/` and `@` also work in a session's **Conversation** prompt and in *What to type in* when Run with AI opens a plain session for a task no automation takes.
 
 ## In this section
 
@@ -2122,7 +2126,7 @@ The agent can read files, edit files and run shell commands in the project you s
 - **Always allow** appears only when the CLI offered a rule. A question card has no **Approve**: each answer is a button.
 - Several calls at once queue and show one at a time. An answer belongs to its own card, so a double click cannot approve the next one unseen.
 - Slate's own tools (reading docs, writing memory) skip the card. Everything else asks, including MCP servers you connected.
-- Background work (an automation's run) shows no card while running. Its rules decide, and a call that changes something is held and appears on Home as an **Automation asks** card after the run ([Automations](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md#when-it-asks-first)).
+- Background work (an automation's run) shows no card while running. The automation holds what changes something, and a call that changes something is held and appears on Home as an **Automation asks** card after the run ([Automations](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md#when-it-asks-first)).
 
 ## Autonomy
 
@@ -2212,8 +2216,8 @@ Declined and cancelled meetings are left out; none counts. The calendar is read 
 | Section | Holds | Tools |
 | --- | --- | --- |
 | **To-dos** | Lines you wrote | none |
-| **Issues** | Issues and tasks assigned to you; unassigned issues on your projects | Jira, Linear, GitHub, GitLab, Azure DevOps, Asana, ClickUp, monday.com, Notion, Trello, Shortcut, YouTrack, Basecamp, Todoist, Plane |
-| **Reviews** | Reviews asked of you, pull requests assigned to you, your open ones, unclaimed ones on your projects | GitHub, GitLab, Bitbucket, Azure DevOps, Gitea, Gerrit |
+| **Issues** | Issues and tasks assigned to you; unassigned issues on repositories you own | Jira, Linear, GitHub, GitLab, Azure DevOps, Asana, ClickUp, monday.com, Notion, Trello, Shortcut, YouTrack, Basecamp, Todoist, Plane |
+| **Reviews** | Reviews asked of you, pull requests assigned to you, your open ones, unclaimed ones on repositories you own | GitHub, GitLab, Bitbucket, Azure DevOps, Gitea, Gerrit |
 | **Messages** | Chat and email awaiting your answer | Slack, Microsoft Teams, Discord, Google Chat, Zoom, Mattermost, Zulip, Rocket.Chat, Gmail, Outlook |
 
 **Reviews** groups by pull request state:
@@ -2224,7 +2228,7 @@ Declined and cancelled meetings are left out; none counts. The calendar is read 
 4. **Ready to merge**: yours; checks pass, no conflicts, no review owed (approved, or none required). If the review state was never read: **No review asked for**, with no merge run.
 5. **Checks running**: yours.
 6. **Waiting on review**: yours. Also where a pull request of unknown state goes (only GitHub is read for it today).
-7. **On your projects**: nobody's, on projects your account owns.
+7. **On repositories you own**: nobody's, on repositories your GitHub account owns. Slate projects play no part in it.
 
 **Issues** groups by each tool's status names; Jira "In Progress" and ClickUp "in progress" share a group. Each task shows its tool's logo (initials tile for Outlook and Azure DevOps).
 
@@ -2242,7 +2246,7 @@ Groups by **when**: Overdue, Today, Tomorrow, This week, Later, No time. **Done 
 
 - **Tick the box** to finish; again to undo.
 - **Double-click the title** to rename (a ticket's title belongs to its tool).
-- **Run with AI…**: **Feature** (default), **Bug**, **Investigate only**. With no ticket the agent reads the title and your note and ships a pull request with no ticket update.
+- **Run <automation>**: runs one of your [automations](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md) on the line. A to-do takes a question, so **Research** fits it.
 
 ## Reminders
 
@@ -2259,7 +2263,7 @@ Opens on **Overview**; the title row has **+**. Under it:
 
 - **Overview**: its number is what needs you now (a review asked of you, a direct message, a reminder that rang).
 - **To-dos**, **Issues**, **Reviews**, **Messages**: each with a count (only tools that answered). Dimmed when nothing waits.
-- **Agent runs**: runs started from Tasks in the last 14 days with their session's receipt; the number is unreviewed flagged receipts. A session you ran yourself is not here (see **Details** in [Sessions](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions.md)).
+- A task with a run in progress shows a lime live dot and its step on its row: *Reviewing*, *Building*, *Needs you* (amber) when it waits on you, *Stopped* when it stopped. In **Overview**, the section's own dot turns lime while a run works there, amber when one waits on you, red when one stopped; pointing at it names the step. Finished runs and their receipts are in [Activity](https://liozelmalem-star.github.io/slate-releases/docs/features/activity.md#agent-runs).
 
 Drag the line between list and item to widen the list (320 to 640 px; item keeps 420 px minimum); double-click resets. Above the list: one chip per tool with items, most first, extras fold into **+N**; no row with one tool.
 
@@ -2277,6 +2281,29 @@ A tool your agents already reach is offered above the list as **Use from your ag
 
 **Sign in** opens the tool's sign-in page. Tasks shows "Waiting for you to sign in…", checks every 4 seconds, then **Signed in to Jira**; after 3 minutes it asks you to retry. For GitHub it says to run `gh auth login`. A sign-in link from Teach Slate opens directly.
 
+## Choose what Tasks shows
+
+Click an integration on the Overview to open **From <app>**, for example **From GitHub**. It says what the integration sends to Tasks and asks two things: where to look, then what to bring. Drag its left edge to make it wider (290 to 640 px); the width is remembered on this Mac, and a double-click on the edge puts it back. Connect's working apps open the same panel from a hover link, **Choose what Tasks shows**.
+
+The panel has one layout per kind of integration, named by a small tag beside the title:
+
+| Kind | Apps | Step 1 asks |
+| --- | --- | --- |
+| **Code** | GitHub, GitLab, Bitbucket, Gitea and Forgejo, Gerrit | **Git repositories**. Slate ticks the ones this workspace works in ("this workspace") |
+| **Tracker** | Jira, Linear, ClickUp, monday.com, Notion, YouTrack, Trello, Plane, Shortcut, Basecamp, Todoist, and apps Slate learned to read | **Projects**. Slate ticks the projects your current tasks already come from |
+| **Mail** | Gmail | **Which mail**: "From people" you work with, each of your labels, and "Anything else that names a project". The first and last are ticked, which is the filter Gmail had before |
+| **Chat** | Slack, Zulip, Rocket.Chat, Mattermost | **Channels**. Slate ticks the channels your current messages come from |
+
+- **Summary.** A sentence such as "Sends 11 issues and 2 reviews to Tasks." or "Sends nothing to Tasks right now." It follows the ticks.
+- **1. Where.** One tick per git repository, project, kind of mail or channel, the hint in grey at the right. Past the first three the rest fold into "{count} more …", with a filter when the list is long. Untick them all and the app sends nothing; the panel says so. Until you change it, Slate's choice is worked out each time and never saved, so a new git repository of the workspace is ticked on its own. For a tracker or a chat app Slate's ticks narrow nothing until you change one, so a new project still comes in. An app with nothing to list skips this step.
+- **2. What to bring.** One tick per way Slate asks the app, with its count, then the ways you can add, unticked. A way with a word to fill ("Issues with a label…") is an unticked line with its words inline; tick it and fill the words, and it is added. You can add at most 5 for each integration. Ways with nothing right now fold into one line, "{count} more, empty right now". A way that failed says "Did not answer: {reason}" and keeps its last tasks. **Remove** takes away a way you added; Slate's own are turned off, not removed.
+- **Other ways.** At the bottom, for GitHub, Jira and Gmail: type your own search text, see how many are open, three titles and how many are already in Tasks ("{count} open, {already} already in Tasks"), then **Add to Tasks**.
+- **Footer.** "As <login> · checked <time> · read only". Slate only reads.
+
+A change to either step starts a sync at once; the tasks and the Overview's counts follow when it lands.
+
+Until you open them, one quiet sentence under the Overview names the integrations still sending Slate's defaults, and their logos wear the same dashed circle as "Connect an integration" ("Slate chose what Tasks takes from GitHub and Gmail. Click a logo to change it."). **Hide** marks them all as seen. Which lines each tool offers is in [Where tasks come from](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks/sources.md#what-tasks-takes-from-each-tool).
+
 ## The Overview
 
 Left to right: **your tools** (logo and name, a number for what waits, **Sign in** if needed, **You wrote** feeding To-dos, **Connect an integration** last), **the four kinds of work** (dots with counts or "nothing waiting"), **Slate** (the shared memory, with how much needs you) and **the agents at work** (past two, the second becomes a count). Click any logo, dot or name to open its list.
@@ -2285,25 +2312,35 @@ Left to right: **your tools** (logo and name, a number for what waits, **Sign in
 
 Click a row to open it beside the list:
 
-- Origin ("GitHub assigned this to you"), comment count, project.
-- **Slate remembers**: up to three memories naming the task by key (`ECL-18747`) or pull request number (`#140`). None for To-dos and Messages.
-- **Run with AI…** leads (a to-do also keeps **Done**). **⋯**: **Open in GitHub** (when the tool gave a link), **Remind me…**, **Hide from Tasks** (this list only; **Undo**; the task returns if the tool reports a newer change). Each section has a folded **Hidden (N)** line with **Unhide**.
-- **Run button**: shows Slate's mark, the skill (`fix-bug`) and the agent (Claude Code). Its chevron picks the agent for this run only, and the skill, which changes the project's rule for that kind. Once started it says **Running** and opens the run. With nothing to run yet (your pull request waits on review or checks), one line says so.
-- It says **Run it** or **Open a session**; a blocked start (a folder that is not a git repository) is explained in the footer. See [the start dialog](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks/agent-runs.md#the-start-dialog).
+- Origin ("GitHub assigned this to you"), comment count, project. The task's **…** menu holds **Change what <integration> sends**, which opens that integration's panel beside the Overview's map, and **Stop showing these** (it names the line), which turns the line off and says "Stopped showing <name>", with **Undo**. The task itself never says which line found it. A task from a line you added has no assigned, asked or authored claim; it only names the line.
+- **Slate remembers**: up to three memories. First those naming the task by key (`ECL-18747`) or pull request number (`#140`); then, inside the project the task's work belongs to, those about the same topic: a memory naming one of the title's names ("Windows", "Asana"), or, for a title with no names, sharing two of its distinctive words (common words, numbers and the project's own name left out). An entry that only repeats the task's key and title, or repeats another entry, is not shown. None for To-dos and Messages. Slate's own lines to a run's agent are never shown as one.
+- **Run <automation>** leads (a to-do also keeps **Done**). **⋯**: **Open in GitHub** (when the tool gave a link), **Remind me…**, **Hide from Tasks** (this list only; **Undo**; the task returns if the tool reports a newer change). Each section has a folded **Hidden (N)** line with **Unhide**.
+- **The Run button** says **Run <automation>**, for example **Run Fix a bug**. Its menu lists only the automations whose input matches the item (an issue shows the ones that take an issue). With none of your own that take it, the menu lists Slate's [starters](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md#the-starters) that do, the one made for this kind of item first (**Draft a reply** before **Research** for a message). The first run of a starter adds it to Automations, with no project of its own. The chevron picks the agent for this run only; **Default** marks the one used when you pick none. Once started it says **Running** and opens the run. With nothing to run yet (your pull request waits on review or checks), one line says so.
+- **Where it runs**: the project is picked only when it is certain: the item's own git repository, the project a line you wrote names, the project you said its source works in, or your only project. Pressing **Run** starts the run in one click when the project is certain and nothing blocks. Otherwise a small dialog asks **Which project does Jira PROJ work in?** once and remembers the answer on the project, or shows the block and its fix ([The start dialog](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks/agent-runs.md#the-start-dialog)).
+- Before it starts, a [preflight check](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md#the-preflight-check) runs. A blocked start (a folder that is not a git repository, for example) opens the dialog with the reason and its fix.
 
 Description and comments are read in the tool; terminal and changes are in the task's session ([Sessions](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions.md)).
 
-## Agent runs
+## Run an automation on a task
 
-A run takes a task through Read it, Plan, Build, Check, Draft, Ship with two stops for your approval, in a visible session. On as **agent runs** in [Automations](https://liozelmalem-star.github.io/slate-releases/docs/features/automations.md); off, the card offers only **Just open a session**. Six kinds each run **one skill per project**, changed from the run button's menu, the start dialog or the folded **Workflow** box atop Issues and Reviews. See [Agent runs](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks/agent-runs.md) and [Workflow](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks/workflow.md).
+Tasks runs automations and defines no process. The process is in the automation ([Automations](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md)).
 
-### Workflow
+An automation takes one kind of input, and a task has one kind of input:
 
-The kinds (**Bug**, **Feature**, **Someone else's PR**, **My PR**, **My PR, checks failing**, **My PR, ready to merge**) and their skills: [Workflow](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks/workflow.md).
+| The task is | Automations that fit (starters) |
+| --- | --- |
+| A pull request asked of you | Code Review |
+| Your pull request | Answer review |
+| An issue | Fix a bug, Research |
+| A ticket | Implement |
+| A question | Research |
+| A message | Draft a reply |
+
+The run happens in a session you can see, with two stops for your approval: before it plans and before it ships. On as **agent runs** in [Automations](https://liozelmalem-star.github.io/slate-releases/docs/features/automations.md); off, the card opens only a plain session. See [Agent runs](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks/agent-runs.md) and [Which automation runs](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks/workflow.md).
 
 ## Receipts
 
-A receipt is what an AI session ran, checked against what it said, written from the transcript at turn end. See [Receipts](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks/receipts.md).
+A receipt is what an AI session ran, checked against what it said, written from the transcript at turn end. A run of an automation leaves one too, read from its own output; one that cannot be read says **No evidence**. See [Receipts](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks/receipts.md).
 
 See also: [Sessions](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions.md), [Connect](https://liozelmalem-star.github.io/slate-releases/docs/features/connect.md), [Privacy & Security](https://liozelmalem-star.github.io/slate-releases/docs/features/privacy-and-security.md).
 
@@ -2313,7 +2350,55 @@ See also: [Sessions](https://liozelmalem-star.github.io/slate-releases/docs/feat
 
 Source: https://liozelmalem-star.github.io/slate-releases/docs/features/tasks/sources.md
 
-A normal read uses no agent and no tokens. This guide lists the source for each tool, how often it is read, and how Messages is limited to the workspace.
+A normal read uses no agent and no tokens. No model runs on any sync. This guide lists the source for each tool, how often it is read, and how Messages is limited to the workspace.
+
+## What Tasks takes from each tool
+
+What Tasks takes from a tool is a list of **reads** in the workspace. A read is one way Slate asks a tool what needs you: GitHub's search for reviews asked of you, a Jira query, Gmail's unread search, Slack's waiting rule. The word "read" is not on screen; the panel beside the Overview's map says what the tool sends to Tasks.
+
+- **Defaults.** Slate writes its own list once per workspace: GitHub's six searches, Jira's query, Gmail's unread search, Slack's waiting rule, one on/off line for each app with a read card and for each token app, and every recipe Slate learned. A default can be turned off, never edited. Once turned off it stays off.
+- **Each task knows its read.** The read that found a task is kept with it. That is what the reason line, the counts and the rules below use.
+- **A read that fails keeps its last tasks.** Slate shows its failure and does not clear them.
+- **Turn one off** and its tasks leave on the next sync. A task you dismissed or set a reminder on stays hidden, as under "When a source really goes away".
+- **When two reads find one item**, the earlier read keeps it: defaults first, then the ones you added, in the order you added them.
+- **At most 5 reads of your own** per integration in a workspace.
+
+Open the list in Tasks: on the Overview, click an integration (or point at a working app in Connect and use **Choose what Tasks shows**). See [Choose what Tasks shows](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks.md#choose-what-tasks-shows).
+
+### Where each tool looks
+
+Step 1 of the panel narrows every read of one tool to what you tick there. The choice is kept per workspace and per tool; it changes no read, only what each one asks.
+
+| Tool | Step 1 lists | How it narrows the read |
+| --- | --- | --- |
+| GitHub | A git repository you own or belong to | Each search is narrowed to the ticked git repositories |
+| Jira | A project | Each JQL query starts with `project in (…)` |
+| Gmail | "From people" you work with, a label, or "Anything else that names a project" | A label adds a `label:` term; the other two choose which half of the workspace filter in [Messages stay in this workspace](#messages-stay-in-this-workspace) keeps a message |
+| Slack, Zulip, Rocket.Chat, Mattermost | A channel | Only messages in ticked channels are kept |
+| Token apps, and apps read through their own MCP server | The value their project word takes | Passed as that argument of the call |
+
+Until you change it, Slate works the choice out on each sync and saves nothing. GitHub reads only the workspace's own git repositories, and Gmail keeps its workspace filter. A tracker or chat app shows the projects or channels your current tasks come from as ticked, but is not narrowed until you change a tick, so a new project still comes in. When Slate's choice comes out empty (a workspace with no git remote), the read is not narrowed. Reads Slate learned (recipes) and read cards are narrowed too, when they call the tool whose project, board or space step 1 lists: that tool is asked once for each one you ticked. A read whose call already names one is left as it is. Untick everything there and the tool sends nothing. These lists are read at most every 10 minutes and show the first 200.
+
+### What you can add
+
+An addition is a sentence with words you fill in. The sentence becomes the tool's own query, and the exact text shows under **Other ways**.
+
+| Tool | Sentences | Becomes |
+| --- | --- | --- |
+| GitHub | **Issues with a label**, **Pull requests with a label**, **Your pull requests with failing checks**, **Pull requests that change a folder** | A GitHub search. GitHub's search cannot filter by folder, so a folder read searches the project and then checks the files of those pull requests |
+| Jira | **Issues with a status**, **Issues with a label**, **Issues of one type** (in a project) | A JQL query |
+| Gmail | **Mail from someone**, **Mail with a label** (from the last N days), **Recent unread mail** | A Gmail search. Like every Gmail read, it keeps the workspace filter in [Messages stay in this workspace](#messages-stay-in-this-workspace) |
+| Slack | **Messages in a channel**, **Direct messages**, **Mentions of you**, each over the last N days | Slack's waiting rule with that channel, kind and window. Whether you answered is still decided by Slate: a newer message of yours in the channel. A channel you pick is not narrowed by the workspace filter |
+| YouTrack | **Issues in a project**, **Issues from a search** | YouTrack's own query: `project: <key> #Unresolved`, or the text you type |
+| Gitea, Forgejo, Bitbucket, Gerrit | **Reviews in a project** | The same "waiting on you" read, narrowed to one project. While the default line is on it finds nothing new; it matters once that line is off |
+| Zulip, Rocket.Chat | **Messages in a channel** | Unread messages in that stream or room, one row per topic |
+| Linear, ClickUp, Notion, and any app Slate learned to read | **By <argument>**, one per argument the app's read-only tool takes | The same tool call as the default, with that argument set. The arguments and their values are read off the tool's own input description and, where the app has a read-only list tool, its list. No model chooses them. A tool that is not read-only offers nothing |
+
+Typed text under **Other ways** works for these tools too. A GitHub read that GitHub refuses (a bad query) fails alone and keeps its last tasks. A sign-in or rate-limit failure still stops the whole GitHub read.
+
+monday.com offers no sentence: its read tool takes one GraphQL query that Slate fixes, so its line is on or off only. Typed text under **Other ways** is for GitHub, Jira and Gmail.
+
+Adding, changing or turning off a read starts a sync at once.
 
 ## GitHub
 
@@ -2324,7 +2409,7 @@ Read through the **GitHub CLI** (`gh`) once you press **Connect** on its card in
 - Every AI session started in a project runs `gh` as the sign-in reaching that project. An agent run shows GitHub connected only when one of your sign-ins reaches the project.
 - A write made in your name (an app's card) runs as exactly the login shown, with that login's token for that one call. If `gh` cannot confirm that login, the write is refused and asks you to sign in.
 - Read on opening Tasks, and on returning to the window after a minute. Each read first asks GitHub whether anything changed; a full read follows a change, a last read over ten minutes old, or **Sync**.
-- Six lists: reviews asked of you, pull requests assigned to you, your open pull requests, issues assigned to you, and on git repositories your account owns, pull requests nobody reviewed or took (**On your projects**) and unassigned issues. A task on several lists shows once.
+- Six default lists: reviews asked of you, pull requests assigned to you, your open pull requests, issues assigned to you, and on repositories your account owns, pull requests nobody reviewed or took (**On repositories you own**) and unassigned issues. A task on several lists shows once. Each list is a read you can see, turn off or add to (above).
 - One more read gets your open pull requests' state (review decision, checks, can merge). If it fails they show under **Waiting on review**.
 - No `gh`: **Unavailable**. Signed out, or no sign-in sees the workspace's git repositories: **Sign in** (`gh auth login`). A workspace whose docs name no GitHub git repository shows no GitHub row.
 
@@ -2414,7 +2499,7 @@ A connected app in Connect → Integrations with no reader shows **Not read yet*
 
 **Write-word check.** Every tool is checked when picked, when kept and on every read. Refused: any tool with a write word in its name (send, create, update, remove, add, move, post, reply, comment, merge, close, assign, set, mark, upload, write and about fifty more), or belonging to another app. Filter words pass: `get_assigned_issues` yes, `assign_issue` no.
 
-**Tools only your Claude account reaches** (a claude.ai connector such as monday.com): read by Claude (Haiku) only when you press **Sync** (at most every 2 minutes). Opening Tasks never starts a model call, so your Claude usage is spent only when you ask. Never a tool Slate reads itself; no background timer.
+**Tools only your Claude account reaches** (a connector in claude.ai, such as monday.com): read by Claude (Haiku) only when you press **Sync** (at most every 2 minutes). Opening Tasks never starts a model call, so your Claude usage is spent only when you ask. Never a tool Slate reads itself; no background timer.
 
 ## What is stored
 
@@ -2440,49 +2525,57 @@ A connected app's address is in the workspace's file; not secret, never shared. 
 
 Source: https://liozelmalem-star.github.io/slate-releases/docs/features/tasks/agent-runs.md
 
-An agent run takes a task through a fixed process in a session you can see. On as **agent runs** in [Automations](https://liozelmalem-star.github.io/slate-releases/docs/features/automations.md); off, the card offers only **Just open a session**. Only your click starts one.
+An agent run takes a task through a fixed process in a session you can see. On as **agent runs** in [Automations](https://liozelmalem-star.github.io/slate-releases/docs/features/automations.md); off, the card opens only a plain session. Only your click starts one.
 
 ## Start a run
 
-1. Open a task, click **Run with AI…**.
-2. Check **Where** and **What it is**.
-3. Click **Run it** (or **Open a session**).
+Open a task and click **Run <automation>**. The run starts at once, with no dialog, when nothing needs you: the project is certain, a runnable agent is set, and the project's folder is a git repository. The button says **Starting…** while it starts. A start the server refuses is said in one line under the button. When your agent last reported that the task's tracker or code host needs signing in, one line under the button says so (*Jira needs sign-in*) with **Sign in to Jira in Claude Code**. It never blocks the run: without it the run hands you the ticket update to copy. After you sign in, the line reads *Jira connected*.
+
+The chevron menu has **Runs with** (the agent, for this run only; **Default** marks the one the run uses when you pick none), the automations that take this item, and **Edit in Automations**. The process, its steps and its stops are changed in [Automations](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md), not here.
 
 ## The start dialog
 
-- **Where**: project and agent. Default: the task's project, else the last used, else your only project.
-- **What it is**: the kind ([Workflow](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks/workflow.md)), plus **Investigate only** (to solve), **Draft a reply** or **Find the answer, then draft** (message), **Just open a session** (all).
-- **The kind's rule**: the skill, its steps on one line with the two stops for you as an amber hand (*Stops for you after the plan, and before it ships*), and *Saved for every bug in <project>* under the skill picker.
-- **What the agent run gets**: **The task**; **What Slate knows** (memories in the brief, each with **×** to leave out; none is valid, and a memory read that fails says so instead of showing none, in the dialog and in the brief the agent gets); **Your note** (closed until added).
-- **What it can use**, one line (*GitHub · yarn test · Autopilot off*), opening to each tool and whether the agent reaches it, the check command, Autopilot and the agent run rules, under **Saved for every run in <project>**. **Allow Autopilot** is the project setting; **This run: Step by step / Autopilot** is per run.
+It opens only when something needs you, and shows only that thing:
 
-**Just open a session** shows **What to type in**: the task's name and link (or a to-do's words), typed but not sent. `/`, `@`, Cmd+Enter work as on Home. A blocked start (folder not a git repository) is explained in the footer.
+- **An unknown project.** An automation with a project of its own runs there. One with none (a starter first run from Tasks) picks a project only when it is certain, in this order:
+  1. the project whose checkout is the item's own git repository (a pull request or issue from GitHub, GitLab and the other code hosts);
+  2. the project a line you wrote names;
+  3. the project you said the item's source works in (a source is the tool and its project, board or team: *Jira PROJ*, *monday.com 4021*);
+  4. your only project, when the workspace has exactly one.
+
+  Otherwise the dialog asks one question, **Which project does Jira PROJ work in?**, with the project picker and **Run it**, and remembers the answer when the run starts. The project's **Settings** lists its sources under **Work from**; **×** removes one, and the next task from it asks again. A run an agent starts without naming a project follows the same order, and runs with no project when none is certain.
+- **A block.** The reason and its fix: *Connect an agent for this project* (with **Open Connect**), or *This folder is not a git repository* (pick another project). **Run it** stays grey until it is fixed.
+
+A plain session (an item no automation takes) shows **What to type in**: the task's name and link (or a to-do's words), typed but not sent. `/`, `@`, Cmd+Enter work as on Home.
+
+The check command, Autopilot and the agent run rules are the project's, in its **Settings**.
 
 | Kind | Behaviour |
 | --- | --- |
-| **Investigate only** | Reports cause and options; changes no file |
+| **Research** | Reports cause and options; changes no file |
 | **Your pull request** | Branch fetched from `origin` into its own folder; it is the only branch the run may push. You approve the plan, then the changes and one comment, word for word. A pull request from someone else's copy of the project is refused (its branch cannot be pushed from your project) |
-| **Someone else's PR** | You approve comments as **Post comments**, **Request changes** or **Approve**; the run posts exactly that, never picks. Head fetched from your `origin` (no remote added) into its own folder. Never pushes |
-| **A message** | **Draft a reply** in a folder under Slate's data, or **Find the answer, then draft** (reads the project you pick first). The dialog says whether Slate can send it or hands it to you |
-| **Check** | Command from the project's files (`package.json` scripts, `Makefile` targets, `pyproject.toml`, `Cargo.toml`, `go.mod`) or **Let the agent run find the tests**. Opens on the detected one; a pick is saved |
-| **Tracker and code host** | Whether your agent reaches each (`gh`/`glab`, an MCP server, or a claude.ai connector). Unreachable never blocks: the row says the fallback (a link to open, a ticket update to copy); **Connect** goes to Connect → Integrations. If the agent reported the server needing sign-in in the last day: **Needs sign-in** and **Sign in to Jira in Claude Code** |
+| **Code Review** | You approve comments as **Post comments**, **Request changes** or **Approve**; the run posts exactly that, never picks. Head fetched from your `origin` (no remote added) into its own folder. Never pushes |
+| **A message** | **Draft a reply** reads the project you pick, then drafts in a folder under Slate's data. Slate sends it when it can, or hands it to you |
+| **Check** | The project's check command (its **Settings**), else one found in the project's files (`package.json` scripts, `Makefile` targets, `pyproject.toml`, `Cargo.toml`, `go.mod`), else the agent finds the tests |
+| **Tracker and code host** | Reached through `gh`/`glab`, an MCP server, or a connector in claude.ai. Unreachable never blocks: the run gives the fallback (a link to open, a ticket update to copy) |
 
 ## What the run does
 
-**Run it**:
+Starting a run:
 
 1. Makes a branch named after the task (`fix/proj-12-short-title`) and a folder, then runs the project's setup command there in the background. A failed start removes both; failed setup blocks the run.
 2. Starts your agent there with one line naming the run. Codex, Cursor and Gemini CLI are told to trust the folder.
-3. Closes the dialog; the task shows the run (steps, last report, status). **Open session** shows the terminal. A tool that cannot take a first line at launch opens with it typed in. The run also tops **Agent runs**.
+3. The run goes on in the task's own timeline: each step the agent reports is an entry there, and while the agent works the last entry says so with a live dot (*Claude Code is reviewing…*). You never need the terminal. **Open session** shows it for whoever wants it. A tool that cannot take a first line at launch opens with it typed in.
 
 The brief (first step) gives the agent the task's [card](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/session-start-brief.md#a-session-started-from-a-task) (Scope, Open, Others, Connected, Rules and up to 5 memories) and any earlier run for it. Then one step at a time (Read it, Plan, Build, Check, Draft), each reported. After each the run waits for **Next**, shown when the agent finishes its turn.
 
 ## Approvals
 
-- **After the plan**: **Approve plan** or **Send back**. **Save as Plan doc** keeps the plan as the branch's Plan doc, in the project, labelled with the branch; unticked, it stays in the run's steps. A Plan doc a person wrote is left as it is, and the run's trail says it was kept. A Plan doc Slate saved from an earlier plan is replaced, but its **Progress** stays.
+- **After the plan**: **Approve plan** or **Send back**, on a card in the task's timeline. **Save as Plan doc** keeps the plan as the branch's Plan doc, in the project, labelled with the branch; unticked, it stays in the run's steps. A Plan doc a person wrote is left as it is, and the run's trail says it was kept. A Plan doc Slate saved from an earlier plan is replaced, but its **Progress** stays.
 - **Before anything leaves your machine**: **Approve to ship** shows commits, changed files, and the pull request title and body, ticket update, review comments or reply, word for word, each with **Copy**.
-- Approving lets the push through, plus writes to the task's own tracker or chat and the code host. Other servers still ask; merging and removing are always refused.
+- Approving lets exactly what you approved through, once: the push, and the writes to the task's own tracker or chat and code host, with the verdict you chose. Other servers and other items still ask; merging, closing and removing are always refused.
 - After shipping, Slate reads the pull request back and says whether it matches.
+- After each decision Slate types one line into the session that names what you chose: *you approved the plan: build it as planned*, *you approved shipping: push the branch and open the pull request*, *you approved requesting changes*, *you sent the draft back with this note: …*, *you allowed … for this step*. A review's line names its verdict, never just "shipping".
 
 A run stopped for you (step done, plan or ship to approve, held call, block) counts in **Needs you** and ⌘⇧J; Claude Code also sends a system notification.
 
@@ -2490,7 +2583,7 @@ A run stopped for you (step done, plan or ship to approve, held call, block) cou
 
 Runs steps back to back without **Next**. Still stops at both approvals, at a held call, and after a long run of steps. A failed check returns to Build up to twice, then stops.
 
-Off for every project until turned on in the start box or the project's **Settings**; then the panel switches a run between **Step by step** and **Autopilot**. On Autopilot, Claude Code skips asking for calls the rules allow.
+Off for every project until turned on in the project's **Settings**; then the small switch under the run's last entry moves it between **Step by step** and **Autopilot**. On Autopilot, Claude Code skips asking for calls the rules allow.
 
 | Tool | Autopilot and rules |
 | --- | --- |
@@ -2504,20 +2597,22 @@ After shipping the run waits for its merge. Every two minutes Slate reads the pu
 - **Mark done**: finish by hand.
 - Pull request closed unmerged blocks the run, even when its task is done: **Mark done** or **Watch for the merge again**.
 - Task done while the pull request is still open or cannot be read: the run ends, and no decision or lesson is marked shipped.
-- Reply or review you posted yourself: **I sent it myself**.
+- A reply, a review or a drafted reply you posted yourself: **I sent it myself**.
 
 A finished run adds one session entry to its project (labelled with the branch), keeps a lesson if the agent reported one, and records session tokens and estimated cost (all but Cursor report usage). It also shows on its pull request's task under Reviews.
 
-In a section, its runs sit at the top under **Agent runs**; **Needs you** shows runs awaiting an answer. **Agent runs** in the side list shows the last 14 days, newest first: status, steps, approvals, the session's [receipt](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks/receipts.md); a line above sums runs started, done, pull requests and estimated cost.
+A finished run stays in its task's timeline with the session's [receipt](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks/receipts.md). Two or more runs in a row that ended without doing a step fold into one line (*3 earlier runs discarded*), which opens to the list. **Needs you** shows runs awaiting an answer. The last 14 days of runs, with a line summing runs started, done, pull requests and estimated cost, are in [Activity](https://liozelmalem-star.github.io/slate-releases/docs/features/activity.md#agent-runs).
 
-**Remove folder** (done runs): the folder goes; the branch too when every commit is on another branch or a remote. A branch holding work stays, as does your own pull request's.
+A finished run cleans up after itself, as a session does: it notes its result on the project, keeps its lesson, then removes its folder and closes its session. Its branch goes too when every commit on it is on another branch or a remote; a branch holding work stays, as does your own pull request's. A folder that could not go is retried within the hour.
 
-## Pause, reopen, cancel
+## Stop, pause, reopen, discard
 
+- **Stop** (a small button with a square, on the run's live line; at a gate, on the line under it): one click, no question. It ends the run's session and keeps its folder and branch. The run's entry says **Stopped by you** and when, with **Resume** and **Discard**. A stopped run waits on nobody: its row and Overview dot stay grey, and it is never a "needs you" card on Home. **Resume** brings it back where it stopped, in a new session that continues the conversation. If the session could not be ended, the run still stops, and the entry says the session may still be open, with **Open session**.
 - Typing in the run's session pauses it until **Resume**.
 - **Reopen session**: reopens an ended session in the run's folder (a running background Claude Code job is reattached; else the conversation continues where the tool allows).
-- A session that does not pick up the run within five minutes blocks it; **Resume** restarts.
-- **Cancel agent run**: stops the session, removes the folder; the branch follows the **Remove folder** rule.
+- An agent that ends its turn without reporting its step (it could not reach Slate, for example) stops the run at once. The task shows **Stopped**, the agent's last line and **Retry**. A session that never starts stops the run after five minutes.
+- **Discard** (on a stopped run's entry, or a small link under the run's last entry): one line asks first, "Removes the run's folder. A branch with work stays.", with **Discard** and **Keep**. It stops the session, removes the folder; the branch follows the same rule as a finished run's. When the session cannot be stopped, **Discard anyway** discards it and keeps the folder. A discarded run reads **Discarded**.
+- A run discarded (cancelled) from outside the window (by an agent, a script or a coordinator session) has its session stopped by the open Slate window. If Slate was closed, the stop happens when it next opens, up to a day after the cancel.
 
 ## The agent run rules
 
@@ -2526,9 +2621,21 @@ The agent keeps your tool's normal reach (shell, web, MCP servers) inside **agen
 | Area | Rule |
 | --- | --- |
 | **Git** | Only the run's branch. Push refused until you approve shipping. Force pushes, tags, branch removal always refused |
-| **MCP** | A tool that writes elsewhere asks first. Merging and removing refused |
+| **MCP** | A tool that writes elsewhere asks first. Merging, closing and removing refused |
 | **Shell** | A command that sends data out asks first |
-| **Files** | Writes stay in the run's folder; none while reading and planning |
+| **Files** | Writes stay in the run's folder, temp folders too (`$TMPDIR`, `$CLAUDE_JOB_DIR`); none while reading and planning. A body to post goes on stdin (a heredoc) or in a file in the run's folder |
+
+**Writes to the code host, a tracker or a chat** (open a pull request, review, comment, push, ticket update, message):
+
+| When | What happens |
+| --- | --- |
+| Before **Approve to ship** | Every write asks; a review that approves or requests changes is refused |
+| After it, to the run's own item | Passes once, with no second ask: its own pull request, issue or branch, in its own project, and the tracker or chat tools the approved ship plan names. A review passes only with the verdict you chose; any other verdict is refused, and the refusal names yours |
+| After it, anything else | Another number, another project, or a `GH_REPO`/`GH_HOST` that points elsewhere: asks |
+| Always | Merging, closing and removing are refused: `gh pr merge`, `gh pr close`, `gh issue close`, `glab mr merge`, `glab mr close`, and the same through the API |
+| Autopilot | Changes nothing here: it never skips the approval |
+
+This covers `gh` and `glab`, their `api` command, and the same calls wrapped in `GH_CONFIG_DIR=…`, `cd … &&` or a heredoc. A body read from a file is read when the file is in the run's folder; a body the rules cannot read (piped in, or from outside the folder) asks.
 
 Rules read every tool call and shell command, including those wrapped in `env`, `$( )`, `sh -c` strings and heredocs. A guard, not a sandbox: an unknown program can still reach the network. The push rule has a second lock, a git hook in the run's folder.
 
@@ -2542,6 +2649,7 @@ The rules are a guard, not a sandbox. They read the text of each call. They cann
 - **Reading your secrets.** Reading is not guarded. `cat ~/.ssh/id_rsa` is allowed.
 - **Git changes that stay in the run's own folder.** `git reset --hard`, `git stash drop`, `git reflog expire` and `git gc --prune` are allowed. They can lose work that was never pushed.
 - **Paths built while the program runs.** Inline code that builds a path at run time is caught only in some forms (`'/' + 'x'` is caught, most others are not).
+- **The environment the session started with.** A `GH_REPO` or `GH_HOST` set in the line asks; one set before the session started is not seen.
 - **A pattern that never ends.** A decision that takes longer than one second asks you. The rules cannot interrupt a regular expression that never returns.
 
 What still holds when the text is misread: the git hook in the run's folder holds every push before you approve shipping, and after that any push to another branch. It does not stop a force push to the run's own branch. The shell rule refuses that one. After shipping, Slate reads the pull request back and says whether it matches.
@@ -2550,57 +2658,50 @@ To close one of these for a project, add a **Deny** rule for the command, for ex
 
 **A held call** is refused for now and shown in the run. Answer: **Allow for this step**, **Always allow in this project**, **Deny**. An allowance names that one call (MCP tool or exact command) and only passes what a rule would have asked about.
 
-**Your own rules**: **agent run rules** in the start box lists built-in and project rules. Add **Allow**, **Ask first** or **Deny** naming a call as the held-call card does: an MCP tool (`mcp__jira__add_comment`, `mcp__jira__*`), `shell:` plus a command (`shell:npm publish`), or `file:` plus a path. **Allow** covers one exact call; **Ask first** and **Deny** also cover a command's first words and everything under a folder. **Deny** always wins.
+**Your own rules**: **Rules** in the project's **Settings** lists built-in and project rules. Add **Allow**, **Ask first** or **Deny** naming a call as the held-call card does: an MCP tool (`mcp__jira__add_comment`, `mcp__jira__*`), `shell:` plus a command (`shell:npm publish`), or `file:` plus a path. **Allow** covers one exact call; **Ask first** and **Deny** also cover a command's first words and everything under a folder. **Deny** always wins.
 
 ---
 
-# Agent runs: Workflow
+# Agent runs: which automation runs
 
 Source: https://liozelmalem-star.github.io/slate-releases/docs/features/tasks/workflow.md
 
-Each kind of [agent run](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks/agent-runs.md) runs **one skill per project**. This guide lists the kinds, skill sources and how to change a rule.
+A run on a task is a run of one of your [automations](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md). The automation holds the process. Tasks only picks the automation and the item.
 
-## The six kinds
+## Which automation fits
 
-| Kind | How it is known | Steps |
-| --- | --- | --- |
-| **Bug** | Ticket type Bug or Defect (Jira), or GitHub issue with a bug label | Read it, Plan, you approve, Build, Check, Draft, you approve, Ship |
-| **Feature** | Any other ticket | As bug |
-| **Someone else's PR** | You were asked to review it | Read it, Review, you approve, Post |
-| **My PR** | Yours; a reviewer asked for changes | Read the comments, Plan, you approve, Build, Check, Draft, you approve, Push and comment. Then done; the next review round is a new run |
-| **My PR, checks failing** | Yours; checks fail | Read the checks, then as **My PR** |
-| **My PR, ready to merge** | Approved, checks pass, no conflicts | Read it, then as **My PR**: updates the branch and pushes. The merge is yours; a run never merges |
+The input the item has decides which automations the Run menu lists. With none of your own that take it, the menu lists the starters below that do; the first run adds one to Automations.
 
-Your pull request awaiting reviewers or running checks has no kind yet; you can pick one. A pull request you opened counts as yours even if assigned to yourself.
+| The item is | Input | Starter that fits | Steps |
+| --- | --- | --- | --- |
+| An issue (a bug) | **An issue** | **Fix a bug** | Reproduce, find the cause, failing test and fix, pull request |
+| A ticket | **A ticket** | **Implement** | Plan, build in small steps, test, pull request |
+| A pull request asked of you | **A pull request** | **Code Review** | Read it, check the rules, run the checks, write the review |
+| Your pull request | **A pull request** | **Answer review** | Read each comment and failing check, change the code or reply, run the checks, push |
+| A question or an issue to look into | **A question** | **Research** | Look it up, write the finding, change nothing |
+| A message | **A message** | **Draft a reply** | Look it up, draft, send only when you approve |
 
-## Skills
+Your pull request awaiting reviewers or running checks has nothing to run yet. A pull request you opened counts as yours even if assigned to yourself. A run never merges.
 
-A skill is one the project keeps (`fix-bug`, `dev-flow`, `code-review`) or **Slate's own steps**. Skills are read from `.claude/skills`, `.agents/skills`, `.cursor/skills`, `.gemini/skills`, `.opencode/skills`, also in sub-packages. A folder with no `SKILL.md` is not a skill.
+You can change a starter or make your own: [Automations](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md#make-an-automation).
 
-Slate suggests by skill **name**, best first, never by description. No match: Slate's own steps run until you pick.
+## A project skill can replace the steps
 
-| Kind | Names looked for |
+If the project keeps a skill for the same work (`fix-bug`, `development`, `code-review`, `address-review`), the automation can follow it instead of its plain steps. Pick it in the automation, under **Do**. Slate looks for these names, best first, when it suggests one:
+
+| Work | Names looked for |
 | --- | --- |
-| Bugs | `fix-bug`, `bugfix`, `fix` |
-| Features | `dev-flow`, `development` |
-| Reviews | `code-review`, `review` |
-| Your pull request | `address-review`, `fix-pr` |
-| Failing checks | `fix-checks`, `fix-ci` |
-| Ready to merge | `git-merge`, `merge`, `land` |
+| Fix a bug | `fix-bug`, `bugfix`, `fix`, `hotfix`, `debug` |
+| Implement | `development`, `dev-flow`, `feature`, `implement` |
+| Code Review | `code-review`, `review`, `pr-review`, `review-pr` |
+| Answer review | `address-review`, `address-comments`, `pr-feedback`, `fix-pr`, `respond` |
+| Research | `research`, `investigate` |
 
-## Change a rule
-
-1. Open **Workflow**, the folded box atop Issues and Reviews: that section's rules for one project (*Bugs → fix-bug*), with a project picker.
-2. Pick a skill. The run button's menu and the start dialog change the same rule.
-3. It saves at once for every task of that kind in that project. A changed rule says **Changed** and resets in one click.
-
-If a picked skill leaves the project, the rule says so and Slate's own steps run. **Open** shows the skill in Toolkit; the rule shows its use in the last 30 days (**ran 4× · 1 stopped by you**).
-
-A kind with no skill shows **Slate's own steps** and **New review skill** (or **New bug skill**). It opens [Toolkit](https://liozelmalem-star.github.io/slate-releases/docs/features/studio.md)'s New skill form on that project with name and description filled. **Create** writes the skill, makes it the rule and returns to Tasks; **Cancel** writes nothing. Offered for a project, not a group.
+Skills are read from `.claude/skills`, `.agents/skills`, `.cursor/skills`, `.gemini/skills` and `.opencode/skills`, also in sub-packages. A folder with no `SKILL.md` is not a skill. If the skill leaves the project, the editor says so and the plain steps run until you pick another.
 
 ## Steps and approvals stay
 
-A whole-process skill still runs inside Slate's steps: each step opens the skill's `SKILL.md` and follows it for that step only. The plan still waits for approval; nothing ships before it. The skill lives in the run's folder (a committed one already does; an uncommitted one is copied in with its files), so the agent does not ask permission per step. Skill text is never copied into a prompt. A run keeps its starting skill; a rule change affects the next run.
+A skill still runs inside Slate's steps: each step opens the skill's `SKILL.md` and follows it for that step only. The plan still waits for your approval; nothing ships before it. The skill lives in the run's folder, so the agent does not ask permission per step. Skill text is never copied into a prompt. A run keeps its starting skill; a change to the automation affects the next run.
 
 ---
 
@@ -2610,7 +2711,7 @@ Source: https://liozelmalem-star.github.io/slate-releases/docs/features/tasks/re
 
 A receipt is what an AI session ran, checked against what it said. Slate writes one from the transcript when a turn ends, in any captured agent, with no model and nothing leaving this computer.
 
-A session that only talked (no check, no changed file, no commit) gets none. The **Agent runs** count is flagged receipts not yet reviewed.
+A session that only talked (no check, no changed file, no commit) gets none. The number on Activity's [Agent runs](https://liozelmalem-star.github.io/slate-releases/docs/features/activity.md#agent-runs) is flagged receipts not yet reviewed.
 
 ## What it shows
 
@@ -2619,7 +2720,7 @@ A session that only talked (no check, no changed file, no commit) gets none. The
 - **What it ran**: every test, gate, lint, typecheck and build, in order, with passed and failed counts or exit code.
   A run fails when its summary counts a failure or an error (vitest's `Errors  1 error`, pytest's `2 errors`), or when the command exited with an error even though every test passed. A filter such as `| tail` owns the exit code, so then the counts decide.
 - **What changed**: files edited.
-- **Outcome**: commits its own `git commit` reported, and whether they are on the default branch or were reverted there within 30 days. Checked when you open agent runs, at most every 10 minutes per receipt.
+- **Outcome**: commits its own `git commit` reported, and whether they are on the default branch or were reverted there within 30 days. Checked when a list of receipts is read (Activity's **Agent runs**, or a finished run's **Receipt** on its task), at most every 10 minutes per receipt.
 
 ## Flags
 
@@ -2975,81 +3076,123 @@ See also: [Typed Docs & Hierarchy](https://liozelmalem-star.github.io/slate-rele
 
 Source: https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md
 
-An **automation** works without being driven: a standup at 7:00, a debrief when a coding session ends, a plan per assigned ticket. Automations holds yours and everything they write, plus what Slate runs itself ([Built-in](#the-automations-place)).
+An **automation** is a process you define once. It takes an **input** and runs on a schedule or on an item: a morning brief at 8:30, a fix for an issue, a review of a pull request. Automations holds yours and everything they write, plus what Slate runs itself ([Built-in](#the-automations-place)).
+
+Tasks does not define a process. It runs one of your automations on an item ([Tasks](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks.md#run-an-automation-on-a-task)).
+
+## What an automation takes
+
+Each automation takes one kind of input:
+
+| Takes | Runs | Example starter |
+| --- | --- | --- |
+| **Nothing** | On a schedule or by hand | Morning brief |
+| **A pull request** | On that pull request | Code Review, Answer review |
+| **An issue** | On that issue | Fix a bug |
+| **A ticket** | On that ticket | Implement |
+| **A question** | On that question | Research |
+| **A message** | On that message | Draft a reply |
+
+An automation that takes an item is a **flow**. It runs only on its input: from a task's **Run** button in Tasks or Home, or from your agent naming the item. It never runs now, on a schedule, or with nothing to work on; Slate refuses that and says where it runs ("Code Review runs on a pull request: start it from that pull request's Run button."). It refuses any other item and says why.
+
+Opened, a flow shows its flow, not a thread: what it takes ("Takes a pull request"), its steps in order with the run's two stops where they happen (**Approve plan** after the plan, **Approve to ship** before it ships), the skill it follows, and "Runs from a task's Run button." It has **Edit** and **Delete forever** only: no **Run now**, no on/off switch, no **Last run**. Its runs show on their tasks.
 
 ## Make an automation
 
-An automation is **a job, a trigger and steps**, held to **rules**.
-
 1. Click **+** in the side panel's title row.
-2. Pick **From a template**, **Set it up yourself** (empty editor) or **Describe it to AI…** (an agent writes it).
-3. Write the **Job** in your words ("Every weekday morning, tell me where each project stands and what to focus on"). Every step reads it first; with none, steps run as written.
-4. Pick what starts it, and a project.
+2. Pick a **starter**, **Set it up yourself** (empty editor) or **Describe it to AI…** (an agent writes it).
+3. Fill the strip **When → Do → In**. One part is open at a time.
+4. **Save**. A [preflight check](#the-preflight-check) runs first.
 
-## What starts it
+### The strip: When, Do, In
+
+| Part | You set |
+| --- | --- |
+| **When** | What it takes. With nothing: **By hand**, or **On a schedule** (*every day*, *every weekday*, *every week* or *every month*, at an hour and minute :00, :15, :30 or :45; weekday = Monday to Friday; monthly takes day 1 to 28). With an item: it runs when you run it on that item. |
+| **Do** | The **Job** in your words, and the steps as plain lines. A project skill can replace the steps ([below](#a-project-skill-can-replace-the-steps)). |
+| **In** | The project or group it works in, and the agent. |
+
+A line under the schedule says "Next: Mon 7:30 AM". An automation with a schedule that is switched off does not run on its own. Any automation that takes nothing can be run by hand: **Run now** sits above its tabs and in its editor. A flow has no **Run now**.
+
+## The starters
+
+Slate offers 8 starters. Each is a ready automation you can change.
+
+| Starter | Takes | Does |
+| --- | --- | --- |
+| **Fix a bug** | An issue | Reproduces it, finds the root cause, writes a failing test, fixes it, opens a pull request |
+| **Implement** | A ticket | Plans, builds in small steps, tests each step, opens a pull request |
+| **Code Review** | A pull request | Reads it, checks the project's rules, runs the checks, writes the review |
+| **Answer review** | Your pull request | Answers each comment by changing the code or replying, runs the checks, pushes |
+| **Research** | A question | Looks it up in the code and docs, writes a finding, changes nothing |
+| **Draft a reply** | A message | Looks up what it needs, drafts a reply, sends only when you approve |
+| **Morning brief** | Nothing | Every weekday at 8:30: what moved yesterday and what waits for you |
+| **Memory care** | Nothing | Every night: keeps memory small and true ([AI memory care](https://liozelmalem-star.github.io/slate-releases/docs/features/automations.md#ai-memory-care)) |
+
+You do not have to add them first. While none of your automations takes a task, its **Run** menu in [Tasks](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks.md) offers the starters that take it, and the first run adds that starter here. With no skill of the project's own, a run follows the starter's plain steps and Slate's built-in process; the agent does the work with its own knowledge.
+
+A run on an item waits for you before it plans and before it ships. Merge is never a starter. A starter you added and then changed is marked as changed.
+
+### A project skill can replace the steps
+
+A starter's own steps are plain lines any agent can follow. If the project keeps a skill for the same work (`fix-bug`, `code-review`, `development`), the automation can follow it instead. Pick it under **Do**. Every step opens the skill's file first and follows it, so runs count as that skill's use. The skill is found in the project's folder when the run starts. If the skill leaves the project, the editor says so and the plain steps run until you pick another.
+
+Skills are read from `.claude/skills`, `.agents/skills`, `.cursor/skills`, `.gemini/skills` and `.opencode/skills`, also in sub-packages. A folder with no `SKILL.md` is not a skill.
+
+## What starts a run
 
 | Starts | When |
 | --- | --- |
-| **By hand** | **Run now**. You can type a starting text. |
-| **On a schedule** | **How often**: *every day*, *every weekday*, *every week* or *every month*, at an hour and minute :00, :15, :30 or :45. Weekday = Monday to Friday (a weekend run moves to Monday, same time). Monthly takes day 1 to 28. Listed as "Weekdays · 7:30 AM". |
-| **When a session ends** | After an AI coding session is captured. With **Scheduled automations** off in [Automations › Built-in](https://liozelmalem-star.github.io/slate-releases/docs/features/automations.md) these do not start, nor later for sessions that ended meanwhile. |
-| **When a task arrives** | When Tasks pulls in a new integration item, such as an assigned ticket. One read hands the run up to 5 new items. If already running, new items wait and start one run together afterwards. A just-connected tracker starts nothing (its first read brings everything). Your own to-dos never start one. Tasks reads integrations on opening and on returning to the window after over a minute. |
+| **By hand** | **Run now**, for one that takes nothing. You can type a starting text. |
+| **On a schedule** | At its time, while Slate runs. |
+| **On an item** | You run it on a task from Tasks, from Home, or from your agent. |
 
-Starts on its own only while **Runs on its own** (under **Starts**) is on. A line under the schedule says "Next: Mon 7:30 AM" or "Off, so it will not run on its own." Any automation can be run by hand. Your agent can run one too, from whichever tool you are in ("run my morning report"): its `run_automation` tool lists your automations and starts one, as **Run now** does, while Slate is open. That run asks before it changes anything, like any other. Making or changing an automation stays here ([Tool Reference](https://liozelmalem-star.github.io/slate-releases/docs/features/mcp-server/tools.md#automations)).
+Your agent can run one too, from whichever tool you are in ("run my morning brief"): its `run_automation` tool lists your automations and starts one, as **Run now** does, while Slate is open. A flow needs the item it runs on ([Tool Reference](https://liozelmalem-star.github.io/slate-releases/docs/features/mcp-server/tools.md#automations)). Making or changing an automation stays here.
 
-- **Asleep at due time**: runs once on wake. For time-bound reports switch on **Skip a run that is more than two hours late** ("· skips late runs").
+- **Asleep at due time**: a scheduled run starts once on wake.
 - **One at a time**; never started twice. **Slate stops mid-run**: marked failed; a scheduled one reruns minutes after return.
 
-An automation belongs to the workspace it was made in and runs on this computer while Slate runs, in every workspace, with or without a window. An automation in a shared workspace runs only on the computer of the person who made it: automations do not sync, so teammates never have a copy to run. One that runs when a session ends starts for a session in its workspace's folders. It needs a project:
+An automation belongs to the workspace it was made in and runs on this computer while Slate runs, in every workspace, with or without a window. An automation in a shared workspace runs only on the computer of the person who made it: automations do not sync, so teammates never have a copy to run. It needs a project:
 
-- New ones open in the project Automations is narrowed to and cannot be saved without one. With none picked, **Runs in** says **Pick a project**, listing only groups and projects.
-- The six seeded ones have no project: **Run now** and **Turn on** ask, save, then go on. **Turn off** never asks.
+- New ones open in the project Automations is narrowed to and cannot be saved without one. With none picked, **In** says **Pick a project**, listing only groups and projects.
 - No scheduled run without a project. If the project was removed: editable and can be switched off, not on, until you pick one.
 - Moving a group or project to another workspace takes its automations along.
 
+## The preflight check
+
+Slate checks that a run can start before **Save** and before every run. It asks the question a blocked run would fail on (for example: a folder that is not a git repository, a project hook that blocks headless runs, a skill that left the project). When something blocks, it shows one sentence with the fix, in the editor and on the Run button. A run that would fail does not start.
+
 ## Its steps
 
-Run in order; each reads what came before:
+Steps are plain lines under **Do**. The agent reads the job, then follows the lines. A step can name its own agent. Each run writes **one report**.
 
-- **`@context`**: what the run started with: text typed at Run now, "A coding session just ended.", or today's date for a scheduled run. After Recent tasks, that step's report.
-- **`@prev`**: previous step's answer.
+A scheduled automation can start with **Recent tasks**: [Recent tasks](https://liozelmalem-star.github.io/slate-releases/docs/features/loop/recent-tasks.md).
 
-A step can name its own agent (one on Claude, next on Gemini); none named uses the automation's tool, with the account from the group or project. Each run writes **one report**: last step's answer first, earlier steps after under their labels.
-
-The first step can be **Recent tasks**: [Recent tasks](https://liozelmalem-star.github.io/slate-releases/docs/features/loop/recent-tasks.md).
-
-## What it follows
-
-**Follows**, in the editor under **Runs in**:
-
-- **Slate's own steps**: as written (default).
-- **A skill of its project** (**Skills in** *project*): the skills [Toolkit](https://liozelmalem-star.github.io/slate-releases/docs/features/studio.md) shows.
-- **A subagent of its project** (**Subagents**).
-- **+ New skill in Toolkit…**: opens Toolkit's New skill form on the project with name and purpose filled. **Create** writes it, sets the automation to follow it, returns you. Only for a saved automation with no unsaved changes.
-
-Every step opens the skill's or subagent's file first and follows it, so runs count as that skill's use. The file is found in the project's folder at run start. If the skill left the project, the editor says so and runs follow Slate's own steps until you pick another. Moving the automation to another project clears the choice.
+In the job and steps, type **@** to name a doc, session, memory, task, artifact, file or report. A pick is a chip; on a run, its content goes before the text.
 
 ## The thread
 
-Opens on its **Thread**: every run, oldest first; typed words above the answer they started; under each run a line of what it used ("Used jira ×2, github · 1 call waiting for you"). A report over 1,600 characters shows its opening; **Read the whole report** opens it.
+Opens on its **Thread**: every run, oldest first; typed words above the answer they started; under each run a line of what it used ("Used jira ×2, github"). A report over 1,600 characters shows its opening; **Read the whole report** opens it.
 
-To answer the last run, type in the box under the thread and press **Send**: one more short run (not the steps) on the same agent and folder, reading the last four turns and your words, each earlier report cut to its first 3,000 characters. The box is off while the automation runs or cannot run (for example, no project). Before the first run it is the run's starting text and the button says **Start**; **Run now** runs with nothing typed.
+To answer the last run, type in the box under the thread and press **Send**: one more short run on the same agent and folder, reading the last four turns and your words, each earlier report cut to its first 3,000 characters. The box is off while the automation runs or cannot run (for example, no project). Before the first run it is the run's starting text and the button says **Start**; **Run now** runs with nothing typed.
+
+## The receipt
+
+Every run leaves a **receipt**: what the run did, checked against what it said. Slate reads it from the run's own output, kept in Slate's data folder. The agent does not write it. A run whose output cannot be read says **No evidence**. The receipt sits under the run in the thread.
 
 ## What it may do
 
-An automation uses the tools its agent reaches: your MCP servers (Jira, GitHub, Slack…). **Setup → May do**:
+An automation uses the tools its agent reaches: your MCP servers (Jira, GitHub, Slack…).
 
 - **Reading goes on without asking**: searching, listing, opening a ticket or pull request.
 - **A call that changes something asks first**: posting, commenting, creating an issue.
 - **Merging, removing and writing files are refused.**
 
-It also reads apps connected in [Connect → Integrations](https://liozelmalem-star.github.io/slate-releases/docs/features/connect.md#integrations) with no MCP server needed (`connected_tools`, `read_connected`, using Slate's sign-in). Setup shows each at the head of the **Allowed** row with its logo; click opens Connect. Excluded: token-connected apps, and an app the automation's Deny covers whole (`mcp__linear__*`). The report names the app (*linear · list_issues*) and the lists below treat that read as a call to it.
-
-Three lists adjust this per automation, the same as an agent run: **Allow**, **Ask first**, **Deny**. One call per line as the agent names it; trailing `*` covers a server (`mcp__jira__*`). Slate's rules hook enforces them when the agent is connected in [Connect](https://liozelmalem-star.github.io/slate-releases/docs/features/connect.md) with hooks on; without hooks the tool is not held and Setup says so.
+It also reads apps connected in [Connect → Integrations](https://liozelmalem-star.github.io/slate-releases/docs/features/connect.md#integrations) with no MCP server needed, using Slate's sign-in. The report names the app (*linear · list_issues*).
 
 ### When it asks first
 
-A held call lets the run carry on, saying what it wanted. When the run ends it waits as an **Ask first** card ("Standup's rules held a call: …") in the thread under that run and on [Home](https://liozelmalem-star.github.io/slate-releases/docs/features/agent.md). **Yes, do it** starts one short run allowed exactly that call; the card then says "Done: Posted to #acme-dev." or "Not made: …". **No** closes it. Each is answered once. **Later** (Home) sets it aside.
+A held call lets the run carry on, saying what it wanted. When the run ends it waits as an **Ask first** card in the thread under that run and on [Home](https://liozelmalem-star.github.io/slate-releases/docs/features/agent.md). **Yes, do it** starts one short run allowed exactly that call; the card then says "Done: Posted to #acme-dev." or "Not made: …". **No** closes it. Each is answered once. **Later** (Home) sets it aside.
 
 ## What it knows
 
@@ -3068,36 +3211,17 @@ Background runs have limits:
 | Claude Code agent turns inside each turn | 30 (other tools have no such flag) |
 | Silence before a step gives up | 4 minutes (any word, tool call or result restarts the clock) |
 
-## The ceremonies
-
-Six seeded automations, each one Recent tasks step, organised **by project**. All start **switched off** with no project; **Run now** or **Turn on** asks which project, saves, goes on.
-
-| Automation | Starts | Looks back | Produces |
-| --- | --- | --- | --- |
-| **Standup** | daily, 07:00 | 3 days | Where each project stands, today's focus |
-| **Shutdown** | daily, 18:00 | 1 day | What moved, loose ends, tomorrow's first move |
-| **Planning** | Monday 08:00 | 7 days | What to commit to this week, per project |
-| **Weekly review** | Friday 17:00 | 7 days | Shipped, in flight, blocked |
-| **Retro** | Friday 17:00 | 7 days | What went well, what dragged, one change |
-| **Monthly review** | day 1, 09:00 | 30 days | Trajectory, decisions that mattered, one change |
-
-Standup, Shutdown, Weekly review and Retro also write decisions to memory (up to five per run); Planning and Monthly review do not. None skips a late run. Each is ordinary: change the time, scope it, or add a step after Recent tasks ("turn this into three Slack-ready bullets").
-
-**Memory pass** template: daily 08:30; reads yesterday's sessions and the group's or project's memories; adds at most five (a correction, a confirmed approach, a decision and why); proposes merges and retirements for review. Does nothing until saved, scoped to a group or project, and switched on. Runs on its agent and account.
-
-**Memory care**: turning on **AI memory care** in Memory adds it (daily 03:00, skips a missed night). See [AI memory care](https://liozelmalem-star.github.io/slate-releases/docs/features/automations.md#ai-memory-care).
-
 ## The Automations place
 
-Opens on **Overview**. Its one list, **Latest**, holds the newest report per automation, plus a live card for a run in progress. Picking one opens that automation's **Thread** at that run, where its earlier runs are. A renamed automation keeps its reports. Unreadable reports: **Try again**; **No reports yet** only when none exist.
+Opens on **Overview**. Its one list, **Latest**, holds the newest report per automation, plus a live card for a run in progress. Picking one opens that automation's **Thread** at that run. A renamed automation keeps its reports. Unreadable reports: **Try again**; **No reports yet** only when none exist.
 
-Under Overview is **Built-in**: what Slate runs itself, each with a switch (`/loop?view=built-in`); see [Built-in automations](https://liozelmalem-star.github.io/slate-releases/docs/features/automations.md). Below are yours, grouped by trigger: **Running**, **On a schedule**, **When a session ends**, **When a task arrives**, **By hand**. Pick one for tabs **Thread**, **Setup** (job, start, where it works, what it may do, steps) and **What it knows**; **Run now**, **Edit** and the on/off switch sit above. **Edit** opens the editor; **Overview** returns.
+Under Overview is **Built-in**: what Slate runs itself, each with a switch (`/loop?view=built-in`); see [Built-in automations](https://liozelmalem-star.github.io/slate-releases/docs/features/automations.md). Below are yours, in two groups after **Running**: **On a schedule** holds everything that takes nothing, each row with its time ("Daily 3 AM") or **By hand**; **Flows** holds what takes an item, each row with what it takes. Pick one that takes nothing for tabs **Thread**, **Setup** (the When / Do / In strip) and **What it knows**, with **Run now**, **Edit** and the on/off switch above. A flow opens on its flow ([What an automation takes](#what-an-automation-takes)).
 
-Reports **go for good, not to Trash**: **Delete forever…** asks once ("Delete forever?"); the automation can run again. Deleting an automation forever keeps its reports. **⌘K** searches reports (title and body), under **Reports** (at most four) then **Artifacts**.
+Reports **go for good, not to Trash**: **Delete forever…** asks once; the automation can run again. Deleting an automation forever keeps its reports. **⌘K** searches reports (title and body), under **Reports** (at most four) then **Artifacts**.
 
-**When a run finishes**: an OS notification with the report's opening line (cut at 180 characters) and a **Report ready** toast. A failure shows an **Automation failed** toast, and the error stays under **Last run**. If your agent's own sign-in lapses you get one notification, on the first run failing that way. Its **Open** goes to the automation's **Thread** at that run, as a report row in Activity does. In the thread, a long report shows its opening and **Read the whole report** opens it alone, with chips for the other runs; a **⌘K** hit opens it alone too, since the search matched that report's own text.
+**When a run finishes**: an OS notification with the report's opening line (cut at 180 characters) and a **Report ready** toast. A failure shows an **Automation failed** toast, and the error stays under **Last run**. If your agent's own sign-in lapses you get one notification, on the first run failing that way. Its **Open** goes to the automation's **Thread** at that run.
 
-See also: [Home](https://liozelmalem-star.github.io/slate-releases/docs/features/agent.md), [Built-in automations](https://liozelmalem-star.github.io/slate-releases/docs/features/automations.md), [Sessions](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions.md).
+See also: [Tasks](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks.md), [Home](https://liozelmalem-star.github.io/slate-releases/docs/features/agent.md), [Built-in automations](https://liozelmalem-star.github.io/slate-releases/docs/features/automations.md), [Sessions](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions.md).
 
 ---
 
@@ -3105,7 +3229,7 @@ See also: [Home](https://liozelmalem-star.github.io/slate-releases/docs/features
 
 Source: https://liozelmalem-star.github.io/slate-releases/docs/features/loop/recent-tasks.md
 
-**Recent tasks** is a first step for an [automation](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md). Before writing it gathers what happened and checks it against your live tools. Only the first step can be one, since later steps read its report.
+**Recent tasks** is a first step for an [automation](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md) that takes nothing. Before writing it gathers what happened and checks it against your live tools.
 
 ## Context it sees
 
@@ -3116,11 +3240,11 @@ Source: https://liozelmalem-star.github.io/slate-releases/docs/features/loop/rec
 | Docs | Titles of up to 100 docs, newest change first, in the automation's group or project |
 | Prior runs | Its own three latest reports, each's opening 600 characters |
 
-**Look back**: days of sessions read, 1 to 365, starting at 7.
+It reads 7 days of sessions, unless the step was saved with another number (1 to 365). The editor no longer shows this setting.
 
-**Write decisions back to memory**: the report may end with a `memories` block, saved as memory (at most five per run) and removed from the report you read. The same switch lets a `memory-proposals` block merge and retire the memories shown, by ref; each applies at once and shows in Memory under **Tidied this week**, with an Undo. Only an automation scoped to a group or project can file one.
+When the step writes back to memory, the report may end with a `memories` block, saved as memory (at most five per run) and removed from the report you read. The same setting lets a `memory-proposals` block merge and retire the memories shown, by ref; each applies at once and shows in Memory under **Tidied this week**, with an Undo. Only an automation scoped to a group or project can file one.
 
-It can also search the workspace and your connected tools; what it may change follows the automation's rules ([What it may do](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md#what-it-may-do)).
+It can also search the workspace and your connected tools; what it may change follows [What it may do](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md#what-it-may-do).
 
 ## Grounding on live tools
 
@@ -3144,7 +3268,7 @@ The text then lists what was **verified this run** and which sources **could not
 
 ## Prompt variables
 
-Filled just before it runs; only Recent tasks reads them (the editor warns if a later step uses one and points to `@context`):
+Filled just before it runs; only Recent tasks reads them (the editor warns if another step uses one):
 
 | Variable | Expands to |
 | --- | --- |
@@ -3172,9 +3296,9 @@ Ten switches are app-wide: off stops it in every workspace. They pause things yo
 
 | Automation | Does | Off means |
 | --- | --- | --- |
-| **Scheduled automations** | Starts your automations at their times and those that run when a session ends; files each report under its group or project. Every workspace on this computer, while Slate runs (window open or not) and the computer is awake | Nothing runs on a schedule; automations stay listed and run by hand |
+| **Scheduled automations** | Starts your scheduled automations at their times; files each report under its group or project. Every workspace on this computer, while Slate runs (window open or not) and the computer is awake | Nothing runs on a schedule; automations stay listed and run by hand or on an item |
 | **Shared workspace sync** | At startup, then every two minutes: pushes your docs in a shared workspace, pulls others'. Needs sign-in. After repeated failures waits longer, up to an hour | Shared workspaces stop updating both ways; **Sync now** still works |
-| **agent runs** | Adds **Run with AI…** to a task (branch, folder, guided run). Every two minutes checks if a shipped run's pull request merged; for 30 days after shipping, hourly checks for a revert | Task card offers only **Just open a session**; started runs keep their rules; no merge or revert checks |
+| **agent runs** | Adds **Run <automation>** to a task (branch, folder, guided run). Every two minutes checks if a shipped run's pull request merged; for 30 days after shipping, hourly checks for a revert | Task card opens only a plain session; started runs keep their rules; no merge or revert checks |
 | **Reminders** | Rings when a task with a time comes due, in every workspace on this computer | Nothing rings; times stay |
 | **AI memory care** (per workspace) | [Below](#ai-memory-care) | Free rules only: memories whose code is gone or whose state expired are hidden, badly shaped new ones refused; nothing spent |
 | **Automatic updates** | Checks for a version, downloads in background, installs on next quit | Keep your version until you check in Settings → About |
@@ -3202,7 +3326,7 @@ A switch applies on the next tick, not next launch: within a minute for the auto
 ## What reaches the network
 
 - **Slate's own account** ([Privacy & Security](https://liozelmalem-star.github.io/slate-releases/docs/features/privacy-and-security.md)): the update check (release manifest) and shared-workspace sync.
-- **Through your agent's CLI, under its auth**: scheduled automations, session-end automations, agent runs, AI memory care.
+- **Through your agent's CLI, under its auth**: scheduled automations, automations run on an item, agent runs, AI memory care.
 - **Your own `gh` or `glab`**: agent run merge check and revert search (revert search is GitHub only).
 - Everything else is local.
 
@@ -3753,6 +3877,10 @@ Your [widgets](https://liozelmalem-star.github.io/slate-releases/docs/features/w
 
 The side panel holds the **project picker** (All projects, or one), the **range** (7d, 30d, 90d, 1y, All) and **saved views** (range, filter and project kept under a name; the view on screen is marked; **Remove view** offers **Undo**). Drag across the trend chart to zoom; click a breakdown row to filter the board to it.
 
+## Agent runs
+
+Runs started from Tasks, Automations or another session in the last 14 days, newest first: status, steps, approvals and the session's [receipt](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks/receipts.md). A line above sums runs started, done, pull requests and estimated cost. The number on the title is flagged receipts not yet reviewed. A session you ran yourself is not here (see **Details** in [Sessions](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions.md)). A run in progress also shows on its task in [Tasks](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks.md).
+
 ## Where the numbers come from
 
 Slate's watcher reads each agent's own files: the session transcripts of Claude Code, Codex, Gemini, Cursor and the other tools that write them, and the databases of tools that keep sessions in SQLite (OpenCode, Kiro, Hermes Agent, Goose and Kilo Code).
@@ -3853,7 +3981,7 @@ More: [MCP servers, profiles and models](https://liozelmalem-star.github.io/slat
 
 ## Integrations
 
-The **Integrations** tab holds this workspace's connected apps. Press **Connect**, approve on the app's sign-in page, and what you owe there shows in Tasks. List, states and per-app notes: [Integrations](https://liozelmalem-star.github.io/slate-releases/docs/features/connect/integrations.md).
+The **Integrations** tab holds this workspace's connected apps. Press **Connect**, approve on the app's sign-in page, and what you owe there shows in Tasks. On a working app, **Choose what Tasks shows** (on hover) opens what that app sends, beside Tasks' Overview. List, states and per-app notes: [Integrations](https://liozelmalem-star.github.io/slate-releases/docs/features/connect/integrations.md).
 
 ## What is not here
 
@@ -4014,7 +4142,7 @@ Connecting installs Slate once, by plugin or config hooks, plus one MCP entry. S
 
 ## Two ways in, one at a time
 
-A **plugin** is a directory the tool owns, with five hooks (six for Claude Code) and four slash commands. The tool's own uninstall removes it all. The MCP server is separate: every tool reaches it through one `slate` entry in its config.
+A **plugin** is a directory the tool owns, with five hooks (six for Claude Code) and four slash commands. The tool's own uninstall removes it all. The MCP server is separate: every tool reaches it via one `slate` entry in its config.
 
 * OpenCode and GitHub Copilot have no plugin route, so hooks go into their config. So for Claude Code, Gemini and Cursor when the plugin cannot be installed or run.
 * Codex takes no config hooks. Without its plugin it keeps only the MCP entry.
@@ -4065,7 +4193,7 @@ The plugin adds these to the `/` menu (type `/slate` in Claude Code):
 
 | Command | What it does |
 |---|---|
-| `/slate:brief` | What Slate knows about this project, in a few lines |
+| `/slate:brief` | Slate's brief on this project, in a few lines |
 | `/slate:recall <what>` | Search your memory, and check any code it cites |
 | `/slate:remember <fact>` | Save one memory, in your words |
 | `/slate:open` | Open this project in the Slate app |
@@ -4820,7 +4948,7 @@ A widget's id given to `get_artifact` or `publish_artifact` answers `is_a_widget
 
 | Tool | Purpose |
 | --- | --- |
-| `run_automation` | Without `id`: this workspace's [automations](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md), each with `id`, `name`, `description`, `trigger`, `enabled`, `last_run`, `last_error`. With `id`: start that automation now, as **Run now** does, and get `run_id`; a run already going is joined (`started: false`). The run shows in Slate and asks before it acts, as any run does. Needs Slate open (else `slate_not_running`); an automation that cannot start answers `run_not_startable` with the reason. Making or changing an automation is done in Slate. |
+| `run_automation` | Without `id`: this workspace's [automations](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md), each with `id`, `name`, `description`, `trigger`, `enabled`, `last_run`, `last_error`. With `id`: start that automation now, as **Run now** does, and get `run_id`; a run already going is joined (`started: false`). The run shows in Slate and asks before it acts, as any run does. Needs Slate open (else `slate_not_running`); an automation that cannot start answers `run_not_startable` with the reason. An automation that takes an item (a flow) starts only with `item`, on that item; without one, or on an item it does not take, it answers `invalid_request` with Slate's reason. Making or changing an automation is done in Slate. |
 
 ## Agent runs
 
@@ -4976,7 +5104,7 @@ Rust runs the model calls (`packages/desktop/src-tauri/src/ai/`; `driver.rs` pic
 - **Warm process.** Each tool keeps one across Home turns and is sent only your new message. A fresh process (first turn, after restart, after resuming) gets the history first. Resuming always starts fresh, so connected tools may sign in once more.
 - **Protocols.** Claude Code and Codex speak their own. Cursor, OpenCode, Gemini, GitHub Copilot and the ten newest speak the Agent Client Protocol (`cursor-agent acp`, `opencode acp`, `gemini --acp`, `copilot --acp`, `grok agent stdio`, `droid exec --output-format acp`, …) in `ai/acp/`. Through it Stop keeps the process, the model can change mid-conversation, and approval cards appear ([Approvals](https://liozelmalem-star.github.io/slate-releases/docs/features/agent/approvals.md#what-differs-by-agent)).
 - **Fallback.** A tool silent on the protocol for 20 seconds runs one process per message for the rest of that app session (an automation's unattended Gemini turn too). No card can be answered, so an ask is a refusal (OpenCode's rule: [Approvals](https://liozelmalem-star.github.io/slate-releases/docs/features/agent/approvals.md#what-differs-by-agent)). Cursor runs pre-approved. GitHub Copilot (`copilot -p`) runs every tool only on Full auto, otherwise only what your Copilot settings allow.
-- **Automations** run unattended, one process per run. Claude and Codex reach your connected MCP tools and the automation's rules decide each call: reads go on, a call that changes something is held for your answer, and merging, removing, file changes, commands and anything needing more access are refused ([Automations](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md#what-it-may-do)).
+- **Automations** run unattended, one process per run. Claude and Codex reach your connected MCP tools and Slate decides each call: reads go on, a call that changes something is held for your answer, and merging, removing, file changes, commands and anything needing more access are refused ([Automations](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md#what-it-may-do)).
 - **Timeout.** A turn ends when its agent is quiet for 10 minutes; each line it prints starts the 10 minutes again, so a long turn that keeps working is never cut off. A CLI that connects then goes quiet (say, waiting on an auth callback) ends with a readable timeout.
 - **Stop.** Stop, New chat and quit also end a message still waiting for a free agent (three run at once, shared with automations and session lanes), so it never runs later where you cannot see it. They never wait on an agent that is not reading what Slate sends it.
 
@@ -5368,7 +5496,7 @@ No server holds your workspace, only the docs you hand it. A model sees only wha
 | Docs, sessions, memories, decisions | Inside that file |
 | Which workspaces this machine has | A local registry (names, colours, your role) so the switcher reads offline |
 | [Tasks](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks.md) from other tools | One line per task in the workspace file. Never description, comment or message text; never shared. For a tool learned by Teach Slate: how to read it (tool name, arguments, field paths), never its answer |
-| [Agent run](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks.md#agent-runs) drafts | PR text, ticket update, review comments or reply, so Approve to ship shows them word for word. In the owning store, removed 30 days after the run closes, never shared. The task description is never stored |
+| [Agent run](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks.md#run-an-automation-on-a-task) drafts | PR text, ticket update, review comments or reply, so Approve to ship shows them word for word. In the owning store, removed 30 days after the run closes, never shared. The task description is never stored |
 | [Receipts](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks.md#receipts) | One per session, in the file of the workspace holding its folder: last reply's first paragraph, each run's command and result counts, edited paths, commit ids and subjects. Read from the transcript with no model. Never a run's full output; never shared |
 | Agent run rules file | Small JSON in the run worktree's own git folder (never committed), or in the run's folder under app data for a reply |
 | [Activity](https://liozelmalem-star.github.io/slate-releases/docs/features/activity.md#where-the-numbers-come-from) | Per session and model response: times, token counts, model, the tool's own cost. Never prompt or reply text. In `machine.db`, so never shared |

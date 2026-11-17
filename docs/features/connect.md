@@ -71,7 +71,7 @@ More: [MCP servers, profiles and models](https://liozelmalem-star.github.io/slat
 
 ## Integrations
 
-The **Integrations** tab holds this workspace's connected apps. Press **Connect**, approve on the app's sign-in page, and what you owe there shows in Tasks. List, states and per-app notes: [Integrations](https://liozelmalem-star.github.io/slate-releases/docs/features/connect/integrations.md).
+The **Integrations** tab holds this workspace's connected apps. Press **Connect**, approve on the app's sign-in page, and what you owe there shows in Tasks. On a working app, **Choose what Tasks shows** (on hover) opens what that app sends, beside Tasks' Overview. List, states and per-app notes: [Integrations](https://liozelmalem-star.github.io/slate-releases/docs/features/connect/integrations.md).
 
 ## What is not here
 

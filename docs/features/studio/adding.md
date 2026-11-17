@@ -4,7 +4,7 @@
 
 A line under the cards names every tool that will read it.
 
-**New skill** also opens from a kind of work in Tasks' **Workflow** ([Tasks](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks.md#workflow)) and an automation's **Follows** ([Automations](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md#what-it-follows)), with name and description filled in. **Create** writes the skill, binds it to what asked, and goes back. **Cancel** writes nothing.
+**New skill** also opens from an automation's **Do** part ([Automations](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md#a-project-skill-can-replace-the-steps)), with name and description filled in. **Create** writes the skill, binds it to what asked, and goes back. **Cancel** writes nothing.
 
 ## Skill
 

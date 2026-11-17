@@ -1,6 +1,6 @@
 # Recent tasks
 
-**Recent tasks** is a first step for an [automation](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md). Before writing it gathers what happened and checks it against your live tools. Only the first step can be one, since later steps read its report.
+**Recent tasks** is a first step for an [automation](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md) that takes nothing. Before writing it gathers what happened and checks it against your live tools.
 
 ## Context it sees
 
@@ -11,11 +11,11 @@
 | Docs | Titles of up to 100 docs, newest change first, in the automation's group or project |
 | Prior runs | Its own three latest reports, each's opening 600 characters |
 
-**Look back**: days of sessions read, 1 to 365, starting at 7.
+It reads 7 days of sessions, unless the step was saved with another number (1 to 365). The editor no longer shows this setting.
 
-**Write decisions back to memory**: the report may end with a `memories` block, saved as memory (at most five per run) and removed from the report you read. The same switch lets a `memory-proposals` block merge and retire the memories shown, by ref; each applies at once and shows in Memory under **Tidied this week**, with an Undo. Only an automation scoped to a group or project can file one.
+When the step writes back to memory, the report may end with a `memories` block, saved as memory (at most five per run) and removed from the report you read. The same setting lets a `memory-proposals` block merge and retire the memories shown, by ref; each applies at once and shows in Memory under **Tidied this week**, with an Undo. Only an automation scoped to a group or project can file one.
 
-It can also search the workspace and your connected tools; what it may change follows the automation's rules ([What it may do](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md#what-it-may-do)).
+It can also search the workspace and your connected tools; what it may change follows [What it may do](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md#what-it-may-do).
 
 ## Grounding on live tools
 
@@ -39,7 +39,7 @@ The text then lists what was **verified this run** and which sources **could not
 
 ## Prompt variables
 
-Filled just before it runs; only Recent tasks reads them (the editor warns if a later step uses one and points to `@context`):
+Filled just before it runs; only Recent tasks reads them (the editor warns if another step uses one):
 
 | Variable | Expands to |
 | --- | --- |
