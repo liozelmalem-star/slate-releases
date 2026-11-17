@@ -33,7 +33,7 @@ export const automations = {
       screen: "automations",
       spot: { text: "Latest", up: 1 },
       title: "Work that runs without you",
-      body: "<p>An <strong>automation</strong> does a job for you on a trigger: a standup at 7:00, a debrief when a coding session ends, a review every Friday. Everything it writes lands here.</p><p>The Overview shows the <strong>Latest</strong> report from each automation. Click one to open that automation's thread, with every run it made.</p><p>Its <strong>Built-in</strong> section lists what Slate itself runs, with a switch each.</p>",
+      body: "<p>An <strong>automation</strong> does a job for you on a schedule: a standup at 7:00, a debrief every evening, a review every Friday. Everything it writes lands here. A <strong>flow</strong>, such as Code Review or Fix a bug, runs on a task instead, from that task&#39;s Run button.</p><p>The Overview shows the <strong>Latest</strong> report from each automation. Click one to open that automation's thread, with every run it made.</p><p>Its <strong>Built-in</strong> section lists what Slate itself runs, with a switch each.</p>",
     },
     {
       screen: "automations",
