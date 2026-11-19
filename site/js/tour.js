@@ -80,16 +80,36 @@ function readRailMarks(tries = 40) {
   marks = found;
   renderChapters();
 }
+/** The chapter row is built once (and again only when the rail's marks arrive); a step
+ *  change updates it in place. Rebuilding it on every click destroyed the button under
+ *  the pointer: its focus was lost and its hover flickered. */
+let builtWith = null;
 function renderChapters() {
   const ol = $(".chapters");
-  ol.innerHTML = CHAPTERS.map(
-    (c, i) => `<li class="${done.has(c.id) ? "done" : ""}">
-      <button type="button" data-ch="${i}" ${i === ch ? 'aria-current="step"' : ""}>
+  if (builtWith !== marks) {
+    builtWith = marks;
+    ol.innerHTML = CHAPTERS.map(
+      (c, i) => `<li>
+      <button type="button" data-ch="${i}">
         ${marks[c.id] ?? (c.icon ? `<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${c.icon}</svg>` : "")}
         <span>${c.title}</span><span class="n">${c.steps.length}</span>
       </button></li>`,
-  ).join("");
-  ol.querySelector('[aria-current="step"]')?.scrollIntoView({ block: "nearest", inline: "nearest" });
+    ).join("");
+  }
+  [...ol.children].forEach((li, i) => {
+    li.classList.toggle("done", done.has(CHAPTERS[i].id));
+    const btn = li.firstElementChild;
+    if (i === ch) btn.setAttribute("aria-current", "step");
+    else btn.removeAttribute("aria-current");
+  });
+  // Bring the current chapter into the row's view, sideways only: scrollIntoView also
+  // scrolled the page, which was the jump on every click.
+  const cur = ol.children[ch];
+  if (cur) {
+    const left = cur.offsetLeft - ol.offsetLeft;
+    if (left < ol.scrollLeft || left + cur.offsetWidth > ol.scrollLeft + ol.clientWidth)
+      ol.scrollTo({ left: left - 24, behavior: "smooth" });
+  }
   // The line under the chapters fills with the tour: whole chapters done, plus this one's share.
   const fill = document.querySelector(".tour-track i");
   if (fill) fill.style.width = `${((ch + st / CHAPTERS[ch].steps.length) / CHAPTERS.length) * 100}%`;
@@ -104,11 +124,15 @@ const POINTER =
   '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 4.1 12 6"/><path d="m5.1 8-2.9-.8"/><path d="m6 12-1.9 2"/><path d="M7.2 2.2 8 5.1"/><path d="M9.037 9.69a.498.498 0 0 1 .653-.653l11 4.5a.5.5 0 0 1-.074.949l-4.349 1.041a1 1 0 0 0-.74.739l-1.04 4.35a.5.5 0 0 1-.95.074z"/></svg>';
 
 function renderCard() {
-  // The guide hops each time it speaks a new step.
+  // The guide hops when it speaks a new step, not on every redraw of the same one.
   const card = document.querySelector(".step-card");
-  card?.classList.remove("hop");
-  void card?.offsetWidth;
-  card?.classList.add("hop");
+  const said = `${ch}/${st}`;
+  if (card && card.dataset.said !== said) {
+    card.dataset.said = said;
+    card.classList.remove("hop");
+    void card.offsetWidth;
+    card.classList.add("hop");
+  }
   const c = CHAPTERS[ch];
   const s = c.steps[st];
   $(".step-kicker .name").textContent = c.title;
