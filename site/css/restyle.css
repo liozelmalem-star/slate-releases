@@ -253,3 +253,20 @@ header.hero.hero-world { display: block; min-height: 0; }
 .first { display: grid; grid-template-rows: minmax(320px, 1fr) auto; min-height: calc(100svh - 55px); }
 .world-copy { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; }
 .world-copy .dl-row { display: flex; flex-wrap: wrap; gap: 10px; }
+
+/* ── The top bar floats over the world, as Clay's does ─────────────────────
+   A card hung from the top edge: inset from the sides, rounded at the bottom, on its own
+   surface, with the scene running behind it from the very top of the window. */
+.topnav {
+  position: fixed; top: 0; left: 50%; transform: translateX(-50%); z-index: 60;
+  width: min(1400px, calc(100% - 48px));
+  background: rgb(var(--surface)) !important; backdrop-filter: none !important;
+  border: 1px solid rgb(var(--edge-2)); border-top: 0; border-radius: 0 0 20px 20px;
+  box-shadow: 0 18px 40px -26px rgb(10 16 13 / .45);
+}
+.topnav-in { max-width: none; padding: 12px 18px 12px 22px; }
+.topnav a { font-size: 14.5px; }
+.topnav .nav-cta { padding: 8px 16px; border-radius: 10px; }
+/* The first screen is the whole window now; the bar sits on the sky. */
+.first { min-height: 100svh; }
+.world { min-height: 380px; }
