@@ -129,3 +129,11 @@ header.hero.hero-world { position: relative; z-index: 1; padding: 0; text-align:
 
 /* The product slides up over the world on a light sheet, as Clay's content card does. */
 .sheet { background: rgb(var(--ground)); color: rgb(var(--text)); border-radius: 36px 36px 0 0; padding-block: 56px 24px; }
+
+/* The hero is one look in both themes: its chip and its second button carry their own
+   colours, or the light theme paints them white with white words on them. */
+.world-copy .rel { background: rgb(0 0 0 / .2); border-color: rgb(245 243 236 / .16); color: rgb(245 243 236 / .75); }
+.world-copy .rel * { color: inherit; }
+.world-copy .btn-ghost { background: transparent; color: #f5f3ec; border: 1px solid rgb(245 243 236 / .35); }
+.world-copy .btn-ghost:hover { background: rgb(245 243 236 / .08); color: #f5f3ec; }
+.world-copy .cmd code { color: #f5f3ec; }
