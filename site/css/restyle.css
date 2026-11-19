@@ -79,3 +79,53 @@ h2.mid { font-size: clamp(32px, 3.8vw, 44px); line-height: 1.04; }
   padding: 4px 10px; border-radius: 999px; font-size: 12px;
   background: rgb(0 0 0 / .55); color: rgb(237 237 239); backdrop-filter: blur(6px);
 }
+
+/* ── The world hero ────────────────────────────────────────────────────────
+   One deliberate look in both themes: Slate's greens, Slate Bot in Mint's colours. */
+header.hero.hero-world { position: relative; z-index: 1; padding: 0; text-align: left; background: #2b4d3f; color: #f5f3ec; overflow: hidden; }
+.world { position: relative; height: clamp(360px, 52vw, 640px); }
+.scene { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.scene .sky { fill: #dfeee2; }
+.scene .clouds ellipse { fill: #f5f3ec; opacity: .85; }
+.scene .hill.far { fill: #93b29e; }
+.scene .hill.mid { fill: #5c8a6a; }
+.scene .hill.near { fill: #2b4d3f; }
+.scene .trees path { fill: #3f6b55; }
+.scene .shadow { fill: #163d34; opacity: .28; }
+.scene .tile { fill: #f5f3ec; stroke: #163d34; stroke-opacity: .12; }
+.scene .stone use { color: #1b1b1f; }
+.scene .stone { animation: bob 6s ease-in-out infinite; }
+.scene .stones > g:nth-child(2n) .stone { animation-delay: -3s; }
+.scene .b-body { fill: #3f6b55; }
+.scene .b-face { fill: #f5f3ec; }
+.scene .b-leaf { fill: #c9e3cd; transform-origin: 27px 19px; animation: sway 5s ease-in-out infinite; }
+.scene .b-eyes { fill: #3f6b55; transition: transform .25s ease-out; }
+.scene .drift { fill: #c9e3cd; stroke: #3f6b55; stroke-width: 1.2; offset-rotate: auto; animation: drift 9s linear infinite; opacity: 0; }
+.scene .d1 { offset-path: path("M250 520C400 380 620 360 790 430"); }
+.scene .d2 { offset-path: path("M420 455C540 340 680 340 790 420"); animation-delay: -1.8s; }
+.scene .d3 { offset-path: path("M1185 450C1060 340 920 340 810 420"); animation-delay: -3.6s; }
+.scene .d4 { offset-path: path("M1350 515C1180 380 960 360 810 430"); animation-delay: -5.4s; }
+.scene .d5 { offset-path: path("M1500 585C1300 420 980 380 815 440"); animation-delay: -7.2s; }
+@keyframes drift { 0% { offset-distance: 0%; opacity: 0; } 12% { opacity: 1; } 85% { opacity: 1; } 100% { offset-distance: 100%; opacity: 0; } }
+@keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+@keyframes sway { 0%, 100% { transform: rotate(0deg); } 50% { transform: rotate(-6deg); } }
+@media (prefers-reduced-motion: reduce) { .scene * { animation: none !important; } .scene .drift { opacity: 0; } }
+
+.world-copy { display: grid; grid-template-columns: minmax(0, 7fr) minmax(0, 5fr); gap: 48px; align-items: end; padding-block: 8px 72px; }
+.world-copy h1 { color: #f5f3ec; margin: 14px 0 0; font-size: clamp(46px, 6vw, 84px); }
+.world-copy h1 .grad { color: #c9e3cd; -webkit-text-fill-color: #c9e3cd; }
+.world-copy .lede { color: rgb(245 243 236 / .82); font-size: 19px; margin: 0 0 22px; }
+.world-copy .lede strong { color: #f5f3ec; }
+.world-copy .rel { color: rgb(245 243 236 / .7); }
+.world-copy .dl-meta, .world-copy .dl-cli span { color: rgb(245 243 236 / .6); }
+.world-copy .dl-meta a { color: rgb(245 243 236 / .8); }
+.world-copy .btn-ghost { color: #f5f3ec; border-color: rgb(245 243 236 / .35); }
+.world-copy .dl-btn { background: #c9e3cd; color: #163d34; }
+.world-copy .cmd { background: rgb(0 0 0 / .22); border-color: rgb(245 243 236 / .14); color: #f5f3ec; }
+.with { display: flex; align-items: center; gap: 10px; margin: 18px 0 0; font-size: 14px; color: rgb(245 243 236 / .7); }
+.with span { display: inline-flex; gap: 6px; }
+.with svg { width: 28px; height: 28px; padding: 5px; border-radius: 8px; background: #f5f3ec; color: #1b1b1f; }
+@media (max-width: 900px) { .world-copy { grid-template-columns: minmax(0, 1fr); gap: 20px; } }
+
+/* The product slides up over the world on a light sheet, as Clay's content card does. */
+.sheet { background: rgb(var(--ground)); color: rgb(var(--text)); border-radius: 36px 36px 0 0; padding-block: 56px 24px; }
