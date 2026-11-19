@@ -264,3 +264,16 @@ header.hero.hero-world { display: block; min-height: 0; }
    with. The install command is the closing section's; the button already says Mac and free. */
 .world-copy .dl-cli, .world-copy .dl-meta { display: none !important; }
 .world-copy .lede { font-size: 20px; max-width: 30ch; }
+/* ── Phones ────────────────────────────────────────────────────────────────
+   Last in the file, so no earlier hero rule can bring the second column back. */
+@media (max-width: 900px) {
+  .world-copy { grid-template-columns: minmax(0, 1fr); gap: 20px; align-items: start; }
+  .world-copy .lede { max-width: none; }
+}
+@media (max-width: 640px) {
+  .topnav { width: calc(100% - 16px); border-radius: 0 0 16px 16px; }
+  .topnav-in { gap: 12px; padding: 10px 12px; }
+  .world-copy { padding-bottom: 32px; }
+  .world-copy .lede { font-size: 17px; }
+  .with { flex-wrap: wrap; }
+}
