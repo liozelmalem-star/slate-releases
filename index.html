@@ -27,7 +27,7 @@
 <link rel="stylesheet" href="site/css/layout.css?v=20261108b">
 <link rel="stylesheet" href="site/css/components.css?v=20261108b">
 <link rel="stylesheet" href="site/css/home.css?v=20261119a">
-<link rel="stylesheet" href="site/css/restyle.css?v=20261119b">
+<link rel="stylesheet" href="site/css/restyle.css?v=20261119c">
 
 <script>
   // Before first paint, never after: a theme applied later is a flash on every page.
@@ -136,8 +136,9 @@
       </div>
   </div>
 
-  <!-- The product, first. Real screens captured from the running app with example data;
-       the tabs swap between four of them and the tour has the rest. -->
+  <!-- The product, first, and live: Slate's real screens captured from the running app
+       with example data, in the tour's own window (tour/app.html). The tabs and the app's
+       rail both open a place; a row a chapter links opens its next screen. -->
   <div class="wrap-wide showcase reveal">
     <div class="show-tabs" role="tablist" aria-label="Slate's main places">
       <button role="tab" aria-selected="true" data-shot="sessions"><svg class="mk fam" data-on="red amber teal blue green" viewBox="0 0 256 256" aria-hidden="true"><use href="#fam-sessions"/></svg><span><b>Sessions</b><small>Every AI session</small></span></button>
@@ -146,9 +147,9 @@
       <button role="tab" aria-selected="false" data-shot="standup"><svg class="mk fam" data-on="red amber teal blue green" viewBox="0 0 256 256" aria-hidden="true"><use href="#fam-agents"/></svg><span><b>Automations & Tasks</b><small>Work done for you</small></span></button>
       <button role="tab" aria-selected="false" data-shot="artifacts"><svg class="mk fam" data-on="red amber teal blue green" viewBox="0 0 256 256" aria-hidden="true"><use href="#fam-widgets"/></svg><span><b>Widgets & Artifacts</b><small>Built by asking</small></span></button>
     </div>
-    <figure class="shot shot-hero">
-      <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
-      <img id="show-img" src="assets/shots/sessions.webp?v=202611172030" srcset="assets/shots/sessions-1x.webp?v=202611172030 1320w, assets/shots/sessions.webp?v=202611172030 2640w" sizes="(min-width: 1180px) 1120px, 100vw" width="1320" height="860" alt="Sessions: the live list grouped by project beside a map of every session on this computer">
+    <figure class="shot shot-hero live-app" id="live">
+      <iframe id="live-frame" src="tour/app.html" title="Slate, live: click a place on the rail" loading="lazy" tabindex="-1"></iframe>
+      <span class="live-hint" aria-hidden="true">Live · click the rail</span>
     </figure>
     <p class="show-cap" id="show-cap">Sessions shows every AI session on your computer, by project and branch: who is working, who is waiting on you. A session can hand work to other agents, each on its own branch, and every plan or question still comes to you.</p>
   </div>
@@ -520,7 +521,7 @@ shasum -a 256 -c SHASUMS256.txt</pre>
   </p>
 </footer>
 
-<script type="module" src="site/js/home.js?v=202611172030"></script>
+<script type="module" src="site/js/home.js?v=20261119a"></script>
 <script src="site/js/moment.js?v=202611152330"></script>
 </body>
 </html>

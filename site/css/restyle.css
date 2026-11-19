@@ -67,3 +67,15 @@ h2.mid { font-size: clamp(32px, 3.8vw, 44px); line-height: 1.04; }
 :root[data-theme="light"] .step { opacity: .6; }
 :root[data-theme="light"] .step.now,
 :root[data-theme="light"] .step.seen { opacity: 1; }
+
+/* The live window: the tour's app, scaled to fit, with a quiet hint that it is real. */
+.live-app { position: relative; overflow: hidden; padding: 0 !important; aspect-ratio: 1320 / 860; }
+.live-app iframe {
+  position: absolute; top: 0; left: 0; width: 1320px; height: 860px; border: 0;
+  transform-origin: 0 0; background: #0a0c10;
+}
+.live-hint {
+  position: absolute; right: 12px; bottom: 12px; z-index: 2; pointer-events: none;
+  padding: 4px 10px; border-radius: 999px; font-size: 12px;
+  background: rgb(0 0 0 / .55); color: rgb(237 237 239); backdrop-filter: blur(6px);
+}
