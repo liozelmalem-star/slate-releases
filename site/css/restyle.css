@@ -270,3 +270,21 @@ header.hero.hero-world { display: block; min-height: 0; }
 /* The first screen is the whole window now; the bar sits on the sky. */
 .first { min-height: 100svh; }
 .world { min-height: 380px; }
+
+/* ── Hero details ───────────────────────────────────────────────────────── */
+/* Both columns stand on the same line at the bottom, as Clay's do. */
+.world-copy { align-items: end; }
+.world-copy h1 { margin-bottom: -6px; }
+/* The command explains itself; the system line is a footnote, not a row. */
+.world-copy .dl-cli > span { display: none; }
+.world-copy .dl-cli { margin-top: 14px; }
+.world-copy .dl-meta { font-size: 12.5px; margin-top: 10px; }
+/* One Download at a time: the bar's waits until the hero's has scrolled away. */
+.topnav .nav-cta { transition: opacity .25s ease, transform .25s ease; }
+.topnav.hero-in-view .nav-cta { opacity: 0; transform: translateY(-4px); pointer-events: none; }
+/* No seam where the scene meets the green it sits on: the scene's last row of pixels
+   and the green below are one colour, and the scene overlaps it by a pixel. */
+.world { background: #2b4d3f; }
+.scene { height: calc(100% + 1px) !important; }
+:root[data-theme="dark"] .world { background: #18271f; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .world { background: #18271f; } }
