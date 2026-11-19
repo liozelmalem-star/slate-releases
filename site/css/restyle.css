@@ -231,3 +231,25 @@ header.hero.hero-world { position: relative; z-index: 1; padding: 0; text-align:
 .scene .stars circle:nth-child(3n) { animation-delay: -1.3s; }
 .scene .stars circle:nth-child(3n+1) { animation-delay: -2.6s; }
 @keyframes twinkle { 0%, 100% { opacity: .85; } 50% { opacity: .35; } }
+
+/* ── The hero is the first screen ─────────────────────────────────────────
+   Edge to edge (the body's 24px gutter is undone), exactly one screen under the bar:
+   the world fills what the words leave, its near hill running into the green they sit
+   on, so the scene is the background and the headline is on it from the first frame.
+   A short screen shows less sky, a tall one more; the bot and the hills always show. */
+header.hero.hero-world, .close.close-world, .problem, .how, .faq { margin-inline: -24px; }
+header.hero.hero-world {
+  display: grid; grid-template-rows: minmax(260px, 1fr) auto;
+  min-height: calc(100svh - 55px);
+}
+.world { height: auto; min-height: 260px; }
+.world-copy { padding-block: 0 44px; gap: 40px; }
+.world-copy h1 { margin-top: 10px; font-size: clamp(44px, 5.4vw, 76px); }
+.world-copy .lede { font-size: 18px; margin-bottom: 18px; }
+.world-copy .dl-cli { margin-top: 10px; }
+.world-copy .with { margin-top: 14px; }
+/* The first screen is the world and the words only; the live app's sheet comes after it. */
+header.hero.hero-world { display: block; min-height: 0; }
+.first { display: grid; grid-template-rows: minmax(320px, 1fr) auto; min-height: calc(100svh - 55px); }
+.world-copy { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; }
+.world-copy .dl-row { display: flex; flex-wrap: wrap; gap: 10px; }
