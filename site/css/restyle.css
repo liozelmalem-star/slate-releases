@@ -185,3 +185,49 @@ header.hero.hero-world { position: relative; z-index: 1; padding: 0; text-align:
 .farewell .wave { transform-origin: 800px 120px; animation: hello 4s ease-in-out infinite; }
 @keyframes hello { 0%, 70%, 100% { transform: rotate(0); } 78% { transform: rotate(-5deg); } 86% { transform: rotate(4deg); } 94% { transform: rotate(-2deg); } }
 @media (prefers-reduced-motion: reduce) { .farewell .wave { animation: none; } }
+
+/* ── Night: the world in the dark theme ─────────────────────────────────── */
+.scene .night { display: none; }
+:root[data-theme="dark"] .scene .night { display: inline; }
+:root[data-theme="dark"] .scene .sky { fill: #0e1713; }
+:root[data-theme="dark"] .scene .stars circle { fill: #dfeee2; opacity: .8; }
+:root[data-theme="dark"] .scene .moon { fill: #f5f3ec; }
+:root[data-theme="dark"] .scene .moon-cut { fill: #0e1713; }
+:root[data-theme="dark"] .scene .clouds ellipse { fill: #2b3a33; opacity: .55; }
+:root[data-theme="dark"] .scene .hill.far { fill: #2f4a3d; }
+:root[data-theme="dark"] .scene .hill.mid { fill: #24392f; }
+:root[data-theme="dark"] .scene .hill.near,
+:root[data-theme="dark"] header.hero.hero-world { fill: #18271f; background: #18271f; }
+:root[data-theme="dark"] .scene .trees path { fill: #1d3128; }
+:root[data-theme="dark"] .scene .tile { fill: #e6e4dc; }
+:root[data-theme="dark"] .scene .shadow { fill: #000; opacity: .4; }
+:root[data-theme="dark"] .close.close-world { background: #18271f; }
+:root[data-theme="dark"] .farewell path:first-of-type { fill: #24392f; }
+:root[data-theme="dark"] .farewell path:nth-of-type(2) { fill: #0e1713; }
+:root[data-theme="dark"] .farewell .trees { fill: #2f4a3d; }
+/* The place islands at night. */
+:root[data-theme="dark"] .scene-place > ellipse:first-child { fill: #2f4a3d; }
+:root[data-theme="dark"] .scene-place > path:nth-child(2) { fill: #3f5f4f; }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .scene .night { display: inline; }
+  :root:not([data-theme="light"]) .scene .sky { fill: #0e1713; }
+  :root:not([data-theme="light"]) .scene .stars circle { fill: #dfeee2; opacity: .8; }
+  :root:not([data-theme="light"]) .scene .moon { fill: #f5f3ec; }
+  :root:not([data-theme="light"]) .scene .moon-cut { fill: #0e1713; }
+  :root:not([data-theme="light"]) .scene .clouds ellipse { fill: #2b3a33; opacity: .55; }
+  :root:not([data-theme="light"]) .scene .hill.far { fill: #2f4a3d; }
+  :root:not([data-theme="light"]) .scene .hill.mid { fill: #24392f; }
+  :root:not([data-theme="light"]) .scene .hill.near { fill: #18271f; }
+  :root:not([data-theme="light"]) header.hero.hero-world,
+  :root:not([data-theme="light"]) .close.close-world { background: #18271f; }
+  :root:not([data-theme="light"]) .scene .trees path { fill: #1d3128; }
+  :root:not([data-theme="light"]) .scene .tile { fill: #e6e4dc; }
+  :root:not([data-theme="light"]) .farewell path:first-of-type { fill: #24392f; }
+  :root:not([data-theme="light"]) .farewell path:nth-of-type(2) { fill: #0e1713; }
+  :root:not([data-theme="light"]) .scene-place > ellipse:first-child { fill: #2f4a3d; }
+  :root:not([data-theme="light"]) .scene-place > path:nth-child(2) { fill: #3f5f4f; }
+}
+.scene .stars circle { animation: twinkle 4s ease-in-out infinite; }
+.scene .stars circle:nth-child(3n) { animation-delay: -1.3s; }
+.scene .stars circle:nth-child(3n+1) { animation-delay: -2.6s; }
+@keyframes twinkle { 0%, 100% { opacity: .85; } 50% { opacity: .35; } }
