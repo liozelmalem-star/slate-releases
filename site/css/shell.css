@@ -60,3 +60,20 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .topnav .nav-cta { background: rgb(var(--brand-400)); color: rgb(var(--btn-fg)); }
 }
+
+/* ── Phones ────────────────────────────────────────────────────────────────
+   The bar holds the brand, Tour, Docs and Download on one line down to 320px. The theme
+   switch goes first: a phone follows its own light or dark setting. */
+@media (max-width: 640px) {
+  .topnav { width: calc(100% - 16px); border-radius: 0 0 16px 16px; }
+  .topnav-in { gap: 12px; padding: 10px 12px; }
+}
+@media (max-width: 480px) {
+  .nav-theme { display: none; }
+  .topnav-in { gap: 10px; }
+  .topnav a { font-size: 14px; }
+  .topnav .nav-cta { padding: 7px 12px; }
+}
+@media (max-width: 350px) {
+  .topnav .brand { font-size: 0; gap: 0; }
+}

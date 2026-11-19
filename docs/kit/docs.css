@@ -382,6 +382,8 @@ h3 {
   background: var(--raised);
   border-radius: 5px;
   padding: 1px 5px;
+  /* A long path has no spaces to break at; on a phone it would push the page sideways. */
+  overflow-wrap: anywhere;
 }
 
 .prose .code {
@@ -789,5 +791,22 @@ h3 {
 
   .title-row h1 {
     font-size: 28px;
+  }
+}
+
+/* ── Phones ───────────────────────────────────────────────────────────────── */
+
+@media (max-width: 420px) {
+  .top {
+    gap: 6px;
+    padding: 0 8px;
+  }
+
+  .top-links .tour-link {
+    display: none;
+  }
+
+  .top-links a.download {
+    margin: 0 2px;
   }
 }

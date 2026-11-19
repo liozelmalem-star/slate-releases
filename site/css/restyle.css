@@ -271,8 +271,6 @@ header.hero.hero-world { display: block; min-height: 0; }
   .world-copy .lede { max-width: none; }
 }
 @media (max-width: 640px) {
-  .topnav { width: calc(100% - 16px); border-radius: 0 0 16px 16px; }
-  .topnav-in { gap: 12px; padding: 10px 12px; }
   .world-copy { padding-bottom: 32px; }
   .world-copy .lede { font-size: 17px; }
   .with { flex-wrap: wrap; }
