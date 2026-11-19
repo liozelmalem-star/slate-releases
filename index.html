@@ -19,7 +19,7 @@
 <!-- Geist and Geist Mono — the app's own two faces. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
 
 <!-- Dependency order: tokens first, the page's own furniture last. See site/README.md. -->
 <link rel="stylesheet" href="site/css/tokens.css?v=20261108b">
@@ -27,6 +27,7 @@
 <link rel="stylesheet" href="site/css/layout.css?v=20261108b">
 <link rel="stylesheet" href="site/css/components.css?v=20261108b">
 <link rel="stylesheet" href="site/css/home.css?v=20261119a">
+<link rel="stylesheet" href="site/css/restyle.css?v=20261119b">
 
 <script>
   // Before first paint, never after: a theme applied later is a flash on every page.
@@ -153,28 +154,6 @@
   </div>
 </header>
 
-<!-- ══ Inside your agent ════════════════════════════════════════════════ -->
-<section class="v2s inside reveal" aria-label="Memory inside your agent">
-  <div class="wrap-wide inside-in">
-    <div>
-      <p class="kick">Inside the agent you already use</p>
-      <h2 class="v2h">You don't open Slate to use its memory.</h2>
-      <p class="v2p">Slate is an MCP server. Each connected agent calls <code>recall</code> when it needs context and <code>remember</code> when it learns something. The memory comes to the terminal you already work in.</p>
-    </div>
-    <div class="term" role="img" aria-label="A Codex session calling Slate's recall tool">
-      <div class="term-bar"><b></b><b></b><b></b><span>codex · ~/atlas · feat/checkout</span></div>
-      <pre><span class="t-p">&gt;</span> add the totals to the checkout page
-
-<span class="t-dot">⏺</span> <b>slate - recall</b> <span class="t-f">(MCP)(query: "checkout setup")</span>
-  <span class="t-f">⎿</span>  1 memory · "<span class="said-echo">Use pnpm in Atlas, not npm</span>"
-     <span class="t-f">saved Monday, from a Claude Code session</span>
-
-<span class="t-dot">⏺</span> I'll follow that and add the totals.</pre>
-    </div>
-  </div>
-</section>
-
-<!-- ══ Proof: the agents ════════════════════════════════════════════════ -->
 <section class="v2s agents16 reveal" aria-label="Works with">
   <div class="wrap-wide">
     <h2 class="v2h center">16 agents, one memory.</h2>
@@ -204,6 +183,30 @@
     </ul>
   </div>
 </section>
+
+<!-- ══ Inside your agent ════════════════════════════════════════════════ -->
+<section class="v2s inside reveal" aria-label="Memory inside your agent">
+  <div class="wrap-wide inside-in">
+    <div>
+      <p class="kick">Inside the agent you already use</p>
+      <h2 class="v2h">You don't open Slate to use its memory.</h2>
+      <p class="v2p">Slate is an MCP server. Each connected agent calls <code>recall</code> when it needs context and <code>remember</code> when it learns something. The memory comes to the terminal you already work in.</p>
+    </div>
+    <div class="term" role="img" aria-label="A Codex session calling Slate's recall tool">
+      <div class="term-bar"><b></b><b></b><b></b><span>codex · ~/atlas · feat/checkout</span></div>
+      <pre><span class="t-p">&gt;</span> add the totals to the checkout page
+
+<span class="t-dot">⏺</span> <b>slate - recall</b> <span class="t-f">(MCP)(query: "checkout setup")</span>
+  <span class="t-f">⎿</span>  1 memory · "<span class="said-echo">Use pnpm in Atlas, not npm</span>"
+     <span class="t-f">saved Monday, from a Claude Code session</span>
+
+<span class="t-dot">⏺</span> I'll follow that and add the totals.</pre>
+    </div>
+  </div>
+</section>
+
+<!-- ══ Proof: the agents ════════════════════════════════════════════════ -->
+
 
 <!-- ══ The problem ══════════════════════════════════════════════════════ -->
 <section class="problem reveal">

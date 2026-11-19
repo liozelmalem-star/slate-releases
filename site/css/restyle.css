@@ -1,0 +1,69 @@
+/* ── Restyle (proposal, 2026-11-19) ─────────────────────────────────────────
+   Loaded last, so the whole look change is this one file and can be judged, tuned
+   or dropped without touching the rest. Every section, demo and script stays.
+
+   What it changes, from the research on the leading developer-tool sites (Cursor,
+   Zed, Devin Desktop): confidence comes from the type and the grounds, not from
+   effects.
+   - Headlines in a display serif at a regular weight, not 650–700 Geist: Zed sets
+     its headline in a light serif, Cursor and Devin at weight 400.
+   - Grounds tinted toward Slate's green, not neutral grey: Cursor's black is warm.
+   - The memory graph behind the page is calmer, so the product reads first.
+   - Light theme: the screenshots are dark captures, so on a light page they sit in a
+     dark bezel instead of as bare black blocks; a story step waiting its turn is
+     dimmed less, so it no longer reads as broken on white. */
+
+:root {
+  --display: "Instrument Serif", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  /* Forest's paper: a light ground with a trace of the brand in it. */
+  --ground: 246 246 242;
+  --surface: 255 255 253;
+  --surface-2: 236 238 232;
+}
+:root[data-theme="dark"] {
+  /* Mint's night: near-black leaning green, the way Cursor's leans warm. */
+  --ground: 13 16 14;
+  --surface: 20 24 21;
+  --surface-2: 28 33 29;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground: 13 16 14;
+    --surface: 20 24 21;
+    --surface-2: 28 33 29;
+  }
+}
+
+/* Headlines: the display serif, regular weight, a little larger to carry it. */
+.hero h1,
+h2.big,
+h2.mid,
+.v2h {
+  font-family: var(--display);
+  font-weight: 400;
+  letter-spacing: -.012em;
+}
+.hero h1 { font-size: clamp(44px, 5.2vw, 70px); line-height: 1; }
+/* The second line keeps the mark's colour (organic identity), in the serif's italic. */
+.hero h1 .grad { font-style: italic; }
+h2.big { font-size: clamp(36px, 5vw, 58px); line-height: 1.02; }
+h2.mid { font-size: clamp(32px, 3.8vw, 44px); line-height: 1.04; }
+.v2h { font-size: clamp(34px, 4.2vw, 52px); line-height: 1.02; }
+
+/* The graph is atmosphere: calmer, so a sentence or a screen always wins. */
+#graph { opacity: .32; }
+:root[data-theme="light"] #graph { opacity: .2; }
+
+/* Light theme: dark captures in a dark bezel, like a device on a desk. */
+:root[data-theme="light"] .shot,
+:root[data-theme="light"] .shot-hero {
+  background: rgb(18 21 19);
+  padding: 6px;
+  border-radius: 16px;
+  box-shadow: 0 30px 80px -34px rgb(18 21 19 / .45), 0 0 0 1px rgb(18 21 19 / .08);
+}
+:root[data-theme="light"] .shot img,
+:root[data-theme="light"] .shot-hero img { border-radius: 11px; }
+:root[data-theme="light"] .step { opacity: .6; }
+:root[data-theme="light"] .step.now,
+:root[data-theme="light"] .step.seen { opacity: 1; }
