@@ -288,3 +288,9 @@ header.hero.hero-world { display: block; min-height: 0; }
 .scene { height: calc(100% + 1px) !important; }
 :root[data-theme="dark"] .world { background: #18271f; }
 @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .world { background: #18271f; } }
+/* The sky stops above the near hill, so no sliver of it shows at the scene's bottom edge. */
+.scene { height: 100% !important; }
+/* Room between the world and the words. */
+.world-copy { padding-top: 36px; }
+/* Say it once: the version is the footnote under Download, not a chip above the headline. */
+.world-copy .rel { display: none !important; }
