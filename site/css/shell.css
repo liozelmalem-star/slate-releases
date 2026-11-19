@@ -1,0 +1,55 @@
+/* ── The site's shell: what the home, the tour and the docs share ───────────
+   One top bar, one set of grounds, one headline face, so the three pages read as one
+   site. Each page keeps its own layout in its own stylesheet; this file is the look
+   they have in common, loaded before them. */
+
+:root {
+  --display: "Instrument Serif", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  /* Forest's paper: a light ground with a trace of the brand in it. */
+  --ground: 246 246 242;
+  --surface: 255 255 253;
+  --surface-2: 236 238 232;
+}
+:root[data-theme="dark"] {
+  /* Mint's night: near-black leaning green, the way Cursor's leans warm. */
+  --ground: 13 16 14;
+  --surface: 20 24 21;
+  --surface-2: 28 33 29;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground: 13 16 14;
+    --surface: 20 24 21;
+    --surface-2: 28 33 29;
+  }
+}
+
+
+/* The bar's base: brand, links, the one action, the theme switch. */
+.topnav-in { margin: 0 auto; display: flex; align-items: center; gap: 22px; }
+.topnav a { color: rgb(var(--text-muted)); text-decoration: none; }
+.topnav a:hover { color: rgb(var(--text)); }
+.topnav .brand { display: inline-flex; align-items: center; gap: 9px; font-weight: 600; font-size: 15px; color: rgb(var(--text)); letter-spacing: -.01em; }
+.topnav .brand img { border-radius: 22.6%; }
+.topnav .grow { flex: 1; }
+.topnav .nav-cta { color: rgb(var(--btn-fg)); background: rgb(var(--brand-600)); font-weight: 500; }
+.topnav .nav-cta:hover { color: rgb(var(--btn-fg)); background: rgb(var(--brand-500)); }
+.nav-theme .theme { position: static; }
+@media (max-width: 640px) { .topnav .hide-sm { display: none; } .topnav-in { gap: 14px; } }
+
+/* ── The top bar floats over the world, as Clay's does ─────────────────────
+   A card hung from the top edge: inset from the sides, rounded at the bottom, on its own
+   surface, with the scene running behind it from the very top of the window. */
+.topnav {
+  position: fixed; top: 0; left: 50%; transform: translateX(-50%); z-index: 60;
+  width: min(1400px, calc(100% - 48px));
+  background: rgb(var(--surface)) !important; backdrop-filter: none !important;
+  border: 1px solid rgb(var(--edge-2)); border-top: 0; border-radius: 0 0 20px 20px;
+  box-shadow: 0 18px 40px -26px rgb(10 16 13 / .45);
+}
+.topnav-in { max-width: none; padding: 12px 18px 12px 22px; }
+.topnav a { font-size: 14.5px; }
+.topnav .nav-cta { padding: 8px 16px; border-radius: 10px; }
+
+/* Headlines in the display serif, on any page that asks with .display. */
+.display { font-family: var(--display); font-weight: 400; letter-spacing: -.012em; }

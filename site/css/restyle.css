@@ -13,27 +13,6 @@
      dark bezel instead of as bare black blocks; a story step waiting its turn is
      dimmed less, so it no longer reads as broken on white. */
 
-:root {
-  --display: "Instrument Serif", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
-  /* Forest's paper: a light ground with a trace of the brand in it. */
-  --ground: 246 246 242;
-  --surface: 255 255 253;
-  --surface-2: 236 238 232;
-}
-:root[data-theme="dark"] {
-  /* Mint's night: near-black leaning green, the way Cursor's leans warm. */
-  --ground: 13 16 14;
-  --surface: 20 24 21;
-  --surface-2: 28 33 29;
-}
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme="light"]) {
-    --ground: 13 16 14;
-    --surface: 20 24 21;
-    --surface-2: 28 33 29;
-  }
-}
-
 /* Headlines: the display serif, regular weight, a little larger to carry it. */
 .hero h1,
 h2.big,
@@ -254,19 +233,6 @@ header.hero.hero-world { display: block; min-height: 0; }
 .world-copy { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; }
 .world-copy .dl-row { display: flex; flex-wrap: wrap; gap: 10px; }
 
-/* ── The top bar floats over the world, as Clay's does ─────────────────────
-   A card hung from the top edge: inset from the sides, rounded at the bottom, on its own
-   surface, with the scene running behind it from the very top of the window. */
-.topnav {
-  position: fixed; top: 0; left: 50%; transform: translateX(-50%); z-index: 60;
-  width: min(1400px, calc(100% - 48px));
-  background: rgb(var(--surface)) !important; backdrop-filter: none !important;
-  border: 1px solid rgb(var(--edge-2)); border-top: 0; border-radius: 0 0 20px 20px;
-  box-shadow: 0 18px 40px -26px rgb(10 16 13 / .45);
-}
-.topnav-in { max-width: none; padding: 12px 18px 12px 22px; }
-.topnav a { font-size: 14.5px; }
-.topnav .nav-cta { padding: 8px 16px; border-radius: 10px; }
 /* The first screen is the whole window now; the bar sits on the sky. */
 .first { min-height: 100svh; }
 .world { min-height: 380px; }

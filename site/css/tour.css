@@ -123,3 +123,27 @@
   .step-card { order: 4; }
   .step-keys { display: none; }
 }
+
+/* ── The shared shell (site/css/shell.css) ─────────────────────────────────
+   The bar floats over the page, so the tour starts below it. */
+.tour { padding-top: 96px; }
+.tour-side { top: 92px; max-height: calc(100vh - 116px); }
+.tour-intro h1.display { font-size: 40px; line-height: 1.02; margin: 0 0 10px; }
+.chapters-card, .step-card {
+  border-radius: 18px; background: rgb(var(--surface)); border: 1px solid rgb(var(--edge));
+  box-shadow: 0 1px 0 rgb(var(--lit)) inset, 0 14px 34px -22px rgb(18 21 19 / .35);
+}
+.step-card h2 { font-family: var(--display); font-weight: 400; font-size: 26px; letter-spacing: -.01em; }
+.win-frame { border-radius: 18px; }
+
+/* Slate Bot is the guide: it sits on the step card's corner, looking toward the window it
+   is explaining, and gives a small hop each time it speaks a new step. */
+.step-card { position: relative; overflow: visible; }
+.step-card .guide { position: absolute; right: 14px; top: -30px; width: 54px; height: 54px; filter: drop-shadow(0 6px 8px rgb(18 21 19 / .18)); }
+.step-card .g-eyes { transform: translate(2.2px, 0); }
+.step-card .g-leaf { transform-origin: 27px 19px; animation: g-sway 5s ease-in-out infinite; }
+.step-card.hop .guide { animation: g-hop .5s ease-out; }
+@keyframes g-sway { 0%, 100% { transform: rotate(0); } 50% { transform: rotate(-6deg); } }
+@keyframes g-hop { 0% { transform: translateY(0); } 35% { transform: translateY(-8px); } 100% { transform: translateY(0); } }
+@media (prefers-reduced-motion: reduce) { .step-card .g-leaf, .step-card.hop .guide { animation: none; } }
+.step-card .step-kicker { padding-right: 64px; }
