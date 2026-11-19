@@ -26,7 +26,7 @@
 <link rel="stylesheet" href="site/css/base.css?v=20261108b">
 <link rel="stylesheet" href="site/css/layout.css?v=20261108b">
 <link rel="stylesheet" href="site/css/components.css?v=20261108b">
-<link rel="stylesheet" href="site/css/home.css?v=20261115h">
+<link rel="stylesheet" href="site/css/home.css?v=20261119a">
 
 <script>
   // Before first paint, never after: a theme applied later is a flash on every page.
@@ -281,7 +281,7 @@
         <ul class="ticks">
           <li><svg><use href="#i-check"/></svg><span><strong>Working, needs you, idle</strong> — at a glance, in the list and on the map.</span></li>
           <li><svg><use href="#i-check"/></svg><span>Start a session here, in a new worktree, in the cloud, or <strong>pick it up on your phone</strong>.</span></li>
-          <li><svg><use href="#i-check"/></svg><span>Read what a branch changed and send review comments back to the session.</span></li>
+          <li><svg><use href="#i-check"/></svg><span>Read what a branch changed, open what a session published beside it, or start a <strong>terminal</strong> with no agent at all.</span></li>
         </ul>
         <a class="more" href="tour/#sessions">See Sessions in the tour <svg width="14" height="14"><use href="#i-arrow"/></svg></a>
       </div>
@@ -352,71 +352,6 @@
 </div>
 
 <!-- The payoff: the five leaves, assembled. -->
-<section class="one reveal" id="one">
-  <div class="wrap-wide one-in">
-    <div class="one-mark"><svg class="mk mk-hero leafmark-svg" viewBox="0 0 328 368" aria-hidden="true"><use href="#mark5"/></svg></div>
-    <div class="one-copy">
-      <p class="kicker">One home</p>
-      <h2 class="big">One Slate.</h2>
-      <p>Each place is useful on its own. Together they are the thing no single agent can be: one home that sees every session, remembers what each one learned, keeps every tool set up the same way, does the routine work and builds what you ask for. Around them sit Projects, Home, Activity, Connect and Trash.</p>
-      <ul class="one-list">
-        <li><svg class="mk fam" data-on="red amber teal blue green" viewBox="0 0 256 256" aria-hidden="true"><use href="#fam-sessions"/></svg><b>Sessions</b> every AI session on your computer</li>
-        <li><svg class="mk fam" data-on="red amber teal blue green" viewBox="0 0 256 256" aria-hidden="true"><use href="#fam-memory"/></svg><b>Memory</b> what they learned, shared by all of them</li>
-        <li><svg class="mk fam" data-on="red amber teal blue green" viewBox="0 0 256 256" aria-hidden="true"><use href="#fam-toolkit"/></svg><b>Toolkit</b> one set of skills for every agent</li>
-        <li><svg class="mk fam" data-on="red amber teal blue green" viewBox="0 0 256 256" aria-hidden="true"><use href="#fam-agents"/></svg><b>Automations & Tasks</b> everything you owe, and the work done for you</li>
-        <li><svg class="mk fam" data-on="red amber teal blue green" viewBox="0 0 256 256" aria-hidden="true"><use href="#fam-widgets"/></svg><b>Widgets & Artifacts</b> dashboards, reports and widgets, built by asking</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- The loop, live: two tools, two days, nothing pasted between them. Every string is
-     real — remember and recall are Slate's MCP tools, with their real argument names and
-     (trimmed) return shapes: remember answers {saved, action, …}
-     (server/src/operations/memory/remember.ts), recall a hit list whose title is the
-     memory's kind and whose ref is what a session cites it by
-     (server/src/operations/recall/search.ts). -->
-<section class="reveal" id="demo">
-  <div class="wrap">
-    <div class="card demo-frame">
-      <span class="demo-spark" aria-hidden="true"></span>
-      <div class="demo-pane">
-        <p class="demo-head">Your terminal</p>
-        <div class="demo-term" aria-hidden="true">
-          <p class="demo-line demo-sess" data-step="s1"><svg width="9" height="9" style="color:rgb(var(--leaf-red-500))"><use href="#slab-9"/></svg>claude code<span class="demo-when">Tuesday</span></p>
-          <p class="demo-line demo-prompt" data-step="p1" data-lines="2"><span class="demo-chev">&gt;</span> <span data-type="p1"></span></p>
-          <p class="demo-line demo-call" data-step="c1" data-lines="2"><span class="demo-bullet">⏺</span> remember<span class="demo-args">(text: "SQLite over Postgres — local-first, it has to work offline", kind: "decision")</span></p>
-          <p class="demo-line demo-res" data-step="k1"><span class="demo-args">⎿</span> {"saved":true,"action":"add"}</p>
-          <p class="demo-line demo-day" data-step="day"><span>the next day</span></p>
-          <p class="demo-line demo-sess" data-step="s2"><svg width="9" height="9" style="color:rgb(var(--leaf-amber-500))"><use href="#slab-9"/></svg>cursor<span class="demo-when">Wednesday</span></p>
-          <p class="demo-line demo-prompt" data-step="p2"><span class="demo-chev">&gt;</span> <span data-type="p2"></span></p>
-          <p class="demo-line demo-call" data-step="c2"><span class="demo-bullet">⏺</span> recall<span class="demo-args">(query: "database choice")</span></p>
-          <p class="demo-line demo-res" data-step="r2" data-lines="2"><span class="demo-args">⎿</span> [{"ref":<span class="demo-quote">"m:7f3a2b1c"</span>,"title":<span class="demo-quote">"decision"</span>,"snippet":<span class="demo-quote">"SQLite over Postgres — local-first, it has to work offline"</span>}]</p>
-          <p class="demo-line demo-answer" data-step="a2">Because you decided that on Tuesday — it has to work offline.</p>
-        </div>
-      </div>
-      <div class="demo-pane">
-        <p class="demo-head"><svg width="9" height="9" style="color:rgb(var(--leaf-blue-500))"><use href="#slab-9"/></svg>Slate · Memory</p>
-        <p class="demo-stats" aria-hidden="true"><span data-count>0</span> active</p>
-        <div class="demo-stack" aria-hidden="true">
-          <p class="demo-empty">Nothing saved yet — memories appear here as sessions end.</p>
-          <div class="demo-list" data-step="atom">
-            <p class="demo-list-head">What Slate learned lately — newest first.</p>
-            <div class="demo-atom">
-              <span class="demo-kind">decision</span>
-              <div>
-                <p class="demo-atom-text">SQLite over Postgres — local-first, it has to work offline</p>
-                <p class="demo-meta">Claude Code · m:7f3a2b1c · <span data-today></span></p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <p class="demo-caption">Two tools, two days, <strong>nothing pasted between them</strong>. The second one didn't remember — it asked Slate, the one thing the two of them share.</p>
-  </div>
-</section>
-
 
 <!-- Three more, smaller: they matter, and they would make the page a manual. -->
 <section class="reveal">

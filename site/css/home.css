@@ -726,7 +726,7 @@ h2.mid { font-size: clamp(26px, 3.2vw, 34px); line-height: 1.12; margin: 0 0 16p
 .ticks { list-style: none; margin: 0 0 22px; padding: 0; display: grid; gap: 10px; }
 .ticks li { display: flex; gap: 10px; font-size: 14.5px; line-height: 1.5; color: rgb(var(--text-muted)); }
 .ticks li strong { color: rgb(var(--text)); font-weight: 600; }
-.ticks svg { flex: none; width: 16px; height: 16px; margin-top: 3px; color: rgb(var(--leaf-green-500)); }
+.ticks svg { flex: none; width: 16px; height: 16px; margin-top: 3px; color: rgb(var(--text-faint)); }
 .more { display: inline-flex; align-items: center; gap: 6px; font-size: 14.5px; font-weight: 500; color: rgb(var(--brand-600)); text-decoration: none; }
 :root[data-theme="dark"] .more { color: rgb(var(--brand-400)); }
 .more:hover svg { transform: translateX(3px); }
@@ -956,6 +956,9 @@ h2.mid { font-size: clamp(26px, 3.2vw, 34px); line-height: 1.12; margin: 0 0 16p
 .step .feat-copy { max-width: 620px; }
 .step .feat-copy > p:not(.pillar-k) { margin: 0 0 18px; font-size: 16.5px; line-height: 1.6; color: rgb(var(--text-muted)); }
 .step .shot { margin-top: 30px; }
+/* Say it once: beside the pinned mark, which already names the place and its number, the
+   step's own name line would say it a second time. It stays where the mark is hidden. */
+@media (min-width: 1001px) { .pillar-k { display: none; } }
 .step { opacity: .35; transition: opacity .6s var(--ease); }
 .step.now, .step.seen { opacity: 1; }
 @media (max-width: 1000px) {
