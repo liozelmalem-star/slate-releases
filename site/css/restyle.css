@@ -294,3 +294,7 @@ header.hero.hero-world { display: block; min-height: 0; }
 .world-copy { padding-top: 36px; }
 /* Say it once: the version is the footnote under Download, not a chip above the headline. */
 .world-copy .rel { display: none !important; }
+/* Three things on the right, as Clay has: the sentence, the two buttons, who it works
+   with. The install command is the closing section's; the button already says Mac and free. */
+.world-copy .dl-cli, .world-copy .dl-meta { display: none !important; }
+.world-copy .lede { font-size: 20px; max-width: 30ch; }
