@@ -90,6 +90,9 @@ function renderChapters() {
       </button></li>`,
   ).join("");
   ol.querySelector('[aria-current="step"]')?.scrollIntoView({ block: "nearest", inline: "nearest" });
+  // The line under the chapters fills with the tour: whole chapters done, plus this one's share.
+  const fill = document.querySelector(".tour-track i");
+  if (fill) fill.style.width = `${((ch + st / CHAPTERS[ch].steps.length) / CHAPTERS.length) * 100}%`;
 }
 $(".chapters").addEventListener("click", (e) => {
   const b = e.target.closest("[data-ch]");

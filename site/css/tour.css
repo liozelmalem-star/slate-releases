@@ -147,3 +147,19 @@
 @keyframes g-hop { 0% { transform: translateY(0); } 35% { transform: translateY(-8px); } 100% { transform: translateY(0); } }
 @media (prefers-reduced-motion: reduce) { .step-card .g-leaf, .step-card.hop .guide { animation: none; } }
 .step-card .step-kicker { padding-right: 64px; }
+
+/* ── Progress across the top; the left column is the step's ────────────── */
+.tour-progress { max-width: 1560px; margin: 0 auto; padding: 92px 24px 0; }
+.tour-progress .chapters-card { padding: 6px; overflow: hidden; min-height: 0; border-radius: 16px; }
+.tour-progress .chapters { flex-direction: row; overflow-x: auto; gap: 4px; padding: 0; scrollbar-width: none; }
+.tour-progress .chapters::-webkit-scrollbar { display: none; }
+.tour-progress .chapters li { flex: none; }
+.tour-progress .chapters button { white-space: nowrap; width: auto; gap: 7px; padding: 7px 12px; border-radius: 10px; }
+.tour-progress .chapters .n { margin-left: 4px; }
+.tour-progress .chapters .done button { color: rgb(var(--text)); }
+.tour-track { height: 3px; margin: 10px 6px 0; border-radius: 3px; background: rgb(var(--edge-2)); overflow: hidden; }
+.tour-track i { display: block; height: 100%; width: 0; border-radius: 3px; background: rgb(var(--brand-500)); transition: width .4s ease; }
+.tour { padding-top: 16px; }
+.tour-side { top: 16px; max-height: calc(100vh - 32px); }
+.tour-intro h1.display { font-size: 34px; }
+.step-card { flex: 1 1 auto; }

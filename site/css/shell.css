@@ -53,3 +53,10 @@
 
 /* Headlines in the display serif, on any page that asks with .display. */
 .display { font-family: var(--display); font-weight: 400; letter-spacing: -.012em; }
+
+/* The bar's Download in the dark theme: mint with forest words, on every page. */
+:root[data-theme="dark"] .topnav .nav-cta { background: rgb(var(--brand-400)); color: rgb(var(--btn-fg)); }
+:root[data-theme="dark"] .topnav .nav-cta:hover { background: rgb(var(--btn-hover, var(--brand-300))); }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .topnav .nav-cta { background: rgb(var(--brand-400)); color: rgb(var(--btn-fg)); }
+}
