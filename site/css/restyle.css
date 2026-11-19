@@ -137,3 +137,51 @@ header.hero.hero-world { position: relative; z-index: 1; padding: 0; text-align:
 .world-copy .btn-ghost { background: transparent; color: #f5f3ec; border: 1px solid rgb(245 243 236 / .35); }
 .world-copy .btn-ghost:hover { background: rgb(245 243 236 / .08); color: #f5f3ec; }
 .world-copy .cmd code { color: #f5f3ec; }
+
+/* ── The rest of the page: one landscape, walked through ─────────────────── */
+:root { --band: 236 238 232; }
+:root[data-theme="dark"] { --band: 20 24 21; }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { --band: 20 24 21; } }
+
+/* Bands meet at hills, not lines: a soft horizon above and below. */
+.problem, .how, .faq {
+  position: relative; background: rgb(var(--band)); border: 0 !important;
+  margin-block: 90px; padding-block: 96px !important;
+}
+.problem::before, .how::before, .faq::before,
+.problem::after, .how::after, .faq::after {
+  content: ""; position: absolute; left: 0; right: 0; height: 70px; background: rgb(var(--band));
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 70' preserveAspectRatio='none'%3E%3Cpath d='M0 70V44C220 6 470 0 760 30C1040 58 1300 10 1600 34V70Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 70' preserveAspectRatio='none'%3E%3Cpath d='M0 70V44C220 6 470 0 760 30C1040 58 1300 10 1600 34V70Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+}
+.problem::before, .how::before, .faq::before { top: -69px; }
+.problem::after, .how::after, .faq::after { bottom: -69px; transform: scaleY(-1) scaleX(-1); }
+
+/* Paper and cards: white, rounded, a soft shadow, the way Clay lays content on cream. */
+.pain, .how-steps li, .tg, .ag, .tile, .trio-card {
+  border-radius: 18px !important; background: rgb(var(--surface)) !important;
+  border: 1px solid rgb(var(--edge)) !important;
+  box-shadow: 0 1px 0 rgb(var(--lit)) inset, 0 14px 34px -22px rgb(18 21 19 / .35) !important;
+}
+
+/* Each place, a scene: Slate Bot doing that place's job on its own island. */
+.place-stack { width: 300px; height: 300px; }
+.scene-place use { transform-box: fill-box; }
+.pillar-k .mk.fam { display: none; }
+
+/* The end returns to the world: the call to action on green, the bot waving from a hill. */
+.close.close-world { background: #2b4d3f; color: #f5f3ec; padding: 110px 0 0 !important; margin-top: 120px; position: relative; overflow: hidden; }
+.close-world h2.big { color: #f5f3ec; }
+.close-world .lede { color: rgb(245 243 236 / .78); }
+.close-world .cmd { background: rgb(0 0 0 / .22); border-color: rgb(245 243 236 / .14); color: #f5f3ec; }
+.close-world .cmd code { color: #f5f3ec; }
+.close-world .btn-ghost { background: transparent; color: #f5f3ec; border: 1px solid rgb(245 243 236 / .35); }
+.close-world::before {
+  content: ""; position: absolute; top: 0; left: 0; right: 0; height: 70px; background: rgb(var(--ground));
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 70' preserveAspectRatio='none'%3E%3Cpath d='M0 0H1600V30C1300 6 1040 54 760 26C470 -2 220 2 0 40Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+          mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1600 70' preserveAspectRatio='none'%3E%3Cpath d='M0 0H1600V30C1300 6 1040 54 760 26C470 -2 220 2 0 40Z'/%3E%3C/svg%3E") center / 100% 100% no-repeat;
+}
+.farewell { display: block; width: 100%; height: clamp(160px, 18vw, 260px); margin-top: 40px; }
+.farewell .wave { transform-origin: 800px 120px; animation: hello 4s ease-in-out infinite; }
+@keyframes hello { 0%, 70%, 100% { transform: rotate(0); } 78% { transform: rotate(-5deg); } 86% { transform: rotate(4deg); } 94% { transform: rotate(-2deg); } }
+@media (prefers-reduced-motion: reduce) { .farewell .wave { animation: none; } }
