@@ -55,12 +55,37 @@ new ResizeObserver(fit).observe(box);
 fit();
 
 /* ── The chapter list ───────────────────────────────────────────────────── */
+/** Each place's own mark, read from the captured app's rail once the frame is ready, so the
+ *  chapter list draws exactly what the rail beside it draws. A chapter that is not a place
+ *  (setup) keeps its own icon. The rail keys a place by its frozen catalog key (ADR 0083):
+ *  Automations is `loop`. */
+const RAIL_KEY = { automations: "loop" };
+let marks = {};
+function readRailMarks(tries = 40) {
+  const doc = frame.contentDocument;
+  const rail = doc?.querySelector('[data-testid="rail"]');
+  // The first screen lands a moment after the frame says it is ready.
+  if (!rail) {
+    if (tries > 0) setTimeout(() => readRailMarks(tries - 1), 250);
+    return;
+  }
+  const found = {};
+  for (const c of CHAPTERS) {
+    const tile =
+      rail.querySelector(`[data-rail-key="${RAIL_KEY[c.id] ?? c.id}"]`) ??
+      doc.querySelector(`[aria-label="${c.title}"]`);
+    const svg = tile?.querySelector("svg");
+    if (svg) found[c.id] = svg.outerHTML.replace("<svg", '<svg class="ico mark"');
+  }
+  marks = found;
+  renderChapters();
+}
 function renderChapters() {
   const ol = $(".chapters");
   ol.innerHTML = CHAPTERS.map(
     (c, i) => `<li class="${done.has(c.id) ? "done" : ""}">
       <button type="button" data-ch="${i}" ${i === ch ? 'aria-current="step"' : ""}>
-        ${c.icon ? `<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${c.icon}</svg>` : ""}
+        ${marks[c.id] ?? (c.icon ? `<svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${c.icon}</svg>` : "")}
         <span>${c.title}</span><span class="n">${c.steps.length}</span>
       </button></li>`,
   ).join("");
@@ -212,6 +237,7 @@ function attach() {
   if (!T) return false;
   $(".win-loading")?.remove();
   T.listen(onFrameClick);
+  readRailMarks();
   T.preload([...new Set(CHAPTERS.flatMap((c) => c.steps.map((s) => s.screen)))].slice(0, 12));
   const [c, s] = fromHash();
   go(c, s);
