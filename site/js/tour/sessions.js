@@ -53,13 +53,13 @@ export const sessions = {
     },
     {
       screen: "sessions-new",
-      spot: { text: "Pick where it runs", up: 3 },
-      title: "Pick where it runs",
+      spot: { text: "This computer", exact: true },
+      title: "Pick a project, then Start",
       body:
-        "<p><strong>This computer</strong> lists your groups, projects and branches. Click one and the session starts there at once. <strong>Runs on</strong> picks the agent for this session only.</p>" +
-        "<p>Turn on <strong>On my phone</strong> first to keep going from the Claude app. <strong>Start without a project</strong> is for a quick question or script.</p>",
-      try: "Click <strong>Cloud</strong>.",
-      click: { text: "Cloud", exact: true },
+        "<p>The list holds your groups, projects and branches; type to find one. A click selects it, and <strong>Start</strong> (or <kbd>Enter</kbd>) starts the session. The agent picker chooses the tool for this session only, and <strong>This computer</strong> says where it runs.</p>" +
+        "<p>Tick <strong>On my phone</strong> to keep going from the Claude app. <strong>Open folder…</strong> starts at once in any folder you pick.</p>",
+      try: "Click <strong>This computer</strong>.",
+      click: { text: "This computer", exact: true },
     },
     {
       screen: "sessions-new-cloud",
@@ -67,24 +67,15 @@ export const sessions = {
       title: "Or run it in the cloud",
       body:
         "<p><strong>Cloud</strong> runs the session on your agent's computer, so it keeps going while your Mac sleeps. Claude Code and Codex have it.</p>" +
-        "<p>Write the task, pick a git project, and press <strong>Start in cloud</strong>. The note says exactly what leaves your Mac.</p>",
-    },
-    {
-      screen: "sessions-new-tree",
-      spot: { text: "New worktree…", exact: true },
-      title: "A new branch in its own folder",
-      body:
-        "<p>Open a project in the tree to see its branches. Its last row, <strong>New worktree…</strong>, makes a new branch in a sibling folder and starts the session there, so two agents never edit the same checkout.</p>",
-      try: "Click <strong>New worktree…</strong>",
-      click: true,
+        "<p>Pick <strong>Cloud</strong> where it says <strong>This computer</strong>, write the task, pick a git project, and press <strong>Start in cloud</strong>. The note says exactly what leaves your Mac.</p>",
     },
     {
       screen: "sessions-worktree",
       spot: { text: "Carry over", exact: true, up: 1 },
-      title: "The worktree form",
+      title: "A new branch in its own folder",
       body:
-        "<p>Name the <strong>Branch</strong> and the branch it starts <strong>From</strong>. <strong>Carry over</strong> copies files that git ignores into the new folder, here <code class=\"inline\">.mcp.json</code> and <code class=\"inline\">CLAUDE.md</code>. They are cloned, so they use no extra disk.</p>" +
-        "<p><strong>Then run</strong> and <strong>On remove</strong> are commands for setup and cleanup. All of it is saved for the project. When the session ends, Slate removes the worktree and keeps unmerged commits.</p>",
+        "<p>A git project always starts in a new worktree: a new branch in a sibling folder, so two agents never edit the same checkout. <strong>Name</strong> it, or keep the dated default.</p>" +
+        "<p><strong>Carry over</strong> copies files that git ignores into the new folder, here <code class=\"inline\">.mcp.json</code> and <code class=\"inline\">CLAUDE.md</code>. They are cloned, so they use no extra disk. When the session ends, Slate removes the worktree and keeps unmerged commits.</p>",
     },
     {
       screen: "sessions",
