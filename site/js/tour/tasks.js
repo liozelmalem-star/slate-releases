@@ -7,7 +7,6 @@ export const tasks = {
   icon: '<path d="M13 5h8"/><path d="M13 12h8"/><path d="M13 19h8"/><path d="m3 17 2 2 4-4"/><rect x="3" y="4" width="6" height="6" rx="1"/>',
   links: [
     { match: { text: "To-dos", exact: true, within: "aside" }, step: 3 },
-    { match: { text: "Agent runs", exact: true }, step: 10 },
   ],
   steps: [
     {
@@ -28,7 +27,7 @@ export const tasks = {
       spot: "aside",
       click: { text: "To-dos", exact: true, within: "aside" },
       title: "Five sections, named for what they hold",
-      body: "<p><strong>To-dos</strong> is your own list. <strong>Issues</strong> holds work assigned to you, <strong>Reviews</strong> holds code waiting on you, and <strong>Messages</strong> holds chat and email. Each counts what waits in it, and <strong>Agent runs</strong> lists the work you handed to an agent.</p><p>GitHub is read through your own <kbd>gh</kbd> sign-in, once you connect it.</p>",
+      body: "<p><strong>To-dos</strong> is your own list. <strong>Issues</strong> holds work assigned to you, <strong>Reviews</strong> holds code waiting on you, and <strong>Messages</strong> holds chat and email. Each counts what waits in it.</p><p>GitHub is read through your own <kbd>gh</kbd> sign-in, once you connect it.</p>",
       try: "Click <strong>To-dos</strong>.",
     },
     {
@@ -79,12 +78,6 @@ export const tasks = {
       spot: { css: 'button[aria-label^="Run "]' },
       title: "Reviews and Messages work the same way",
       body: "<p>A pull request asked of you runs the project's own <strong>review-pr</strong> skill. The run drafts comments; you decide whether they are posted.</p><p>A message gets a drafted reply the same way.</p>",
-    },
-    {
-      screen: "tasks-runs",
-      spot: { text: "Fix: Cart total off by one cent", up: 1 },
-      title: "Every run, in one place",
-      body: "<p>A run lives on its own task: each step it reports and both approvals show in that task's timeline. <strong>Activity</strong> keeps the last two weeks of runs together, with what they cost.</p><p>This one shipped and is <strong>Waiting for merge</strong>; it finishes when the pull request merges.</p>",
     },
     {
       screen: "tasks",

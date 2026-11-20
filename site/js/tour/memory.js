@@ -44,16 +44,10 @@ export const memory = {
     },
     {
       screen: "memory-m",
-      spot: { text: "Tidied this week", up: 1 },
-      title: "Memory tidies itself",
-      body: "<p>Agents tidy memory as they go: they merge two memories that say the same thing and retire one that is wrong. The change applies at once.</p><p><strong>Tidied this week</strong> says what changed in the last 7 days, here <strong>1 merge</strong>. <strong>Undo</strong> puts it all back.</p>",
-    },
-    {
-      screen: "memory-m",
-      spot: { text: "1 to review" },
+      spot: { text: "To review", exact: true },
       title: "Only a disagreement waits for you",
-      body: "<p>One thing needs your choice: a claim that disagrees with a memory Slate already holds. Those are counted here, <strong>1 to review</strong>.</p>",
-      try: "Click <strong>1 to review</strong>.",
+      body: "<p>One thing needs your choice: a claim that disagrees with a memory Slate already holds. Those wait under <strong>To review</strong>, here 1.</p>",
+      try: "Click <strong>To review</strong>.",
       click: true,
     },
     {
@@ -61,6 +55,12 @@ export const memory = {
       spot: { text: "1 claim disagrees with a surer memory", up: 1 },
       title: "When two tools disagree",
       body: "<p>Gemini wrote that rate limits use a sliding window; Slate already holds, more surely, that they use a token bucket. A claim that contradicts a firmer memory is held, not saved.</p><p><strong>Keep existing</strong>, <strong>Replace it</strong> or <strong>Keep both</strong> — your call.</p>",
+    },
+    {
+      screen: "memory-review",
+      spot: { text: "Tidied this week", up: 1 },
+      title: "Memory tidies itself",
+      body: "<p>Agents tidy memory as they go: they merge two memories that say the same thing and retire one that is wrong. The change applies at once.</p><p><strong>Tidied this week</strong> says what changed in the last 7 days, here <strong>1 merge</strong>. <strong>Undo</strong> puts it all back.</p>",
     },
     {
       screen: "memory-country",

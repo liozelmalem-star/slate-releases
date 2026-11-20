@@ -8,9 +8,8 @@ export const settings = {
     { match: { text: "Account", exact: true }, step: 1 },
     { match: { text: "Workspaces", exact: true }, step: 3 },
     { match: { text: "Appearance", exact: true }, step: 8 },
-    { match: { text: "Terminal", exact: true }, step: 9 },
-    { match: { text: "Keyboard", exact: true }, step: 10 },
-    { match: { text: "About", exact: true }, step: 11 },
+    { match: { text: "Keyboard", exact: true }, step: 9 },
+    { match: { text: "About", exact: true }, step: 10 },
   ],
   steps: [
     {
@@ -87,13 +86,6 @@ export const settings = {
       body:
         "<p><strong>Mint</strong> (the default) is dark; <strong>Forest</strong> is light.</p>" +
         "<p><kbd>⇧⌘L</kbd> flips between light and dark. <kbd>⌘+</kbd> and <kbd>⌘−</kbd> make the whole app bigger or smaller.</p>",
-    },
-    {
-      screen: "settings-terminal",
-      spot: { text: "Type", exact: true, up: 1 },
-      title: "Terminal",
-      body:
-        "<p>How the sessions Slate runs look and behave: <strong>Font</strong>, <strong>Size</strong> and <strong>Line height</strong>; the cursor's <strong>Shape</strong> and <strong>Blink</strong>; <strong>Copy on select</strong>; and <strong>Scrollback</strong>, the lines <kbd>⌘F</kbd> can reach.</p>",
     },
     {
       screen: "settings-keyboard",
