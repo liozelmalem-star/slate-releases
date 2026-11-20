@@ -52,6 +52,13 @@ sign-in token renews. It renews the token, makes sure your account exists, and r
 workspaces you belong to. Those requests carry your account id and your IP address, and no
 workspace content. Supabase Auth also keeps sign-in logs that hold your IP address.
 
+**Your picture.** When your account has a picture, Slate downloads it once from your
+provider's picture host (`avatars.githubusercontent.com` for GitHub, `googleusercontent.com`
+for Google) and keeps a copy in the `account-photo` folder in Slate's application-data folder.
+It downloads again only when the picture link changes. Like any web request, this reveals
+your IP address to that provider. Signing out deletes the copy. Without a picture, or
+offline, Slate shows your initials.
+
 **Invitations.** When you invite someone to a shared workspace, their email address and the
 role you chose are stored in our database until they accept or decline. Slate sends no
 email: the invitation opens in your own mail app, and you send it.
@@ -72,6 +79,7 @@ fits in memory from your own stored memories and never writes to disk or sends a
 |---|---|
 | Workspace database | See per-platform paths below |
 | Sign-in session | A permission-restricted file (`cloud-session.json`) in Slate's application-data folder, never inside a database |
+| Your picture | A copy in the `account-photo` folder in Slate's application-data folder, deleted when you sign out |
 
 The workspace database lives at:
 
@@ -101,7 +109,7 @@ described after the four.
 
 1. **Model calls made by your own installed CLIs.** Slate's model providers (called
    "agents") drive command-line tools you have already installed and authenticated —
-   the agents you connect (16 supported, see the [docs](https://liozelmalem-star.github.io/slate-releases/docs/features/agent/brains.md)). When you use Home, a
+   the agents you connect (16 supported, see the [docs](https://liozelmalem-star.github.io/slate-releases/docs/features/agents.md)). When you use Home, a
    session, an agent run or an automation, the relevant CLI sends your prompt and context
    to that provider to generate a response, when you ask it to or on a schedule you set.
    A cloud session sends your project's code to the vendor's computer (Claude Code clones
@@ -129,13 +137,16 @@ described after the four.
      message), branch created / deleted / merged / switched events, and
      a record that an AI session happened (its branch and the time).
    - **Artifacts** — the docs an agent publishes to be looked at: the title, the kind
-     (HTML or Markdown), the description, the name of the agent that made it, the doc it
+     (an HTML page or slides), the description, the name of the agent that made it, the doc it
      was made under, and the content of its newest version.
+   - **Doc images** — the image files a shared doc names. Each goes to a private storage
+     bucket that only the workspace's members can read; the doc row carries only its address.
    - **Your identity** — the display name, email address, and avatar supplied by your
      sign-in provider.
 
    What is **never** sent, from any workspace: your doc metadata (the `properties` bag,
-   which is where a project's or a group's folder path is held), the absolute path recorded against a
+   which is where a project's or a group's folder path is held), except a doc's git branch
+   label, which is a branch name and not a path, the absolute path recorded against a
    commit (the normalised git remote URL is sent in its place), counts of files and lines
    changed, per-file lists of the files you touched or staged, the contents of any AI session
    transcript and the doc a captured AI session is stored as, the reasoning text behind
@@ -145,8 +156,10 @@ described after the four.
 
    **What we cannot filter is the text itself.** A doc's body and a memory's sentence
    are sent as written. If you typed a filesystem path into a doc, or an agent recorded one
-   inside a decision it wrote, that text is transmitted with the rest of the row — Slate does
-   not inspect or redact prose. The structured places a path is held are withheld; a path
+   inside a decision it wrote, that text is transmitted with the rest of the row. Slate replaces
+   recognised secrets (tokens in a published key format, and assignments that name themselves
+   a secret) with `[secret]` in memories, in docs an agent writes and in task reports; it does
+   not otherwise inspect or redact prose. The structured places a path is held are withheld; a path
    written in a sentence is content, and content in a shared workspace is what a shared
    workspace is for.
 
@@ -170,7 +183,8 @@ described after the four.
    logs that the service's host (Supabase) keeps for a short time. Deleting the file makes Slate generate a new id. Before it installs a downloaded
    update, Slate asks the service whether that version was withdrawn, sending only the
    version number. Like any web request, these reveal your IP address and that you run
-   Slate. It runs eight seconds after the window opens and every four hours while it stays open, and
+   Slate. It runs eight seconds after the window opens and every four hours while it stays open,
+   about ten minutes after a Slate started at login without a window and then about every four hours, and
    whenever you press "Check now" in Settings → About. When a newer version exists, Slate
    also downloads it from the release host, GitHub Releases, in the background, and installs it when you next
    quit. You can switch the automatic check and download off in Automations › Built-in
@@ -335,6 +349,9 @@ Because each workspace is a single local file, you are in full control of it.
   no longer holds. It is offered separately from
   *leaving* a workspace, which removes only your own machine's copy and deletes nothing
   upstream.
+- **Doc images** — moving a doc out, stopping sharing and **Erase my work** withdraw the doc
+  rows, but not yet the images those docs named: they stay in the workspace's private bucket,
+  readable only by its members, until removing them is built.
 
 - **Account deletion** — Settings → Account → **Delete my account forever** removes your Slate account
   from our database: your sign-in identity, name, email, plan and Team interest, your

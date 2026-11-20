@@ -1,34 +1,31 @@
-# Core Concepts
+# Core concepts
 
-Slate is one home for every AI coding tool: every session live on your Mac, and one memory plus one set of skills and rules for all 16 tools. Six ideas underlie it.
+Slate rests on six ideas. Read them once and every screen makes sense.
 
-## 1. Everything is a doc
+## Sessions are what you see first
 
-The [doc](https://liozelmalem-star.github.io/slate-releases/docs/features/docs.md) is Slate's universal unit. A group, a project, a design doc and a captured AI session are all rows in one `doc` table, told apart by an optional `doc_type`. Docs nest in a tree (`parent_id`), order by a fractional `position` so drag-reorder never renumbers the tree, and hold their content as block-editor JSON. The same few operations (create, read, update, move, Trash) work everywhere, by hand or by AI.
+A session is one conversation with an agent, in one folder. [Sessions](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions.md) shows every session on this Mac while it runs: the ones Slate started and the ones you started in your own terminal. A session waiting on your answer is marked **Needs you** and comes first.
 
-## 2. Typed documents give work structure
+## Agents are the tools you already have
 
-A doc can be [typed](https://liozelmalem-star.github.io/slate-releases/docs/features/docs/typed-docs.md): `group`, `project`, `branch`, `plan`, `design`, `review`, `bug-report`, `mission` or plain `note`. The type says what kind of doc it is and limits where the doc can live. A `branch` sits under a `project`. A `project` sits under a `group` or stands alone. Knowledge docs (plans, designs, reviews) hang off any of them, so memory tools resolve "the plan for the branch I'm on" without an id.
+An agent is an AI coding tool Slate connects to: Claude Code, Codex, Cursor, GitHub Copilot, Antigravity, OpenCode, Gemini, Cline, Grok Build, Kiro, Qwen Code, Droid, Hermes Agent, Goose, Kilo Code or Auggie. Slate runs each one's command-line program under the sign-in you already have. Slate ships no model and asks for no API key. See [Agents](https://liozelmalem-star.github.io/slate-releases/docs/features/agents.md).
 
-## 3. One memory, shared over MCP
+## A project is a folder you open
 
-Slate is also a [memory server](https://liozelmalem-star.github.io/slate-releases/docs/features/mcp-server.md). It speaks [MCP](https://modelcontextprotocol.io), so any of the 16 [tools](https://liozelmalem-star.github.io/slate-releases/docs/features/agent/brains.md), or Slate's own [Home](https://liozelmalem-star.github.io/slate-releases/docs/features/agent.md), calls the same two verbs:
+A **project** is one folder, usually a git repository. A **group** is a set of projects you make and name; its memory and settings reach every project in it. Slate records the sessions that run in a project's folder. A session in any other folder shows in Sessions under **No project** while it runs, and is not kept.
 
-* **`recall`** at the start of a task loads the relevant context: the brief for your branch, project conventions, project memories.
-* **`remember`** at the end saves a decision, result or preference, filed on the doc the hierarchy resolves to.
+Inside a project you keep **docs**: plans, designs, reviews, bug reports and notes. A git branch is a label on Slate's records, never a doc of its own. See [Projects](https://liozelmalem-star.github.io/slate-releases/docs/features/projects.md).
 
-A [filesystem watcher](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/session-capture.md) captures the sessions themselves, so memory grows even when a tool forgets to write.
+## Memory is shared by every agent
 
-## 4. Agents drive your CLIs
+Slate keeps one memory for all your agents. It learns from the sessions it captures, and connected agents save to it with `remember` and read from it with `recall`. Memory is filed under the project or group it belongs to, so a session gets what applies to its folder. See [Memory](https://liozelmalem-star.github.io/slate-releases/docs/features/memory.md).
 
-Slate ships no model and asks for no API key. An [agent](https://liozelmalem-star.github.io/slate-releases/docs/features/agent/brains.md) is a thin driver over a CLI you already installed and signed in to: **Claude Code**, **Codex**, **Cursor**, **GitHub Copilot**, **Antigravity**, **OpenCode**, **Gemini**, **Cline**, **Grok Build**, **Kiro**, **Qwen Code**, **Droid**, **Hermes Agent**, **Goose**, **Kilo Code** or **Auggie**. Slate launches it from Rust, so credentials stay in those tools. A light model works because code [resolves the tool and prefills its arguments](https://liozelmalem-star.github.io/slate-releases/docs/features/agent/mcp-commands.md) and the model fills only the gaps.
+## Toolkit and Connect set up every agent at once
 
-## 5. Toolkit is one playbook for every tool
+[Toolkit](https://liozelmalem-star.github.io/slate-releases/docs/features/toolkit.md) holds your skills, rules and instructions, and writes them into each agent's own setup. [Connect](https://liozelmalem-star.github.io/slate-releases/docs/features/connect.md) holds which agents each workspace uses, under which account, and the MCP servers and integrations they reach.
 
-[Toolkit](https://liozelmalem-star.github.io/slate-releases/docs/features/studio.md) is where you write instructions and skills once, in `AGENTS.md` and `.slate/`, and project them into every agent's native config. Change the playbook, run `yarn studio sync`, and every tool picks it up. [Features by Agent](https://liozelmalem-star.github.io/slate-releases/docs/features/agent/tool-features.md) says which tools it reaches today.
+## A workspace is shared or private as a whole
 
-## 6. A workspace is shared or private as a whole
+A **workspace** holds projects, docs, memory and activity, in one file on your Mac. **Personal** is yours and starts private. A workspace you share is shared whole: everything in it is readable by its members. Nothing is shared doc by doc, so private work belongs in a workspace you have not shared.
 
-[Workspaces](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces.md) share by **container**. A team's workspace is the team's, and everything in it is shared. Your **Personal** workspace starts unshared and syncs only if you switch its sharing on. Each shared workspace is its own SQLite file; switch from the top of the rail. Nothing is marked doc by doc: private work stays in an unshared workspace.
-
-Sharing is one-way, and each doc has one writer, its author. That keeps merge conflicts and version columns out of the design. A teammate's doc opens read-only in the real editor, with a line saying why.
+Each doc has one writer, its author. A teammate's doc opens read-only. See [Workspaces](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces.md).

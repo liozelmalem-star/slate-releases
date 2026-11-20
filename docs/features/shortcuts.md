@@ -1,16 +1,16 @@
 # Keyboard shortcuts
 
-This guide lists every keyboard shortcut Slate has. Press **?** anywhere for the shortcuts of the current context, or open **Settings → Keyboard** to change one.
+Every keyboard shortcut in Slate, grouped by where it works. Press **?** for a sheet of the shortcuts you can use, or open **Settings → Keyboard** to change one.
 
-Keys are written for a Mac. On Windows and Linux, ⌘ is Ctrl. Shortcuts with ⌘ or ⌃ work while you type. A shortcut on a bare key, or on ⌥ alone, waits until you stop typing, because ⌥ plus a key types a character.
+Shortcuts with ⌘ or ⌃ work while you type. A shortcut on a bare key, or on ⌥ alone, waits until you are not typing in a text field.
 
-## Rebind a shortcut
+## Change a shortcut
 
-**Settings → Keyboard** lists every command in the palette. Click a command's key to record a new one. A key another command held moves over, and a note ("⌘X moved from A to B.") offers **Undo**. Unbind takes a key away; Reset restores the default. **Reset all** restores every key and offers **Undo**. One key per command, no multi-key sequences. The palette, the cheatsheet and tooltips read the same list, so they follow a key you rebind. The shortcuts in the tables below marked "fixed" are not in that list.
+**Settings → Keyboard** lists every command that has a shortcut. Click a command's key, then press the new one; Escape cancels. If another command held that key, it moves to this one and Slate says which command lost it, with **Undo**. **Unbind** removes a key, **Reset** restores one, and **Reset all** restores every key. A command has one key; there are no multi-key sequences. The palette, the **?** sheet and tooltips follow your changes at once.
+
+The keys in the later sections (tabs and mouse, lists, the Sessions list, terminal, files) are fixed.
 
 ## Anywhere
-
-These are the commands in Settings → Keyboard, grouped as the cheatsheet groups them.
 
 ### Navigate
 
@@ -22,40 +22,49 @@ These are the commands in Settings → Keyboard, grouped as the cheatsheet group
 | ⌘⇧K | **Go to Home** |
 | ⌘J | **Ask AI** |
 | ⌘⇧O | **Steps Ask AI ran** |
-| ⌘⇧J | The session that has waited on you longest; again for the next. After the sessions come tasks waiting on you, then back to the first session |
-| ⌘[ and ⌘] | **Back** and **Forward** |
+| ⌘⇧J | The session that has waited on you longest; press again for the next |
+| ⌘[ and ⌘] | **Back** and **Forward** ([Back and Forward](https://liozelmalem-star.github.io/slate-releases/docs/features/search.md#back-and-forward)) |
 | ⌘\` and ⌘⇧\` | **Switch to next workspace** and **Switch to previous workspace** |
-| ⌃⇥ and ⌃⇧⇥ | **Next tab** and **Previous tab**, by recency while ⌃ is held: once is the tab you were just on, twice the one before |
-| ⌘1 to ⌘9 | **Go to tab 1‥9**; with fewer than n tabs open, the last one |
-| ⌘W | **Close tab**. A pinned tab refuses: unpin it first. Every close spares pinned tabs |
+| ⌃⇥ and ⌃⇧⇥ | **Next tab** and **Previous tab**, by how recently you used them |
+| ⌘1 to ⌘9 | **Go to tab 1‥9**; with fewer tabs open, the last one |
+| ⌘W | **Close tab**. A pinned tab stays open until you unpin it |
 | ⌘⇧T | **Reopen closed tab** |
 | ⌥⌘← and ⌥⌘→ | **Move tab left** and **Move tab right** |
-| ⌘⇧D | **Open tab beside**, such as a session beside its plan doc (⌘-click does the same; also on a doc in the tree, Favorites and Recents, a link in a doc, and **Open beside** in a doc's right-click menu) |
+| ⌘⇧D | **Open tab beside** the current one |
 | ⇧⌘\\ | **Close split view** |
 
 ### Create
 
 | Keys | Command |
 | --- | --- |
-| ⌘N | **New doc** |
+| ⌘N | **New note** |
 | ⌘⇧G | **Generate a doc** |
 | ⌘⇧N | **Quick capture** |
-| ⌃\` | **Open a terminal here** |
+| ⌃\` | **Open a Terminal here** |
 
 ### Doc, view and help
 
 | Keys | Command |
 | --- | --- |
 | ⌘F | **Find in doc** |
-| ⌘B | **Toggle sidebar** (in a doc, ⌘B stays bold) |
-| ⌘⇧M | **Focus mode** (the same keys leave it) |
-| ⌘⇧L | **Toggle light / dark theme** ([Themes](https://liozelmalem-star.github.io/slate-releases/docs/features/theming.md#light-and-dark-with-l)) |
-| ⌘+ and ⌘− | **Increase app size** and **Decrease app size**, 80% to 140% in ten-percent steps ([Themes](https://liozelmalem-star.github.io/slate-releases/docs/features/theming.md#size)) |
+| ⌘B | **Toggle sidebar** (in a doc's text, ⌘B makes bold) |
+| ⌘⇧M | **Focus mode**; the same keys leave it |
+| ⌘⇧L | **Toggle light / dark theme** |
+| ⌘+ and ⌘− | **Increase app size** and **Decrease app size** ([Themes](https://liozelmalem-star.github.io/slate-releases/docs/features/theming.md#make-slate-bigger-or-smaller)) |
 | ? | **Keyboard shortcuts** |
 
-## Tabs and the mouse
+### In a session or a file
 
-These gestures are fixed. See [Tabs](https://liozelmalem-star.github.io/slate-releases/docs/features/search.md#tabs) for the rules.
+These are in Settings → Keyboard, and work while their panel is on screen.
+
+| Keys | Command |
+| --- | --- |
+| ⌥⌘B | **Toggle session panel** |
+| ⌥⌘I | **Show session details** |
+| ⌥H | **Toggle file history** |
+| ⌥1 and ⌥2 | **File view 1‥4**: switch a Markdown or SVG file between Preview and Read |
+
+## Tabs and the mouse
 
 | Gesture | What it does |
 | --- | --- |
@@ -64,83 +73,60 @@ These gestures are fixed. See [Tabs](https://liozelmalem-star.github.io/slate-re
 | Middle-click a tab | Close it |
 | Drag a tab | Reorder it; pinned tabs stay at the front |
 | Right-click a tab | Keep open, pin, open beside, close, close others, close to the right, close all |
-| Drag the line between two columns | Widen one column; double-click equalises all |
-| Arrow keys on that line | Resize it in steps of 16 px; Shift makes the step 64 px |
+| Drag the line between two columns | Resize them; double-click makes all columns equal |
+| Arrow keys on that line | Resize by 16 px; with Shift, by 64 px |
+| A mouse's back and forward buttons | **Back** and **Forward** |
 
-## Command palette and lists
+## Lists and the palette
 
 | Keys | What it does |
 | --- | --- |
 | ↑ and ↓ | Move through results |
 | Enter | Open the selected row |
-| Escape | Close the palette or cheatsheet |
+| Escape | Close the palette or the shortcut sheet |
 | ⌘Enter | Add a line comment in a file or review, or commit from the Changes message box |
-| ⌫ or Backspace | Move the selected docs in the Projects tree to Trash |
+| ⌫ | Move the selected docs in the Projects tree to Trash |
 
 ## Sessions
 
-| Keys | What it does |
-| --- | --- |
-| ⌘⇧J | Go to the session that has waited longest ([Sessions](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions.md#what-you-see)) |
-| ⌥⌘B | Show or hide the side panel (Details, Changes, Turns) |
-| ⌥⌘I | Open the side panel on Details |
-| ⌘K → **Focus the sessions list** | Move focus to the first row; listed only while a row is on screen |
-| ⌃\` | Open a plain shell |
-| ⌘⇧M | Focus mode |
-| ⌘-click a row | **Open beside** |
-| ⇧⌘\\ | **Unsplit** the columns |
-
-⌥⌘B and ⌥⌘I are in Settings → Keyboard and work while the Sessions panel is on screen.
-
-On a focused row of the rail ([The keyboard](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions.md#the-keyboard)), with focus inside the rail and no text field active. The cheatsheet lists these under **Session list**; they are fixed:
+The **Session list** keys work while focus is in the list of sessions and no text field is active.
 
 | Key | What it does |
 | --- | --- |
-| Tab, then Enter | Reach the rows and open one |
 | ↑ / ↓ or **k** / **j** | Move between rows |
 | Home and End | Jump to the first and last row |
 | **f** | Start a second agent in the row's folder |
-| **s** | Stop the session; press again within four seconds |
-| Escape | Hand focus back to the terminal |
+| **s** | Stop the session; press again within 4 seconds to confirm |
+| Escape | Give focus back to the terminal |
 
 ## Terminal
 
-Over a focused terminal, every ⌘ chord belongs to the app except these. On Windows and Linux the app's chord is Ctrl+Shift, and plain Ctrl keys go to the CLI. See [The terminal](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/terminal.md#what-the-terminal-does).
+Over a focused terminal, every ⌘ shortcut belongs to Slate except these. See [The terminal](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/terminal.md).
 
 | Keys | What it does |
 | --- | --- |
 | ⌘F | Search the session, scrollback included |
-| ⌘C | Copy the selection; without one, the app's own meaning |
+| ⌘C | Copy the selection; with nothing selected, Slate's own ⌘C |
 | ⌘V | Paste |
-| ⌘+ / ⌘− / ⌘0 | Zoom the terminal font in, out, and reset it (remembered) |
+| ⌘+ / ⌘− / ⌘0 | Make the terminal font bigger, smaller, or reset it |
 | ⌥⌘K | Clear |
 | Shift+Enter | New line in the prompt, without sending |
-| ⌥← / ⌥→ / ⌥⌫ | Jump a word left, right; remove a word |
-| Ctrl-C | Interrupt, sent to the CLI |
+| ⌥← / ⌥→ / ⌥⌫ | Jump a word left or right; remove a word |
+| Ctrl-C | In an agent's session: asks whether to end it. In a Terminal: sent to the program |
 
 ## Files and the editor
-
-In a file ([Reading a file](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/files.md#reading-a-file)). ⌥H and ⌥1‥⌥4 are in Settings → Keyboard and act on the file that has focus; like every ⌥ shortcut, they wait while you type in the editor:
 
 | Keys | What it does |
 | --- | --- |
 | ⌘S | Save |
-| ⌘F | Search the file |
-| ⌥H | Open the file's history |
+| ⌘F | Find and replace |
 | [ and ] | Step through changes (not while typing) |
-| ⌥1 and ⌥2 | Switch between Preview and Read, on a Markdown or SVG file (the code holds up to four forms; today only these two exist) |
 | Escape | Leave Diff or a past commit |
-
-The editor uses VS Code's keys ([Editing](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/files.md#editing)):
-
-| Keys | What it does |
-| --- | --- |
-| ⌘Z / ⌘⇧Z | Undo and redo (Ctrl+Z and Ctrl+Y on Windows and Linux) |
+| ⌘Z / ⌘⇧Z | Undo and redo |
 | ⌥-click | Add a cursor |
+| ⌥⇧-drag | Select a column |
 | ⌘D | Select the next match |
 | ⌘⇧L | Select every match |
-| ⌥⇧-drag | Column selection |
-| ⌘F | Find and replace |
 | Ctrl+G | Go to line |
 | ⌘/ | Comment |
 | ⌥↑ / ⌥↓ | Move a line |
@@ -148,8 +134,8 @@ The editor uses VS Code's keys ([Editing](https://liozelmalem-star.github.io/sla
 | ⇧⌘K | Remove a line |
 | Enter or Tab | Take an offered word |
 
-## Home
+See [Files, memories and editing](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/files.md).
 
-Arrow keys turn the deck of cards on Home; left and right step back and forward.
+## Home and Ask AI
 
-In the box on Home and in the ⌘J panel, **⇧⇥** moves the mode pill one step, as in Claude Code: **Ask first**, **Auto-edit**, **Full auto**, then Ask first again. Clicking the pill makes the same steps, but the click into Full auto asks you to click again.
+In the box on Home and in the ⌘J panel, **⇧⇥** moves the mode one step: **Ask first**, **Auto-edit**, **Full auto**, then **Ask first** again. On Home, the arrow keys turn the deck of cards.

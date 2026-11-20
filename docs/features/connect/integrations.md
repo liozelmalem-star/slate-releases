@@ -1,36 +1,41 @@
 # Integrations
 
-The **Integrations** tab in [Connect](https://liozelmalem-star.github.io/slate-releases/docs/features/connect.md) holds this workspace's apps. Press **Connect**, approve Slate on the app's own sign-in page, and what you owe there shows in Tasks. No agent is involved.
+The **Integrations** tab in [Connect](https://liozelmalem-star.github.io/slate-releases/docs/features/connect.md) connects the apps you work in to this workspace. Press **Connect**, approve Slate on the app's own sign-in page, and what waits for you there shows in [Tasks](https://liozelmalem-star.github.io/slate-releases/docs/features/tasks.md). No agent is involved.
 
-## The list
+## Connect an app
 
-One row per integration: its logo and name. A connected app in its normal state is that one line and one small green dot. **Disconnect** shows when you point at the row, and the hover text says what Slate reads and when it last synced. A second line shows only when something differs: **Sign in again so Slate can keep reading it.**, **Slate could not reach it.**, or a note that your admin may have to allow Slate first. A tool's own error text stays out of the row. Connectable apps come first, then **Coming soon**.
+Under **Connect an integration**, the chips **All**, **Issues**, **Reviews** and **Messages** narrow the list with their counts, and **Find an integration** searches it.
 
-* **Official-server sign-in:** **GitHub** (through your `gh`), **Jira**, **GitLab.com**, **Notion**, **Trello**, **ClickUp**, **Linear**, **Mattermost** (your own server), **monday.com**, **Basecamp**, **Plane** (Plane Cloud), **Shortcut**, **Todoist**.
-* **Pasted token:** **Bitbucket Cloud**, **Gitea** (and Forgejo), **Gerrit**, **YouTrack**, **Zulip**, **Rocket.Chat**.
-* Order: most used first by the Stack Overflow Developer Survey's share, then apps it omits, A to Z.
-* **Coming soon**, each with its reason: Slack, Microsoft Teams, Discord, Google Chat, Gmail, Outlook and Asana say *Needs Slate's own* app of that vendor (not registered). Azure DevOps and Zoom say *No server Slate can sign in to yet*.
-* **Issues**, **Reviews** and **Messages** narrow the grid to apps shown in that group of Tasks (mail is under Messages), with counts. **Find an integration** searches.
-* An app hidden from Tasks sits under the grid as **Hidden from Tasks**, with **Show**.
-* **Another app**, the last tile, connects any MCP server: name, https address, sign in.
+- **Sign in on the app's sign-in page**: **GitHub** (through your `gh` sign-in), **Jira**, **GitLab**, **Notion**, **Trello**, **ClickUp**, **Linear**, **Mattermost** (on your own server), **monday.com**, **Basecamp**, **Plane**, **Shortcut** and **Todoist**.
+- **Paste a token**: **Bitbucket**, **Gitea** (Forgejo too), **Gerrit**, **YouTrack**, **Zulip** and **Rocket.Chat**. The form says where to make the token and which read-only permissions to tick. Slate checks the token with the app before keeping it.
+- **Another integration**: any MCP server, by its https address.
+- **Coming soon**: Slack, Microsoft Teams, Discord, Google Chat, Gmail, Outlook and Asana, each "Needs Slate's own" app; Azure DevOps and Zoom, "No server Slate can sign in to yet".
 
-## States and behaviour
+A sign-in or token stays on this computer, in a file only you can read, and survives restarts and updates.
 
-| Case | What happens |
-|---|---|
-| GitHub | **Connect** turns on reading through `gh`. A signed-in `gh` alone reads nothing. |
-| Sign-in ended (new password, admin removed access) | **Needs sign-in**, **Sign in again**. The sign-in is Slate's own, stays on this computer, and survives restart and update. An agent's server reading the same app never makes it look signed in. |
-| App refuses reads by a setting | **Unavailable** with the change needed or the app's words. GitLab: "GitLab blocks Slate until you turn on “Allow connection to GitLab” in a GitLab group you own." |
-| Slate cannot read it yet | **Not read yet**; a logo under **Not reading yet** in Tasks, not a 0. Slate teaches itself once: **Learning how to read your tasks in Notion…** while your agent works it out through Slate's connection; the answer is kept. If nothing is found: **Could not find your tasks in Notion.** with **Try again**. This is how Notion is read: each workspace keeps tasks in its own database. |
-| **Disconnect** | Forgets the sign-in or token. Tasks leave at the next sync, unless an agent's declared server still reads the app. |
-| Same app via an agent's server | Read here only, so a task never comes from two places. |
+## Read a row
 
-## Per-app notes
+A connected app that works is one line with a green dot. Point at it to see what Slate reads and when it last synced. Every action sits in the row's **⋯** menu: **Connect**, **Sign in again**, **Paste a new token**, **Choose what Tasks shows** and **Disconnect**.
 
-* **Jira**, **Trello:** their admin may have to allow Slate before it connects (Atlassian controls which apps connect; Trello follows).
-* **Mattermost:** **Connect** asks for the server address (`https://chat.example.com`) and signs in at the Agents plugin's MCP server, `/plugins/mattermost-ai/mcp-server/mcp`. The admin must first enable that server and OAuth dynamic client registration (Enterprise plan up). The tile then shows the address and replaces the plain tile.
-* **Pasted-token apps:** **Connect** opens a form with the server address (not Bitbucket), the account name the app wants (Zulip email, Gerrit username, Rocket.Chat user ID) and the token, with where to make it and which read-only permissions to tick. Slate asks the app who owns the token before keeping it; a refused token is not kept and the form says why. The token stays on this computer in a file only your user can read. If refused later: **Needs sign-in**, **Paste a new token**. Zulip and Rocket.Chat show only messages naming something this workspace works on.
+A second line shows only when something needs you:
 
-## Agents read what you connect
+| The row says | What it means |
+| --- | --- |
+| **Needs sign-in** | The sign-in ended, for example after a new password. Choose **Sign in again** |
+| **Unavailable** | Slate could not reach it, or the app blocks reads until you change a setting. The line says which |
+| **Not read yet** | Slate has not found your tasks in it yet. Tasks shows its logo, never a 0 |
+| **Learning** | Slate is working out where your tasks are, for an app like Notion that keeps them in its own database. If it fails: "Could not find your tasks in Notion." with **Try again** |
+| Your admin may need to allow Slate first | Jira and Trello can require an admin to allow new apps |
 
-An app connected through its own server (not a pasted token) is readable from any AI session in this workspace, with no setup: `connected_tools` and `read_connected` use Slate's sign-in while Slate is open. Only reading tools are offered. See [Connected MCP tools](https://liozelmalem-star.github.io/slate-releases/docs/features/agent/connected-tools.md).
+An app you hide from Tasks moves under **Hidden from Tasks**, with **Show**.
+
+## Notes per app
+
+- **GitHub**: **Connect** turns on reading through your `gh` sign-in. A signed-in `gh` alone reads nothing.
+- **Mattermost**: **Connect** asks for your server's address, such as `https://chat.example.com`. Your admin must turn on its AI plugin's MCP server first.
+- **Zulip** and **Rocket.Chat** show only messages that name something this workspace works on.
+- **Disconnect** forgets the sign-in or token. Its tasks leave at the next sync.
+
+## Your agents read it too
+
+An app connected by sign-in (not a pasted token) can be read from any session in this workspace while Slate is open, with no setup in the agent: Slate's `connected_tools` and `read_connected` tools use Slate's sign-in. Only tools that read are offered. See [Connected MCP tools](https://liozelmalem-star.github.io/slate-releases/docs/features/connect/connected-tools.md).

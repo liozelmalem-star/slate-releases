@@ -1,37 +1,37 @@
-# A tool's dialog: MCP servers, profiles and models
+# An agent's dialog
 
-Click a tool in [Connect](https://liozelmalem-star.github.io/slate-releases/docs/features/connect.md) to open its dialog.
+Click an agent's logo or name in [Connect → Agents](https://liozelmalem-star.github.io/slate-releases/docs/features/connect.md#agents) to open its dialog. It shows the MCP servers the agent reaches, the profile it runs under, its model, and at the bottom the config file Slate writes into.
 
 ## MCP servers
 
-The dialog lists the servers the tool declares, read from the profile this workspace runs it under. A tool this workspace does not run lists nothing and says to turn it on. With none, it says *Nothing besides Slate itself.* and **Add an MCP server** opens Toolkit's New dialog.
+The list shows the servers the agent declares, read from the profile this workspace runs it under. An agent that is not turned on here says "Turn it on for this workspace to see the servers it reaches." With none, it says "Nothing besides Slate itself." and **Add an MCP server** opens Toolkit's form.
 
-* A **gateway** (one server, many integrations) is one row. Its chevron opens what it carries. It has one **Sign in** and says when they stopped together.
-* **Your Claude account**'s connectors are one row under Claude Code, the only tool that can use them.
-* A server declared for every directory says **every workspace**.
+- A **gateway**, one server that carries many integrations, is one row. Its chevron shows what it carries.
+- **Your Claude account**'s connectors are one row under Claude Code, the only agent that can use them.
+- A server declared for every folder says **every workspace**.
 
-| Server | States | Buttons |
-|---|---|---|
-| Read by Slate | **Live**, **Needs sign-in**, **Not turned on**, **Unavailable**, **Not read yet** (a failure says when it last worked) | **Turn on**; **Let an agent read it**, or **Read with Claude Code** when only your Claude account reaches it |
-| Not read by Slate | What the tool last reported: **Connected in Claude Code**, **Needs sign-in in Claude Code**, **Claude Code could not connect**. Neither spoke: **Set up, not checked** | none |
+| Server | How it stands |
+| --- | --- |
+| **Read by Slate** | **Live**, **Needs sign-in**, **Not turned on**, **Unavailable** or **Not read yet**, with **Turn on** and **Let an agent read it** |
+| **Not read by Slate** | What the agent last said: **Connected in Claude Code**, **Needs sign-in in Claude Code** or **Claude Code could not connect**. When it said nothing yet: **Set up, not checked** |
 
-**Sign in** uses the sign-in Tasks uses for a tool Slate reads. For a server only an agent reaches, it runs that tool's own login. **Refresh** and any waiting sign-in sit above the list.
+**Sign in** uses the same sign-in as Tasks for a server Slate reads, and the agent's own login for the others. **Refresh** asks your agents again.
 
-## Profiles
+## Profile
 
-A tool's servers, sign-in and history live in a **config directory**, set by `CLAUDE_CONFIG_DIR`, `GEMINI_CLI_HOME`, `CODEX_HOME`, `CURSOR_CONFIG_DIR`, `COPILOT_HOME` or the variable in each newer tool's record. Antigravity, Auggie, Kilo Code and OpenCode have none, so no profile to choose.
+A profile is one login of an agent on this computer: its config folder, with its sign-in, settings and history. Pick the **Profile** this workspace uses, or **Add** one with a name and a **Config folder**.
 
-Pick the **Profile** this workspace uses, or **Add** one by naming it and its config folder.
+- The add form offers config folders it finds in your home folder, such as `~/.claude-work`, under **Found here**. **Choose folder…** picks any other. A folder that does not exist yet is fine: the agent creates it when you sign in.
+- Pick the profile before you connect, because it decides where Slate is installed.
+- **Its usual settings folder** is the agent's own default, such as `~/.claude` or `~/.codex`.
+- Some agents, such as OpenCode, Antigravity, Auggie and Kilo Code, read a single configuration, so there is no profile to choose.
 
-* For Claude Code, Codex and Cursor, the add form offers config folders already in your home folder (such as `~/.claude-work`) as buttons under **Found here**. Gemini offers none: its variable names a replacement home folder.
-* **Choose folder…** picks any other. A missing path is fine: the tool creates it on sign-in.
-* Pick before connecting: the profile decides where Slate is installed.
-* **Its usual settings folder** is the tool's built-in folder (`~/.claude`, `~/.codex`, …). A `CLAUDE_CONFIG_DIR` or `CODEX_HOME` set in your shell is not followed for it: name that folder as a profile instead. Slate does follow `XDG_CONFIG_HOME`, `XDG_DATA_HOME` and `OPENCODE_CONFIG`.
-* A tool kept only under a profile or its own variable's folder counts as installed. Gemini CLI and Antigravity share `~/.gemini`; each is told apart by the files only it writes.
-* **Cursor:** `CURSOR_CONFIG_DIR` moves only its sign-in. `cursor-agent` reads servers, hooks and plugins from `~/.cursor` and writes history there (or where `CURSOR_DATA_DIR` says) for every profile. Slate writes them once for all Cursor profiles. Turning one profile off leaves them while another connected Cursor profile uses them.
+A config folder exists once on this computer, so every workspace that names it shares its sign-in ([Project environments](https://liozelmalem-star.github.io/slate-releases/docs/features/toolkit/project-environments.md)).
 
-Why two workspaces on one profile share its sign-in: [Project environments](https://liozelmalem-star.github.io/slate-releases/docs/features/studio/cli-profiles.md).
+## Model
 
-## Models
+The **Model** list shows once this workspace runs the agent. **Its usual model** lets the agent choose. **Make default** makes this the agent used when nothing more specific is named, and its row shows **default**. A group or a project on its own can choose differently.
 
-The model list shows once this workspace runs the tool. On **Its usual model**, Slate passes no model and the agent picks. **Make default** marks the tool used when nothing more specific is named, with a **default** badge. A group or standalone project can override any of it.
+## Capture
+
+**Capture** turns recording of this agent's sessions on or off. Off, the agent stays connected and other agents are not affected.

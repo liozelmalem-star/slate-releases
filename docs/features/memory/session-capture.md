@@ -1,65 +1,60 @@
-# Session Capture
+# Session capture
 
-A **watcher** reads the conversation files your tools already write, detects completed sessions and stores each as a doc in your workspace. A tool is read only once you turn it on, in setup or **Connect → Agents**; its sessions then appear on the next pass, a few minutes at most.
+Slate keeps every session your agents run, so you can find it later and so Activity and
+Memory know what happened. It reads the conversation files your agents already write on
+this computer. It sends nothing to the network.
 
-Memory you kept with claude-mem or agentmemory can be brought in as well; see [Import](https://liozelmalem-star.github.io/slate-releases/docs/features/import.md).
+## Turn it on
 
-## Which tools
+An agent is read once you turn it on, in setup or in Connect → **Agents**. Its sessions
+appear within a few minutes. An agent turned on in any workspace is captured for all of
+them: [Sessions](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions.md) covers the whole computer.
 
-* **JSONL transcripts:** Claude, Codex, Gemini, Cursor, GitHub Copilot (one folder per session, `~/.copilot/session-state/<session id>/events.jsonl`; the folder names the session).
-* **SQLite, read-only:** OpenCode (`~/.local/share/opencode/opencode.db`), Hermes Agent, Goose, Kilo Code, Kiro. Each session is rendered into the same shape.
+## Which agents
 
-Every tool gets the same digest, noise filtering and branch attribution. Capture is measured on Claude Code, Codex, Cursor, GitHub Copilot, OpenCode, Gemini, Hermes Agent and Goose. For the other eight it is unverified or not built: see [Features by Agent](https://liozelmalem-star.github.io/slate-releases/docs/features/agent/tool-features.md).
+- **From their transcript files**: Claude Code, Codex, Gemini, Cursor and GitHub
+  Copilot.
+- **From their own database, read-only**: OpenCode, Hermes Agent, Goose, Kilo Code and
+  Kiro.
 
-**Profiles and other configs.** Every profile a workspace or a project names is watched, wherever its folder is (`~/work/claude-cfg` as well as `~/.claude-work`), from the moment it is saved. Tools that follow `XDG_CONFIG_HOME` / `XDG_DATA_HOME` (OpenCode, Kilo Code, Goose, Kiro on Linux) are read there. Beyond those, the watcher suggests any agent writing JSONL transcripts under your home directory: a hidden config folder, or one under `~/.config` or `~/.local/share`, with a subdirectory (`projects`, `sessions`, `chats`, `tmp`, …) whose files parse as a role-tagged transcript. Tools Slate reads from a database are never picked up this way, so a leftover transcript folder does not double their sessions.
+Which agents are verified is in [Features by agent](https://liozelmalem-star.github.io/slate-releases/docs/features/agents/features-by-agent.md).
 
-**A cloud session brought back.** A [cloud session](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/cloud.md#cloud-sessions) runs on the vendor's computer, out of the watcher's sight. When you bring it back and send a message, Claude Code writes the whole conversation to a normal transcript under the worktree, and the watcher captures it. Nothing is written before that first message, so an unused task is not captured. It arrives as a record of what was said, not saved memories (the cloud part had no Slate hooks). A Codex cloud session brings back changes, not a conversation; applying it notes the task on its project's doc with files and lines changed.
+Every profile a workspace or project names is watched, wherever its folder is. Slate also
+suggests any other agent that writes conversation files under your home folder.
 
-## What a captured session looks like
+## What a captured session holds
 
-Each session becomes a doc with these properties:
+Each session is kept with its first request, a one-line summary, the agent and model that
+ran it, the tokens it used and the git branch it ran on. Its body is a digest: every turn
+you typed, where your requests and corrections live, and the final outcome.
 
-| Property | Meaning |
-| -------- | ------- |
-| `prompt` | The originating request. |
-| `summary` | A one-line summary. |
-| `tool` | The agent that produced the session. |
-| `tokens` | Fresh input, cache writes and output, each model response counted once. |
-| `sessionId` | Stable id linking the doc to its conversation. |
-| `kind` | `session` when a `sessionId` is present, else `note`. Derived, never asserted. |
-| `model` | The model that ran. |
-| `branch` | The git branch the work happened on. |
+A captured session opens read-only, with **Session — read only** under its title. It is
+listed in [Sessions](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions.md), never in the Projects tree.
 
-The doc **body** is the **digest**: every real human turn (asks and course-corrections, where decisions live) plus the final outcome. A session on a git branch is filed under the branch and linked from its session log. It opens read-only (**Session — read only** under the title).
+**A cloud session brought back.** A [cloud session](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/cloud.md) runs on the
+vendor's computer, out of Slate's sight. When you bring a Claude Code cloud session back and
+send a message, its whole conversation is written on this computer and captured. Nothing is
+captured before that first message.
 
-`branch` comes from the transcript when the tool records it (Claude Code does); otherwise a fresh capture uses the project's current branch. Historical back-fill stays project-level.
+## Agents' own memory
 
-`remember` writes each memory's doc through the same writer; with no conversation it has no `sessionId` or tool, so its `kind` is `note`.
+Claude Code and Gemini each keep a memory folder of their own. Slate reads them, so one
+agent's learning reaches the others:
 
-## Other tools' own memory
+- A file is read once its folder is inside a project or group you added.
+- Each file becomes one memory written by that agent, citing the file.
+- A changed file replaces its memory, and a removed file retires it.
+- Slate never writes to these folders.
 
-Claude Code, Gemini CLI and Codex each keep a memory folder that the others do not read. The watcher reads them, so one tool's learning reaches the rest:
+Codex keeps its memory per user, with no project folder, so Slate does not read it. Bring
+it in with [Import](https://liozelmalem-star.github.io/slate-releases/docs/features/connect/import.md) instead.
 
-| Tool | Folder | Filed under |
-| ---- | ------ | ----------- |
-| Claude Code | `<config>/projects/<project>/memory/*.md` | The project the session transcripts beside it name. |
-| Gemini CLI | `<config>/tmp/<name>/memory/*.md` | The folder `projects.json` maps to `<name>`. |
-| Codex | `<config>/memories/*.md` | Not read: Codex keeps these per user, with no folder to add. |
+## Turn capture off
 
-A project's memory file is read once its folder is inside a project or group you added (skipped until then; the next pass reads it). Each file becomes one memory written by that tool, citing the file. A changed file replaces its memory; a removed file retires it. Index files (`MEMORY.md`, Codex's summaries) are skipped. Slate never writes to these folders.
-
-## Keeping the watcher running
-
-Capture runs inside Slate and stops when you quit; at next launch a historical scan picks up sessions run meanwhile. The switch is **Auto-capture** in **Automations › Built-in**: off stops capture at once and stays off after restart. The capture hook and the local capture port scripts can post to follow it.
-
-> **Note:** The watcher reads files already on your machine and writes only to your local workspace. Session capture sends nothing to the network.
-
-## Turning capture off for one project
-
-A project's **Memory** settings can turn **Capture sessions** off: sessions in its folder are not saved as docs by any route (watcher, hook, local port) and the agents' own memory files there are not read, and an import from another tool skips the items it files into that project too (the preview and the result count them and say why). The import is not the live path: it files by the folder or project name each item carries, reads the policy of the scope that lands in, and does not refuse a folder no project holds, whose items go to global memory under the workspace's own settings. Turning it on resumes. See [What a project keeps](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/decisions-and-facts.md#what-a-project-keeps).
-
-## See also
-
-* [Recall & Remember](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/recall-remember.md): how captured knowledge is read back.
-* [Activity & Analytics](https://liozelmalem-star.github.io/slate-releases/docs/features/activity.md): session history and stats built on captures.
-* [Privacy & Security](https://liozelmalem-star.github.io/slate-releases/docs/features/privacy-and-security.md): what stays local.
+- **Everywhere**: **Auto-capture** in Automations › **Built-in**. Off stops capture at once
+  and stays off after a restart. Capture also stops when you quit Slate; at the next launch
+  it picks up the sessions run in between.
+- **For one project**: in the project's **Settings…** → **Memory**, turn
+  **Capture sessions** off. Sessions in its folder are not saved, the agents' memory files
+  there are not read, and an import skips what it would file into that project
+  ([What a project keeps](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/decisions-and-facts.md#what-a-project-keeps)).

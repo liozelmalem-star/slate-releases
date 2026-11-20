@@ -1,32 +1,35 @@
-# Licensing & Updates
+# Licensing and updates
 
-## Licensing
+Slate is free for individuals. The **Free** plan is everything Slate does on this Mac, with no card, no time limit and no licence key. **Team** is for sharing a workspace with your team. It is coming and has no price yet.
 
-**Free for individuals. Team plans are coming.** The Free plan is everything Slate does on this Mac, with no card, no time limit, no licence key and no trial timer. Team is for shared workspaces. It has no price yet.
+## Your plan
 
-**Settings → Account** shows who is signed in and your plan. On the Team card, **Tell me when it's ready** records that you want it, and we email you when it is.
+**Settings → Account** shows your plan as two cards, **Free** and **Team**. Press **Tell me when it's ready** on the Team card and Slate emails you when Team is ready; the button then reads **We'll email you**. An account with early access to Team reads **Early access** and can share workspaces now.
 
-Slate is proprietary software, licensed under the [Terms of Use](https://liozelmalem-star.github.io/slate-releases/docs/legal/terms-of-use.md). Your workspace stays yours on every plan: it is a SQLite file on your machine, and you can always open and export it.
+Slate is proprietary software, licensed under the [Terms of use](https://liozelmalem-star.github.io/slate-releases/docs/legal/terms-of-use.md). Your workspace stays yours on every plan: it is a file on your Mac that you can always open and export.
 
-## Auto-updates
+## Updates
 
-Tauri's updater asks Slate's update service (the `update` Edge Function in its Supabase project) first, then the release manifest on **GitHub Releases**. A check sends app version, system, CPU, channel (release or prerelease) and a random install id. Files always come from GitHub Releases.
+Slate checks for a new version 8 seconds after it opens, then every 4 hours while it stays open. A Slate started at login with no window checks after about 10 minutes, then about every 4 hours. What a check sends is in [Privacy and security](https://liozelmalem-star.github.io/slate-releases/docs/features/privacy-and-security.md#what-leaves-your-mac).
 
-**Releases roll out in steps.** The service can offer a release to part of the copies first and stop offering a bad one; a stopped version already downloaded is not installed on quit. The install id places your copy in a group ([Privacy](https://liozelmalem-star.github.io/slate-releases/docs/features/privacy-and-security.md)). A prerelease build also gets the next prerelease; a release build gets releases only.
+When a new version exists, Slate downloads it in the background and tells you it is ready. On a Mac it usually downloads only what changed since your version. It installs only if the result is exactly the published release and its signature checks out; otherwise it downloads the whole version.
 
-Slate checks 8 seconds after opening, then every 4 hours, **downloads in the background** and tells you when ready.
+The update installs **when you next quit**. Slate never restarts itself while you work. To install sooner, press **Restart now**; if Slate hosts sessions, it first says how many a restart ends.
 
-**On a Mac, updates usually download only what changed**: a patch from the previous version, about 5% of the full download (6 MB instead of 126 MB from 0.1.53 to 0.1.54). Slate rebuilds the new version from the patch and a kept copy of the current one (about 50 MB in its cache folder), installing only if the result is exactly the published release and its signature checks out; otherwise it downloads the whole version. If macOS clears the kept copy, the next update is full.
+New versions can go out to part of the installed copies first. A version that is stopped after it downloaded is not installed.
 
-With Automatic updates on, the update installs **when you next quit**, never while you work or by restarting itself. With it off, a quit installs nothing and asks the update service nothing: a downloaded update waits for **Restart now**. **Restart now** in the notice first says how many CLI sessions are open. Quit and **Restart now** treat sessions alike: a Claude Code session goes to the background (Slate types `/bg` and it keeps running as a background job), a session from another tool is ended, and a session already in the background keeps running.
+**Settings → About** shows your version, a waiting update with its release notes, and **Check now**. A failed check or install says why, with **Try again**.
 
-> **Note:** **About** in Settings shows your version, any waiting update with full release notes, and **Check now**. A failed check or install says why, with **Try again**. Website, Documentation and Source lines open in your browser.
+To stop the automatic check and download, turn off **Automatic updates** in **Automations › Built-in**. **Check now** still works, and a downloaded update waits for **Restart now**.
 
-### If Slate won't start
+## If Slate will not start
 
-After three launches in a row fail to reach a working window, the next starts in **safe mode**: the server runs, and the rest of the background is skipped (startup repairs, task and automation schedulers, sync, auto-capture, reminders, keep-awake, agent reconnect). One screen checks for an update at once and installs it. It says "No newer version is published yet." when there is none, "Could not check for updates" on failure, and with Automatic updates off keeps showing "Looking for a newer version…". Your workspace file is never touched. **Start normally** retries a normal launch; **Open logs** shows the log folder.
+After three launches in a row fail to finish starting, the next one opens in **safe mode**: *Slate started in safe mode*. It skips the watcher, background automations and everything else that is not needed to fix it, and checks for an update at once. Your workspace file is not touched.
+
+* **Start normally** tries a normal launch again.
+* **Open logs** shows the log folder, for a problem report.
 
 ## See also
 
-* [Platform & Availability](https://liozelmalem-star.github.io/slate-releases/docs/features/platform.md)
-* [Privacy & Security](https://liozelmalem-star.github.io/slate-releases/docs/features/privacy-and-security.md)
+* [Platform and availability](https://liozelmalem-star.github.io/slate-releases/docs/features/platform.md)
+* [Privacy and security](https://liozelmalem-star.github.io/slate-releases/docs/features/privacy-and-security.md)

@@ -1,56 +1,60 @@
 # Worktrees
 
-A worktree is a second checkout of a project on its own branch, so an agent works without touching your main folder. Use **New worktree** on a project or in the **New session** tree; a session then starts inside it.
+A worktree is a second checkout of a project on its own branch, so an agent works without touching your main folder. Every session started on a git project starts in a new worktree of its own, however you start it. A folder that is not a git repository runs in place, and so does a worktree you pick on purpose.
 
-## The form
+## Start in a new worktree
 
-Fields: **Branch**, **From** (local branches only, nothing fetched) and the **Folder** it will make, always a sibling of the project.
+On a git project, [New session](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/start.md#new-session) asks two things, then **Create and start**:
 
-**Carry over** makes the folder usable: `git worktree add` copies tracked files only, so a fresh worktree lacks dependencies, `.env` and build output. The form offers what the project ignores at top level as chips; tick `node_modules`, skip `.DS_Store`.
+- **Name** names the branch and the folder. Left empty, it is `session-<today>`, such as `session-2026-11-18`, with `-2`, `-3`… when that branch exists. The branch starts from the project's trunk; the folder sits beside the project's folder.
+- **Carry over** lists what the project ignores at its top level, such as `node_modules` or `.env`. Tick what the new folder needs. git copies only tracked files, so without this a fresh worktree has no dependencies or build output. On a Mac each folder is cloned copy-on-write: it costs no disk until a file changes, and changes never reach the original.
 
-- Mac: each folder is cloned copy-on-write (no disk cost until a file changes; changes never reach the original). Elsewhere: hard links. Nothing carried is tracked.
-- A missing ticked path or failed copy: the worktree is made, the form names the path, holds the start and offers **Start anyway**.
+**Carry over** is saved on the project when you press **Create and start**, and every other start uses it. If a ticked path could not be carried, New session names it and offers **Start anyway**.
 
-| Setting | Meaning |
+## The project's worktree commands
+
+A project's **Settings** has a **New worktrees** section with three commands:
+
+| Setting | Runs |
 | --- | --- |
-| **Then run** | One command in the new folder once files are there (build, codegen, submodule fetch). Empty is normal |
-| **On remove** | One command in the folder just before the worktree is removed, however it is removed: stop a dev server, drop a local database, free a port. If it fails the worktree stays and the error shows its output (up to 60 seconds) |
-| Shell | `/bin/sh -c` on macOS and Linux, with your login shell's `PATH` and environment; PowerShell on Windows (`cmd` if missing); untranslated, so write for your shell |
+| **Set up** | In the new folder once its files are there: a build, codegen, a submodule fetch. Empty is normal |
+| **Preview** | When you press **Run preview** ([below](#run-preview)) |
+| **On remove** | In the folder just before the worktree is removed: stop a server, drop a local database. If it fails, the worktree stays and the error shows its output |
 
-**Carry over**, **Then run**, **On remove** and **Run preview** are saved on the project (so on its group for later worktrees) only when you press **Create and start**. Closing the form or **Back** saves nothing.
+Commands run in `/bin/sh` with your login shell's `PATH` and environment.
 
-**A failed worktree is rolled back.** If carry-over or **Then run** fails, the folder, git's record and the port are removed and the error shows with the command's output. The branch goes too if Slate made it for this worktree and nothing moved it since; an existing branch stays. Fix the cause and press **Create and start** again with the same name.
+If carry-over or **Set up** fails, the new worktree is removed again and the error shows the command's output. Fix the cause and press **Create and start** again with the same name.
 
-## Ports and temp folders
+## Ports
 
-Each worktree Slate makes gets a free port from 4100 to 4999, kept until removal and stored on this computer only. It is `SLATE_PORT` in **Then run**, **On remove** and every session terminal in or under that folder, so two worktrees can each run `vite --port $SLATE_PORT`. The row shows `:4101`. A hand-made worktree has none. Sessions there also get a temp folder outside the worktree (`TMPDIR`, `TMP`, `TEMP`), removed with it.
+Each worktree Slate makes gets a free port from 4100 to 4999, kept until the worktree is removed. It is `SLATE_PORT` in **Set up**, **On remove** and every session terminal in that folder, so two worktrees can each run `vite --port $SLATE_PORT`. The row shows it as `:4101`.
 
 ## Run preview
 
-**Run preview** is the command that starts a checkout's dev server, such as `yarn dev`, offered in a session row's **⋯**.
+**Run preview** starts a checkout's dev server, such as `yarn dev`. Find it on a branch's row or map node.
 
 1. Its terminal opens beside the session, so a failure says why.
-2. When the server prints a local address (`http://localhost:5173`), it opens as a **Preview** tab in the strip.
-3. The preview can reload, open in your browser, or **Stop**, which ends the server's terminal and closes the tab (the tab also closes when the terminal ends).
+2. When the server prints a local address, such as `http://localhost:5173`, it opens as a **Preview** tab.
+3. The tab can **Reload**, **Open in your browser** or **Stop the preview**, which ends the server.
 
-The first run on a project with no command asks for it; **Save and run** stores it. A checkout with no project runs it once and saves nothing.
+The first run on a project asks for the command; **Save and run** stores it.
 
-**Pick** (crosshair) turns the preview into a picker. Point at anything to outline it, click, and its description is pasted at the prompt of the session in that folder: the doc it is on, a CSS selector, size and position, deciding styles, its HTML. Nothing is submitted; add the change and press Enter. No screenshot (other origin). The web page is framed through a small proxy on Slate's loopback port that adds one script and serves only a local dev server; hot reload works. Slate keeps proxies for the 16 most recently used dev servers; an older one is closed and starts again when you pick there again. Click the crosshair again for the plain preview.
+**Pick an element** (the crosshair) turns the preview into a picker. Point at anything, click, and its description is pasted at the prompt of the session in that folder: the address it is on, a CSS selector, its size and position, its styles and its HTML. Nothing is sent: add what to change and press Enter. Click the crosshair again (**Stop picking**) to leave.
 
-## A worktree made for a session ends with it
+## A session's worktree ends with it
 
-When the session started in a new worktree ends (you exit the tool or press Stop; closing its tab is not an end), the worktree is removed:
+When a session that started in a new worktree ends (you exit the agent or press **End**; closing its tab is not an end), Slate cleans up:
 
 | State | Result |
 | --- | --- |
-| Nothing uncommitted, branch merged or empty | Folder and branch go |
-| Commits not merged | Folder goes, branch stays |
-| Uncommitted changes | Asks once: **Keep worktree** or **Delete forever** |
+| Nothing uncommitted, branch merged or empty | Folder and branch are removed |
+| Commits not merged | Folder is removed, the branch stays |
+| Uncommitted changes | Slate asks once: **Keep worktree** or **Delete forever** |
 
-First, what the session left running there is stopped: every process Slate started for that worktree whose working folder is still inside it (dev server, watcher, test run) gets a polite stop, then a forced one after 3 seconds. Slate knows its own by a mark it gives each session, setup and teardown line for that worktree, never by name or port. A process you started elsewhere is never touched, and shells, multiplexers (`tmux`, `screen`, `zellij`), editors and apps are spared even when Slate started them. macOS hides the environment of its own system programs, so one of those (`tail`, `ruby`) is left running. Windows cannot see another process's folder, so it stops processes whose command line names a path inside the worktree or that listen on its port.
+First, the processes Slate started in that worktree (a dev server, a watcher, a test run) are stopped. A process you started elsewhere is never touched. A message says what was freed, such as **Cleaned up · stopped :3000 · 11.2 GB freed**.
 
-A message at the window's bottom says what was returned, **Cleaned up · stopped :3000 · 11.2 GB freed**, and what happened to worktree and branch. It waits while another session still works in the folder. It never touches a worktree not made for a session: hand-made, another tool's, or one whose session was running when Slate quit. The folder is renamed aside at once and removed in the background.
+Slate never removes a worktree it did not make for a session.
 
-**Removing a worktree by hand** is under the trash icon on a branch row in **New session**. It stops no processes and counts nothing. It refuses a checkout with uncommitted work unless you choose to discard it, and can remove the branch too. A dirty branch is marked before the click; a worktree whose folder is gone says **missing**, and one git did not answer for says **not read**, never clean.
+**Remove a worktree yourself** with the trash icon on a branch row in New session's list. It asks before discarding uncommitted work, and can delete the branch too.
 
-Reviewing and merging a finished branch: [Review the branch](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/review.md#branches-waiting-for-review).
+To review and merge a finished branch, see [Review the branch](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/review.md).

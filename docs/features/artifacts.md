@@ -1,63 +1,58 @@
 # Artifacts
 
-An **artifact** is something an agent made for you to look at: an HTML page (a dashboard, chart or report) or a deck of slides. Any connected tool publishes one with the `publish_artifact` MCP tool; it is stored in your workspace on this computer and listed in **Artifacts** in the rail. Writing in Markdown belongs in a [doc](https://liozelmalem-star.github.io/slate-releases/docs/features/docs.md), not an artifact.
-
-A [widget](https://liozelmalem-star.github.io/slate-releases/docs/features/widgets.md) is different (`get_widget`, `publish_widget`); given a widget, the artifact tools refuse and name those.
+An **artifact** is something an agent made for you to look at: an HTML page, such as a dashboard, chart or report, or a deck of slides. Any connected agent publishes one with Slate's `publish_artifact` tool, and it stays in your workspace with every version. Writing you will keep editing belongs in a [doc](https://liozelmalem-star.github.io/slate-releases/docs/features/projects.md) instead.
 
 ## Make or change one
 
-You ask; you never edit by hand.
+You never edit an artifact by hand. You ask.
 
-1. **Ask for one**: "make me a dashboard of this data as an artifact". Every connected tool is also told to show a chart, table or report this way unprompted.
-2. **Ask for a change**: "make the bars blue", to the **AI helper** (the lime circle at the bottom right of an open artifact) or to any tool.
-3. **Open it**: click the `slate://artifacts` link the tool gives; it names the workspace, so Slate switches first.
-4. **Bring in what you made elsewhere**: **Import** in the side panel's header takes a folder of HTML files, or gives your agent a prompt that brings your claude.ai artifacts in with their real dates ([Import](https://liozelmalem-star.github.io/slate-releases/docs/features/import.md)). A tool can pass `made_at` to `publish_artifact` for the same.
+1. **Ask for one**: "make me a dashboard of this data as an artifact". Agents are also told to publish a chart, table or report this way on their own.
+2. **Open it**: click the `slate://artifacts` link the agent gives you. It names the workspace, so Slate switches to it first.
+3. **Ask for a change**: "make the bars blue", to any agent, or to **Ask AI** while the artifact is open. Ask AI works on the open artifact, in the project it was made in. Each change adds a version; older versions stay.
 
-Details:
+An agent can publish HTML it wrote, or a file by its path. Slate reads a file only from the agent's working folder or a temp folder, and never a hidden file or folder such as `.env` or `.ssh`.
 
-- The tool sends the HTML with a title, or writes a file and sends its path. Files are read only from the working folder or a temp folder, never a file or folder whose name starts with a dot below your home or the working folder (`.env`, `.ssh`). A working folder that is your home folder or wider is not trusted.
-- Beside an open artifact the AI helper's **Context** is that artifact, and it works in the project the artifact was made in. Each message tells the agent which artifact is open; it reads the HTML with `get_artifact` and sends only the changed parts. That adds a **version**; older stay. Republishing the same HTML adds none.
+**Import** at the top of the side panel brings in a folder of HTML files, or your claude.ai artifacts ([Import](https://liozelmalem-star.github.io/slate-releases/docs/features/connect/import.md)).
 
-## The Artifacts screen
+## Find one
 
-- **Side panel**: **Filter artifacts** (title and description), then **Overview**, and each type with its count: **Pages** and **Slides**. Artifacts belong to the workspace, so no project picker.
-- **Types**: an **HTML page** scrolls and fits your window (a report, a finding, a plan). **Slides** are a deck: fixed 16:9 slides, shown one at a time. The tool says which when it publishes; left out, it is an HTML page. A new version keeps its type.
-- **Overview**: **Recent**, the four newest as cards, HTML pages and decks together, with **All 194 pages** and **All 2 slides** beside it (your own counts); then **Earlier**, the next ten as one line each.
-- **Pages** or **Slides**: every artifact of that type as a card, newest first, 24 at a time and 24 more as you reach the end. A card's picture is 16:9: an HTML page shows its top, in a script-free frame in Slate's look and the current theme (script-drawn charts show only what the markup holds); a deck shows its first slide.
-- **Open artifact**: it fills the space beside the side panel, with no byline or title over it; the toolbar keeps Preview, Code, the versions and **⋯**.
-- **A deck**: one slide at a time, scaled whole to fit; **‹ 3 / 12 ›** or the arrow keys move; the strip under it shows every slide; the slide's speaker notes show under the strip; **Present** fills the screen.
-- **Preview | Code**: the HTML or its read-only source (HTML laid out one block per line, indented; only spacing changes). **Copy HTML** copies the HTML as published.
-- **‹ v2 of 3 ›**: steps versions. An older one says "You are looking at v2. The newest is v3." with **Restore this version** (republishes it as a new version; nothing in between is lost).
-- **⋯**: **Copy HTML**, **Open in browser**, **Rename**, **Delete forever** (asks "Delete every version forever?"). A failed rename or removal keeps the menu open with the reason.
+- **The side panel**: **Filter artifacts** narrows by title and description. Below it, **Overview**, then **Pages** and **Slides**, each with its count.
+- **Overview**: **Recent**, the 4 newest as cards with a picture, and a link to each type's full list; then **Earlier**, the next 10 as one line each.
+- **Pages** or **Slides**: every artifact of that type as a card, newest first, 24 at a time.
+- **⌘K** finds an artifact by title or description, under **Artifacts**. It does not search the HTML.
+- **On a doc**: **Artifacts made here** lists the artifacts an agent made on that doc.
+- **Your agents**: `recall` returns up to 2 artifacts whose title matches every word of the question, so a session can find last week's dashboard and change it.
 
-## Finding one
+## An open artifact
 
-- **⌘K**: title or description, under **ARTIFACTS** after reports. The HTML itself is not searched.
-- **The doc it was made on**: **Artifacts made here**. A branch shows its own; a project every one made inside it.
-- **Inside a Design**: an agent publishes a mockup with `target_doc_id` set to the Design and places it in the text as an image line whose address is `slate://artifacts?id=<artifact_id>`. The doc draws it there, live, in a script-free frame with its version, who made it and **Open**. A mockup made on a Design but not placed in its text shows under the words. `get_doc` lists a doc's artifacts, so an agent reading the Design sees them.
-- **`recall`**: returns up to 2 artifacts after memories when every word of the question matches one, so a session can find last week's dashboard and change it.
+The artifact fills the main area. Its toolbar has:
 
-## How HTML artifacts look
+| Control | What it does |
+| --- | --- |
+| **Preview** / **Code** | The artifact, or its HTML source laid out one block per line (read only) |
+| **‹ v2 of 3 ›** | Steps through versions. An older one says "You are looking at v2. The newest is v3." with **Restore this version**, which publishes it again as the newest |
+| **More** (⋯) | **Copy HTML**, **Open in browser**, **Rename**, and **Delete forever**, which asks "Delete every version forever?" |
 
-Slate's look (app font, colours, plain buttons, inputs, tables, code, headings; your theme, Mint or Forest, live) comes before the artifact's own styles, which win. In your own browser: default colours and the system light or dark. Tools are told to use `var(--text)`, `var(--muted)`, `var(--surface)`, `var(--border)`, `var(--accent)`, chart colours `var(--c1)` to `var(--c5)`, and classes `card`, `badge`, `grid`, `row`, `stack`.
+A **deck** shows one slide at a time, scaled to fit. **‹ 3 / 12 ›** or the arrow keys move between slides. The strip below shows every slide, then the slide's **Speaker notes**. **Present** shows the deck full screen.
+
+An HTML page uses Slate's fonts and colours and follows your theme, under its own styles. Opened in your browser, it uses plain colours and your system's light or dark mode.
 
 ## Live artifacts
 
-Published with `live: true`, an artifact reads your workspace while shown, so a dashboard stays current without republishing. Header: **Reads your workspace · no internet**. Toggling live adds a version (ADR 0070).
+An artifact published as live reads your workspace while it is open, so a dashboard stays current without being published again. It says **Reads your workspace · no internet**.
 
-| Aspect | Rule |
-| --- | --- |
-| Reads | Docs, one doc's text, memories and AI sessions of its project (whole workspace if made under none); newest first, up to 5,000 rows each; read-only |
-| Network | No fetch, WebRTC, resource hint (preconnect, prefetch), internet image or font, form, new window, frame or `document.write`. Scripts may load from cdnjs, jsDelivr, unpkg (chart libraries work). An attempt to leave for another address closes it |
-| Isolation | No origin of its own; shares nothing with other artifacts, not even localStorage; talks to Slate only over a private channel opened at start |
-| Yours only | In a shared workspace a teammate's live artifact is a plain HTML page and never reads your store; restored on another computer it is also plain |
+- **It reads**: docs, one doc's text, memories and sessions of its project (or the whole workspace when it was made in none), up to 5,000 of each, newest first. It cannot change anything.
+- **No internet**: it cannot fetch, open forms, new windows or frames, or load images or fonts from the internet. It may load scripts from cdnjs, jsDelivr and unpkg, so chart libraries work. If it tries to leave its web page, Slate closes it.
+- **Only yours**: a teammate's live artifact shows to you as a plain HTML page, and never reads your workspace.
 
 ## Where it runs
 
-HTML runs its own scripts, served from your workspace on a private local address apart from Slate and your data; it cannot steer the Slate window and nothing is copied to disk. It may load internet scripts and fonts. A deck's slides run no scripts: each is drawn as it is written. A teammate's artifact has no storage of its own (scripts, forms, downloads, popups kept) and cannot read the browser storage of your own artifacts, which keep theirs.
+An artifact runs its own scripts in a frame kept apart from Slate and your data. It cannot control the Slate window. A deck's slides run no scripts. A teammate's artifact cannot read the browser storage of yours.
 
-In a shared workspace every member sees artifacts. One writer, the publisher: a teammate's has no Rename or Delete forever. Their new versions reach you on next sync, newest only; you keep versions received; later joiners start at the newest. Moving a group or project to another workspace takes its artifacts along.
+In a shared workspace every member sees every artifact, but only the person who published it can rename it or delete it forever. Their new versions reach you when the workspace syncs. Moving a group or project to another workspace takes its artifacts with it.
 
 ## Limits
 
-One HTML document per artifact, up to 5,000,000 characters. A deck needs at least one top-level `<section>`; an `<aside>` inside a section is its speaker notes.
+- One HTML document per artifact, up to 5,000,000 characters.
+- A deck needs at least one top-level `<section>`, one per slide. An `<aside>` inside a section is that slide's speaker notes.
+- A [widget](https://liozelmalem-star.github.io/slate-releases/docs/features/widgets.md) is not an artifact: the artifact tools refuse one and name the widget tools.

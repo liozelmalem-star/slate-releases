@@ -1,53 +1,59 @@
-# Workspace Sharing, Precisely
+# Workspace sharing, precisely
 
-Sharing does nothing until you switch a workspace to shared. This guide says what then leaves, what never does, and how to take it back. Other exceptions: [Privacy & Security](https://liozelmalem-star.github.io/slate-releases/docs/features/privacy-and-security.md).
+Nothing is shared until you share a workspace or join one. Then the rows you write in it are copied to Slate's cloud, where its members can read them. Here is what goes, what never goes, and how to take it back.
 
-## Rules
-
-- While no workspace is shared, sync costs one local query, no network calls, and does not renew your sign-in.
-- A shared workspace is a separate SQLite file. A store you never shared has no cloud counterpart, so nothing in it can leak.
-- Personal starts unshared. It holds your projects and the sessions and memories captured in them; a session in a folder no project holds is not recorded. Personal can be shared on the Team plan. The switch counts what it would publish before you agree. The rail always shows the workspace you are in.
+* A workspace you never shared has no copy in the cloud, so nothing about it is sent.
+* **Personal** starts unshared. Before you share it, Slate shows how much it would publish. It holds more than you wrote there: memories saved outside every project (a session in a folder no project holds is not recorded, but a memory it saves is global).
+* While no workspace is shared, Slate makes no sync requests.
 
 ## What a shared workspace sends
 
-Assume everything is shared: docs, memories, git activity, a record that a session happened (branch and time), artifacts, and the images a shared doc names. An image goes to a private storage bucket that only the workspace's members can read; the doc row carries only its address.
-
-| Withheld | Detail |
+| What | What is sent |
 | --- | --- |
-| Machine-specific | The `properties` bag with a project's folder path (only a doc's branch label, a branch name, goes); the absolute path on a commit (the normalised git remote goes instead); per-file path lists from a filesystem watch or `.git/index`; your local sibling ordering |
-| Content | Transcript content; the reasoning body behind a memory |
-| Never sent | The doc of a captured AI session; a memory that belongs to no doc (global); a memory you hid from sessions; a memory a widget saved |
+| Docs | Title, content, a plain-text copy for search, the doc type, the parent link and the doc's branch label |
+| Memories | The sentence, its kind, subject and confidence, a lesson's trigger, and the title of the doc it was learned on |
+| Development activity | Commits (the subject line only), branch events, and a record that an AI session happened, with its branch and time |
+| Artifacts | Title, kind, description, the agent that made it, the doc it was made under, and its newest version |
+| Doc images | The images a shared doc names, in private storage only the workspace's members can read |
+| You | Your display name, email and picture from Google or GitHub |
 
-Full list: [Workspaces](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces.md#what-actually-leaves-your-machine). Postgres enforces activity kinds with a `CHECK` constraint.
+## What is never sent
 
-> **Warning:** **Text is not filtered.** A doc body and a memory sentence go up as written, so a path you typed travels with the row. Exception: Slate replaces keys, tokens and passwords it recognises with `[secret]` in every memory before storing it, and in docs an agent writes. A doc you type yourself is not checked, and neither is an artifact or widget an agent publishes (`publish_artifact`, `publish_widget`): they carry code.
+From any workspace, shared or not:
 
-## Artifacts and widgets
+* a project's or group's folder path, and the other details Slate keeps about a doc;
+* the folder path of a commit (the git remote address is sent instead), its message beyond the subject line, its counts of files and lines, and lists of the files you touched;
+* the text of an AI session, and the doc a captured session is kept in;
+* the reasoning behind a memory;
+* a memory that belongs to no doc, a memory you hid from sessions, and a memory a widget saved;
+* your settings.
 
-**Live artifact.** A tool-published `live` artifact asks the Slate window for docs, memories and sessions of its own project, read-only. Its policy blocks every connection, image, form and window to any address, and WebRTC, frames and resource hints are removed. One route remains: a script from cdnjs, jsDelivr or unpkg, whose host sees the address the doc asks for. A teammate's live artifact never reads your store. See [Artifacts](https://liozelmalem-star.github.io/slate-releases/docs/features/artifacts.md#live-artifacts).
+> **Warning:** **Text is sent as written.** A doc's content and a memory's sentence are not filtered. If you typed a folder path into a doc, it goes with the doc. Slate does replace keys, tokens and passwords it recognises with `[secret]` in every memory, and in docs an agent writes. A doc you type yourself is not checked, and neither is an artifact or a widget.
 
-**Widget.** A widget runs with no origin and no network (no requests, images, fonts, scripts, WebRTC, resource hints or frames) and reads what its tab shows. A write needs a permission you granted once; a memory or doc write shows its words each time before saving. A memory a widget saves is held until you release it and is never shared with a team. What a widget wrote reaches an agent quoted as data. Its data stays on this computer, and a teammate's widget never reads your store.
+## Who can read and write
 
-| Permission | What it allows | Limits |
+* **Each doc has one writer, its author.** Members read your docs and can never change them.
+* **The cloud decides who sees what.** A person who is not a member of a workspace cannot read its rows.
+* **Your Mac keeps your teammates' names.** To show who wrote what while offline, Slate keeps the name, email and picture of each member of your shared workspaces in `machine.db`. Leaving a workspace removes them.
+
+## Take back what you shared
+
+* **Stop sharing**: the **Sharing** switch in **Settings → Workspaces**, in the workspace's **General** tab. It shows a count first. Slate stops publishing and blanks what you published; every member's copy drops it on their next sync. Your own copy stays. Sharing again publishes it again.
+* **Move a doc out**: it is withdrawn on the next sync.
+* **Erase my work**: removes every row you wrote in that workspace, for every member, while you stay in it. Sharing again does not bring them back. Editors and owners can do this.
+
+> **Warning:** Withdrawing removes your rows from the cloud. It cannot remove what members already read. Images are not withdrawn yet: they stay in the workspace's private storage, readable only by its members.
+
+## Widgets and live artifacts
+
+**A live artifact** can read docs, memories and sessions of its own project, read-only. It cannot connect to any address, except to load a script from cdnjs, jsDelivr or unpkg; that host sees the address it asks for. See [Artifacts](https://liozelmalem-star.github.io/slate-releases/docs/features/artifacts.md).
+
+**A widget** has no network at all. It reads what its tab shows. A write needs a permission you granted once, and a memory or doc write shows its words every time before it saves. Three permissions reach further:
+
+| Permission | What it allows | Limit |
 | --- | --- | --- |
-| `github.read` | Read-only GitHub reads with your own `gh` sign-in, from four fixed kinds of address; the widget never sees the token | 12 a minute |
-| MCP read | A tool you allowed for that widget and ticked read-only. Pinned to its definition (a changed tool asks again); arguments checked against its schema; only servers of the widget's own workspace. The widget never sees an address, token or the server's error words | 20 a minute per server |
-| `github.act` | Only ask to approve, request changes on, comment on or label a pull request in your own lists, with words you type yourself. A card names the account that will act, every time; writes go through a fixed list of four GitHub addresses; each action is written down | 5 an hour per widget, 20 for all widgets |
+| GitHub read | Read-only GitHub requests with your own `gh` sign-in. The widget never sees the token | 12 a minute |
+| MCP read | A tool you allowed for that widget, read-only, from a server of the widget's own workspace | 20 a minute per server |
+| GitHub act | Ask to approve, request changes on, comment on or label a pull request, with words you type. A card names the account every time | 5 an hour per widget, 20 an hour for all widgets |
 
-Every release tests the no-network claim in the built Slate app: a hostile widget tries every way out, and listeners on the release Mac must hear nothing. See [Widgets](https://liozelmalem-star.github.io/slate-releases/docs/features/widgets.md).
-
-## Who can see and write
-
-- **One author per doc**, enforced in the database and at local write paths. Teammates read, never modify.
-- **Postgres decides who sees what.** Row Level Security is the whole access boundary; a non-member gets an empty result. An isolation test suite must pass before anything built on it ships.
-- **Your machine keeps your teammates' names.** To verify their docs offline, each shared workspace's member list (display name, email, picture link) is stored in `machine.db`, only for people you already share with. Leaving removes it; an export does not carry it.
-
-## Switching off and erasing
-
-- **Switch off:** **Settings → Workspaces** → the workspace's **Sharing** switch. It asks, stops publishing and withdraws what was published; your store is untouched. Cloud rows are blanked and every member's copy drops them at the next sync. Switching on again republishes.
-- **Move out:** moving a doc back to Personal takes it off the server at the next pass.
-- **Erase my work** tombstones every row you authored there (blanked, final). Members' copies drop them at the next sync, and sharing again does not bring them back. This is the Article 17 request. It needs you to be an editor or the owner: a viewer or a former member is told so, and nothing is reported as erased. If any row is still shared afterwards, Slate says how many.
-
-> **Warning:** Withdrawal removes the doc from the cloud, not from anyone's memory of it. Reversible, but not retroactive.
-
-> **Warning:** **Images stay in the workspace's storage.** Switching off, moving a doc out and **Erase my work** withdraw the doc rows, but not yet the images those docs named: they stay in the workspace's private bucket, readable only by its members. Removing them is planned (ADR 0132).
+A teammate's widget or live artifact never reads your workspace. See [Widgets](https://liozelmalem-star.github.io/slate-releases/docs/features/widgets.md).

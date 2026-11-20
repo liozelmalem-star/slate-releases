@@ -1,33 +1,40 @@
-# Tool Rules
+# Tool rules
 
-Rules for every call in the [Tool Reference](https://liozelmalem-star.github.io/slate-releases/docs/features/mcp-server/tools.md). Read them when a call is refused or reaches the wrong workspace.
+Every call in the [tool reference](https://liozelmalem-star.github.io/slate-releases/docs/features/mcp-server/tools.md) follows these rules. Read them when a call is refused or reaches the wrong workspace.
 
 ## Which workspace a call reaches
 
-**One session, one workspace.** The first call with a `cwd` ties the session to that folder's workspace; later calls without `cwd` run there. If that folder is later added to a project in another workspace, or taken out of one, the session follows it to the folder's new workspace. A `cwd` that names a different folder in another workspace is refused with `wrong_workspace` and the session's workspace name: start a session in that workspace's folder instead. A folder matches its project however it is spelled: through a symlink, with `..`, or by its real path. Before the first `cwd`, a call without one gets Personal. Only `live_sessions` crosses workspaces on this machine; `recall` with `scope: "workspaces"` and `get_doc` on a shared doc read the cloud, where Row Level Security decides. An agent run's agent reaches its task by the task's token, or from inside the task's folder, wherever the task lives. No tool is marked as reaching outside Slate.
+**One session, one workspace.** The first call that names a working folder (`cwd`) ties the session to the workspace that holds that folder. Later calls without a `cwd` run there.
+
+* If that folder later joins a project in another workspace, or leaves one, the session follows the folder.
+* A `cwd` in another workspace is refused with `wrong_workspace` and the session's workspace name. Start a session in that workspace's folder instead.
+* A folder matches its project however it is written: through a link, with `..`, or by its real path.
+* Before the first `cwd`, a call goes to Personal.
+
+Three calls cross workspaces, on purpose: `live_sessions` shows every running session on this Mac, and `recall` with `scope: "workspaces"` and `get_doc` on a shared doc read the workspaces you belong to in the cloud. An agent run's agent reaches its run by the run's token, or from inside the run's folder, wherever it lives.
 
 ## Secrets
 
-Slate replaces recognised keys, tokens and passwords with `[secret]` in what an agent writes through `remember`, `create_doc`, `append_to_doc`, `log_mission_progress`, `update_my_task` and the summary of `report_agent_run_step`. It does not do this for `publish_artifact` and `publish_widget` (they carry code) or the `body` of `report_agent_run_step`.
+Slate replaces keys, tokens and passwords it recognises with `[secret]` in what an agent writes through `remember`, `create_doc`, `append_to_doc`, `log_mission_progress`, `update_my_task`, and the summary of `report_agent_run_step`. It does not change `publish_artifact` and `publish_widget`, which carry code, or the `body` of `report_agent_run_step`.
 
 ## What an agent cannot do over MCP
 
-A tool can save a typed doc and append to a doc. It cannot create a plain doc, rename, move, duplicate, trash or find-and-replace, because those are undoable gestures in Slate and MCP has no undo. An agent's MCP writes can be undone when the inverse is exact: a new doc goes to Trash, a new memory is retired.
+An agent can save a typed doc and add to a doc. It cannot create a plain doc, rename, move, duplicate, move to Trash, or find and replace. Those are actions you can undo in Slate, and MCP has no undo. What an agent writes can be undone where the reverse is exact: a new doc goes to Trash, a new memory is retired.
 
-## Resolving a target
+## Find a doc by target
 
 `get_doc` and `append_to_doc` take a **`target`** instead of an id:
 
 | Field | Meaning |
 | --- | --- |
-| `kind` | `branch` for the branch overview, `knowledge_doc` for a typed child under it. |
-| `cwd` | Your working directory. It anchors to the project, and to its active branch when `branch` is omitted. |
-| `branch` | The branch to scope to. |
-| `doc_type` | The knowledge doc's type, such as `plan`, `design`, `bug-report`. |
-| `title` | The doc title, when `doc_type` is not enough. |
+| `kind` | `branch` for the branch's overview, `knowledge_doc` for a typed doc under it |
+| `cwd` | Your working folder. It finds the project, and its current branch when `branch` is left out |
+| `branch` | The branch to look in |
+| `doc_type` | The doc's type, such as `plan`, `design` or `bug-report` |
+| `title` | The doc's title, when `doc_type` is not enough |
 
-Slate writes only when the target resolves to exactly one doc. An ambiguous target is refused.
+Slate writes only when the target matches exactly one doc. A target that matches more than one is refused with `ambiguous_target`.
 
-## Two tool surfaces
+## Home has its own tools
 
-Operations are exposed over MCP (your agents) and in-process (Home's commands). The lists differ on purpose: `slate_capabilities` means nothing in-process, and Home keeps a few finer tools (`recent_activity`, `search_content`, …). `packages/shared/src/tools/operations.ts` declares each concept once with its surfaces.
+Home calls Slate's operations directly, not over MCP, so its tool list differs a little: it has no `slate_capabilities`, and it keeps a few finer tools of its own. See [Curated MCP commands](https://liozelmalem-star.github.io/slate-releases/docs/features/mcp-server/commands.md).

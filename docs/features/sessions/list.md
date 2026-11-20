@@ -1,56 +1,74 @@
 # The map and the list
 
-The Sessions tab draws one list twice, as a radial map and a rail. Use this guide to read a node, row or colour.
+Sessions draws the same sessions twice: as a map in the main area and as a list on the left. Read on to tell a node, a row or a colour apart.
 
 ## The map
 
-A radial tree with this machine at the centre: **group → project → branch → session**. A project on its own sits on the first ring; one in a group, a ring out. A session with no project and no branch hangs from **No project**. With work in several workspaces, a workspace ring sits inside the group ring. Each level splits its parent's angle by the sessions beneath. The map wears Slate's own greens, not a workspace's colour; the halo is status, and a node shows the most urgent state beneath it.
+The map is a tree with this computer at the centre: **group → project → branch → session**. A session with no project hangs from **No project**. A node shows the most urgent state of the sessions under it. Pointing at a node lights its rows in the list, and pointing at a row lights its node.
 
-Chip names are cut in the middle at 16 characters (workspace), 20 (project), 18 (git repository); a branch keeps its start, cut at 15 (`fix/sessions-gr…`). Point at a node for the whole name. Hovering map or rail lights the other; pointing at a project or branch lights every row under it. The map always fits the panel: no zoom, pan or scroll.
+- Click a group or project to centre it. The list narrows to its sessions, and a trail of names above it takes you back up.
+- **All**, a click on empty space, or **Escape** returns to the whole computer.
+- Click Slate Bot at the centre to [Ask Slate](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/ask-slate.md).
+- Drag a node to reorder it; **Reset layout** undoes it.
+- In a window narrower than about 1024 px the map is hidden and the list shows everything.
 
-- Click a group or project to centre it. The rail narrows to its sessions; a crumb trail names where you are, and any crumb jumps to that level.
-- **All**, empty space or Escape returns to the whole machine.
-- Drag a node to reorder it among siblings; **Reset layout** undoes it.
-- Below about 1024px the map is dropped and the rail shows everything.
+## The list
 
-## The rail
+Sessions are grouped under their group or project. One outside every project goes under its git repository's name, or else **No project**. Sessions that need you come first, then working ones, then idle ones. The order holds still while the pointer is in the list.
 
-Two levels: **group or project**, then **sessions**. A row names its branch, and its project when the group holds several. With two workspaces running, a heading names both (*Work / Beacon*). Order is urgency, then name: most blocked first, then busiest, then longest waiting; within a level, blocked, working, idle, longest-waiting first. Order holds still while the pointer or focus is in the rail.
-
-A session groups under the group or project its folder is filed under. One in a git repository no project holds groups under that git repository's name. Anything else (plain folder, home folder, no folder) goes under **No project**. A session outside every project is shown while it runs and not recorded.
-
-**A session is listed where its edits land.** An agent can edit another worktree of the same project by full path. Slate lists it under the worktree of its latest edit, with that branch and *from <folder>* naming its terminal's folder. Before any edit it sits under its start folder; edits outside the project do not move it. The same rule picks its briefing branch and memory doc.
+A session is listed where its edits land. If an agent edits another worktree of the same project, its row moves under that worktree's branch and says *from \<folder>*.
 
 ## A row
 
 | Part | Shows |
 | --- | --- |
-| Title | The **branch**, with what its checkout holds and its pull request (`ui/hotfixes ↑4`); also heads the doc and tab. The branch is the one that session last edited a file on, else the one it started on, so two sessions sharing a folder can show different branches. A session that lands its branch and goes back to `main` keeps that branch's name until it edits a file on `main`. Tooltip: what it was asked (or its name) and the branch goal. No branch: the name, else the opening prompt. Claude Code's default name (`slate-66`) counts as none. Home cards are titled by what was asked |
-| Live line | The question when it waits on you; what it said it was doing when it works; the next unticked plan item when it went quiet with work left |
-| Meta line | Tool mark, time since it moved, how it runs, context fill, [flow](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/flow.md) strip with its current word ("Build", "Check", "Waiting") or plan progress (`0/4`) before any flow. Terminal glyph: Slate runs it and you can type. Eye: your own terminal, Slate only follows. **Flagged** badge: an unseen transcript flag; point at it for each flag and its run |
+| Title | The branch checked out in the session's folder, with its checkout marks and pull request (`ui/hotfixes ↑4 #118`). With no branch: the session's name, else what it was asked |
+| Second line | The question when it waits on you; what it said it is doing when it works; the next plan item when it went quiet with work left |
+| Third line | The agent's mark, time since it moved, how it runs, context fill, and its [flow](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/status.md#flow) step (**Build**, **Check**, **Waiting**) |
 
-**Colour.** Amber: needs you. Green dot: working, pulses three times at work start, then still. Grey: idle, and everything else. Green and red: added and removed lines. Red: **missing** and failures. Blue: live sub-agent count.
+A terminal glyph means Slate runs the session; an eye means it runs in your own terminal and Slate follows. Context fill reads `8% of 258k` when the agent states its window, else a count (`323k`).
 
-**Context fill** is read from the transcript. Codex states its window: bar and `8% of 258k`, darker from 75%. Claude Code and OpenCode show the count alone (`323k`). Gemini and Cursor record nothing per turn, so show nothing. A session's **tab** shows only status dot and name.
+**Colours.** Amber: needs you. Green: working. Grey: idle. Red: failures. Blue: live subagents.
 
-**Checkout marks.** `↑3` commits the checkout has that its base lacks; `↓1` how far the base moved on; grey ring: uncommitted work; **missing**: a worktree git lists whose folder is gone; **not read**: the folder is there but git did not answer in time (the last counts read stay when there are any). Level with base: nothing. A checkout with nothing running is listed as *checked out, nothing running*. `#118`: pull request. **owed** pill: real work, no memory recorded. **Review** tag: a branch waiting for you ([Branches waiting for review](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/review.md#branches-waiting-for-review)).
+**Checkout marks.**
+
+| Mark | Means |
+| --- | --- |
+| `↑3` | Commits the branch has that its base lacks |
+| `↓1` | Commits the base gained since |
+| Grey ring | Uncommitted work |
+| **missing** | git lists the worktree, but its folder is gone |
+| **not read** | git did not answer in time |
+| **owed** | The session did real work and saved nothing to memory yet |
+| **Review · n files** | A branch waiting for you ([Review the branch](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/review.md#branches-waiting-for-review)) |
+
+A worktree with nothing running in it reads *checked out, nothing running*. One where a subagent works reads *working · subagent of fix/login*.
+
+A [Terminal](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/start.md#a-terminal) is a row too, always grey, titled by what runs in it now (`zsh`, `npm`), with its folder under it.
 
 ## Row actions
 
-A click opens a temporary tab the next click replaces; **double-click** keeps it. Pointing at a row shows **⋯**, **End** (second click ends it), **what its branch changed** (the [whole review](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/review.md#reviewing-the-whole-branch), no session needed) and **+** (start a session there). **⋯** opens with the session's own acts:
+Click a row to open the session in a temporary tab, which the next click replaces. Double-click keeps the tab. Pointing at a row shows two buttons: **End**, which ends the session on a second click, and **⋯**, the menu:
 
-- **Open beside** ([Sessions side by side](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/tabs.md#sessions-side-by-side)); ⌘-click does the same.
-- **PR #118**, once origin has a pull request for the branch: opens it in your browser.
-- **Hand back to my terminal**, on a Claude Code session Slate runs ([Moving a session back to your terminal](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/start.md#moving-a-session-back-to-your-terminal)).
+| Item | Does |
+| --- | --- |
+| **Open beside** | Shows the session in a column beside yours (⌘-click does the same) |
+| **PR #118** | Opens the pull request in your browser |
+| **Hand back to my terminal** | On a Claude Code session Slate runs ([Your terminal and Slate](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/take-over.md)) |
+| **Review & merge** | Opens the review of a waiting branch |
+| **New session** | Starts a session in a new worktree of the project |
+| **Copy path** | Copies the folder's path |
+| **Make a project** | On a row under **No project**: makes its folder a project |
+| **Copy resume command** | Copies the agent's resume command, such as `claude --resume <id>` |
 
-Below a rule: **New session**, **New worktree** (project row with several git repositories), **Copy path**, **Make a project** (row in **No project**), **Copy resume command** (the tool's resume command, such as `claude --resume <id>`; first six tools only, the ten newest have none yet).
+A branch or project, on the map or as a heading, offers **New session** (+), **Branch changes** ([what the branch changed](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/review.md#reviewing-the-whole-branch)) and, on a checkout, **Run preview** ([Run preview](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/worktrees.md#run-preview)).
 
-**Park** hides a *checked out, nothing running* checkout without removing it, in a **Parked · n** line at the end of its project with **Unpark** beside each. A checkout with a running session, or a [branch waiting for review](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/review.md#branches-waiting-for-review), is never hidden. Parked state is kept on this machine only.
+**Park** hides a worktree that reads *checked out, nothing running*. It moves to a **Parked · n** line at the end of its project, with **Unpark** beside each. Nothing on disk changes, and the choice is kept on this computer only.
 
 ## Finished and past sessions
 
-**Just finished** sits dim at the rail's foot for ten minutes. A row shows tool mark and end time, with a tick only if its last turn finished; a session stopped mid-turn says "Stopped before it finished". A click opens its record, or the doc the work belongs to until the record is saved.
+**Just finished** sits at the foot of the list for ten minutes after a session ends. A tick means its last turn finished; *Stopped before it finished* means it was stopped mid-turn. Click one to open its record.
 
-**Earlier today in \<workspace>** folds every other session from today (local day), minus Just finished and running ones; collapsed with its count. **All past sessions in \<workspace> →** opens the whole history, newest first, at `/sessions?past=1`, no time limit; each row has **Resume**.
+**Earlier today in \<workspace>** folds the rest of today's sessions. **All past sessions in \<workspace> →** opens the whole history, newest first; **Resume** on a row continues it on [Home](https://liozelmalem-star.github.io/slate-releases/docs/features/home/ask.md#resume-a-past-session).
 
-A failure (failed Run preview, refused start, failed Stop) shows under its row, or at the head of the list when the row is off screen. The rail is the left side panel: drag its edge to resize; **⌘B** hides it when a terminal wants the full width.
+Drag the list's edge to resize it. **⌘B** hides it.

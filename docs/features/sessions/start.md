@@ -1,79 +1,56 @@
 # Start a session
 
-Point at where the work is and press **+**. The session starts on the tool and account of that project or group and opens in Slate.
+Start a session where the work is, and it opens in Slate on the agent and account of that project or group. On a git project every session starts in a new [worktree](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/worktrees.md) of its own, so sessions never share a checkout with each other or with you. A folder that is not a git repository runs in place.
 
-## From the list
+## From the map or the list
 
-**Where you look is where it starts.** Pointing at a group, project or branch (map node, heading or rail row) shows **+**, titled **New session**.
+Point at a group, project or branch, on the map or in the list, and click **+** (**New session**). The session starts at once on the project's default agent, under its account, and opens. Nothing asks: the worktree gets the default name and the project's saved **Carry over**.
 
-1. Click **+**. A session starts there at once on the group or project's default tool, under its account, and opens. No picker.
-2. A project also has **New worktree**, which opens the [worktree form](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/worktrees.md) for it.
-3. A group or project with nothing to run in shows no control. A refused launch shows on the tab in its own words.
+If the session cannot start, or the worktree cannot be made, the reason shows on its tab. Nothing starts in the main folder instead.
 
-The **+** in the side panel's title row starts a session elsewhere or on another tool, in a tree of **group → project → branch** (a workspace level above when several have work). Click a row to start there; a row with its own folder shows it. A git project ends with **New worktree…**; a plain folder has none.
+## New session
 
-**A session runs as the workspace its project or group belongs to**, whichever the window shows (a work project picked in Personal uses the work agent and account). A refused start shows at the picker's top; every start, refusal and failure goes to `slate.log`. Sessions started from Slate always start in a project.
+The **+** at the top of the list opens **New session**: one screen to start anywhere, on any agent. Only the project has to be chosen; everything else opens on your last answer.
 
-**Runs on**, above the tree, lists the agents connected in Connect → Agents for the workspace in focus (named when several have work). It starts on that workspace's default; another pick applies to this session only. The worktree form has it too. Groups and projects with no linked folder are not offered.
+1. **Session | Terminal**, at the top left. Leave it on **Session** for an agent, or pick **Terminal** for your own shell ([below](#a-terminal)).
+2. **The project.** Search, or pick from your projects as **group → project → branch**. A click selects a row; it starts nothing. The last row, **Open folder…**, starts in any folder you pick ([below](#open-a-folder)).
+3. **The agent** and **Where it runs**: **This computer** or **Cloud** ([Cloud sessions](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/cloud.md)). The agent list holds the agents connected in Connect → Agents for the project's workspace.
+4. **Name** and **Carry over**, on a git project: the new worktree's branch name and the ignored files to copy into it ([Worktrees](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/worktrees.md#start-in-a-new-worktree)).
+5. **On my phone**, for an agent that can continue on the phone ([On my phone](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/cloud.md#on-my-phone)).
+6. **Start**, or **Create and start** on a git project. **Enter** starts too; **Escape** closes.
+
+A session runs as the workspace its project belongs to, whichever workspace the window shows. A refused start says why at the top of New session.
 
 ## Open a folder
 
-**Open folder…** starts a session in any folder. A folder another workspace holds opens there. Otherwise it becomes a project in the workspace on screen, by the same rules as New project, onboarding and **Make a project**:
+**Open folder…** starts a session in any folder. A folder another workspace holds opens there. Any other folder becomes a project in the workspace on screen first:
 
 | Folder | Becomes |
 | --- | --- |
-| Worktree or subfolder of a git repository | That git repository |
-| Already known | Its doc opens; a doc in Trash comes back |
+| A worktree or subfolder of a git repository | That git repository's project |
+| Already a project | That project; a project in Trash comes back |
 | Inside a group | A project in that group |
-| Plain folder holding two or more git repositories | Asks first; each git repository becomes its own project. **Group them** puts them in one group (named after the folder unless you type another name there); **Keep them apart** leaves each alone. The folder itself never becomes the group |
+| A plain folder that holds two or more git repositories | Each git repository becomes a project. Slate asks first: **Group them** puts them in one group, **Keep them apart** does not |
 | Anything else | A project on its own |
 
-Your home folder and the disk root are refused, because every session would file under them.
+Your home folder and the disk root are refused.
 
-### You choose your projects
+**A session in a folder no project holds is not recorded**: it shows while it runs, but gets no doc. Memories it saves still count, as global memory. A row under **No project** offers **Make a project** in its **⋯** menu; from then on its sessions are recorded, and so are earlier ones whose transcripts are still on disk.
 
-Slate makes no project itself. Setup's last step lists git repositories, newest change first, nothing ticked; ticked ones become projects. It never lists your home folder, temporary folders, an agent's own folder, Slate's data folder or a removed folder. A removed project stays removed until you restore its doc or add the folder.
+## From a project
 
-**A session in a folder no project holds is not recorded**: no session doc, nothing in Docs. Memories it writes with `remember` are still saved, as global memory. Adding the folder later (setup, **+** in Projects, or the session's row) records sessions there from then on and earlier ones whose transcripts remain on disk. Restoring a project from Trash does the same.
+A group's or project's **⋯** menu in Projects has **Start session**. The session runs on the agent and account that group or project assigns, in a new worktree when the doc's folder is a git project.
 
-A row in **No project** offers **Make a project** under **⋯**. With several workspaces the menu names each (**Make a project in Work**), the session's own first. A folder no workspace claims goes to Personal, private by default.
+The branch goal and the next unchecked plan item are typed into the agent's prompt (`Continue on feat/x: … — next: …`), never sent. Edit it and press Enter yourself. If the agent's startup screen swallows it, the terminal says so and offers **Insert it** or **Copy the goal**.
 
-## From a doc
+The doc's header lists the sessions working on it, marked *needs you*, *working* or *idle*. Click one to open it.
 
-A branch, project or group doc has **Start session** in its header. It runs the tool its group (or project) has connected, in the doc's folder, under the account its group or project assigns that tool, and opens it. A doc with a folder also has a plain terminal button.
+## A Terminal
 
-A doc's goal is seeded into the CLI prompt with the next unchecked plan item (`Continue on feat/x: … — next: …`): typed, never sent, always one line (a newline would send). If a CLI's startup repaint swallows it, the terminal says so and offers **Insert it** or copy.
+A **Terminal** is your own login shell, with your shell and environment, hosted in Slate like a session. Open one from:
 
-A refusal names the fix: *"Acme does not use gemini. Sessions under /code/acme use: claude. Add it in Connect → Agents to allow it here."* A doc with no folder is refused the same way.
+- **New session**, switched to **Terminal**. It opens in the project's own folder, with no worktree, because a worktree removed when the shell exits would take your work with it.
+- **The Ask Slate box**, switched to **Terminal** ([Ask Slate](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/ask-slate.md#a-terminal-instead)).
+- **⌃\`**, in the folder of the doc you are on, or your home folder. A folder's menu has **Open a Terminal here**.
 
-**A doc shows what runs on it.** Sessions working towards it appear in its header as *needs you*, *working* or *idle*; click one to open it. This stops a second session starting on a branch that already has one working.
-
-## A chat instead of a terminal
-
-**Chat**, beside **+** on a group heading and map node and in a row's **⋯**, starts the group or project's tool but draws it as Home does: each turn, each tool step as it runs, an approval card where the tool needs your yes. A row's chat works in that row's checkout. It opens as a tab named for the group or project; its composer shows the folder.
-
-Its tool is not Home's, so a chat never restarts Home's conversation. It lasts as long as its tab (**Close and end this chat** stops its tool, as does quitting) and is not recorded as a session. Use a terminal session for work to leave running.
-
-## A plain shell
-
-**⌃`** opens a plain login shell (your shell and environment) in the folder of the doc you are on, or your home directory when nothing names one. It is hosted like a session: it survives navigating away, opens in the Sessions tab, and the [terminal](https://liozelmalem-star.github.io/slate-releases/docs/features/sessions/terminal.md) features apply. It has no tool account and no hand-back.
-
-## Taking over a session from your terminal
-
-A session in your own terminal can be continued here. **Clicking its row only shows it**: its conversation, live, read from the transcript. Details and changes are in the window's panel. One button above it says what continuing would do; nothing on that screen types into your terminal.
-
-| Session | Offer |
-| --- | --- |
-| Already a background job (Claude Code job, Cursor `persist`) | No button. The row opens it as itself with `claude attach` or `cursor-agent persist attach`; copies and interrupts nothing |
-| Claude Code in a terminal, Codex, OpenCode | **Continue in a copy** (`--resume <id> --fork-session`, `codex fork <id>`, `opencode --session <id> --fork`): a second conversation with the whole history; the original keeps running |
-| Cursor, Gemini | **Move here**. `cursor-agent --resume` appends to the original transcript, so two processes would write one file; the original is ended first, and the button asks twice because an in-flight turn is lost |
-
-A copy has its own transcript, so the two never interleave. Its row says **Copy in Slate**. The original's tab keeps showing the original live, and its row offers **Open your copy** to read or stop the copy. Offers use the session's own account (another account would find nothing and quietly start a new conversation).
-
-## Moving a session back to your terminal
-
-**Hand back to my terminal**, in a row's **⋯** (*Keeps running; you get the command to resume it*), detaches a session Slate runs and leaves it running. Only Claude Code supports it, so the item shows only on a Claude Code session Slate runs.
-
-1. Slate sends the tool's detach input (`/bg` for Claude Code), waits about 1.5 seconds and closes the session's terminal.
-2. A message gives the resume command with **Copy resume command**: `claude attach <handle>`, prefixed with the account where there is one.
-3. If Slate cannot name the command, the message says *It keeps running in the background*.
+A Terminal is a grey row in the list and a dot on the map. It has no status, account, side panel or hand-back, and no count includes it. **Ctrl+C** goes to the program running in it. Its row's **End** closes it.

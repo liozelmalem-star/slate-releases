@@ -1,57 +1,66 @@
-# Tidying and measuring memory
+# Tidying memory
 
-Slate calls no model to shrink memory: the session you are in proposes and you accept. Part of [Recall & Remember](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/recall-remember.md).
+Memory grows with every session, so Slate keeps it small and right without a model of its
+own. Your agent proposes tidies, AI memory care can check memories each night, and every
+change can be undone.
 
-## Contents
+## A tidy
 
-- [Tidying a project's memory](#tidying-a-projects-memory)
-- [Learning from what you decline](#learning-from-what-you-decline)
-- [When a lesson becomes a skill](#when-a-lesson-becomes-a-skill)
-- [Logging progress mid-run](#logging-progress-mid-run)
-- [Measuring it](#measuring-it)
+When a project's memory needs it, a session offers to tidy it, at most once a week. If you
+agree, the agent reads the project's memories and proposes:
 
-## Tidying a project's memory
+- a **merge**: several memories become one;
+- a **retirement**: a memory that is wrong or outdated;
+- a **lesson**: several memories become one rule with a `when`
+  ([Lessons](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/recall-remember.md#lessons)).
 
-1. `list_memories` reads the project's memories, 100 at a time, with refs (hidden ones are not listed).
-2. `propose_memory_change` proposes a **merge** (refs become one claim), a **retirement** (wrong or outdated refs) or a **lesson** (refs forming a rule about an action, with its `when`). Every ref must belong to that project, and none may be a memory you pinned or protected: that one is yours. A merge or lesson follows [`remember`](remember.md)'s save rules.
-3. The change applies at once, through the same save rules as an accept. [Memory](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/map.md#tidied-this-week) says what was tidied in the last 7 days, with one **Undo**. A change the save rules refuse waits under **Needs review**, where **Merge**, **Retire** or **Make it a lesson** applies it and **Dismiss** drops it. A memory you pinned or protected since the proposal still stays: a retirement leaves it out, and a merge or lesson naming it waits for you.
+The change applies at once. **Tidied this week**, at the top of [To review](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/map.md#to-review),
+says what tidies changed in the last 7 days, with one **Undo**. A memory you pinned or
+protected is never touched. A change the save rules refuse waits under **To review** for
+you instead.
 
-**AI memory care.** Turn on at the **Memory care** row in [Memory](https://liozelmalem-star.github.io/slate-releases/docs/features/memory/map.md) (see [Automations](https://liozelmalem-star.github.io/slate-releases/docs/features/automations.md)). Each night it reads up to 50 memories of one project or group (the largest) twice, separately, with its own agent and the code each cites, and retires only what both readings call wrong. Disagreements wait under **Needs review**. It shows its cost before turning on and stops at a monthly token cap you set. Each reading counts toward the cap as it ends, so a night that fails halfway still counts what it spent. A retired memory nothing replaced returns with **Bring back** under the **Retired** row for 30 days. With it on, an agent's new memory must say in `reason` why it changes what a future agent does.
+## AI memory care
 
-**Your own schedule.** Add the **Memory care** [starter](https://liozelmalem-star.github.io/slate-releases/docs/features/loop.md#the-starters). Each night it reads yesterday's sessions and up to 30 of the project's memories (pinned and cited first, then freshest, cut to a size budget) on the project's agent. It adds at most five memories and merges and retires through the same tidy, so its changes show under **Tidied this week**.
+**AI memory care** checks your memories each night with your own agent. Turn it on at the
+end of **Built-in** in [Automations](https://liozelmalem-star.github.io/slate-releases/docs/features/automations/built-in.md). It applies to this
+workspace only.
 
-## Learning from what you decline
+- At 03:00, when the computer is awake and Slate is open, it reads up to 50 memories of one
+  project or group, with the code each cites. A missed night is skipped.
+- It reads each memory twice, separately, and retires only what both readings call wrong.
+  When the readings disagree, the memory waits under **To review**.
+- Before you turn it on, it shows what the first month will cost in tokens. It stops for
+  the month at the **Monthly cap** you set.
+- A memory it retired can be brought back from **Retired** for 30 days.
+- While it is on, an agent's new memory must say in its reason why it changes what a future
+  agent does.
 
-Slate keeps your no to an AI proposal: an automation's held call answered **No**, a step sent back, a held call denied, an app card declined, a Home agent tool call skipped.
+For your own schedule instead, add the **Tidy memories** starter in
+[Automations](https://liozelmalem-star.github.io/slate-releases/docs/features/automations.md#the-starters).
 
-A no is never a memory alone. It becomes a proposal under **Memory → Needs review** when you wrote a reason (**Why? (optional)** beside each no) or declined the same action twice in 30 days in the same place. Accepting saves a lesson pinned to the automation, agent runs or app that produced it. At most five such proposals wait per project.
+## Lessons from what you decline
+
+Slate keeps your no to an AI proposal: an automation's held call answered **No**, a step
+sent back, a widget card declined, a Home tool call skipped. A no becomes a proposal under
+**To review** when you wrote a reason in **Why? (optional)**, or when you declined the same
+action twice in 30 days in the same place. Accepting it saves a lesson. At most 5 such
+proposals wait per project.
 
 ## When a lesson becomes a skill
 
-A lesson used in at least three sessions is a way of working. Daily, at most three, Slate proposes one as a skill in **Toolkit › Suggestions**. **Make it a skill** writes `.claude/skills/<name>/SKILL.md` in the project's folder, linked from `.agents/skills/<name>`, with the lesson and reason.
+A lesson used in at least 3 sessions is a way of working. Slate proposes it as a skill in
+**Toolkit › Suggestions**, at most 3 a day. **Make it a skill** writes the skill into the
+project's folder, where every agent loads it, and the lesson leaves the memory index. A
+dismissed proposal is not asked again. A lesson with no project folder on this computer
+is never proposed.
 
-* A branch's lesson goes to the project's folder, not the worktree. A lesson with no project folder here is never proposed.
-* The lesson then leaves the index (not read twice). A dismissed proposal is not asked again.
-* Memory does not list it: Memory reviews what Slate remembers, Toolkit what agents load.
+## Does memory help?
 
-## Logging progress mid-run
+The **Does memory help?** card on [Activity](https://liozelmalem-star.github.io/slate-releases/docs/features/activity.md) (add it while arranging the
+board) compares sessions given memory with the one session in four held out. It counts
+the turns where you corrected the agent ("no, …", "wrong", "I told you"), per session, in
+each group. It shows a result once each group has 50 sessions. You can turn the holdout
+off there.
 
-`log_mission_progress` reports a run's work on its branch: the summary becomes a session entry of the project labelled with the branch; goal and open items become what the next session on that branch is told; each decision is a memory, with the summary as its reason. Every item passes the same rules as `remember` (the project's memory policy and the checks on what a memory may hold), and a reworded duplicate of a decision already kept is merged. Anything refused is listed in the reply's `refused`, each line naming its item and why; a refused goal or open list leaves the one already stored as it is. No doc is made. On a trunk branch (`main`, `master`, `develop`) the goal is unchanged. A git branch is a label on records, never a doc (ADR 0119).
-
-## Measuring it
-
-**Does memory help?** One session in four is held out: no index, lessons or tidy offer (search still works). Slate counts turns that open with a correction ("no, …", "wrong", "I told you"). The **Does memory help?** Activity widget (add from **Edit**) compares corrections per session with and without memory, after 50 sessions per group; the holdout can be turned off there.
-
-`yarn memory:report` prints, from a snapshot of your store: first the **cite rate** (of the lessons and decisions given to a session, the share that session used; target 40%; each session and memory pair counts once, and preferences and `fact` memories are left out, because a session follows them without naming them); sessions that used a memory and offered memories cited, counting every delivery; offers per channel (lessons are `trigger`); **reach** per tool (work sessions given memory, of those captured); the holdout comparison (corrections per session and per 100 of your turns, for each group); **health** (memories written per distinct memory used; fewer is better); **quality** (share AI memory care read that both readings kept; aim 80%); imported memories per tool; per project, active memories, index lines and changed citations. `--sample 24` writes random deliveries to judge by hand.
-
-The index went from up to 40 short lines to 12 whole ones on 2026-11-07. To compare the two weeks on each side, run `yarn memory:report --days 14` on 2026-11-07 and again on 2026-11-21.
-
-**The quality floor.** A committed, synthetic store (161 memories, 19 docs, 44 questions, none of it yours) runs in the server tests and fails a push when recall or the session-start brief gets noisier. It measures precision@8, recall@5, MRR, how often a question nothing answers gets nothing back, the share of returned items that a rule must keep out (stale state, captured-session docs, title-only docs, another project's rows), the share of returned items and of brief lines that repeat another, the share of brief lines that are stale state, and that a fresh pinned state stays in the brief. A near-duplicate twin of the answer counts as an answer. The numbers are in `packages/server/test/operations/memory/quality/baseline.json`. Each may move one step the wrong way (one question, one returned item or one brief line) before the test fails. After a change that truly improves one, run `MEMORY_BENCH_UPDATE=1 yarn workspace @slate/server vitest run test/operations/memory/quality/quality-benchmark.test.ts`: floors only rise, ceilings only fall, and nothing is written while a check fails. Read the diff of `baseline.json` and commit it with the change. Two questions recall misses today are named as known gaps and pinned as misses. A second table test (`admission-table.test.ts`) pins which kind each kind of write is stored as, or why it is refused.
-
-`yarn memory:health` prints the live usefulness number from a read-only copy of your store: for the last 7 days (`--days N`), per channel (`brief`, `recall`, `trigger` for lessons), the memories given to sessions, how many were judged, how many a session cited, how many still wait for their session's transcript (**pending**) and how many belong to no session (**unowned**, a screen's brief: no verdict will come), and the used share (cited over judged; a row still waiting for its transcript is not counted as ignored). Under it, the 10 most-given memories no session ever cited. A `recall` the session asked is judged from its transcript, cited or not. `--days` is a whole number from 1 to 365. `--db <file>` reads another store; `--json` prints the data.
-
-`yarn memory:eval` asks a fixed set of real questions through the real MCP `recall`, against a fresh copy of a store snapshot, and prints two columns: the question as typed (plain) and as the keywords an AI would search with. Rows: hit@1, hit@5, MRR, the share of returned memories that are relevant, junk answers (ones carrying a session log or a pile of old notes), questions nothing answers that still got items, and answerable questions that got nothing. Each question names the memories and project files that answer it, and the set is split into a tune half and a held-out half (`--half tune` / `--half held-out`). It quotes your work, so it lives in Slate's data folder: `memory-eval/golden.json` and the snapshot `memory-eval/store-pristine/` (`--golden`, `--store`, `--cwd` override them; `--out` keeps every reply). The plain column is the one that counts.
-
-`yarn memory:gate` asks the same questions of real sessions. It runs a first turn of Claude Code (`claude -p`; `--tool codex` for Codex, `--codex-bin` to pick its CLI) on each question, with Slate's hooks and MCP server from this checkout's build, on a fresh copy of the snapshot per session, with read-only tools and no transcript written, and scores three things from what the session did: it called `recall` before its first read or edit, what it relied on is right (or nothing, for a question nothing answers; a judge model lists what the answer used of what it was offered), and it passed Slate the refs it relied on in `used`. `--arm B` puts the project's whole memory in the start context and `--arm C` re-ranks every recall reply with a model; both are measurement only. Runs land in `memory-eval/gate/`; `--rescore <run>` scores one again, `--half` picks a half, `--only 2,5` picks questions.
-
-`yarn memory:weekly` is the weekly reading of whether sessions use memory. From a snapshot of your store it counts, per agent, for the last 7 days and the 7 before: sessions, sessions that looked memory up, lookups that found something, and lookups whose memory the session named. It then runs the gate on the 30 tune questions (`--no-gate` skips it, about 20 minutes and a few dollars) and prints one verdict line per target: looked up in at least 80% of sessions, used in at least 60% of lookups that found something, right pick at least 80%. Each line also shows the number before 0.1.70 and last week's. The report is saved as markdown in `memory-eval/weekly/<date>.md`, and posted as a doc in the slate project when Slate is running. `yarn memory:weekly:schedule` creates (or updates) the automation "Memory in sessions" in Personal, which runs it every Monday at 09:00 and posts the verdict lines as its report. It goes through the app's own route, so Slate must be running.
+Two more cards read the memory layer: **Do sessions save memory?** and
+**Is memory used?**.

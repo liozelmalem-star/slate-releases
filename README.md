@@ -186,8 +186,6 @@ Latest release: **0.1.71**.
 | --- | --- |
 | macOS, Apple Silicon | Available — the primary platform, used every day |
 | macOS, Intel | Available — its own download, built for Intel |
-| Linux (x86_64, `.deb`) | Not in the latest release. A release attaches it only when it builds, installs and boots on Ubuntu 22.04 |
-| Windows | Being ported. It boots on Windows 10/11, but the latest release has no installer |
 
 The `curl` installer is for macOS; on any other system it says so rather than installing
 something that won't run.

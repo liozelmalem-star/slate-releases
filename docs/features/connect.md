@@ -1,86 +1,49 @@
 # Connect
 
-**Connect** (base of the rail, beside Trash and Settings) has two tabs, **Agents** and **Integrations**. It is **per workspace**. What Slate runs on its own is in **Automations › Built-in** ([Automations](https://liozelmalem-star.github.io/slate-releases/docs/features/automations.md)).
-
-## Contents
-
-- [Agents](#agents)
-- [Integrations](#integrations)
-- [What is not here](#what-is-not-here)
+**Connect** decides which agents a workspace runs on and which apps it reads your work from. It sits at the bottom of the rail and has two tabs, **Agents** and **Integrations**. Each workspace keeps its own choices.
 
 ## Agents
 
-**Connect an agent** heads the tab. Under it: filters **All 16**, **On this Mac**, **Connected**, and **Find an agent** (by name). Each tool is a row: logo, name, and on the right one mark or button. A second line shows only when something differs from normal: a warning, a tool not on this Mac, or a profile or model you chose. Click the logo or name for the tool's dialog, which shows the profile it runs under (one login of the tool: its config folder) and its model. Your **account** is your Slate sign-in, in Settings.
+The tab opens with **Connect an agent**, the filters **All**, **On this Mac** and **Connected** with their counts, and **Find an agent**. Below is one row for each of the 16 agents, always in the same order, starting with Claude Code, Codex, Cursor and GitHub Copilot. A row never moves when you click it.
 
-Order, always: Claude Code, Codex, Cursor, GitHub Copilot, Antigravity, OpenCode, Gemini, Cline, Grok Build, Kiro, Qwen Code, Droid, Hermes Agent, Goose, Kilo Code, Auggie. The first six are measured end to end. The ten newest show *unverified* in [Features by Agent](https://liozelmalem-star.github.io/slate-releases/docs/features/agent/tool-features.md) where no feature has run.
+A row shows the agent's logo and name, and **Beta** for an agent nobody has yet checked end to end with Slate. A second line shows only when something is not normal, or when you chose a profile or model. A warning has a small amber dot in front of it.
 
-**A row never moves.** Turning a tool on or off changes only its mark and button; under **Connected** it keeps its row until you pick another filter.
+| The agent is… | The row shows | Its **⋯** menu offers |
+| --- | --- | --- |
+| Connected | A small green dot | **Disconnect** |
+| On this Mac, not connected | "not connected" | **Connect** |
+| Not on this Mac | "Not on this Mac", greyed | **Install** |
+| Slate installed, but not turned on here | "Not turned on · sessions not recorded" | **Connect**, **Remove Slate** |
+| Turned on here, but Slate not installed | "Runs here, but Slate is not installed — sessions are not captured" | **Connect** |
+| Installed for another workspace on the same profile | "Slate is installed here for Work" | **Connect** |
+| Config could not be read | "Slate could not read this agent's config" | Nothing until it can be read |
 
-| The tool is… | Mark or line | Button |
-|---|---|---|
-| Connected (Slate installed, workspace runs on it) | a small green dot at the right edge | **Disconnect**, on hover |
-| On this Mac, not connected | none | **Connect** |
-| Not on this Mac | none (greyed out) | **Install** |
-| Slate installed, nothing runs on it | a grey line, *Not turned on · sessions not recorded* | **Remove Slate**, **Connect** on hover |
-| Running here, Slate not installed, or last session used another Slate install | a grey line with an amber dot in front | **Connect** or **Disconnect** |
-| Config could not be read | a grey line with an amber dot in front | **Connect** |
+Every action sits in the row's **⋯** menu, so the right edge of every row stays still. The agent marked **default** is the one used when nothing more specific is named.
 
-A state that needs you is said once: a small amber dot in front of a grey line. No pill repeats it, and every row is one height, so the dots line up.
+**Install** shows the command to paste into Terminal, a second way when there is one, how to sign in, and the vendor's guide. Then press **Check again**. Slate never runs the command for you.
 
-### A tool that is not installed
+Click an agent's logo or name to open its dialog: its MCP servers, the profile it runs under, and its model ([An agent's dialog](https://liozelmalem-star.github.io/slate-releases/docs/features/connect/dialog.md)).
 
-The row reads *Not on this Mac* and has no **Connect**. **Install** shows the command with a copy button, a second way where there is one, how to sign in, what the account needs, and the vendor's guide link. Paste the command into Terminal, then press **Check again**; once Slate finds the CLI the row gets **Connect**. Slate never runs the command.
+## What Connect does
 
-| Tool | Install | Sign in |
-|---|---|---|
-| Claude Code | `curl -fsSL https://claude.ai/install.sh \| bash` | run `claude` (needs a Pro, Max, Team, Enterprise or Console account) |
-| Codex | `brew install --cask codex` | run `codex`, then **Sign in with ChatGPT** |
-| Gemini | `brew install gemini-cli` | `GEMINI_API_KEY`, or a Gemini Code Assist licence. Personal Google accounts moved to Antigravity CLI |
-| Cursor | `curl https://cursor.com/install -fsS \| bash` | `agent login` |
-| OpenCode | `curl -fsSL https://opencode.ai/install \| bash` | run `opencode`, then `/connect` |
-| GitHub Copilot | `brew install --cask copilot-cli` | `copilot login` (needs a GitHub Copilot plan) |
-| Antigravity | `curl -fsSL https://antigravity.google/cli/install.sh \| bash` | run `agy` (personal Google accounts sign in here) |
-| Cline | `npm install -g cline` | `cline auth` |
-| Grok Build | `curl -fsSL https://x.ai/cli/install.sh \| bash` | `grok login` |
-| Kiro | `curl -fsSL https://cli.kiro.dev/install \| bash` | `kiro-cli login` |
-| Qwen Code | `npm install -g @qwen-code/qwen-code` | run `qwen`, then `/auth` (needs a model provider) |
-| Droid | `curl -fsSL https://app.factory.ai/cli \| sh` | run `droid` (needs a Factory account or `FACTORY_API_KEY`) |
-| Hermes Agent | `curl -fsSL https://hermes-agent.nousresearch.com/install.sh \| bash` | `hermes setup` |
-| Goose | `curl -fsSL https://github.com/aaif-goose/goose/releases/download/stable/download_cli.sh \| CONFIGURE=false bash` | `goose configure` |
-| Kilo Code | `npm install -g @kilocode/cli` | `kilo auth login` |
-| Auggie | `npm install -g @augmentcode/auggie` | `auggie login` (needs Node.js 20 or later and an Augment account) |
+**Connect** does two things: it installs Slate into the agent's config folder, so its sessions are captured and it can use Slate's memory and tools, and it records that this workspace runs on that agent. **Disconnect** undoes both ([How Slate installs into an agent](https://liozelmalem-star.github.io/slate-releases/docs/features/connect/how-slate-installs.md)).
 
-A turn that cannot find a tool's CLI names the same command.
+- **Remove Slate** takes Slate out of an agent this workspace does not run.
+- **Capture**: most agents have a switch in their dialog. Off, that agent's sessions are not recorded, and it stays connected. Cursor has **Capture sessions** / **Stop capturing** instead. OpenCode, Cline, Kilo Code and Auggie have no switch yet. **Auto-capture** in [Built-in automations](https://liozelmalem-star.github.io/slate-releases/docs/features/automations/built-in.md) stops capture for all.
+- **A profile exists once per computer.** If another workspace runs the same agent on the same profile, disconnecting only stops this workspace, and the row offers no **Remove Slate**.
+- **Claude Desktop** connects together with Claude Code: it gets Slate's tools and instructions, but nothing is captured from it. The Codex desktop app follows the Codex config.
+- **VS Code chat** is captured through the GitHub Copilot connection, and shows in Sessions as **VS Code**.
 
-### What Connect does
+## With no agent connected
 
-**Connect** installs Slate into the tool's config directory (sessions captured, workspace readable and writable) and records that this workspace runs on the tool (Home, automations and skills use it). **Disconnect** undoes both ([how](https://liozelmalem-star.github.io/slate-releases/docs/features/connect/how-slate-installs.md)).
+A workspace with no agent cannot chat on Home, run automations, build widgets or learn memories. **Memory**, **Activity**, **Widgets**, **Automations** and **Toolkit** are dimmed on the rail, and pointing at one says why. Memory, Activity and Widgets open anyway once they hold something. Tasks, Projects and Artifacts work without an agent. Connect one and everything works at once, with no restart.
 
-* If only one half is true the row says so, behind an amber dot, and **Connect** repairs it: *Not turned on · sessions not recorded* (in grey: Slate records only the agents a workspace turns on, so this one is a leftover), or *Runs here, but Slate is not installed — sessions are not captured*.
-* **Remove Slate** removes Slate from a tool this workspace does not run, leaving the workspace as is. The dialog names the config file Slate writes. Nothing is written until you connect, on first launch too.
-* **Capture** switch (Claude Code, Codex, Gemini; the ten newest have none yet): off stops recording that tool's sessions, and it stays connected. Cursor has **Capture sessions** / **Stop capturing**; OpenCode has none. **Auto-capture** in Automations › [Built-in](https://liozelmalem-star.github.io/slate-releases/docs/features/automations.md) stops all.
-* **A profile exists once per computer.** If another workspace runs the same tool on the same profile, the row says *Slate is installed here for Work* and offers no **Remove Slate** (it would break that workspace); disconnecting only stops this workspace, and says so first.
-* **Claude Desktop** is connected with Claude Code, if installed; turning Claude Code off leaves it (one machine-wide setting). It gets Slate's tools and instructions but no hooks, so nothing is captured from it. Its chat has no folder, so the instructions ask it to call `recall` with the conversation's topic and the project's name. The **Codex** desktop app follows the Codex CLI's config.
-* **VS Code** chat is captured through the Copilot hooks file. VS Code runs agent hooks by default and reads `~/.copilot/hooks`, where Slate writes its Copilot hooks, so connecting Copilot also captures VS Code chat. Slate tells the two apart by where the chat's transcript lives, and lists those sessions as **VS Code**, not GitHub Copilot.
+## Which agent runs
 
-**With no tool, a workspace cannot chat on Home, run automations, build widgets, learn memories or record activity.** The Automations, Memory, Activity, Widgets and Toolkit icons stay dimmed (hover says why; a click does nothing); Memory, Activity and Widgets open once they hold something. Home opens as a doc: the agents, what connecting one unlocks, **Open Connect**, and what works without AI (Tasks, Projects, Artifacts). Set a tool and all works with no reload.
-
-**One place decides which tool runs.** Connect sets the workspace's tool; a group or project can override it. Home, the ⌘J panel, New session and automations show the tool that will run, linking here. With several tools in a project, Home and New session let you pick per turn. Sessions lists every AI session on the computer.
-
-More: [MCP servers, profiles and models](https://liozelmalem-star.github.io/slate-releases/docs/features/connect/dialog.md); [checking it works](https://liozelmalem-star.github.io/slate-releases/docs/features/connect/how-slate-installs.md#checking-it-actually-works).
+The workspace's agent runs everything, unless a group or a project on its own picks another. Home, Ask AI, New session and automations show which agent will run. With several agents in a project, Home and New session let you pick one per turn. **Make default** in an agent's dialog sets the one used when nothing else is named. The account each agent runs under is set the same way: [Project environments](https://liozelmalem-star.github.io/slate-releases/docs/features/toolkit/project-environments.md).
 
 ## Integrations
 
-The **Integrations** tab holds this workspace's connected apps. Press **Connect**, approve on the app's sign-in page, and what you owe there shows in Tasks. On a working app, **Choose what Tasks shows** (on hover) opens what that app sends, beside Tasks' Overview. List, states and per-app notes: [Integrations](https://liozelmalem-star.github.io/slate-releases/docs/features/connect/integrations.md).
+**Integrations** connects the apps you work in, such as GitHub, Jira, Linear or Notion. Press **Connect** and approve Slate on the app's own sign-in page, and what waits for you there shows in Tasks. Your agents can read these apps too, through Slate ([Integrations](https://liozelmalem-star.github.io/slate-releases/docs/features/connect/integrations.md)).
 
-## What is not here
-
-Importing projects and memory from other tools is in **Projects** and **Memory**, from the **Import** button in each one's header ([Import](https://liozelmalem-star.github.io/slate-releases/docs/features/import.md)).
-
-Settings holds **Account**, **Workspaces**, **Appearance**, **Terminal**, **Keyboard** and **About**. Moving, exporting and restoring a workspace file: **Settings → Workspaces**.
-
-## See also
-
-- [Connecting Your Agents](https://liozelmalem-star.github.io/slate-releases/docs/features/mcp-server/connecting.md): connecting by hand, and the MCP contract
-- [Project environments](https://liozelmalem-star.github.io/slate-releases/docs/features/studio/cli-profiles.md): profiles and how a session is judged
-- [Workspaces](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces.md): the boundary all of this turns on
+Importing projects, docs, memories and artifacts happens in Projects, Memory and Artifacts, from their **Import** button ([Import](https://liozelmalem-star.github.io/slate-releases/docs/features/connect/import.md)).

@@ -1,76 +1,54 @@
-# Workspaces & Invites
+# Workspaces and invites
 
-Sign-in, plans, roles, invitations, creating a workspace, deleting it forever, and removing people.
+This guide covers making a workspace, inviting people, roles, and removing people or a whole workspace. All of it is in **Settings → Workspaces**.
 
-## Signing in
+## Create a workspace
 
-1. **Settings → Account**.
-2. Sign in with **GitHub** (the only provider). Your system browser opens.
-3. After approval the provider returns to a loopback address on Slate's local server, which does the code exchange: no code, token or password passes through the UI.
+Press **New workspace**, give it a name and a colour, and choose whether to share it. Press **Create workspace**.
 
-The session is in `cloud-session.json`, a `0600` file in the app-data folder, never in a database, so exporting a workspace cannot hand over a refresh token. First sign-in creates a **personal account** (everyone signs in on first launch, ADR 0103). After that Personal works offline and never syncs until shared.
+* **Shared**: people you invite can read everything in it, and so can the agents they connect. Sharing needs the Team plan, or early access.
+* **On this machine only**: nothing in it goes to the cloud. You can share it later.
 
-**Settings → Account** shows who you are and **Sign out**, then **Plan**:
+Either way it is one file in Slate's data folder.
 
-- **Free**: everything Slate does on this Mac; your plan unless you have early access.
-- **Team**: sharing a workspace with your team; coming soon, no price. **Tell me when it's ready** records interest; the button then reads **We'll email you**. With early access: **Early access**.
+**Colour** marks the workspace in the switcher and in Settings, always beside its name. The colour is yours alone: each member keeps their own. See [Themes](https://liozelmalem-star.github.io/slate-releases/docs/features/theming.md#workspace-colours).
 
-Work stays on this Mac on every plan; the account holds only who you are and your plan.
+## Roles
 
-**Another account on the same Mac.** Each shared workspace belongs to the account that joined it on this Mac. Signed in with a different account, Slate does not list or sync it, and does not mark it read-only. Sign in with its account again and it is back as you left it. Personal belongs to the Mac, whoever is signed in.
+A workspace belongs to an account: a company, or one person. Being in a workspace does not make someone part of your account; they see that workspace and nothing else.
 
-**Sharing is Team.** On Free a new workspace is local only: the switch is off and disabled with **Team · coming soon** and the same button. An already-shared workspace can still be turned off. With early access sharing works.
-
-## Two tiers
-
-| Tier | Meaning |
-| --- | --- |
-| **Account** | Billing and organisation: a company or one person. Roles: `owner`, `admin`, `member` |
-| **Workspace** | One store, one audience, inside an account. Roles: `owner`, `editor`, `viewer` |
-
-Workspace membership is independent of account membership (a contractor gets one workspace, not the company). An account owner reaches a workspace in the account without being added. Settings → Workspaces lists every workspace you belong to, across accounts.
-
-## What a role controls
-
-| Role | Read | Write docs | Invite, remove, rename | Grant owner, delete workspace forever |
+| Role | Read | Write docs | Invite, remove, rename | Make an owner, delete the workspace forever |
 | --- | --- | --- | --- | --- |
-| `owner` | yes | yes | yes | yes |
-| `editor` | yes | yes | no | no |
-| `viewer` | yes | **no** | no | no |
+| **owner** | yes | yes | yes | yes |
+| **editor** | yes | yes | no | no |
+| **viewer** | yes | no | no | no |
 
-The account's owner can do all a workspace owner can; account admins can invite, remove and rename only. Only a workspace owner or the account's owner can make, change or remove an owner, or delete the workspace forever; an account admin cannot make themselves owner (database-enforced). A role does not decide whose docs you may edit: author-only for everyone.
+The account's owner can do everything a workspace owner can. A role never lets anyone change someone else's doc: each doc is changed only by its author.
 
-> **Note:** **A viewer's replica is read-only on their machine too.** The role is stored locally and writes (including a memory you or an agent saves) are refused where made, with a line saying an editor or owner can change it; a viewer's machine does not push. Accepting an invitation fetches the role at once. Until fetched (offline, signed out, a machine that joined earlier) the workspace counts as writable, so offline use works; the cloud has the last word. **A role change reaches the machine on the next sync pass, not the next launch.** A demoted editor stops pushing at once. The workspace shows "You can only read this workspace now." It is not a failure, so syncing does not slow down and teammates' work still arrives.
+A viewer's copy is read-only on their own Mac too. A write there, including a memory an agent saves, is refused with a line saying an owner or editor can change the role. A role change reaches a Mac on its next sync.
 
-## Inviting someone
+## Invite someone
 
-1. **Settings → Workspaces**, click the workspace's row.
-2. **Members**: type an email, **Create invitation** (editor role).
-3. Tell them (below); Slate sends no email.
+1. In **Settings → Workspaces**, click the workspace and open **Members**.
+2. Type their email in **Invite by email** and press **Create invitation**. They join as an editor.
+3. Tell them. Slate sends no email. The pending row has three buttons: email the invitation from your own mail app, copy a link that opens it in Slate, or copy it as text.
 
-An invitation is a membership addressed by email (a user id exists only after someone signs in). The address is stored lower-cased and trimmed, database-enforced, so it matches a login. It matches only an address the sign-in provider confirmed; Google and GitHub confirm it when the account is made. Pending invitations are listed with members and can be revoked before claimed.
+The invitation is tied to that exact email address. They join when they sign in to Slate with it and accept. Signing in with another address finds nothing.
 
-**Accepting is explicit.** A banner at the top of the app, on any screen, names the workspace, inviter and role with **Accept** and **Decline**. Accepting sets up the replica and the workspace appears in the switcher. A declined invitation stays declined until re-invited. The only way into a workspace is an invitation the person accepts; the database refuses an admin who tries to add someone directly, to a workspace or to its account.
+**Accepting.** A banner at the top of the app names the workspace and offers **Accept** and **Decline**. Accepting adds the workspace to the switcher. A declined invitation stays declined until they are invited again. Nobody can be added to a workspace without accepting an invitation.
 
-**Telling them.** Each pending row has:
+Pending invitations are listed with the members, and you can revoke one before it is accepted.
 
-| Action | Does |
-| --- | --- |
-| **Email** | Opens your mail app with the invitation addressed and written; you send it |
-| **Copy** | Copies the same message for Slack, Teams or elsewhere |
+## Remove someone
 
-The message names the workspace and inviter, links to where Slate installs from, and states the exact address the invitation is tied to (membership is claimed by email, so another account would find nothing).
+Press remove on their row in **Members**. Their access ends on their next request. Their Mac marks its copy read-only on its next sync, about every two minutes: they can still read and export what they have, and nothing more arrives. The docs they wrote stay in the workspace.
 
-## Creating a workspace, and deleting one forever
+## Delete a workspace forever
 
-**New workspace** (Settings → Workspaces): name, colour, whether to share. **Create workspace**. Sharing starts on and needs sign-in; off, it is a local file, shareable later. A shared one belongs to your account, you are first member, its replica is set up on creation. **Sync now** sits beside it and reports what moved; results show as a status note under the buttons.
+**Delete workspace forever** is in the workspace's **General** tab. Only a workspace owner or the account's owner can use it, and it asks twice. It removes every doc anyone shared there, for every member, without asking or telling them. Each member's Mac learns of it on its next sync: what they wrote themselves stays on their Mac, and the copy becomes read-only.
 
-**Colour** is used for its mark in the switcher's list and in its settings, always beside its name. Nine, in the order new workspaces get them: Cobalt, Lagoon, Iris, Silver, Orchid, Fjord, Heather, Wisteria, Graphite. The rail's tabs and the Sessions screen wear Slate's own green, not a workspace's colour. Stored on your machine, not the shared row: everyone keeps their own and anyone can recolour whatever their role.
+## Another Slate account on the same Mac
 
-**Delete workspace forever** (**General** in the workspace dialog) removes every doc everyone put there, for every member, without notice; authors keep what they moved back out. Only a workspace owner or the account's owner; asks twice; nothing for anyone else. Every member's Mac learns of it on its next sync and removes what teammates published there; what a person wrote themselves stays on their Mac, and the store is marked read-only and stops sharing, so you can copy your own work out. A person who was removed before it was deleted forever keeps the read-only copy described below: only people who were members when it was deleted forever are told.
+Each shared workspace belongs to the account that joined it on this Mac. Signed in with another account, Slate does not list or sync it. Sign in with its account again and it is back. Personal belongs to the Mac, whoever is signed in.
 
-## Removing someone
-
-Read access ends on their next request (Row Level Security decides every query). Their machine checks membership on every sync pass, about every two minutes. It marks the replica read-only on the next pass: they can read and export what is on disk; nothing goes up or arrives. Docs they authored stay. If the workspace is deleted forever later, their Mac is not told, because they were no longer a member: the copy stays read-only. **Erase my work** no longer works for them: the cloud refuses a former member, and Slate says so instead of reporting the work erased. The workspace owner removes it for them.
-
-See also: [Workspaces](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces.md), [Working in a Shared Workspace](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces/sharing.md), [Privacy & Security](https://liozelmalem-star.github.io/slate-releases/docs/features/privacy-and-security.md).
+See also: [Workspaces](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces.md), [Working in a shared workspace](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces/sharing.md).

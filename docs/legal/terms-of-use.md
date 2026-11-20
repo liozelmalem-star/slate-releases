@@ -68,7 +68,7 @@ the level of the workspace and reversible, but not retroactive. See the
 The Software is provided "as is" and "as available," without warranties of any kind,
 express or implied, including implied warranties of merchantability, fitness for a
 particular purpose, and non-infringement. Slate is pre-1.0 software: it is published for
-macOS (Apple Silicon and Intel), and Linux and Windows builds are early builds. AI features generate outputs probabilistically and may be inaccurate,
+macOS (Apple Silicon and Intel) only. AI features generate outputs probabilistically and may be inaccurate,
 incomplete, or outdated. You are solely responsible for how you use the Software and
 its outputs.
 
@@ -86,7 +86,7 @@ are responsible for maintaining your own backups of your workspace.
 Slate integrates with tools you install and control. These are governed by their own
 terms, not by these Terms:
 
-- The agents you connect (16 supported, see the [docs](https://liozelmalem-star.github.io/slate-releases/docs/features/agent/brains.md)) make
+- The agents you connect (16 supported, see the [docs](https://liozelmalem-star.github.io/slate-releases/docs/features/agents.md)) make
   model calls under the terms of each tool's vendor and of whichever provider you
   configured in it. You authenticate those tools yourself.
 - Sign-in is provided by **Google** or **GitHub**, whichever you choose, and your account

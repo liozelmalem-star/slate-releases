@@ -1,70 +1,49 @@
-# Your Data & Export
+# Your data and export
 
-Everything (docs, captured sessions, memories, decisions, automations, settings) lives in SQLite files on your machine: `workspace.db` (Personal), one per shared workspace, and `machine.db` (this computer). There is no proprietary container and no cloud copy unless you share a [workspace](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces.md) or join one. Sharing publishes what is in that workspace, except what [Workspace Sharing, Precisely](https://liozelmalem-star.github.io/slate-releases/docs/features/privacy-and-security/sharing.md) says is never sent.
+Each workspace is one SQLite file on your Mac, and it holds everything in that workspace: docs, sessions, memories, automations and settings. You can copy it, move it, back it up and open it with any SQLite tool. There is no copy in the cloud unless you share the workspace. See [Workspace sharing, precisely](https://liozelmalem-star.github.io/slate-releases/docs/features/privacy-and-security/sharing.md).
 
-## Where the file lives
+## Find the file
 
-| Platform | Path |
-| --- | --- |
-| macOS | `~/Library/Application Support/app.slate.workspace/workspace.db` |
-| Linux | `$XDG_DATA_HOME/app.slate.workspace/` (`~/.local/share/` when unset) |
-| Windows | `%APPDATA%\app.slate.workspace\` |
+Personal is at `~/Library/Application Support/app.slate.workspace/workspace.db`. Each shared workspace has its own file in the same folder.
 
-To keep Personal elsewhere (an external drive or another folder on this computer), move it in **Settings → Workspaces → (the workspace) → Storage**. Slate restarts by itself and makes the copy at the next launch, before anything has the file open, checks it (integrity check, row counts, write-ahead mode) and only then points at it. While the move waits, agents and hooks refuse to open the workspace, so nothing writes between the two files. Backups go with it; the app, MCP server and capture hooks follow. Slate refuses a folder that a sync service owns (iCloud Drive, including Desktop and Documents when iCloud syncs them; Dropbox, OneDrive and Google Drive roots) and a network drive: the database cannot run safely there. If the drive is not connected, or the file that records where Personal went cannot be read (empty after a power cut, for example), nothing opens a different empty workspace in its place: the app shows its missing-workspace screen (also when the drive goes away while Slate is open), hooks skip quietly and agents are told the workspace is not connected. If the folder is there but macOS will not let Slate open it (Documents or Desktop with access turned off in System Settings → Privacy & Security → Files and Folders), the screen says so and names that setting instead, with no **Start empty here**: the workspace is most likely still there, and agents are told the same. **Start empty here** sets the old copy at the default location aside, dated, and starts a really empty workspace; when the moved one is back, **Use a workspace from another folder** in Storage points Slate at it. The local API tokens stay in the app-data folder. `SLATE_DB_PATH` points one launch at another file (for testing).
+Everything below is in **Settings → Workspaces**: click the workspace, then the **Storage** tab. It shows where the file is, with **Open** to show it in Finder, and how big it is.
 
-## Where to find all of this
+## Export
 
-Open **Settings → Workspaces**, click the workspace, then **Storage**. The dialog has up to three tabs: **General** (sharing, name, colour, the remove buttons including **Delete workspace forever**), **Members** (shared workspaces) and **Storage**. Only Personal can be relocated; shared workspaces are replicas in Slate's data folder. **Delete workspace forever** leaves no copy: the store and its upgrade backups are removed, with no way back. Export it first if you may want it.
+**Export** saves a copy of the workspace's file anywhere you choose. It works while Slate is open, and for a workspace that has gone read-only. The copy is the same SQLite file, with no conversion.
 
-## How big it is
+## Move Personal to another folder
 
-The row under the path shows size on disk and the dead space removed rows left. SQLite never shrinks a file itself, so Slate rewrites it at launch when enough is worth returning. **Reclaim** does it now (shown only when enough can be returned).
+**Move…** moves Personal to another folder or an external drive. Slate restarts to finish the move. It copies the file, checks the copy, and only then uses it. The old file stays where it was, as a backup; move it to the Trash yourself once everything has arrived. Your agents and Slate's backups follow the move.
 
-## Exporting
+Only Personal can move. A shared workspace stays in Slate's data folder. Slate refuses a folder that iCloud Drive, Dropbox, OneDrive or Google Drive syncs, and a network drive: the database cannot run safely there.
 
-**Settings → Workspaces → (the workspace) → Storage** exports in one click a copy of the file (`workspace.db` for Personal, `workspaces/<id>.db` for a shared one), with no conversion. The same screen opens the folder.
+If the folder is not there when Slate starts, for example a drive that is not plugged in, Slate shows *Slate cannot find your workspace* and opens nothing in its place. You can choose another location, or **Start empty here**. When the moved workspace is back, **Use a workspace from another folder…** in Storage points Slate at it. **Go back to the default location** returns Personal to the data folder.
 
-## The format is open
+## Shrink the file
 
-Open `workspace.db` in any SQLite browser:
+The **Storage** tab shows the file's size and how much of it is space left by removed items. SQLite does not give that space back by itself. **Reclaim** returns it to the disk now; Slate also does it at launch when enough is worth returning.
 
-| Table | Holds |
-| --- | --- |
-| `page` | The universal unit: docs, documents, `mission` docs, captured sessions |
-| `memory` | Persistent knowledge with status and text |
-| `routine` | Automations: what runs on a schedule or on an event, with its steps |
-| `artifact`, `artifact_version` | Published docs and widgets, with every version |
-| `task`, `task_step` | Agent runs and their steps |
-| `task` | The lines on your Tasks list |
-| `setting` | Workspace settings |
-| `activity` | Commits, branch events and session records captured for this workspace |
-| `audit` | The append-only log of workspace events |
+## Restore a backup
 
-Doc bodies are block JSON, and Slate converts docs to and from Markdown.
+Before an update changes a workspace's format, Slate copies it aside and keeps the last three copies. **Restore a backup** in Storage lists them. The restore runs when Slate next starts, and the workspace it replaces is kept as a backup too, so it can be undone. Quit every agent connected to Slate first: if one still has the workspace open, the restore does not run.
 
-## Durability
+To go back to an older version of Slate, restore the backup taken before the upgrade, then install the older version. An older Slate refuses to open a workspace a newer one has changed.
 
-* **WAL mode.** Reads continue while the server writes.
-* **Pre-migration backup.** Slate backs up the database before any schema migration.
-* **A way back from an update.** The backups sit in a `backups/` folder next to the workspace file, named like `workspace-pre-v170.db`. Slate keeps the last three per workspace. To go back to an older version of Slate, restore one in **Settings → Workspaces → (the workspace) → Storage → Restore a backup**, then install the older version. Without that, an older version refuses to open a workspace a newer one has changed, and says so.
-* **No backup, nothing lost.** If Slate cannot write the backup (a full disk, for example), it holds back any update step that could lose data. It tells you, and finishes the update at the next launch that can make the backup.
-* **Stray workspace files are moved, never removed.** At startup Slate moves an empty `workspaces/<id>.db` that belongs to no workspace you joined into `backups/`, only when it holds nothing beyond a brand-new database. Any other file stays.
+## Delete a workspace forever
 
-The file is standard SQLite at a known path, so you can back it up, move it or read it years from now with other tools.
+**Delete workspace forever**, in the workspace's **General** tab, removes the file and its backups. Nothing is kept. Export first if you may want it back. Personal cannot be removed.
 
-## What the export does not contain
+## What an export leaves out
 
-**Your cloud session** sits outside the database, in a `0600` file in the app-data folder that stays there when you move Personal, so an export never carries a live refresh token.
+* **Your sign-in.** It is in its own file, never in a database, so an export cannot hand anyone a live credential.
+* **Images in docs.** They are files beside the database, in the `files` folder of Slate's data folder. Copy that folder with the export to keep them.
 
-**Images in docs** are files beside the database, in `files/<workspace>/` in the app-data folder; the database holds only their `slate://files/…` addresses. An export of the file does not carry the images, so copy that folder with it. They stay in the app-data folder when you move Personal.
+And what an export carries that you may not expect:
 
-Everything else is in the file. Before you share an export, know that:
+* **A shared workspace's export holds your teammates' work too**, as your copy has synced it.
+* **A project's memory settings** are inside the file.
 
-* **A shared workspace's export contains your teammates' work too.** Sync pulls their docs, memories, activity and artifacts into your copy.
-* **Moving a doc into a shared workspace is a move, not a copy.** It leaves your Personal file.
-* **A project's memory settings travel with it.** They, and where you said a memory goes, are in the same file.
+## Read the file yourself
 
-## See also
-
-* [Privacy & Security](https://liozelmalem-star.github.io/slate-releases/docs/features/privacy-and-security.md)
-* [Workspaces](https://liozelmalem-star.github.io/slate-releases/docs/features/workspaces.md)
+The file is standard SQLite, so you can read it years from now with other tools. The main tables are `doc` (docs and projects), `memory`, `routine` (automations), `task` (your Tasks list), `agent_run`, `artifact`, `activity` and `setting`. Doc content is stored as JSON blocks.
